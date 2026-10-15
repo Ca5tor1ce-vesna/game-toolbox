@@ -332,3 +332,7 @@ code {
 .md pre { background: #0b0d12; border: 1px solid var(--border); border-radius: 8px; padding: 12px; overflow: auto; font-family: var(--mono); font-size: 12.5px; }
 .md pre code { background: none; border: 0; padding: 0; }
 .md a { color: var(--accent-2); }
+
+.home-links { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; margin: -4px 0 12px; font-size: 12px; color: var(--muted); }
+.home-links a { color: var(--muted); text-decoration: none; border-bottom: 1px dotted currentColor; }
+.home-links a:hover, .home-links a:focus-visible { color: var(--accent, #8ab4ff); }
