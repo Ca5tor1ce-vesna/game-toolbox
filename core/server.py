@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import mimetypes
 import threading
 import time
@@ -68,6 +69,36 @@ IMAGE_TYPES = {
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120 Safari/537.36"
 
 
+def _check_asset_url(url: str) -> None:
+    """只认白名单域名 + 默认端口（80/443）。白名单域名配上任意端口也是在探测内网服务。"""
+    parsed = urlparse(url)
+    try:
+        port = parsed.port
+    except ValueError:
+        raise PermissionError("图片地址的端口不合法") from None
+    if parsed.scheme not in ("http", "https") or parsed.hostname not in ASSET_HOSTS:
+        raise PermissionError("这个域名不在允许列表里")
+    if port not in (None, 80, 443):
+        raise PermissionError("图片地址只允许默认端口")
+
+
+def _finite(obj: Any) -> Any:
+    """把 inf / nan 换成 null：裸 Infinity/NaN 不是合法 JSON，浏览器 JSON.parse 会直接失败。"""
+    if isinstance(obj, float) and not math.isfinite(obj):
+        return None
+    if isinstance(obj, dict):
+        return {key: _finite(value) for key, value in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_finite(value) for value in obj]
+    return obj
+
+
+class _Server(ThreadingHTTPServer):
+    # 默认 backlog 只有 5：页面一次并发十几个请求（图片 + 接口）时会被重置连接
+    request_queue_size = 64
+    daemon_threads = True
+
+
 class _SameHostRedirect(urllib.request.HTTPRedirectHandler):
     """只允许跳回同一个域名。白名单主机上的开放跳转不能把请求带到内网。"""
 
@@ -76,6 +107,7 @@ class _SameHostRedirect(urllib.request.HTTPRedirectHandler):
         old = urlparse(req.full_url)
         if new.scheme not in ("http", "https") or new.hostname != old.hostname:
             raise PermissionError("图片地址跳到了别的域名，已拒绝")
+        _check_asset_url(newurl)
         return super().redirect_request(req, fp, code, msg, headers, newurl)
 
 
@@ -147,9 +179,7 @@ class ToolboxState:
 
 def fetch_asset(url: str) -> tuple[bytes, str]:
     """按需下载远程图片并缓存，返回 (数据, Content-Type)。同一个 URL 只下一次。"""
-    parsed = urlparse(url)
-    if parsed.scheme not in ("http", "https") or parsed.hostname not in ASSET_HOSTS:
-        raise PermissionError("这个域名不在允许列表里")
+    _check_asset_url(url)
 
     digest = hashlib.sha256(url.encode("utf-8")).hexdigest()[:24]
     body_path = config.ASSET_CACHE_DIR / digest
@@ -201,18 +231,33 @@ def make_handler(state: ToolboxState) -> type[BaseHTTPRequestHandler]:
         def _json(self, obj: Any, status: int = 200) -> None:
             self._send(
                 status,
-                json.dumps(obj, ensure_ascii=False).encode("utf-8"),
+                json.dumps(_finite(obj), ensure_ascii=False, allow_nan=False).encode("utf-8"),
                 "application/json; charset=utf-8",
             )
 
         def _text(self, text: str, status: int = 200) -> None:
             self._send(status, text.encode("utf-8"), "text/plain; charset=utf-8")
 
+        def _content_length(self) -> int:
+            """Content-Length 不合法（非数字/负数）时关掉连接：没读走的字节会被当成下一个请求。"""
+            raw = self.headers.get("Content-Length")
+            if raw is None or raw.strip() == "":
+                return 0
+            try:
+                length = int(raw)
+            except ValueError:
+                length = -1
+            if length < 0:
+                self.close_connection = True
+                raise ValueError("Content-Length 不合法")
+            return length
+
         def _read_json_body(self) -> dict[str, Any]:
-            length = int(self.headers.get("Content-Length") or 0)
+            length = self._content_length()
             if length <= 0:
                 return {}
             if length > MAX_BODY_BYTES:
+                self.close_connection = True  # 不读走 2MB+ 的请求体，连接也就不能再复用
                 raise ValueError("请求体超过 2MB")
             raw = self.rfile.read(length)
             if not raw:
@@ -269,7 +314,28 @@ def make_handler(state: ToolboxState) -> type[BaseHTTPRequestHandler]:
 
         # ---------------- GET ----------------
 
+        def _drain_body(self) -> None:
+            """GET/HEAD 带了请求体：小的读掉丢弃，大的/不合法的直接关连接，防止错位。"""
+            try:
+                length = self._content_length()
+            except ValueError:
+                return
+            if 0 < length <= MAX_BODY_BYTES:
+                self.rfile.read(length)
+            elif length > MAX_BODY_BYTES:
+                self.close_connection = True
+
+        def _internal_error(self, exc: BaseException) -> None:
+            # 详细信息只打到控制台；回给前端的不带异常原文和绝对路径
+            traceback.print_exc()
+            self._json({"ok": False, "error": f"内部错误（{type(exc).__name__}），详情见控制台"}, 500)
+
+        def do_HEAD(self) -> None:  # noqa: N802
+            # 与 GET 同一条路径，_send 在 HEAD 时只发头（aha-speed 用 HEAD 探测本地 Tailwind）
+            self.do_GET()
+
         def do_GET(self) -> None:  # noqa: N802
+            self._drain_body()
             path = urlparse(self.path).path
             try:
                 if path.startswith("/api/"):
@@ -279,8 +345,7 @@ def make_handler(state: ToolboxState) -> type[BaseHTTPRequestHandler]:
             except ValueError as exc:
                 self._json({"ok": False, "error": str(exc)}, 400)
             except Exception as exc:
-                traceback.print_exc()
-                self._json({"ok": False, "error": f"{type(exc).__name__}: {exc}"}, 500)
+                self._internal_error(exc)
 
         def _api_get(self, path: str) -> None:
             if path == "/api/asset":
@@ -295,7 +360,8 @@ def make_handler(state: ToolboxState) -> type[BaseHTTPRequestHandler]:
                     self._json({"ok": False, "error": str(exc)}, 403)
                     return
                 except Exception as exc:
-                    self._json({"ok": False, "error": f"取图失败：{type(exc).__name__}: {exc}"}, 502)
+                    traceback.print_exc()
+                    self._json({"ok": False, "error": f"取图失败（{type(exc).__name__}）"}, 502)
                     return
                 self._send(200, data, ctype, cache_seconds=86400)
                 return
@@ -336,17 +402,20 @@ def make_handler(state: ToolboxState) -> type[BaseHTTPRequestHandler]:
                     return
                 if not name.endswith((".md", ".txt")):
                     name += ".md"
-                target = (config.DOCS_DIR / name).resolve()
                 try:
+                    if "\x00" in name:
+                        raise ValueError
+                    target = (config.DOCS_DIR / name).resolve()
                     target.relative_to(config.DOCS_DIR.resolve())
-                except ValueError:
+                    is_file = target.is_file()
+                except (ValueError, OSError):
                     self._json({"ok": False, "error": "非法路径"}, 403)
                     return
-                if not target.is_file():
+                if not is_file:
                     self._json({"ok": False, "error": f"没有这篇文档：{name}"}, 404)
                     return
                 self._json(
-                    {"ok": True, "name": name, "text": target.read_text(encoding="utf-8")}
+                    {"ok": True, "name": name, "text": target.read_text(encoding="utf-8-sig")}
                 )
                 return
 
@@ -374,9 +443,27 @@ def make_handler(state: ToolboxState) -> type[BaseHTTPRequestHandler]:
             host = (self.client_address or ("",))[0]
             return host in ("127.0.0.1", "::1", "localhost", "")
 
+        def _cross_site(self) -> bool:
+            """别的网站在浏览器里偷偷 POST 过来（CSRF）：浏览器一定会带 Origin / Sec-Fetch-Site。
+            Origin 与 Host 不一致、或 Sec-Fetch-Site=cross-site 就拒绝。没有 Origin 的（curl、
+            同源旧浏览器）照常放行 —— 回环限制仍然生效。"""
+            if (self.headers.get("Sec-Fetch-Site") or "").lower() == "cross-site":
+                return True
+            origin = self.headers.get("Origin")
+            if origin is None:
+                return False
+            parsed = urlparse(origin)
+            host = (self.headers.get("Host") or "").lower()
+            return parsed.scheme not in ("http", "https") or parsed.netloc.lower() != host
+
         def do_POST(self) -> None:  # noqa: N802
             path = urlparse(self.path).path
+            if self._cross_site():
+                self.close_connection = True
+                self._json({"ok": False, "error": "拒绝跨站请求"}, 403)
+                return
             if path in LOCAL_ONLY_PATHS and not self._is_local_client():
+                self.close_connection = True
                 self._json({"ok": False, "error": "仅允许本机调用"}, 403)
                 return
             try:
@@ -400,8 +487,7 @@ def make_handler(state: ToolboxState) -> type[BaseHTTPRequestHandler]:
                 else:
                     self._json({"ok": False, "error": f"未知接口：{path}"}, 404)
             except Exception as exc:
-                traceback.print_exc()
-                self._json({"ok": False, "error": f"{type(exc).__name__}: {exc}"}, 500)
+                self._internal_error(exc)
 
         def _api_call(self, body: dict[str, Any]) -> None:
             module_id = str(body.get("module") or "")
@@ -455,8 +541,7 @@ def serve(
     state.verbose = verbose
     info = state.rescan()
 
-    httpd = ThreadingHTTPServer((host, port), make_handler(state))
-    httpd.daemon_threads = True
+    httpd = _Server((host, port), make_handler(state))
     url = f"http://{host}:{port}/"
 
     def say(message: str) -> None:

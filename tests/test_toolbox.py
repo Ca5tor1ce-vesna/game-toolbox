@@ -17,6 +17,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from urllib.parse import quote as urllib_quote
 
 ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
@@ -2273,6 +2274,228 @@ class TestFixesV0167SpeedPlan(unittest.TestCase):
             self.plan(relic={"substatSpeed": "１２"})
         r = call("speed-plan", "plan", {"characterId": "1004", "enabledEffects": ["char1#1", "char1#1"]})
         self.assertEqual(r["effects"]["enabled"], ["char1#1"])
+
+
+class TestFixesV0167Core(unittest.TestCase):
+    """0.16.7 外壳/服务修复的回归测试（A2/A3/A7/A12-A16/A23-A26/A35）。"""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        import threading
+        from core import server
+        cls.server_mod = server
+        state = server.ToolboxState()
+        state.rescan()
+        cls.httpd = server._Server(("127.0.0.1", 0), server.make_handler(state))
+        cls.port = cls.httpd.server_address[1]
+        threading.Thread(target=cls.httpd.serve_forever, daemon=True).start()
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.httpd.shutdown()
+        cls.httpd.server_close()
+
+    def request(self, method, path, body=None, headers=None):
+        import http.client
+        conn = http.client.HTTPConnection("127.0.0.1", self.port, timeout=10)
+        data = json.dumps(body).encode() if body is not None else None
+        hdrs = {"Content-Type": "application/json", **(headers or {})}
+        conn.request(method, path, body=data, headers=hdrs)
+        resp = conn.getresponse()
+        raw = resp.read()
+        conn.close()
+        return resp.status, raw
+
+    def setUp(self) -> None:
+        self._overrides = config.OVERRIDES_PATH.read_bytes() if config.OVERRIDES_PATH.is_file() else None
+
+    def tearDown(self) -> None:
+        if self._overrides is None:
+            config.OVERRIDES_PATH.unlink(missing_ok=True)
+        else:
+            config.OVERRIDES_PATH.write_bytes(self._overrides)
+
+    # ---- A12 跨站 ----
+    def test_a12_cross_site_post_rejected(self) -> None:
+        call_body = {"module": MODULE_ID, "feature": "speed-plan", "action": "catalog", "payload": {}}
+        status, _ = self.request("POST", "/api/call", call_body, {"Origin": "http://evil.example"})
+        self.assertEqual(status, 403)
+        status, _ = self.request("POST", "/api/shutdown", {}, {"Sec-Fetch-Site": "cross-site"})
+        self.assertEqual(status, 403)
+        status, _ = self.request("POST", "/api/call", call_body, {"Origin": f"http://127.0.0.1:{self.port}"})
+        self.assertEqual(status, 200)
+        status, _ = self.request("POST", "/api/call", call_body)  # 没有 Origin（脚本/curl）照常
+        self.assertEqual(status, 200)
+
+    # ---- A16 HEAD ----
+    def test_a16_head_supported(self) -> None:
+        status, raw = self.request("HEAD", "/")
+        self.assertEqual(status, 200)
+        self.assertEqual(raw, b"")
+        status, _ = self.request("HEAD", "/app/no-such-file.js")
+        self.assertEqual(status, 404)
+
+    # ---- A23 请求错位 ----
+    def test_a23_bad_content_length_closes_connection(self) -> None:
+        import socket
+        smuggled = b"GET /api/health HTTP/1.1\r\nHost: x\r\n\r\n"
+        raw = (b"POST /api/heartbeat HTTP/1.1\r\nHost: x\r\nContent-Length: -5\r\n\r\n" + smuggled)
+        with socket.create_connection(("127.0.0.1", self.port), timeout=5) as sock:
+            sock.sendall(raw)
+            chunks = []
+            while True:
+                try:
+                    chunk = sock.recv(65536)
+                except socket.timeout:
+                    break
+                if not chunk:
+                    break
+                chunks.append(chunk)
+        data = b"".join(chunks)
+        self.assertEqual(data.count(b"HTTP/1.1 "), 1, data[:300])
+        self.assertIn(b" 400 ", data.split(b"\r\n", 1)[0])
+
+    # ---- A24 不泄漏 ----
+    def test_a24_docs_null_byte_no_leak(self) -> None:
+        status, raw = self.request("GET", "/api/docs/x%00.md")
+        self.assertEqual(status, 403)
+        self.assertNotIn("lstat", raw.decode("utf-8"))
+
+    def test_a24_corrupt_module_data_error_has_no_absolute_path(self) -> None:
+        tmp = Path(tempfile.mkdtemp())
+        (tmp / "data").mkdir()
+        (tmp / "data" / "x.json").write_text("{bad", encoding="utf-8")
+        ctx = feature_api.FeatureContext("m", "f", tmp, tmp)
+        with self.assertRaises(ValueError) as cm:
+            ctx.raw_data("x")
+        self.assertNotIn(str(tmp), str(cm.exception))
+        self.assertIn("data/x.json", str(cm.exception))
+        shutil.rmtree(tmp, True)
+
+    # ---- A25 端口 ----
+    def test_a25_asset_port_checked(self) -> None:
+        check = self.server_mod._check_asset_url
+        with self.assertRaises(PermissionError):
+            check("http://webstatic.mihoyo.com:9999/x.png")
+        with self.assertRaises(PermissionError):
+            check("http://webstatic.mihoyo.com:99999999/x.png")
+        check("https://webstatic.mihoyo.com:443/x.png")
+        check("https://webstatic.mihoyo.com/x.png")
+        status, _ = self.request("GET", "/api/asset?url=" + urllib_quote("http://webstatic.mihoyo.com:9999/x.png"))
+        self.assertEqual(status, 403)
+
+    # ---- A7 严格 JSON ----
+    def test_a7_non_finite_serialised_as_null(self) -> None:
+        out = self.server_mod._finite({"a": float("inf"), "b": [float("nan"), 1.5], "c": "x"})
+        self.assertEqual(json.dumps(out, allow_nan=False), '{"a": null, "b": [null, 1.5], "c": "x"}')
+
+    # ---- A35 backlog ----
+    def test_a35_backlog(self) -> None:
+        self.assertGreaterEqual(self.server_mod._Server.request_queue_size, 64)
+        import concurrent.futures
+        with concurrent.futures.ThreadPoolExecutor(30) as pool:
+            statuses = list(pool.map(lambda _: self.request("GET", "/api/health")[0], range(60)))
+        self.assertEqual(statuses, [200] * 60)
+
+    # ---- A2 并发保存 ----
+    def test_a2_concurrent_preset_saves(self) -> None:
+        import concurrent.futures
+        ids = [c["id"] for c in call("speed-plan", "catalog")["characters"][:20]]
+        for cid in ids:
+            call("speed-plan", "delete_preset", {"characterId": cid})
+
+        def save(cid):
+            body = {"module": MODULE_ID, "feature": "speed-plan", "action": "save_preset",
+                    "payload": {"characterId": cid, "config": {"x": cid}}}
+            return self.request("POST", "/api/call", body)[0]
+
+        with concurrent.futures.ThreadPoolExecutor(20) as pool:
+            statuses = list(pool.map(save, ids))
+        self.assertEqual(statuses, [200] * 20)
+        stored = call("speed-plan", "presets")["presets"]
+        self.assertLessEqual(set(ids), set(stored))
+        for cid in ids:
+            call("speed-plan", "delete_preset", {"characterId": cid})
+
+    # ---- A3 nav 不清文字 ----
+    def test_a3_nav_save_and_reset_keep_texts(self) -> None:
+        config.save_overrides({"texts": {"shell.pick": "我的文字"}})
+        call_iface = lambda feat, action, payload=None: feature_api.call("interface", feat, action, payload or {})
+        call_iface("nav", "save", {"overrides": {"hidden": []}})
+        self.assertEqual(config.load_overrides().get("texts"), {"shell.pick": "我的文字"})
+        call_iface("nav", "reset")
+        self.assertEqual(config.load_overrides(), {"texts": {"shell.pick": "我的文字"}})
+
+    # ---- A13 BOM ----
+    def test_a13_bom_json_accepted(self) -> None:
+        config.OVERRIDES_PATH.parent.mkdir(parents=True, exist_ok=True)
+        config.OVERRIDES_PATH.write_bytes(b"\xef\xbb\xbf" + json.dumps({"texts": {"a": "b"}}).encode())
+        self.assertEqual(config.load_overrides(), {"texts": {"a": "b"}})
+        tmp = Path(tempfile.mkdtemp())
+        (tmp / "data").mkdir()
+        (tmp / "data" / "x.json").write_bytes(b"\xef\xbb\xbf{\"k\": 1}")
+        self.assertEqual(feature_api.FeatureContext("m", "f", tmp, tmp).raw_data("x"), {"k": 1})
+        shutil.rmtree(tmp, True)
+
+    # ---- A14 order ----
+    def test_a14_bad_order_does_not_abort_scan(self) -> None:
+        errors: list = []
+        self.assertEqual(registry._order("top", errors, Path("feat")), 100)
+        self.assertEqual(registry._order("7", errors, Path("feat")), 7)
+        self.assertEqual(len(errors), 1)
+        tmp = Path(tempfile.mkdtemp())
+        fdir = tmp / "m" / "features" / "f"
+        fdir.mkdir(parents=True)
+        (tmp / "m" / "manifest.json").write_text(json.dumps({"id": "m", "name": "M"}), encoding="utf-8")
+        (fdir / "feature.json").write_text(json.dumps({"id": "f", "name": "F", "order": "top"}), encoding="utf-8")
+        (fdir / "ui.js").write_text("export function mount(){}", encoding="utf-8")
+        saved = config.MODULES_DIR
+        try:
+            config.MODULES_DIR = tmp
+            modules, errs = registry.scan()
+        finally:
+            config.MODULES_DIR = saved
+            shutil.rmtree(tmp, True)
+        self.assertEqual([f.order for m in modules for f in m.features], [100])
+        self.assertTrue(any("order" in e.get("error", "") for e in errs))
+
+    # ---- A15 坏掉的用户数据 ----
+    def test_a15_corrupt_userdata_quarantined(self) -> None:
+        ctx = feature_api.CONTEXTS[(MODULE_ID, "speed-plan")]
+        path = ctx.user_path("speed-plan-presets")
+        path.parent.mkdir(parents=True, exist_ok=True)
+        backup = path.read_bytes() if path.is_file() else None
+        path.write_text('{"1005": {"name": "x"', encoding="utf-8")
+        try:
+            self.assertEqual(call("speed-plan", "presets")["count"], 0)
+            self.assertTrue(list(path.parent.glob("speed-plan-presets.corrupt-*.json")))
+            call("speed-plan", "save_preset", {"characterId": "1005", "config": {}})
+            self.assertEqual(call("speed-plan", "presets")["count"], 1)
+        finally:
+            for item in path.parent.glob("speed-plan-presets.corrupt-*.json"):
+                item.unlink()
+            if backup is None:
+                path.unlink(missing_ok=True)
+            else:
+                path.write_bytes(backup)
+
+    # ---- A26 config 类型 ----
+    def test_a26_bad_config_types_fall_back(self) -> None:
+        tmp = Path(tempfile.mkdtemp()) / "config.json"
+        tmp.write_text(json.dumps({"port": "8765a", "watchdogSeconds": "x", "window": {"width": "w"},
+                                   "autoPort": "yes", "host": 1}), encoding="utf-8")
+        saved = config.CONFIG_PATH
+        try:
+            config.CONFIG_PATH = tmp
+            cfg = config.load()
+        finally:
+            config.CONFIG_PATH = saved
+            shutil.rmtree(tmp.parent, True)
+        self.assertEqual(cfg["port"], 8765)
+        self.assertEqual(cfg["watchdogSeconds"], 25)
+        self.assertEqual(cfg["window"]["width"], 1360)
+        self.assertIs(cfg["autoPort"], True)
+        self.assertEqual(cfg["host"], "127.0.0.1")
 
 
 if __name__ == "__main__":
