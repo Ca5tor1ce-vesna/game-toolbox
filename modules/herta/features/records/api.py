@@ -84,9 +84,27 @@ def lightcone_map(lightcones: list, names) -> tuple[dict[str, str], list[str]]:
     return out, missing
 
 
+def lightcone_id_map(lightcones: list, ids) -> tuple[dict[str, str], list[str]]:
+    """按 StarRailRes 光锥 id 找图标（优先于名字）。key 用字符串 id。"""
+    by = {str(lc.get("id")): lc.get("icon") for lc in lightcones or [] if lc.get("icon")}
+    out, missing = {}, []
+    for i in sorted({str(i) for i in ids if i is not None}):
+        if i in by:
+            out[i] = by[i]
+        else:
+            missing.append(i)
+    return out, missing
+
+
+def lightcone_ids(data: dict) -> list:
+    return [c.get("lightcone_id") for t in data.get("targets", []) for r in t.get("records", []) for c in r.get("lineup", [])
+            if c.get("lightcone_id") is not None]
+
+
 def lightcone_names(data: dict) -> list[str]:
+    # 只有没给 id 的才按名字找
     return [c.get("lightcone") for t in data.get("targets", []) for r in t.get("records", []) for c in r.get("lineup", [])
-            if c.get("lightcone")]
+            if c.get("lightcone") and c.get("lightcone_id") is None]
 
 
 def lineup_names(data: dict) -> list[str]:
@@ -103,7 +121,9 @@ def with_avatars(result: dict, ctx) -> dict:
     data = result.get("data") or {}
     avatars, missing = avatar_map(chars, lineup_names(data))
     lc_icons, lc_missing = lightcone_map(lcs, lightcone_names(data))
-    return {**result, "avatars": avatars, "unmapped": missing, "lightcone_icons": lc_icons, "unmapped_lightcones": lc_missing}
+    lc_by_id, id_missing = lightcone_id_map(lcs, lightcone_ids(data))
+    return {**result, "avatars": avatars, "unmapped": missing, "lightcone_icons": lc_icons,
+            "lightcone_icons_by_id": lc_by_id, "unmapped_lightcones": lc_missing, "unmapped_lightcone_ids": id_missing}
 
 
 def _get(url: str, timeout: float) -> bytes:

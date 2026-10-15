@@ -2854,6 +2854,20 @@ class TestHertaRecords(unittest.TestCase):
         self.assertIn("舞! 舞! 舞!", lc)  # 半角/空格写法也能对上
         self.assertIn("忍法帖·缭乱破魔", lc)  # · 与 • 等价
         self.assertEqual(result["unmapped_lightcones"], ["不存在的光锥"])
+        lcs = json.loads((ROOT / "modules" / MODULE_ID / "data" / "lightcones.json").read_text(encoding="utf-8"))
+        icon_by_id = {str(x["id"]): x["icon"] for x in lcs}
+        self.assertEqual(result["lightcone_icons_by_id"], {"23056": icon_by_id["23056"]})
+        self.assertEqual(result["unmapped_lightcone_ids"], ["29999"])
+
+    def test_build_sample_lightcone_ids_all_mapped(self) -> None:
+        data = json.loads((ROOT / "tests" / "fixtures" / "herta_lc_build_sample.json").read_text(encoding="utf-8"))
+        result = self.mod.with_avatars({"data": data}, self.ctx)
+        self.assertEqual(result["unmapped"], [])
+        self.assertEqual(result["unmapped_lightcone_ids"], [])
+        self.assertTrue(result["lightcone_icons_by_id"])
+        self.assertEqual(result["lightcone_icons"], {})  # 全都有 id，不再按名字找
+        members = [c for t in data["targets"] for r in t["records"] for c in r["lineup"]]
+        self.assertTrue(all(isinstance(c.get("lightcone_id"), int) for c in members))
 
     def test_live_data_all_avatars_mapped(self) -> None:
         sample = ROOT / "tests" / "fixtures" / "herta_latest_snapshot.json"

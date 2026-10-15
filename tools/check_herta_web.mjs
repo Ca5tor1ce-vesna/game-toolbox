@@ -5,7 +5,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 const require = createRequire(import.meta.url);
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
-const { createApi, MIRRORS, avatarMap, lightconeMap } = require(join(ROOT, "modules", "herta", "features", "records", "web_api.js"));
+const { createApi, MIRRORS, avatarMap, lightconeMap, lightconeIdMap } = require(join(ROOT, "modules", "herta", "features", "records", "web_api.js"));
 
 const sample = { source: "s", collected_at: "c", selection_rule: "r", targets: [{ mode: "虚构叙事", season: "1", stage: "x", category: "满分", records: [{ lineup: [], ltd: 0, std: 0, date: "d" }] }] };
 const body = Buffer.from(JSON.stringify(sample), "utf-8");
@@ -65,6 +65,12 @@ check("未映射角色", JSON.stringify(am.missing) === JSON.stringify(["不存�
 const lm = lightconeMap(lcs, fx.targets.flatMap((t) => t.records.flatMap((r) => r.lineup.map((c) => c.lightcone))).filter(Boolean));
 check("光锥宽松匹配", lm.icons["舞! 舞! 舞!"] && lm.icons["忍法帖·缭乱破魔"] && lm.icons["一场谎言的终幕"]);
 check("未映射光锥", JSON.stringify(lm.missing) === JSON.stringify(["不存在的光锥"]));
+const ids = fx.targets.flatMap((t) => t.records.flatMap((r) => r.lineup.map((c) => c.lightcone_id))).filter((x) => x != null);
+const im = lightconeIdMap(lcs, ids);
+check("光锥按 id 找图标", im.icons["23056"] === lcs.find((x) => String(x.id) === "23056").icon && JSON.stringify(im.missing) === '["29999"]');
+const build = rd("tests", "fixtures", "herta_lc_build_sample.json");
+const bIds = build.targets.flatMap((t) => t.records.flatMap((r) => r.lineup.map((c) => c.lightcone_id)));
+check("合并样本光锥 id 全部有图标", lightconeIdMap(lcs, bIds).missing.length === 0);
 const snap = rd("tests", "fixtures", "herta_latest_snapshot.json");
 check("真实数据头像全覆盖", avatarMap(chars, snap.targets.flatMap((t) => t.records.flatMap((r) => r.lineup.map((c) => c.name)))).missing.length === 0);
 const a2 = createApi({ fetch: fakeFetch(new Set(["GitHub Raw"])).f, characters: chars, lightcones: lcs });
@@ -72,4 +78,4 @@ const r9 = await a2.call("load", { refresh: true });
 check("load 带 avatars/lightcone_icons", r9.avatars && r9.lightcone_icons && Array.isArray(r9.unmapped_lightcones));
 
 if (failures.length) { console.log("❌ " + failures.join("；")); process.exit(1); }
-console.log("✅ 角色顶分网页版自检全部通过（16 项）");
+console.log("✅ 角色顶分网页版自检全部通过（18 项）");

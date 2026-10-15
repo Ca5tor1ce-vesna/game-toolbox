@@ -68,12 +68,15 @@
       {
        "name": "开拓者 (记忆)",
        "eidolon": 6,
-       "superimposition": 5
+       "superimposition": 5,
+       "lightcone_id": 23056,
+       "lightcone": "一场谎言的终幕"
       },
       {
        "name": "不存在的角色",
        "eidolon": 0,
-       "superimposition": 1
+       "superimposition": 1,
+       "lightcone_id": 29999
       }
      ]
     }
