@@ -4,6 +4,11 @@
     python make_package.py
 
 产出 `dist/game-toolbox-v<版本>.zip`：解压 → 双击 start.bat 就能用。
+
+    python make_package.py --green
+
+产出绿色版 `dist/游戏工具箱-v<版本>-绿色版.zip`（exe 启动器 + 使用说明.html + 空 userdata + _internal）。
+需要在 Windows 上跑（PyInstaller 不能交叉编译），详见 packaging/build_green.py。
 会自动排除缓存、用户数据、构建产物等不该进包的东西。
 """
 
@@ -243,7 +248,13 @@ def count_tests() -> int:
     return len(re.findall(r"^    def test_", text, flags=re.M))
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    argv = sys.argv[1:] if argv is None else argv
+    if argv and argv[0] == "--green":
+        sys.path.insert(0, str(ROOT / "packaging"))
+        import build_green  # type: ignore
+
+        return build_green.main(argv[1:])
     DIST_DIR.mkdir(parents=True, exist_ok=True)
     built_at = datetime.now().strftime("%Y-%m-%d %H:%M")
     admin_block = ADMIN_USAGE_BLOCK if any(

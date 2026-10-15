@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>游戏工具箱 v{{version}} 绿色版 · 使用说明</title>
+<style>
+  :root { --bg:#0e1015; --panel:#161922; --panel2:#1c2029; --border:#262b37; --text:#e6e8ee; --muted:#8f97a8; --accent:#e8b84b; --accent2:#7c6cf0; --good:#4ade80; --warn:#fbbf24; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text);
+    font:15px/1.75 -apple-system,"PingFang SC","Microsoft YaHei UI","Microsoft YaHei","Noto Sans CJK SC",sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 40px 24px 64px; }
+  header { display:flex; align-items:center; gap:16px; margin-bottom:24px; }
+  header .logo { width:56px; height:56px; border-radius:14px; background:linear-gradient(160deg,#1e2230,#0e1016);
+    display:grid; place-items:center; font-size:30px; border:1px solid var(--border); }
+  h1 { font-size:26px; margin:0; }
+  header p { margin:0; color:var(--muted); }
+  section { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:20px 24px; margin-bottom:16px; }
+  h2 { font-size:17px; margin:0 0 12px; display:flex; gap:8px; align-items:center; }
+  h2 .n { background:var(--accent); color:#1a1405; width:24px; height:24px; border-radius:50%; display:inline-grid; place-items:center; font-size:13px; }
+  ol, ul { margin:0; padding-left:22px; } li { margin:4px 0; }
+  code, kbd { font-family:"Cascadia Mono",Consolas,monospace; font-size:13px; background:var(--panel2); border:1px solid var(--border); border-radius:5px; padding:1px 6px; }
+  .tree { font-family:"Cascadia Mono",Consolas,monospace; font-size:13.5px; background:var(--panel2); border:1px solid var(--border); border-radius:8px; padding:12px 16px; white-space:pre; overflow-x:auto; line-height:1.6; }
+  .tree b { color:var(--accent); font-weight:600; } .tree i { color:var(--muted); font-style:normal; }
+  .tip { border-left:3px solid var(--accent2); background:color-mix(in srgb,var(--accent2) 10%,transparent); padding:8px 14px; border-radius:0 8px 8px 0; margin-top:12px; }
+  .warn { border-left-color:var(--warn); background:color-mix(in srgb,var(--warn) 10%,transparent); }
+  table { width:100%; border-collapse:collapse; } td { padding:8px 4px; border-bottom:1px solid var(--border); vertical-align:top; }
+  td:first-child { white-space:nowrap; color:var(--accent); padding-right:16px; }
+  footer { color:var(--muted); font-size:13px; text-align:center; margin-top:24px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="logo">⏱️</div>
+    <div>
+      <h1>游戏工具箱 v{{version}} · 绿色版</h1>
+      <p>免安装、不需要 Python、断网可用。解压就能用，删掉文件夹就是卸载。</p>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">1</span>打开</h2>
+    <ol>
+      <li>把压缩包<b>整个解压</b>到一个文件夹（例如 <code>D:\游戏工具箱</code>）。不要在压缩软件里直接双击运行。</li>
+      <li>双击 <b>游戏工具箱.exe</b>。会弹出一个独立窗口（用电脑自带的 Edge 打开；没有 Edge 时用默认浏览器）。</li>
+      <li>用完直接关窗口，程序会在半分钟内自己退出，不会残留在后台。</li>
+    </ol>
+    <div class="tip warn">第一次打开时 Windows 可能提示「Windows 已保护你的电脑」：这个程序没有购买代码签名证书。点 <b>更多信息 → 仍要运行</b> 即可。杀毒软件误报时，把这个文件夹加入信任。</div>
+  </section>
+
+  <section>
+    <h2><span class="n">2</span>文件夹里有什么</h2>
+    <div class="tree"><b>游戏工具箱.exe</b>     <i>← 双击这个</i>
+<b>使用说明.html</b>      <i>← 就是本页</i>
+<b>userdata/</b>          <i>← 你的数据：配装预设、图片缓存、外观设置</i>
+<b>_internal/</b>         <i>← 程序本体，不用动</i></div>
+  </section>
+
+  <section>
+    <h2><span class="n">3</span>有哪些功能</h2>
+    <table>
+      <tr><td>配速查询</td><td>选角色（也可以自定义空白角色）、光锥、星魂、遗器，算出各模式各 T 数各动数需要的速度，右侧直接显示「还差几速」和大约要几条速度副词条；可以存自己的配装，一键自动推荐最省的配装。</td></tr>
+      <tr><td>阿哈时刻配速</td><td>原版工具原样嵌入：阿哈速度加权、速度阈值反推、队伍配速、行动值排轴。</td></tr>
+    </table>
+    <div class="tip">左上角搜索框可以按名字找功能，快捷键 <kbd>Ctrl</kbd>+<kbd>K</kbd>。左侧模块分组可以点标题折叠。</div>
+  </section>
+
+  <section>
+    <h2><span class="n">4</span>升级与备份</h2>
+    <ul>
+      <li>升级：解压新版本，把旧文件夹里的 <code>userdata</code> 整个拷到新文件夹里覆盖即可。</li>
+      <li>备份：只需要备份 <code>userdata</code> 文件夹。</li>
+      <li>想改端口或窗口大小：在 <code>游戏工具箱.exe</code> 旁边放一个 <code>config.json</code>（格式参考 <code>_internal\config.json</code>），以旁边这份为准。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="n">5</span>出问题了</h2>
+    <ul>
+      <li><b>双击没反应</b>：等 5～10 秒（第一次启动要解开运行时）；还不行就看任务管理器里有没有「游戏工具箱」，结束后再开一次。</li>
+      <li><b>端口被占用</b>：程序会自动换一个端口，不用管。</li>
+      <li><b>界面空白</b>：按 <kbd>F12</kbd> 看控制台的红字，截图反馈。</li>
+      <li><b>放在中文或带空格的路径里</b>：可以正常用；如果遇到问题，换到 <code>D:\Tools</code> 这种简单路径再试。</li>
+    </ul>
+  </section>
+
+  <footer>v{{version}} · 打包时间 {{built_at}}</footer>
+</main>
+</body>
+</html>

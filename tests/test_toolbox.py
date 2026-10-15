@@ -2714,5 +2714,57 @@ class TestV0170Features(unittest.TestCase):
         self.assertIn("第 1 次行动后开大", " ".join(one["simulation"]["notes"]))
 
 
+
+class TestGreenPackage(unittest.TestCase):
+    """0.17.0 绿色版打包的静态检查（exe 本身只能在 Windows 上打，见 .github/workflows/build.yml）。"""
+
+    def test_icon_has_all_sizes(self) -> None:
+        data = (ROOT / "packaging" / "toolbox.ico").read_bytes()
+        self.assertEqual(data[:4], b"\x00\x00\x01\x00")  # ICO 头
+        count = int.from_bytes(data[4:6], "little")
+        sizes = sorted({(data[6 + 16 * i] or 256) for i in range(count)})
+        self.assertEqual(sizes, [16, 24, 32, 48, 64, 128, 256])
+
+    def test_spec_and_workflow(self) -> None:
+        spec = (ROOT / "packaging" / "游戏工具箱.spec").read_text(encoding="utf-8")
+        self.assertIn("exclude_binaries=True", spec)  # --onedir
+        self.assertIn("console=False", spec)
+        self.assertIn('name="游戏工具箱"', spec)
+        self.assertIn("toolbox.ico", spec)
+        workflow = (ROOT / ".github" / "workflows" / "build.yml").read_text(encoding="utf-8")
+        self.assertIn("windows-latest", workflow)
+        self.assertIn("make_package.py --green", workflow)
+        self.assertIn("upload-artifact", workflow)
+
+    def test_stage_is_user_flavour(self) -> None:
+        sys.path.insert(0, str(ROOT / "packaging"))
+        import build_green
+
+        stage = Path(tempfile.mkdtemp(prefix="gt-green-"))
+        old = build_green.STAGE
+        build_green.STAGE = stage / "s"
+        try:
+            files = build_green.stage_resources()
+        finally:
+            build_green.STAGE = old
+        tops = {f.split("/")[0] for f in files}
+        self.assertEqual(tops, {"app", "modules", "docs"})
+        self.assertFalse(any(f.startswith("modules/interface/") for f in files))  # 后门模块不进包
+        self.assertFalse(any("/nanoka/" in f or "__pycache__" in f for f in files))
+        cfg = json.loads((stage / "s" / "config.json").read_text(encoding="utf-8"))
+        self.assertIs(cfg["admin"], False)
+        shutil.rmtree(stage, ignore_errors=True)
+        self.assertTrue(build_green.ZIP_NAME.startswith("游戏工具箱-v") and "绿色版" in build_green.ZIP_NAME)
+
+    def test_usage_html_rendered(self) -> None:
+        sys.path.insert(0, str(ROOT / "packaging"))
+        import build_green
+
+        html = build_green.usage_html()
+        self.assertNotIn("{{", html)
+        self.assertIn("游戏工具箱.exe", html)
+        self.assertIn("userdata", html)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
