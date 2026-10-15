@@ -27,6 +27,7 @@ ROOT = Path(__file__).resolve().parent.parent
 MODULE = ROOT / "modules" / "honkai-star-rail"
 FEATURE = MODULE / "features" / "speed-plan"
 DATA = MODULE / "data"
+HERTA = ROOT / "modules" / "herta" / "features" / "records"
 DIST = ROOT / "dist"
 
 OUT_NAME = "配速查询-网页版.html"
@@ -45,14 +46,21 @@ def read(path: Path) -> str:
 def asset_data_uris() -> dict[str, str]:
     """把用到的本地素材读成 {站内路径: data:image/webp;base64,...}。"""
     folder = MODULE / "assets"
-    if not folder.is_dir():
-        return {}
     out: dict[str, str] = {}
-    for path in sorted(folder.glob("*.webp")):
-        raw = path.read_bytes()
-        out[f"{ASSET_PREFIX}{path.name}"] = (
-            "data:image/webp;base64," + base64.b64encode(raw).decode("ascii")
-        )
+    if folder.is_dir():
+        for path in sorted(folder.glob("*.webp")):
+            raw = path.read_bytes()
+            out[f"{ASSET_PREFIX}{path.name}"] = (
+                "data:image/webp;base64," + base64.b64encode(raw).decode("ascii")
+            )
+    # 角色顶分（herta）的头像等素材也一并内联
+    herta_folder = ROOT / "modules" / "herta" / "assets"
+    if herta_folder.is_dir():
+        for path in sorted(herta_folder.glob("*.webp")):
+            raw = path.read_bytes()
+            out[f"/modules/herta/assets/{path.name}"] = (
+                "data:image/webp;base64," + base64.b64encode(raw).decode("ascii")
+            )
     return out
 
 
@@ -274,6 +282,18 @@ def build(with_theme: bool = True, out_name: str | None = None) -> Path:
     web_api = read(FEATURE / "web_api.js")
     ui = strip_export(read(FEATURE / "ui.js"))
 
+    herta_api = read(HERTA / "web_api.js")
+    herta_css = read(HERTA / "style.css")
+    herta_ui = read(HERTA / "ui.js")
+    if "export default {" not in herta_ui:
+        raise SystemExit("herta ui.js 结构变了")
+    # 包一层函数作用域：两个 ui.js 都有 esc / MODES 之类的顶层名字，放在同一页的经典脚本里会撞名
+    herta_ui = (
+        "const GT_HERTA_FEATURE = (() => {\n"
+        + herta_ui.replace("export default {", "return {", 1)
+        + "\n})();"
+    )
+
     bundle = {
         "characters": characters,
         "lightcones": lightcones,
@@ -303,7 +323,7 @@ def build(with_theme: bool = True, out_name: str | None = None) -> Path:
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>崩铁配速查询 · 网页版</title>
+<title>崩铁配速查询 · 角色顶分 · 网页版</title>
 <style>
 {shell_css}
 </style>
@@ -326,6 +346,9 @@ html, body {{ height: auto; overflow: visible; }}
 .gt-selftest.bad {{ color: var(--bad); border-color: color-mix(in srgb, var(--bad) 45%, transparent); }}
 .gt-standalone-body {{ max-width: 1180px; margin: 0 auto; padding: 16px 20px 60px; }}
 #gt-failures {{ margin-top: 10px; font-size: 12px; color: var(--bad); white-space: pre-wrap; }}
+.gt-tabs {{ display: flex; gap: 4px; }}
+.gt-tab {{ background: transparent; border: 1px solid var(--border); color: var(--muted); padding: 5px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; }}
+.gt-tab.is-active {{ color: var(--text); border-color: var(--accent); background: var(--panel-2); }}
 
 /* ---------------- 手机适配 ----------------
    窄屏上把「一行多列」摊成一列，输入框铺满，表格横向滚动，
@@ -353,17 +376,24 @@ html, body {{ height: auto; overflow: visible; }}
   table.data {{ font-size: 12.5px; }}
   table.data th, table.data td {{ padding: 6px 8px; white-space: nowrap; }}
   .stat .v {{ font-size: 18px; }}
+  .gt-tabs {{ width: 100%; }}
+  .gt-tab {{ flex: 1; }}
 }}
+</style>
+<style>
+{herta_css}
 </style>
 </head>
 <body>
 <header class="gt-standalone-head">
-  <h1>🚄 崩铁配速查询 · 网页版</h1>
+  <h1>🚄 崩铁工具 · 网页版</h1>
+  <nav class="gt-tabs"><button class="gt-tab is-active" data-view="view">🎯 配速查询</button><button class="gt-tab" data-view="view-herta">📜 角色顶分</button></nav>
   <span class="gt-sub" id="gt-sub">单文件 · 双击即用 · 不需要服务</span>
   <span class="gt-selftest" id="gt-selftest">自检中…</span>
 </header>
 <div class="gt-standalone-body">
   <div id="view"></div>
+  <div id="view-herta" hidden></div>
   <div id="gt-failures"></div>
 </div>
 
@@ -386,6 +416,12 @@ html, body {{ height: auto; overflow: visible; }}
 </script>
 <script>
 {ui}
+</script>
+<script>
+{herta_api}
+</script>
+<script>
+{herta_ui}
 </script>
 <script>
 (async function () {{
@@ -431,6 +467,28 @@ html, body {{ height: auto; overflow: visible; }}
       `<p class="error-text">界面挂载失败：${{error.message}}</p>`;
     window.GT_MOUNTED = false;
   }}
+
+  // 角色顶分：切到该标签时才挂载（会联网拉镜像）
+  const hertaStorage = {{
+    load: () => {{ try {{ return JSON.parse(localStorage.getItem("gt-herta") || "{{}}"); }} catch (e) {{ return {{}}; }} }},
+    save: (value) => {{ try {{ localStorage.setItem("gt-herta", JSON.stringify(value)); }} catch (e) {{}} }},
+  }};
+  const hertaApi = window.GT_HERTA_API.createApi({{ storage: hertaStorage, characters: window.GT_DATA.characters, lightcones: window.GT_DATA.lightcones }});
+  const hertaCtx = {{ moduleId: "herta", featureId: "records", call: (action, payload) => hertaApi.call(action, payload) }};
+  let hertaMounted = false;
+  async function showView(id) {{
+    document.querySelectorAll(".gt-tab").forEach((b) => b.classList.toggle("is-active", b.dataset.view === id));
+    document.getElementById("view").hidden = id !== "view";
+    document.getElementById("view-herta").hidden = id !== "view-herta";
+    if (id === "view-herta" && !hertaMounted) {{
+      hertaMounted = true;
+      try {{ await GT_HERTA_FEATURE.mount(document.getElementById("view-herta"), hertaCtx); window.GT_HERTA_MOUNTED = true; }}
+      catch (error) {{ document.getElementById("view-herta").innerHTML = `<p class="error-text">界面挂载失败：${{error.message}}</p>`; window.GT_HERTA_MOUNTED = false; }}
+    }}
+    if (location.hash !== (id === "view-herta" ? "#herta" : "")) history.replaceState(null, "", id === "view-herta" ? "#herta" : location.pathname + location.search);
+  }}
+  document.querySelectorAll(".gt-tab").forEach((b) => b.addEventListener("click", () => showView(b.dataset.view)));
+  if (location.hash === "#herta") showView("view-herta");
 }})();
 </script>
 </body>

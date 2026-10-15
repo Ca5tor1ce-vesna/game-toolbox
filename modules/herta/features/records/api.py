@@ -1,4 +1,4 @@
-"""低配通关记录：从多个镜像拉 herta-data 的 latest.json，校验 SHA-256，缓存到 userdata。
+"""角色顶分：从多个镜像拉 herta-data 的 latest.json，校验 SHA-256，缓存到 userdata。
 
 镜像按顺序试（短超时），第一个「json 和 sha256 都取到且校验一致」的胜出；
 全部失败就用 userdata/herta/records_cache.json 里的上次结果，并标 offline。
@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import time
 import urllib.request
 from datetime import datetime, timedelta, timezone
@@ -31,6 +32,78 @@ CACHE = "records_cache"
 CACHE_FRESH_SECONDS = 3600
 TZ8 = timezone(timedelta(hours=8))
 MODES = ("混沌回忆", "虚构叙事", "末日幻影", "异相仲裁")
+
+# 头像：复用崩铁模块已本地化的角色图标（modules/honkai-star-rail/data/characters.json 的 icon）。
+# 「开拓者 (欢愉)」「三月七 (巡猎)」这类带命途的名字按 name + pathName 匹配。
+# 例外写在这里：characters.json 里 1224 三月七（巡猎）的官方图鉴图标和 1001 是同一张，
+# 所以单独用 StarRailRes 的 icon/character/1224.png（本地化成 modules/herta/assets/1224.webp）。
+AVATAR_OVERRIDES = {"三月七 (巡猎)": "/modules/herta/assets/1224.webp"}
+_VARIANT = re.compile(r"^(.+?)\s*[(（]([^()（）]+)[)）]$")
+
+
+def avatar_map(characters: list, names) -> tuple[dict[str, str], list[str]]:
+    """{数据里的角色名: 图标站内路径}，以及没对上的名字（界面退回首字圆圈）。"""
+    by_name: dict[str, list] = {}
+    for c in characters or []:
+        by_name.setdefault(c.get("name"), []).append(c)
+    out: dict[str, str] = {}
+    missing: list[str] = []
+    for name in sorted(set(names)):
+        icon = AVATAR_OVERRIDES.get(name)
+        if not icon:
+            hits = by_name.get(name) or []
+            m = _VARIANT.match(name)
+            if m:
+                hits = [c for c in by_name.get(m.group(1).strip(), []) if c.get("pathName") == m.group(2).strip()]
+            if len(hits) == 1:
+                icon = hits[0].get("icon")
+        if icon:
+            out[name] = icon
+        else:
+            missing.append(name)
+    return out, missing
+
+
+def norm_lc(name: str) -> str:
+    """光锥名宽松匹配：去空白、全角标点转半角、统一间隔号。"""
+    table = str.maketrans({"！": "!", "，": ",", "？": "?", "：": ":", "·": "•", "・": "•"})
+    return re.sub(r"\s+", "", str(name or "")).translate(table).lower()
+
+
+def lightcone_map(lightcones: list, names) -> tuple[dict[str, str], list[str]]:
+    by = {}
+    for lc in lightcones or []:
+        by.setdefault(norm_lc(lc.get("name")), []).append(lc)
+    out, missing = {}, []
+    for name in sorted({n for n in names if n}):
+        hits = by.get(norm_lc(name)) or []
+        if len(hits) == 1 and hits[0].get("icon"):
+            out[name] = hits[0]["icon"]
+        else:
+            missing.append(name)
+    return out, missing
+
+
+def lightcone_names(data: dict) -> list[str]:
+    return [c.get("lightcone") for t in data.get("targets", []) for r in t.get("records", []) for c in r.get("lineup", [])
+            if c.get("lightcone")]
+
+
+def lineup_names(data: dict) -> list[str]:
+    return [c.get("name") for t in data.get("targets", []) for r in t.get("records", []) for c in r.get("lineup", [])]
+
+
+def with_avatars(result: dict, ctx) -> dict:
+    chars = ctx.raw_data("characters", None)
+    if chars is None:  # 角色数据在崩铁模块里
+        path = ctx.module_dir.parent / "honkai-star-rail" / "data" / "characters.json"
+        chars = json.loads(path.read_text(encoding="utf-8")) if path.is_file() else []
+    lcs_path = ctx.module_dir.parent / "honkai-star-rail" / "data" / "lightcones.json"
+    lcs = json.loads(lcs_path.read_text(encoding="utf-8")) if lcs_path.is_file() else []
+    data = result.get("data") or {}
+    avatars, missing = avatar_map(chars, lineup_names(data))
+    lc_icons, lc_missing = lightcone_map(lcs, lightcone_names(data))
+    return {**result, "avatars": avatars, "unmapped": missing, "lightcone_icons": lc_icons, "unmapped_lightcones": lc_missing}
 
 
 def _get(url: str, timeout: float) -> bytes:
@@ -100,7 +173,7 @@ def load(payload: dict, ctx, fetch: Callable[[str, float], bytes] = _get) -> dic
 
 @api("load")
 def _load(payload, ctx):
-    return load(payload, ctx)
+    return with_avatars(load(payload, ctx), ctx)
 
 
 @api("mirrors")

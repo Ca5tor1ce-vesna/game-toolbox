@@ -1,0 +1,9167 @@
+{
+ "source": "https://theherta.com/archive",
+ "collected_at": "2026-10-15 16:28 UTC+8",
+ "selection_rule": "每个阵容组取限定五星最少的一条（同数取常驻更少、再取更早）",
+ "targets": [
+  {
+   "mode": "混沌回忆",
+   "season": "4.5",
+   "stage": "火花大会@Official",
+   "stage_en": "@SparxiConOfficial",
+   "category": "0轮次",
+   "total_runs": 176,
+   "records": [
+    {
+     "group": "砂金•戏浪",
+     "runs_in_group": 18,
+     "lineup": [
+      {
+       "name": "砂金•戏浪",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "三月七 (巡猎)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 2,
+     "std": 0,
+     "date": "2026-09-28 18:35"
+    },
+    {
+     "group": "绯英",
+     "runs_in_group": 31,
+     "lineup": [
+      {
+       "name": "绯英",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "停云",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 2,
+     "std": 0,
+     "date": "2026-10-05 02:55"
+    },
+    {
+     "group": "银狼LV.999",
+     "runs_in_group": 26,
+     "lineup": [
+      {
+       "name": "银狼LV.999",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "艾丝妲",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 2,
+     "std": 0,
+     "date": "2026-10-10 17:40"
+    },
+    {
+     "group": "姬子•启行",
+     "runs_in_group": 17,
+     "lineup": [
+      {
+       "name": "姬子•启行",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "三月七 (巡猎)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 2,
+     "std": 0,
+     "date": "2026-10-11 17:27"
+    },
+    {
+     "group": "火花",
+     "runs_in_group": 18,
+     "lineup": [
+      {
+       "name": "火花",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "停云",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 2,
+     "std": 0,
+     "date": "2026-10-07 12:33"
+    },
+    {
+     "group": "Archer",
+     "runs_in_group": 8,
+     "lineup": [
+      {
+       "name": "Archer",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "远坂凛",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "花火",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 3,
+     "std": 0,
+     "date": "2026-10-04 11:13"
+    },
+    {
+     "group": "Saber",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "Saber",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "吉尔伽美什",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 4,
+     "std": 0,
+     "date": "2026-09-28 20:15"
+    },
+    {
+     "group": "千冶•刃",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 4,
+     "std": 0,
+     "date": "2026-10-14 18:15"
+    },
+    {
+     "group": "那刻夏",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "那刻夏",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-10-01 00:43"
+    },
+    {
+     "group": "希儿",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "希儿",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-10-03 17:02"
+    },
+    {
+     "group": "开拓者 (欢愉)",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-10-05 12:57"
+    },
+    {
+     "group": "长夜月",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 3
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-09-30 20:39"
+    },
+    {
+     "group": "白厄",
+     "runs_in_group": 6,
+     "lineup": [
+      {
+       "name": "白厄",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "布洛妮娅",
+       "eidolon": 4,
+       "superimposition": 1
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 6,
+     "date": "2026-10-14 03:00"
+    },
+    {
+     "group": "黄泉",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "黄泉",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 7,
+     "date": "2026-10-11 02:10"
+    },
+    {
+     "group": "DoT",
+     "runs_in_group": 6,
+     "lineup": [
+      {
+       "name": "黑天鹅",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "海瑟音",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "卡芙卡",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 6,
+     "std": 0,
+     "date": "2026-10-08 00:12"
+    },
+    {
+     "group": "流萤",
+     "runs_in_group": 17,
+     "lineup": [
+      {
+       "name": "流萤",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "忘归人",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "开拓者 (同谐)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 6,
+     "std": 0,
+     "date": "2026-09-29 08:35"
+    },
+    {
+     "group": "爻光",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "爻光",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "停云",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 7,
+     "std": 0,
+     "date": "2026-10-01 17:02"
+    },
+    {
+     "group": "遐蝶",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "遐蝶",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 7,
+     "std": 0,
+     "date": "2026-10-03 14:18"
+    },
+    {
+     "group": "昔涟",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 7,
+     "std": 0,
+     "date": "2026-10-07 21:13"
+    },
+    {
+     "group": "阿格莱雅",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "阿格莱雅",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 7,
+     "std": 0,
+     "date": "2026-10-06 19:12"
+    },
+    {
+     "group": "大黑塔",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "大黑塔",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "姬子•启行",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 4,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 7,
+     "std": 5,
+     "date": "2026-10-07 09:45"
+    },
+    {
+     "group": "远坂凛",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "远坂凛",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "花火",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "刻律德菈",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 8,
+     "std": 5,
+     "date": "2026-10-04 21:30"
+    },
+    {
+     "group": "风堇",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 4
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 10,
+     "std": 0,
+     "date": "2026-10-04 02:52"
+    },
+    {
+     "group": "赛飞儿",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "赛飞儿",
+       "eidolon": 6,
+       "superimposition": 3
+      },
+      {
+       "name": "花火",
+       "eidolon": 2,
+       "superimposition": 4
+      },
+      {
+       "name": "知更鸟",
+       "eidolon": 1,
+       "superimposition": 2
+      },
+      {
+       "name": "不死途",
+       "eidolon": 1,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 20,
+     "std": 0,
+     "date": "2026-10-02 05:09"
+    },
+    {
+     "group": "丹恒•饮月",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "丹恒•饮月",
+       "eidolon": 5,
+       "superimposition": 5
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "花火",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "不死途",
+       "eidolon": 6,
+       "superimposition": 3
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 37,
+     "std": 0,
+     "date": "2026-10-12 11:00"
+    }
+   ]
+  },
+  {
+   "mode": "混沌回忆",
+   "season": "4.5",
+   "stage": "赞达尔",
+   "stage_en": "Zandar",
+   "category": "0轮次",
+   "total_runs": 184,
+   "records": [
+    {
+     "group": "绯英",
+     "runs_in_group": 11,
+     "lineup": [
+      {
+       "name": "绯英",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "佩拉",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 2,
+     "std": 0,
+     "date": "2026-10-08 11:23"
+    },
+    {
+     "group": "姬子•启行",
+     "runs_in_group": 6,
+     "lineup": [
+      {
+       "name": "姬子•启行",
+       "eidolon": 0,
+       "superimposition": 4
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 2,
+     "std": 11,
+     "date": "2026-10-14 16:50"
+    },
+    {
+     "group": "希儿",
+     "runs_in_group": 8,
+     "lineup": [
+      {
+       "name": "希儿",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 3,
+     "std": 0,
+     "date": "2026-10-03 03:00"
+    },
+    {
+     "group": "不死途",
+     "runs_in_group": 7,
+     "lineup": [
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 3,
+     "std": 0,
+     "date": "2026-09-29 12:17"
+    },
+    {
+     "group": "砂金•戏浪",
+     "runs_in_group": 7,
+     "lineup": [
+      {
+       "name": "砂金•戏浪",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "佩拉",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 3,
+     "std": 0,
+     "date": "2026-10-03 12:42"
+    },
+    {
+     "group": "银狼LV.999",
+     "runs_in_group": 8,
+     "lineup": [
+      {
+       "name": "银狼LV.999",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "真珠",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 3,
+     "std": 0,
+     "date": "2026-10-02 11:29"
+    },
+    {
+     "group": "Archer",
+     "runs_in_group": 10,
+     "lineup": [
+      {
+       "name": "Archer",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "远坂凛",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "花火",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 3,
+     "std": 0,
+     "date": "2026-10-05 16:56"
+    },
+    {
+     "group": "昔涟",
+     "runs_in_group": 6,
+     "lineup": [
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 3,
+     "std": 0,
+     "date": "2026-10-14 16:46"
+    },
+    {
+     "group": "吉尔伽美什",
+     "runs_in_group": 5,
+     "lineup": [
+      {
+       "name": "吉尔伽美什",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 4,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 3,
+     "std": 5,
+     "date": "2026-09-28 19:46"
+    },
+    {
+     "group": "白厄",
+     "runs_in_group": 22,
+     "lineup": [
+      {
+       "name": "白厄",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "停云",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 4,
+     "std": 0,
+     "date": "2026-09-29 21:33"
+    },
+    {
+     "group": "Saber",
+     "runs_in_group": 7,
+     "lineup": [
+      {
+       "name": "Saber",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "吉尔伽美什",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 4,
+     "std": 0,
+     "date": "2026-09-28 14:43"
+    },
+    {
+     "group": "那刻夏",
+     "runs_in_group": 10,
+     "lineup": [
+      {
+       "name": "那刻夏",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 4,
+     "std": 0,
+     "date": "2026-10-01 01:58"
+    },
+    {
+     "group": "长夜月",
+     "runs_in_group": 11,
+     "lineup": [
+      {
+       "name": "长夜月",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 4,
+     "std": 0,
+     "date": "2026-10-03 20:00"
+    },
+    {
+     "group": "飞霄",
+     "runs_in_group": 7,
+     "lineup": [
+      {
+       "name": "飞霄",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 4,
+     "std": 0,
+     "date": "2026-10-13 21:53"
+    },
+    {
+     "group": "DoT",
+     "runs_in_group": 5,
+     "lineup": [
+      {
+       "name": "海瑟音",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "卡芙卡",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-10-04 06:23"
+    },
+    {
+     "group": "火花",
+     "runs_in_group": 5,
+     "lineup": [
+      {
+       "name": "火花",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "真珠",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-10-14 21:58"
+    },
+    {
+     "group": "遐蝶",
+     "runs_in_group": 12,
+     "lineup": [
+      {
+       "name": "遐蝶",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-09-28 18:42"
+    },
+    {
+     "group": "黄泉",
+     "runs_in_group": 7,
+     "lineup": [
+      {
+       "name": "黄泉",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 6,
+     "std": 0,
+     "date": "2026-10-11 09:02"
+    },
+    {
+     "group": "大黑塔",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "大黑塔",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "姬子•启行",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 4,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 6,
+     "std": 5,
+     "date": "2026-10-01 13:13"
+    },
+    {
+     "group": "风堇",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 4
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 7,
+     "std": 0,
+     "date": "2026-09-29 01:49"
+    },
+    {
+     "group": "爻光",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "爻光",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "停云",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 7,
+     "std": 0,
+     "date": "2026-10-02 20:07"
+    },
+    {
+     "group": "万敌",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "万敌",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 4,
+       "superimposition": 4
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 7,
+     "std": 5,
+     "date": "2026-10-10 01:21"
+    },
+    {
+     "group": "阿格莱雅",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "阿格莱雅",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 8,
+     "std": 0,
+     "date": "2026-09-30 12:35"
+    },
+    {
+     "group": "远坂凛",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "远坂凛",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "花火",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "刻律德菈",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 8,
+     "std": 5,
+     "date": "2026-10-04 22:15"
+    },
+    {
+     "group": "云璃",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "云璃",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 9,
+     "std": 0,
+     "date": "2026-10-06 23:14"
+    },
+    {
+     "group": "波提欧",
+     "runs_in_group": 9,
+     "lineup": [
+      {
+       "name": "波提欧",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (同谐)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 9,
+     "std": 0,
+     "date": "2026-10-02 21:43"
+    },
+    {
+     "group": "缇宝",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "缇宝",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 4,
+       "superimposition": 5
+      },
+      {
+       "name": "黑塔",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 14,
+     "std": 10,
+     "date": "2026-10-04 13:01"
+    },
+    {
+     "group": "丹恒•饮月",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "丹恒•饮月",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "花火",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 15,
+     "std": 0,
+     "date": "2026-09-30 08:59"
+    },
+    {
+     "group": "真珠",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "真珠",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 15,
+     "std": 0,
+     "date": "2026-10-10 11:40"
+    },
+    {
+     "group": "赛飞儿",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "赛飞儿",
+       "eidolon": 6,
+       "superimposition": 3
+      },
+      {
+       "name": "花火",
+       "eidolon": 2,
+       "superimposition": 4
+      },
+      {
+       "name": "知更鸟",
+       "eidolon": 1,
+       "superimposition": 2
+      },
+      {
+       "name": "不死途",
+       "eidolon": 1,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 20,
+     "std": 0,
+     "date": "2026-09-29 08:49"
+    },
+    {
+     "group": "千冶•刃",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "千冶•刃",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "刃",
+       "eidolon": 4,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 26,
+     "std": 0,
+     "date": "2026-10-12 11:00"
+    }
+   ]
+  },
+  {
+   "mode": "混沌回忆",
+   "season": "4.5",
+   "stage": "始作画者，无量塔绘世",
+   "stage_en": "Murata Graphia, Founding Artist",
+   "category": "0轮次",
+   "total_runs": 121,
+   "records": [
+    {
+     "group": "砂金•戏浪",
+     "runs_in_group": 8,
+     "lineup": [
+      {
+       "name": "砂金•戏浪",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 4,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 2,
+     "std": 5,
+     "date": "2026-09-30 04:39"
+    },
+    {
+     "group": "不死途",
+     "runs_in_group": 9,
+     "lineup": [
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "停云",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 2,
+     "std": 7,
+     "date": "2026-09-29 23:37"
+    },
+    {
+     "group": "姬子•启行",
+     "runs_in_group": 7,
+     "lineup": [
+      {
+       "name": "姬子•启行",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "三月七 (巡猎)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 3,
+     "std": 0,
+     "date": "2026-09-30 11:09"
+    },
+    {
+     "group": "Archer",
+     "runs_in_group": 23,
+     "lineup": [
+      {
+       "name": "Archer",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "远坂凛",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "花火",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 3,
+     "std": 0,
+     "date": "2026-09-29 01:31"
+    },
+    {
+     "group": "银狼LV.999",
+     "runs_in_group": 9,
+     "lineup": [
+      {
+       "name": "银狼LV.999",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "真珠",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 3,
+     "std": 0,
+     "date": "2026-10-07 20:42"
+    },
+    {
+     "group": "吉尔伽美什",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "吉尔伽美什",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 4,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 3,
+     "std": 5,
+     "date": "2026-09-29 21:16"
+    },
+    {
+     "group": "绯英",
+     "runs_in_group": 10,
+     "lineup": [
+      {
+       "name": "绯英",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 4,
+     "std": 0,
+     "date": "2026-10-13 15:36"
+    },
+    {
+     "group": "千冶•刃",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-09-30 10:21"
+    },
+    {
+     "group": "Saber",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "Saber",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "吉尔伽美什",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-10-02 21:47"
+    },
+    {
+     "group": "火花",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "火花",
+       "eidolon": 0,
+       "superimposition": 4
+      },
+      {
+       "name": "爻光",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "真珠",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-10-13 01:13"
+    },
+    {
+     "group": "长夜月",
+     "runs_in_group": 5,
+     "lineup": [
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 5,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 6,
+     "date": "2026-09-30 18:53"
+    },
+    {
+     "group": "黄泉",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "黄泉",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 6,
+       "superimposition": 4
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 7,
+     "date": "2026-10-08 16:31"
+    },
+    {
+     "group": "白厄",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "白厄",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 6,
+     "std": 0,
+     "date": "2026-09-29 03:32"
+    },
+    {
+     "group": "那刻夏",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "那刻夏",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 6,
+     "std": 0,
+     "date": "2026-10-01 16:35"
+    },
+    {
+     "group": "飞霄",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "飞霄",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 6,
+     "std": 0,
+     "date": "2026-10-04 19:49"
+    },
+    {
+     "group": "阿格莱雅",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "阿格莱雅",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 4,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 6,
+     "std": 5,
+     "date": "2026-10-03 14:37"
+    },
+    {
+     "group": "昔涟",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 3
+      },
+      {
+       "name": "艾丝妲",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 7,
+     "std": 0,
+     "date": "2026-10-03 21:49"
+    },
+    {
+     "group": "流萤",
+     "runs_in_group": 8,
+     "lineup": [
+      {
+       "name": "流萤",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (同谐)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 7,
+     "std": 0,
+     "date": "2026-10-02 09:25"
+    },
+    {
+     "group": "遐蝶",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "遐蝶",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 7,
+     "std": 0,
+     "date": "2026-10-01 12:00"
+    },
+    {
+     "group": "远坂凛",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "远坂凛",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "花火",
+       "eidolon": 1,
+       "superimposition": 3
+      },
+      {
+       "name": "刻律德菈",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 7,
+     "std": 3,
+     "date": "2026-10-05 20:46"
+    },
+    {
+     "group": "DoT",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "黑天鹅",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "海瑟音",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "卡芙卡",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 8,
+     "std": 0,
+     "date": "2026-10-03 06:27"
+    },
+    {
+     "group": "爻光",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "爻光",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "停云",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 8,
+     "std": 7,
+     "date": "2026-09-30 10:53"
+    },
+    {
+     "group": "瓦尔特",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "瓦尔特",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "花火",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "星期日",
+       "eidolon": 0,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 9,
+     "std": 7,
+     "date": "2026-10-03 00:21"
+    },
+    {
+     "group": "波提欧",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "波提欧",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "忘归人",
+       "eidolon": 1,
+       "superimposition": 3
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 13,
+     "std": 0,
+     "date": "2026-10-04 17:54"
+    },
+    {
+     "group": "赛飞儿",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "赛飞儿",
+       "eidolon": 6,
+       "superimposition": 3
+      },
+      {
+       "name": "花火",
+       "eidolon": 2,
+       "superimposition": 4
+      },
+      {
+       "name": "知更鸟",
+       "eidolon": 1,
+       "superimposition": 2
+      },
+      {
+       "name": "不死途",
+       "eidolon": 1,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 20,
+     "std": 0,
+     "date": "2026-09-29 08:48"
+    },
+    {
+     "group": "景元",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "景元",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "星期日",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "丹恒•腾荒",
+       "eidolon": 6,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 40,
+     "std": 0,
+     "date": "2026-10-12 11:00"
+    }
+   ]
+  },
+  {
+   "mode": "虚构叙事",
+   "season": "4.5",
+   "stage": "虫群•真蛰虫",
+   "stage_en": "True Sting",
+   "category": "满星",
+   "total_runs": 42,
+   "records": [
+    {
+     "group": "砂金•戏浪",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "砂金•戏浪",
+       "eidolon": 0,
+       "superimposition": 4
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 3
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 2,
+     "std": 0,
+     "date": "2026-09-19 21:44"
+    },
+    {
+     "group": "Archer",
+     "runs_in_group": 9,
+     "lineup": [
+      {
+       "name": "Archer",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "花火",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "远坂凛",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 3,
+     "std": 0,
+     "date": "2026-09-17 19:56"
+    },
+    {
+     "group": "千冶•刃",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "砂金•戏浪",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 3,
+     "std": 0,
+     "date": "2026-09-24 14:57"
+    },
+    {
+     "group": "昔涟",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 3,
+     "std": 0,
+     "date": "2026-09-19 12:45"
+    },
+    {
+     "group": "大黑塔",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "大黑塔",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "姬子•启行",
+       "eidolon": 0,
+       "superimposition": 2
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 4,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 4,
+     "std": 7,
+     "date": "2026-09-21 13:22"
+    },
+    {
+     "group": "火花",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "火花",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-09-20 01:20"
+    },
+    {
+     "group": "银狼LV.999",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "银狼LV.999",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "真珠",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "2",
+     "ltd": 6,
+     "std": 0,
+     "date": "2026-10-13 23:30"
+    },
+    {
+     "group": "DoT",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "海瑟音",
+       "eidolon": 0,
+       "superimposition": 4
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "卡芙卡",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "黑天鹅",
+       "eidolon": 0,
+       "superimposition": 1
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 6,
+     "std": 0,
+     "date": "2026-09-16 15:36"
+    },
+    {
+     "group": "吉尔伽美什",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "吉尔伽美什",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 6,
+     "std": 0,
+     "date": "2026-09-17 09:43"
+    },
+    {
+     "group": "不死途",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 6,
+     "std": 7,
+     "date": "2026-09-17 02:04"
+    },
+    {
+     "group": "黄泉",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "黄泉",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "2",
+     "ltd": 7,
+     "std": 0,
+     "date": "2026-09-16 23:55"
+    },
+    {
+     "group": "长夜月",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "长夜月",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 0,
+       "superimposition": 1
+      }
+     ],
+     "tag": "满星",
+     "cycle": "4",
+     "ltd": 7,
+     "std": 0,
+     "date": "2026-09-16 17:43"
+    },
+    {
+     "group": "流萤",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "流萤",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "忘归人",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "开拓者 (同谐)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 8,
+     "std": 0,
+     "date": "2026-09-15 05:56"
+    },
+    {
+     "group": "乱破",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "乱破",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "忘归人",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "开拓者 (同谐)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "2",
+     "ltd": 10,
+     "std": 0,
+     "date": "2026-09-15 00:52"
+    },
+    {
+     "group": "白厄",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "白厄",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "刻律德菈",
+       "eidolon": 1,
+       "superimposition": 3
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 4
+      }
+     ],
+     "tag": "满星",
+     "cycle": "1",
+     "ltd": 10,
+     "std": 3,
+     "date": "2026-09-22 04:24"
+    },
+    {
+     "group": "遐蝶",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "遐蝶",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 1
+      }
+     ],
+     "tag": "满星",
+     "cycle": "1",
+     "ltd": 11,
+     "std": 0,
+     "date": "2026-09-26 02:29"
+    },
+    {
+     "group": "远坂凛",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "远坂凛",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "刻律德菈",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "花火",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "砂金",
+       "eidolon": 0,
+       "superimposition": 1
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 14,
+     "std": 0,
+     "date": "2026-10-03 18:04"
+    },
+    {
+     "group": "翡翠",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "翡翠",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "星期日",
+       "eidolon": 3,
+       "superimposition": 1
+      },
+      {
+       "name": "丹恒•腾荒",
+       "eidolon": 3,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 1,
+       "superimposition": 1
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 17,
+     "std": 0,
+     "date": "2026-09-23 04:13"
+    }
+   ]
+  },
+  {
+   "mode": "虚构叙事",
+   "season": "4.5",
+   "stage": "孽愿莲",
+   "stage_en": "Illwish Archlotus",
+   "category": "满星",
+   "total_runs": 33,
+   "records": [
+    {
+     "group": "银狼LV.999",
+     "runs_in_group": 13,
+     "lineup": [
+      {
+       "name": "银狼LV.999",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "火花",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "4",
+     "ltd": 3,
+     "std": 0,
+     "date": "2026-09-19 15:15"
+    },
+    {
+     "group": "绯英",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "绯英",
+       "eidolon": 1,
+       "superimposition": 3
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "1",
+     "ltd": 4,
+     "std": 0,
+     "date": "2026-09-18 12:43"
+    },
+    {
+     "group": "昔涟",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-09-30 20:43"
+    },
+    {
+     "group": "白厄",
+     "runs_in_group": 5,
+     "lineup": [
+      {
+       "name": "白厄",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "布洛妮娅",
+       "eidolon": 3,
+       "superimposition": 2
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 5,
+     "std": 6,
+     "date": "2026-09-23 05:49"
+    },
+    {
+     "group": "砂金•戏浪",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "砂金•戏浪",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "黑塔",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 6,
+     "std": 0,
+     "date": "2026-09-19 17:47"
+    },
+    {
+     "group": "姬子•启行",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "姬子•启行",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "刻律德菈",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "丹恒•腾荒",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "1",
+     "ltd": 6,
+     "std": 1,
+     "date": "2026-09-14 23:24"
+    },
+    {
+     "group": "火花",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "火花",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "爻光",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "银狼LV.999",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "1",
+     "ltd": 8,
+     "std": 0,
+     "date": "2026-09-30 00:02"
+    },
+    {
+     "group": "千冶•刃",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "千冶•刃",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 1
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 8,
+     "std": 0,
+     "date": "2026-09-17 22:46"
+    },
+    {
+     "group": "黄泉",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "黄泉",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 1,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "2",
+     "ltd": 10,
+     "std": 0,
+     "date": "2026-09-15 02:29"
+    },
+    {
+     "group": "长夜月",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 0,
+       "superimposition": 1
+      }
+     ],
+     "tag": "满星",
+     "cycle": "2",
+     "ltd": 11,
+     "std": 0,
+     "date": "2026-09-15 06:41"
+    },
+    {
+     "group": "遐蝶",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "遐蝶",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 1
+      }
+     ],
+     "tag": "满星",
+     "cycle": "1",
+     "ltd": 14,
+     "std": 0,
+     "date": "2026-09-15 09:30"
+    },
+    {
+     "group": "不死途",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "不死途",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "罗刹",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 1
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 26,
+     "std": 0,
+     "date": "2026-10-03 18:04"
+    }
+   ]
+  },
+  {
+   "mode": "虚构叙事",
+   "season": "4.5",
+   "stage": "呼雷",
+   "stage_en": "Hoolay",
+   "category": "满星",
+   "total_runs": 22,
+   "records": [
+    {
+     "group": "姬子•启行",
+     "runs_in_group": 6,
+     "lineup": [
+      {
+       "name": "姬子•启行",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "三月七 (巡猎)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 3,
+     "std": 0,
+     "date": "2026-09-16 00:51"
+    },
+    {
+     "group": "昔涟",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-09-19 17:03"
+    },
+    {
+     "group": "长夜月",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 3
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-09-16 12:31"
+    },
+    {
+     "group": "Saber",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "Saber",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "吉尔伽美什",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "花火",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "藿藿",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "4",
+     "ltd": 6,
+     "std": 0,
+     "date": "2026-09-16 17:43"
+    },
+    {
+     "group": "遐蝶",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "遐蝶",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "4",
+     "ltd": 7,
+     "std": 0,
+     "date": "2026-09-22 18:31"
+    },
+    {
+     "group": "流萤",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "流萤",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "忘归人",
+       "eidolon": 0,
+       "superimposition": 4
+      },
+      {
+       "name": "开拓者 (同谐)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "2",
+     "ltd": 8,
+     "std": 0,
+     "date": "2026-09-18 19:20"
+    },
+    {
+     "group": "黄泉",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "黄泉",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "1",
+     "ltd": 9,
+     "std": 0,
+     "date": "2026-09-15 13:41"
+    },
+    {
+     "group": "风堇",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "风堇",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 9,
+     "std": 0,
+     "date": "2026-09-15 10:07"
+    },
+    {
+     "group": "不死途",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "不死途",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "丹恒•腾荒",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 1
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 9,
+     "std": 0,
+     "date": "2026-09-16 05:10"
+    },
+    {
+     "group": "千冶•刃",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "忘归人",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "开拓者 (同谐)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 12,
+     "std": 0,
+     "date": "2026-09-17 05:53"
+    },
+    {
+     "group": "乱破",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "乱破",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "忘归人",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 1,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "4",
+     "ltd": 12,
+     "std": 0,
+     "date": "2026-09-16 18:57"
+    },
+    {
+     "group": "那刻夏",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "那刻夏",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "丹恒•腾荒",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 1
+      }
+     ],
+     "tag": "满星",
+     "cycle": "3",
+     "ltd": 15,
+     "std": 0,
+     "date": "2026-10-03 18:04"
+    },
+    {
+     "group": "万敌",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "万敌",
+       "eidolon": 4,
+       "superimposition": 1
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 1,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "1",
+     "ltd": 16,
+     "std": 0,
+     "date": "2026-09-15 00:49"
+    },
+    {
+     "group": "Archer",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "Archer",
+       "eidolon": 6,
+       "superimposition": 3
+      },
+      {
+       "name": "丹恒•腾荒",
+       "eidolon": 3,
+       "superimposition": 1
+      },
+      {
+       "name": "星期日",
+       "eidolon": 3,
+       "superimposition": 1
+      },
+      {
+       "name": "花火",
+       "eidolon": 2,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "2",
+     "ltd": 23,
+     "std": 0,
+     "date": "2026-09-14 18:06"
+    }
+   ]
+  },
+  {
+   "mode": "末日幻影",
+   "season": "4.6",
+   "stage": "卡芙卡",
+   "stage_en": "Kafka",
+   "category": "0行动值",
+   "total_runs": 29,
+   "records": [
+    {
+     "group": "姬子•启行",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "姬子•启行",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "三月七 (巡猎)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "停云",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 8,
+     "std": 0,
+     "date": "2026-10-08 13:12",
+     "score": "4000"
+    },
+    {
+     "group": "绯英",
+     "runs_in_group": 8,
+     "lineup": [
+      {
+       "name": "绯英",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "真珠",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "爻光",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 14,
+     "std": 0,
+     "date": "2026-10-08 19:31",
+     "score": "4000"
+    },
+    {
+     "group": "银狼LV.999",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "银狼LV.999",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "绯英",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "爻光",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "真珠",
+       "eidolon": 2,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 15,
+     "std": 0,
+     "date": "2026-10-06 06:02",
+     "score": "4000"
+    },
+    {
+     "group": "那刻夏",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "那刻夏",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "刻律德菈",
+       "eidolon": 1,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 15,
+     "std": 0,
+     "date": "2026-10-12 22:13",
+     "score": "4000"
+    },
+    {
+     "group": "遐蝶",
+     "runs_in_group": 5,
+     "lineup": [
+      {
+       "name": "遐蝶",
+       "eidolon": 6,
+       "superimposition": 2
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 3
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 16,
+     "std": 0,
+     "date": "2026-10-08 11:19",
+     "score": "4000"
+    },
+    {
+     "group": "长夜月",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "长夜月",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "飞霄",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 2,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 35,
+     "std": 0,
+     "date": "2026-10-07 23:23",
+     "score": "4000"
+    },
+    {
+     "group": "飞霄",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "飞霄",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "不死途",
+       "eidolon": 2,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 36,
+     "std": 0,
+     "date": "2026-10-07 22:11",
+     "score": "4000"
+    },
+    {
+     "group": "流萤",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "流萤",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 37,
+     "std": 0,
+     "date": "2026-10-05 19:56",
+     "score": "4000"
+    },
+    {
+     "group": "风堇",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "风堇",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "遐蝶",
+       "eidolon": 2,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 40,
+     "std": 0,
+     "date": "2026-10-07 08:13",
+     "score": "4000"
+    },
+    {
+     "group": "砂金•戏浪",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "砂金•戏浪",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "不死途",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 48,
+     "std": 0,
+     "date": "2026-10-05 11:16",
+     "score": "4000"
+    }
+   ]
+  },
+  {
+   "mode": "末日幻影",
+   "season": "4.6",
+   "stage": "金血忆灵",
+   "stage_en": "Ichor Memosprite",
+   "category": "0行动值",
+   "total_runs": 10,
+   "records": [
+    {
+     "group": "姬子•启行",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "姬子•启行",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "三月七 (巡猎)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 7,
+     "std": 0,
+     "date": "2026-10-09 03:47",
+     "score": "4000"
+    },
+    {
+     "group": "绯英",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "绯英",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "火花",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "爻光",
+       "eidolon": 6,
+       "superimposition": 3
+      },
+      {
+       "name": "真珠",
+       "eidolon": 6,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 34,
+     "std": 0,
+     "date": "2026-10-05 21:52",
+     "score": "4000"
+    },
+    {
+     "group": "那刻夏",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "那刻夏",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 6,
+       "superimposition": 3
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 42,
+     "std": 0,
+     "date": "2026-10-05 11:16",
+     "score": "4000"
+    },
+    {
+     "group": "遐蝶",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "遐蝶",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 44,
+     "std": 0,
+     "date": "2026-10-08 09:59",
+     "score": "4000"
+    }
+   ]
+  },
+  {
+   "mode": "末日幻影",
+   "season": "4.6",
+   "stage": "呼雷",
+   "stage_en": "Hoolay Starward",
+   "category": "0行动值",
+   "total_runs": 62,
+   "records": [
+    {
+     "group": "希儿",
+     "runs_in_group": 11,
+     "lineup": [
+      {
+       "name": "希儿",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "刻律德菈",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "停云",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-10-05 14:08",
+     "score": "4000"
+    },
+    {
+     "group": "白厄",
+     "runs_in_group": 21,
+     "lineup": [
+      {
+       "name": "白厄",
+       "eidolon": 2,
+       "superimposition": 2
+      },
+      {
+       "name": "刻律德菈",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "星期日",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "停云",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 7,
+     "std": 0,
+     "date": "2026-10-07 18:10",
+     "score": "4000"
+    },
+    {
+     "group": "姬子•启行",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "姬子•启行",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "三月七 (巡猎)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "停云",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 9,
+     "std": 0,
+     "date": "2026-10-05 16:41",
+     "score": "4000"
+    },
+    {
+     "group": "绯英",
+     "runs_in_group": 8,
+     "lineup": [
+      {
+       "name": "绯英",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "真珠",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 10,
+     "std": 0,
+     "date": "2026-10-08 23:47",
+     "score": "4000"
+    },
+    {
+     "group": "长夜月",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 11,
+     "std": 0,
+     "date": "2026-10-07 11:17",
+     "score": "4000"
+    },
+    {
+     "group": "遐蝶",
+     "runs_in_group": 12,
+     "lineup": [
+      {
+       "name": "遐蝶",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 4
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 1,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 13,
+     "std": 0,
+     "date": "2026-10-11 08:43",
+     "score": "4000"
+    },
+    {
+     "group": "昔涟",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "昔涟",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 16,
+     "std": 0,
+     "date": "2026-10-05 13:23",
+     "score": "4000"
+    },
+    {
+     "group": "砂金•戏浪",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "砂金•戏浪",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "不死途",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "停云",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 16,
+     "std": 0,
+     "date": "2026-10-09 00:10",
+     "score": "4000"
+    },
+    {
+     "group": "Archer",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "Archer",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "远坂凛",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "停云",
+       "eidolon": 6,
+       "superimposition": 4
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 16,
+     "std": 0,
+     "date": "2026-10-13 17:22",
+     "score": "4000"
+    },
+    {
+     "group": "黄泉",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "黄泉",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "忘归人",
+       "eidolon": 6,
+       "superimposition": 4
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 1,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 20,
+     "std": 0,
+     "date": "2026-10-06 17:58",
+     "score": "4000"
+    },
+    {
+     "group": "流萤",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "流萤",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "忘归人",
+       "eidolon": 6,
+       "superimposition": 4
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "停云",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 21,
+     "std": 0,
+     "date": "2026-10-05 12:22",
+     "score": "4000"
+    },
+    {
+     "group": "波提欧",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "波提欧",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 48,
+     "std": 0,
+     "date": "2026-10-05 19:31",
+     "score": "4000"
+    },
+    {
+     "group": "飞霄",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "飞霄",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "刻律德菈",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0行动值",
+     "cycle": null,
+     "ltd": 48,
+     "std": 0,
+     "date": "2026-10-07 22:15",
+     "score": "4000"
+    }
+   ]
+  },
+  {
+   "mode": "异相仲裁",
+   "season": "4.6",
+   "stage": "亚婆离（绝境）",
+   "stage_en": "Yabuli (Plight)",
+   "category": "0轮次",
+   "total_runs": 225,
+   "records": [
+    {
+     "group": "银狼LV.999",
+     "runs_in_group": 100,
+     "lineup": [
+      {
+       "name": "银狼LV.999",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "真珠",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": null,
+     "ltd": 8,
+     "std": 0,
+     "date": "2026-10-11 08:56",
+     "av": "295"
+    },
+    {
+     "group": "砂金•戏浪",
+     "runs_in_group": 18,
+     "lineup": [
+      {
+       "name": "砂金•戏浪",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": null,
+     "ltd": 9,
+     "std": 0,
+     "date": "2026-10-03 14:00",
+     "av": "299"
+    },
+    {
+     "group": "绯英",
+     "runs_in_group": 30,
+     "lineup": [
+      {
+       "name": "绯英",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "真珠",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": null,
+     "ltd": 13,
+     "std": 0,
+     "date": "2026-09-29 23:32",
+     "av": "297"
+    },
+    {
+     "group": "火花",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "火花",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "爻光",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "真珠",
+       "eidolon": 0,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": null,
+     "ltd": 17,
+     "std": 0,
+     "date": "2026-10-03 12:30",
+     "av": "268"
+    },
+    {
+     "group": "姬子•启行",
+     "runs_in_group": 8,
+     "lineup": [
+      {
+       "name": "姬子•启行",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "藿藿",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 4,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": null,
+     "ltd": 17,
+     "std": 5,
+     "date": "2026-10-02 03:10",
+     "av": "298"
+    },
+    {
+     "group": "遐蝶",
+     "runs_in_group": 17,
+     "lineup": [
+      {
+       "name": "遐蝶",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": null,
+     "ltd": 18,
+     "std": 0,
+     "date": "2026-09-30 10:46",
+     "av": "298"
+    },
+    {
+     "group": "千冶•刃",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "千冶•刃",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "不死途",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": null,
+     "ltd": 20,
+     "std": 0,
+     "date": "2026-10-07 21:11",
+     "av": "275"
+    },
+    {
+     "group": "昔涟",
+     "runs_in_group": 5,
+     "lineup": [
+      {
+       "name": "昔涟",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": null,
+     "ltd": 20,
+     "std": 0,
+     "date": "2026-09-28 20:20",
+     "av": "299"
+    },
+    {
+     "group": "风堇",
+     "runs_in_group": 15,
+     "lineup": [
+      {
+       "name": "风堇",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": null,
+     "ltd": 20,
+     "std": 0,
+     "date": "2026-10-02 12:20",
+     "av": "297"
+    },
+    {
+     "group": "Saber",
+     "runs_in_group": 5,
+     "lineup": [
+      {
+       "name": "Saber",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "藿藿",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "吉尔伽美什",
+       "eidolon": 1,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": null,
+     "ltd": 22,
+     "std": 0,
+     "date": "2026-09-30 04:19",
+     "av": "276"
+    },
+    {
+     "group": "白厄",
+     "runs_in_group": 14,
+     "lineup": [
+      {
+       "name": "白厄",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 6,
+       "superimposition": 2
+      },
+      {
+       "name": "刻律德菈",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": null,
+     "ltd": 28,
+     "std": 0,
+     "date": "2026-09-29 03:08",
+     "av": "297"
+    },
+    {
+     "group": "吉尔伽美什",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "吉尔伽美什",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "藿藿",
+       "eidolon": 2,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": null,
+     "ltd": 30,
+     "std": 0,
+     "date": "2026-09-28 18:29",
+     "av": "209"
+    },
+    {
+     "group": "长夜月",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "长夜月",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 6,
+       "superimposition": 3
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 2
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": null,
+     "ltd": 31,
+     "std": 0,
+     "date": "2026-09-30 20:50",
+     "av": "200"
+    },
+    {
+     "group": "不死途",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "不死途",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": null,
+     "ltd": 40,
+     "std": 0,
+     "date": "2026-10-01 15:55",
+     "av": "176"
+    },
+    {
+     "group": "黄泉",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "黄泉",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": null,
+     "ltd": 40,
+     "std": 0,
+     "date": "2026-10-01 02:29",
+     "av": "285"
+    },
+    {
+     "group": "那刻夏",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "那刻夏",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 6,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": null,
+     "ltd": 44,
+     "std": 0,
+     "date": "2026-09-30 22:46",
+     "av": "252"
+    },
+    {
+     "group": "Archer",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "Archer",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "远坂凛",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": null,
+     "ltd": 48,
+     "std": 0,
+     "date": "2026-09-30 07:33",
+     "av": "179"
+    }
+   ]
+  },
+  {
+   "mode": "异相仲裁",
+   "season": "4.6",
+   "stage": "亚婆离（绝境）",
+   "stage_en": "Yabuli (Plight)",
+   "category": "通关",
+   "total_runs": 311,
+   "records": [
+    {
+     "group": "银狼LV.999",
+     "runs_in_group": 116,
+     "lineup": [
+      {
+       "name": "银狼LV.999",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "真珠",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "通关",
+     "cycle": null,
+     "ltd": 8,
+     "std": 0,
+     "date": "2026-10-01 22:14",
+     "av": "356"
+    },
+    {
+     "group": "砂金•戏浪",
+     "runs_in_group": 23,
+     "lineup": [
+      {
+       "name": "砂金•戏浪",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": null,
+     "ltd": 9,
+     "std": 0,
+     "date": "2026-10-03 14:00",
+     "av": "299"
+    },
+    {
+     "group": "绯英",
+     "runs_in_group": 38,
+     "lineup": [
+      {
+       "name": "绯英",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "真珠",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "爻光",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "通关",
+     "cycle": null,
+     "ltd": 11,
+     "std": 0,
+     "date": "2026-09-30 23:00",
+     "av": "475"
+    },
+    {
+     "group": "姬子•启行",
+     "runs_in_group": 9,
+     "lineup": [
+      {
+       "name": "姬子•启行",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "三月七 (巡猎)",
+       "eidolon": 6,
+       "superimposition": 2
+      }
+     ],
+     "tag": "通关",
+     "cycle": null,
+     "ltd": 13,
+     "std": 0,
+     "date": "2026-09-28 22:26",
+     "av": "438"
+    },
+    {
+     "group": "昔涟",
+     "runs_in_group": 13,
+     "lineup": [
+      {
+       "name": "昔涟",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "通关",
+     "cycle": null,
+     "ltd": 15,
+     "std": 0,
+     "date": "2026-09-29 02:09",
+     "av": "494"
+    },
+    {
+     "group": "遐蝶",
+     "runs_in_group": 25,
+     "lineup": [
+      {
+       "name": "遐蝶",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 5
+      }
+     ],
+     "tag": "通关",
+     "cycle": null,
+     "ltd": 15,
+     "std": 0,
+     "date": "2026-10-02 21:09",
+     "av": "496"
+    },
+    {
+     "group": "长夜月",
+     "runs_in_group": 6,
+     "lineup": [
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 1
+      }
+     ],
+     "tag": "通关",
+     "cycle": null,
+     "ltd": 15,
+     "std": 0,
+     "date": "2026-10-04 15:48",
+     "av": "499"
+    },
+    {
+     "group": "火花",
+     "runs_in_group": 8,
+     "lineup": [
+      {
+       "name": "火花",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "爻光",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "真珠",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "通关",
+     "cycle": null,
+     "ltd": 16,
+     "std": 0,
+     "date": "2026-09-30 17:56",
+     "av": "417"
+    },
+    {
+     "group": "风堇",
+     "runs_in_group": 22,
+     "lineup": [
+      {
+       "name": "风堇",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 1,
+       "superimposition": 5
+      }
+     ],
+     "tag": "通关",
+     "cycle": null,
+     "ltd": 16,
+     "std": 0,
+     "date": "2026-09-28 23:26",
+     "av": "499"
+    },
+    {
+     "group": "千冶•刃",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "千冶•刃",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "不死途",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 0,
+       "superimposition": 1
+      }
+     ],
+     "tag": "通关",
+     "cycle": null,
+     "ltd": 16,
+     "std": 0,
+     "date": "2026-10-06 04:30",
+     "av": "498"
+    },
+    {
+     "group": "白厄",
+     "runs_in_group": 25,
+     "lineup": [
+      {
+       "name": "白厄",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "刻律德菈",
+       "eidolon": 1,
+       "superimposition": 5
+      }
+     ],
+     "tag": "通关",
+     "cycle": null,
+     "ltd": 17,
+     "std": 0,
+     "date": "2026-09-28 20:49",
+     "av": "472"
+    },
+    {
+     "group": "吉尔伽美什",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "吉尔伽美什",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 1
+      }
+     ],
+     "tag": "通关",
+     "cycle": null,
+     "ltd": 20,
+     "std": 0,
+     "date": "2026-10-05 03:15",
+     "av": "393"
+    },
+    {
+     "group": "Saber",
+     "runs_in_group": 5,
+     "lineup": [
+      {
+       "name": "Saber",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "藿藿",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "吉尔伽美什",
+       "eidolon": 1,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": null,
+     "ltd": 22,
+     "std": 0,
+     "date": "2026-09-30 04:19",
+     "av": "276"
+    },
+    {
+     "group": "缇宝",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "缇宝",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 1,
+       "superimposition": 5
+      }
+     ],
+     "tag": "通关",
+     "cycle": null,
+     "ltd": 26,
+     "std": 0,
+     "date": "2026-09-29 04:07",
+     "av": "457"
+    },
+    {
+     "group": "那刻夏",
+     "runs_in_group": 7,
+     "lineup": [
+      {
+       "name": "那刻夏",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 1
+      }
+     ],
+     "tag": "通关",
+     "cycle": null,
+     "ltd": 28,
+     "std": 0,
+     "date": "2026-09-29 11:13",
+     "av": "425"
+    },
+    {
+     "group": "黄泉",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "黄泉",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 1
+      }
+     ],
+     "tag": "通关",
+     "cycle": null,
+     "ltd": 28,
+     "std": 0,
+     "date": "2026-10-04 19:04",
+     "av": "497"
+    },
+    {
+     "group": "希儿",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "希儿",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 3
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 1
+      }
+     ],
+     "tag": "通关",
+     "cycle": null,
+     "ltd": 30,
+     "std": 0,
+     "date": "2026-10-04 05:42",
+     "av": "474"
+    },
+    {
+     "group": "阿格莱雅",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "阿格莱雅",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "赛飞儿",
+       "eidolon": 2,
+       "superimposition": 1
+      }
+     ],
+     "tag": "通关",
+     "cycle": null,
+     "ltd": 32,
+     "std": 0,
+     "date": "2026-09-29 04:07",
+     "av": "497"
+    },
+    {
+     "group": "流萤",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "流萤",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 0,
+       "superimposition": 1
+      }
+     ],
+     "tag": "通关",
+     "cycle": null,
+     "ltd": 34,
+     "std": 0,
+     "date": "2026-10-02 15:40",
+     "av": "492"
+    },
+    {
+     "group": "不死途",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "不死途",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": null,
+     "ltd": 40,
+     "std": 0,
+     "date": "2026-10-01 15:55",
+     "av": "176"
+    },
+    {
+     "group": "Archer",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "Archer",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "远坂凛",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": null,
+     "ltd": 48,
+     "std": 0,
+     "date": "2026-09-30 07:33",
+     "av": "179"
+    },
+    {
+     "group": "大黑塔",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "大黑塔",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "那刻夏",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "通关",
+     "cycle": null,
+     "ltd": 48,
+     "std": 0,
+     "date": "2026-10-02 10:23",
+     "av": "497"
+    }
+   ]
+  },
+  {
+   "mode": "异相仲裁",
+   "season": "4.6",
+   "stage": "亚婆离",
+   "stage_en": "Yabuli",
+   "category": "0轮次",
+   "total_runs": 371,
+   "records": [
+    {
+     "group": "银狼LV.999",
+     "runs_in_group": 111,
+     "lineup": [
+      {
+       "name": "银狼LV.999",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "真珠",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 3,
+     "std": 0,
+     "date": "2026-09-29 04:17"
+    },
+    {
+     "group": "绯英",
+     "runs_in_group": 70,
+     "lineup": [
+      {
+       "name": "绯英",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "真珠",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 4,
+     "std": 0,
+     "date": "2026-09-28 18:11"
+    },
+    {
+     "group": "砂金•戏浪",
+     "runs_in_group": 49,
+     "lineup": [
+      {
+       "name": "砂金•戏浪",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 4
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 4,
+     "std": 0,
+     "date": "2026-09-29 19:32"
+    },
+    {
+     "group": "姬子•启行",
+     "runs_in_group": 14,
+     "lineup": [
+      {
+       "name": "姬子•启行",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 4,
+       "superimposition": 5
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 6,
+     "std": 5,
+     "date": "2026-09-30 09:25"
+    },
+    {
+     "group": "火花",
+     "runs_in_group": 11,
+     "lineup": [
+      {
+       "name": "火花",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "真珠",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 7,
+     "std": 0,
+     "date": "2026-09-29 12:50"
+    },
+    {
+     "group": "不死途",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "不死途",
+       "eidolon": 1,
+       "superimposition": 2
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 8,
+     "std": 0,
+     "date": "2026-09-29 05:54"
+    },
+    {
+     "group": "遐蝶",
+     "runs_in_group": 28,
+     "lineup": [
+      {
+       "name": "遐蝶",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 9,
+     "std": 0,
+     "date": "2026-10-02 21:05"
+    },
+    {
+     "group": "白厄",
+     "runs_in_group": 18,
+     "lineup": [
+      {
+       "name": "白厄",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "刻律德菈",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "布洛妮娅",
+       "eidolon": 3,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 9,
+     "std": 9,
+     "date": "2026-10-06 11:39"
+    },
+    {
+     "group": "千冶•刃",
+     "runs_in_group": 6,
+     "lineup": [
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 0,
+       "superimposition": 2
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 10,
+     "std": 0,
+     "date": "2026-10-01 17:30"
+    },
+    {
+     "group": "Saber",
+     "runs_in_group": 12,
+     "lineup": [
+      {
+       "name": "Saber",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "吉尔伽美什",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "藿藿",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 10,
+     "std": 0,
+     "date": "2026-10-03 12:49"
+    },
+    {
+     "group": "长夜月",
+     "runs_in_group": 12,
+     "lineup": [
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 2
+      },
+      {
+       "name": "风堇",
+       "eidolon": 0,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 10,
+     "std": 0,
+     "date": "2026-10-04 10:00"
+    },
+    {
+     "group": "希儿",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "希儿",
+       "eidolon": 6,
+       "superimposition": 4
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 2
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 11,
+     "std": 0,
+     "date": "2026-10-07 10:38"
+    },
+    {
+     "group": "昔涟",
+     "runs_in_group": 5,
+     "lineup": [
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 1,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 11,
+     "std": 0,
+     "date": "2026-10-14 21:44"
+    },
+    {
+     "group": "风堇",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "风堇",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 12,
+     "std": 0,
+     "date": "2026-10-03 17:46"
+    },
+    {
+     "group": "黄泉",
+     "runs_in_group": 5,
+     "lineup": [
+      {
+       "name": "黄泉",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 12,
+     "std": 0,
+     "date": "2026-10-11 12:27"
+    },
+    {
+     "group": "飞霄",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "飞霄",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 12,
+     "std": 0,
+     "date": "2026-10-12 09:17"
+    },
+    {
+     "group": "远坂凛",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "远坂凛",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 1,
+       "superimposition": 4
+      },
+      {
+       "name": "花火",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "藿藿",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 13,
+     "std": 0,
+     "date": "2026-10-09 04:06"
+    },
+    {
+     "group": "Archer",
+     "runs_in_group": 5,
+     "lineup": [
+      {
+       "name": "Archer",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "花火",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 0,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 14,
+     "std": 0,
+     "date": "2026-10-03 11:46"
+    },
+    {
+     "group": "流萤",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "流萤",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 1,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 14,
+     "std": 0,
+     "date": "2026-10-07 10:28"
+    },
+    {
+     "group": "那刻夏",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "那刻夏",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 2
+      },
+      {
+       "name": "风堇",
+       "eidolon": 0,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 15,
+     "std": 0,
+     "date": "2026-10-06 12:15"
+    },
+    {
+     "group": "吉尔伽美什",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "吉尔伽美什",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 2
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 19,
+     "std": 0,
+     "date": "2026-10-03 19:48"
+    },
+    {
+     "group": "阿格莱雅",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "阿格莱雅",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 23,
+     "std": 0,
+     "date": "2026-10-01 02:57"
+    },
+    {
+     "group": "银狼",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "银狼",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "花火",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 32,
+     "std": 0,
+     "date": "2026-10-09 03:26"
+    },
+    {
+     "group": "DoT",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "海瑟音",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "黑天鹅",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 40,
+     "std": 0,
+     "date": "2026-10-09 22:47"
+    },
+    {
+     "group": "爻光",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "爻光",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "丹恒•腾荒",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "彦卿",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 41,
+     "std": 7,
+     "date": "2026-10-04 14:40"
+    },
+    {
+     "group": "波提欧",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "波提欧",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "丹恒•腾荒",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 44,
+     "std": 0,
+     "date": "2026-10-04 22:46"
+    }
+   ]
+  },
+  {
+   "mode": "异相仲裁",
+   "season": "4.6",
+   "stage": "[K1] 帕姆王",
+   "stage_en": "King Pom-Pom",
+   "category": "通关",
+   "total_runs": 97,
+   "records": [
+    {
+     "group": "银狼LV.999",
+     "runs_in_group": 27,
+     "lineup": [
+      {
+       "name": "银狼LV.999",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "2",
+     "ltd": 2,
+     "std": 0,
+     "date": "2026-10-06 19:51"
+    },
+    {
+     "group": "绯英",
+     "runs_in_group": 19,
+     "lineup": [
+      {
+       "name": "绯英",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "藿藿",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "2",
+     "ltd": 3,
+     "std": 0,
+     "date": "2026-10-08 19:18"
+    },
+    {
+     "group": "火花",
+     "runs_in_group": 7,
+     "lineup": [
+      {
+       "name": "火花",
+       "eidolon": 0,
+       "superimposition": 4
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "真珠",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "2",
+     "ltd": 3,
+     "std": 0,
+     "date": "2026-10-09 22:57"
+    },
+    {
+     "group": "砂金•戏浪",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "砂金•戏浪",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "真珠",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 4,
+     "std": 0,
+     "date": "2026-09-29 16:41"
+    },
+    {
+     "group": "不死途",
+     "runs_in_group": 5,
+     "lineup": [
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 4,
+     "std": 0,
+     "date": "2026-10-07 12:12"
+    },
+    {
+     "group": "姬子•启行",
+     "runs_in_group": 5,
+     "lineup": [
+      {
+       "name": "姬子•启行",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 4,
+       "superimposition": 5
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 4,
+     "std": 5,
+     "date": "2026-10-01 11:40"
+    },
+    {
+     "group": "白厄",
+     "runs_in_group": 6,
+     "lineup": [
+      {
+       "name": "白厄",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "刻律德菈",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 7,
+     "std": 0,
+     "date": "2026-10-01 04:56"
+    },
+    {
+     "group": "长夜月",
+     "runs_in_group": 5,
+     "lineup": [
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 7,
+     "std": 0,
+     "date": "2026-10-01 09:30"
+    },
+    {
+     "group": "遐蝶",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "遐蝶",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 7,
+     "std": 0,
+     "date": "2026-10-03 14:17"
+    },
+    {
+     "group": "流萤",
+     "runs_in_group": 7,
+     "lineup": [
+      {
+       "name": "流萤",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "忘归人",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (同谐)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "1",
+     "ltd": 7,
+     "std": 0,
+     "date": "2026-10-03 11:45"
+    },
+    {
+     "group": "昔涟",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 3
+      },
+      {
+       "name": "风堇",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 8,
+     "std": 0,
+     "date": "2026-10-03 10:45"
+    },
+    {
+     "group": "黄泉",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "黄泉",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 8,
+     "std": 0,
+     "date": "2026-10-14 09:07"
+    },
+    {
+     "group": "那刻夏",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "那刻夏",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 0,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 10,
+     "std": 0,
+     "date": "2026-10-01 21:15"
+    },
+    {
+     "group": "千冶•刃",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "丹恒•腾荒",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "不死途",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 11,
+     "std": 0,
+     "date": "2026-10-01 07:25"
+    },
+    {
+     "group": "Saber",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "Saber",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "吉尔伽美什",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 12,
+     "std": 0,
+     "date": "2026-10-13 10:11"
+    },
+    {
+     "group": "波提欧",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "波提欧",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "忘归人",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 20,
+     "std": 0,
+     "date": "2026-10-07 13:41"
+    }
+   ]
+  },
+  {
+   "mode": "异相仲裁",
+   "season": "4.6",
+   "stage": "[K2] 死龙",
+   "stage_en": "Pollux",
+   "category": "通关",
+   "total_runs": 102,
+   "records": [
+    {
+     "group": "Archer",
+     "runs_in_group": 14,
+     "lineup": [
+      {
+       "name": "Archer",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "花火",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "远坂凛",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "2",
+     "ltd": 3,
+     "std": 0,
+     "date": "2026-10-03 00:18"
+    },
+    {
+     "group": "千冶•刃",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 3
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 4,
+     "std": 0,
+     "date": "2026-10-02 18:10"
+    },
+    {
+     "group": "长夜月",
+     "runs_in_group": 9,
+     "lineup": [
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 5,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 4,
+     "std": 6,
+     "date": "2026-10-05 23:36"
+    },
+    {
+     "group": "绯英",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "绯英",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "真珠",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-10-01 15:48"
+    },
+    {
+     "group": "不死途",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-10-02 10:24"
+    },
+    {
+     "group": "姬子•启行",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "姬子•启行",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "三月七 (巡猎)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-10-05 10:27"
+    },
+    {
+     "group": "遐蝶",
+     "runs_in_group": 28,
+     "lineup": [
+      {
+       "name": "遐蝶",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-10-01 00:10"
+    },
+    {
+     "group": "砂金•戏浪",
+     "runs_in_group": 9,
+     "lineup": [
+      {
+       "name": "砂金•戏浪",
+       "eidolon": 2,
+       "superimposition": 2
+      },
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-10-02 04:16"
+    },
+    {
+     "group": "银狼LV.999",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "银狼LV.999",
+       "eidolon": 2,
+       "superimposition": 2
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "真珠",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-10-03 18:55"
+    },
+    {
+     "group": "万敌",
+     "runs_in_group": 5,
+     "lineup": [
+      {
+       "name": "万敌",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 4,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 5,
+     "date": "2026-10-06 17:35"
+    },
+    {
+     "group": "昔涟",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 3
+      },
+      {
+       "name": "艾丝妲",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 6,
+     "std": 0,
+     "date": "2026-10-01 21:47"
+    },
+    {
+     "group": "Saber",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "Saber",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "吉尔伽美什",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "2",
+     "ltd": 6,
+     "std": 0,
+     "date": "2026-10-03 19:28"
+    },
+    {
+     "group": "那刻夏",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "那刻夏",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "风堇",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 8,
+     "std": 0,
+     "date": "2026-09-29 23:10"
+    },
+    {
+     "group": "流萤",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "流萤",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (同谐)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 8,
+     "std": 0,
+     "date": "2026-09-28 14:42"
+    },
+    {
+     "group": "阿格莱雅",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "阿格莱雅",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 8,
+     "std": 0,
+     "date": "2026-10-02 00:01"
+    },
+    {
+     "group": "风堇",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 4
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 8,
+     "std": 0,
+     "date": "2026-10-04 02:23"
+    },
+    {
+     "group": "白厄",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "白厄",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "刻律德菈",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "花火",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "2",
+     "ltd": 8,
+     "std": 0,
+     "date": "2026-10-03 01:17"
+    },
+    {
+     "group": "DoT",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "黑天鹅",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "卡芙卡",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "海瑟音",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "罗刹",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "2",
+     "ltd": 9,
+     "std": 0,
+     "date": "2026-10-01 23:44"
+    },
+    {
+     "group": "黄泉",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "黄泉",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "不死途",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 11,
+     "std": 0,
+     "date": "2026-10-01 11:46"
+    },
+    {
+     "group": "远坂凛",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "远坂凛",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "花火",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "藿藿",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "刻律德菈",
+       "eidolon": 1,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 12,
+     "std": 0,
+     "date": "2026-10-04 02:46"
+    },
+    {
+     "group": "镜流",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "镜流",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 1,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "2",
+     "ltd": 12,
+     "std": 0,
+     "date": "2026-09-28 14:59"
+    },
+    {
+     "group": "火花",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "火花",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "花火",
+       "eidolon": 3,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 1,
+       "superimposition": 1
+      },
+      {
+       "name": "藿藿",
+       "eidolon": 1,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 13,
+     "std": 0,
+     "date": "2026-10-09 09:39"
+    }
+   ]
+  },
+  {
+   "mode": "异相仲裁",
+   "season": "4.6",
+   "stage": "[K3] 示死祸源",
+   "stage_en": "Harbinger of Death",
+   "category": "通关",
+   "total_runs": 203,
+   "records": [
+    {
+     "group": "姬子•启行",
+     "runs_in_group": 24,
+     "lineup": [
+      {
+       "name": "姬子•启行",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 4,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "停云",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 1,
+     "std": 5,
+     "date": "2026-10-01 20:02"
+    },
+    {
+     "group": "砂金•戏浪",
+     "runs_in_group": 7,
+     "lineup": [
+      {
+       "name": "砂金•戏浪",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "佩拉",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 2,
+     "std": 0,
+     "date": "2026-10-03 05:01"
+    },
+    {
+     "group": "Saber",
+     "runs_in_group": 14,
+     "lineup": [
+      {
+       "name": "Saber",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "吉尔伽美什",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 3,
+       "superimposition": 3
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "1",
+     "ltd": 2,
+     "std": 4,
+     "date": "2026-09-29 17:33"
+    },
+    {
+     "group": "吉尔伽美什",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "吉尔伽美什",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 4,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "停云",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 2,
+     "std": 5,
+     "date": "2026-09-28 15:05"
+    },
+    {
+     "group": "不死途",
+     "runs_in_group": 7,
+     "lineup": [
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 4,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "停云",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 2,
+     "std": 5,
+     "date": "2026-10-03 04:24"
+    },
+    {
+     "group": "绯英",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "绯英",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 5,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 2,
+     "std": 6,
+     "date": "2026-09-28 18:54"
+    },
+    {
+     "group": "银狼LV.999",
+     "runs_in_group": 6,
+     "lineup": [
+      {
+       "name": "银狼LV.999",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 2,
+     "std": 7,
+     "date": "2026-10-12 18:57"
+    },
+    {
+     "group": "那刻夏",
+     "runs_in_group": 11,
+     "lineup": [
+      {
+       "name": "那刻夏",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "刻律德菈",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "满星",
+     "cycle": "1",
+     "ltd": 3,
+     "std": 0,
+     "date": "2026-10-01 10:36"
+    },
+    {
+     "group": "Archer",
+     "runs_in_group": 12,
+     "lineup": [
+      {
+       "name": "Archer",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "远坂凛",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 3,
+     "std": 0,
+     "date": "2026-10-05 17:50"
+    },
+    {
+     "group": "火花",
+     "runs_in_group": 5,
+     "lineup": [
+      {
+       "name": "火花",
+       "eidolon": 0,
+       "superimposition": 3
+      },
+      {
+       "name": "爻光",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "花火",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 3,
+     "std": 0,
+     "date": "2026-10-09 15:00"
+    },
+    {
+     "group": "大黑塔",
+     "runs_in_group": 5,
+     "lineup": [
+      {
+       "name": "大黑塔",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "姬子•启行",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 4,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 3,
+     "std": 5,
+     "date": "2026-10-03 13:12"
+    },
+    {
+     "group": "DoT",
+     "runs_in_group": 16,
+     "lineup": [
+      {
+       "name": "黑天鹅",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "海瑟音",
+       "eidolon": 0,
+       "superimposition": 4
+      },
+      {
+       "name": "卡芙卡",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 4,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 3,
+     "std": 5,
+     "date": "2026-10-11 10:32"
+    },
+    {
+     "group": "长夜月",
+     "runs_in_group": 8,
+     "lineup": [
+      {
+       "name": "长夜月",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 5,
+       "superimposition": 5
+      },
+      {
+       "name": "佩拉",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 3,
+     "std": 6,
+     "date": "2026-10-02 03:51"
+    },
+    {
+     "group": "白厄",
+     "runs_in_group": 17,
+     "lineup": [
+      {
+       "name": "白厄",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "停云",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 4,
+     "std": 0,
+     "date": "2026-10-01 04:49"
+    },
+    {
+     "group": "千冶•刃",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "不死途",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "加拉赫",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 4,
+     "std": 0,
+     "date": "2026-10-09 12:18"
+    },
+    {
+     "group": "流萤",
+     "runs_in_group": 14,
+     "lineup": [
+      {
+       "name": "流萤",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (同谐)",
+       "eidolon": 6,
+       "superimposition": 4
+      },
+      {
+       "name": "佩拉",
+       "eidolon": 6,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 4,
+     "std": 0,
+     "date": "2026-09-28 21:40"
+    },
+    {
+     "group": "远坂凛",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "远坂凛",
+       "eidolon": 1,
+       "superimposition": 4
+      },
+      {
+       "name": "花火",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "刻律德菈",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 4,
+     "std": 0,
+     "date": "2026-09-30 05:27"
+    },
+    {
+     "group": "希儿",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "希儿",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "花火",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 4,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 4,
+     "std": 5,
+     "date": "2026-09-29 05:36"
+    },
+    {
+     "group": "黄泉",
+     "runs_in_group": 12,
+     "lineup": [
+      {
+       "name": "黄泉",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 4,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 4,
+     "std": 5,
+     "date": "2026-10-04 15:56"
+    },
+    {
+     "group": "瓦尔特",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "瓦尔特",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "花火",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "赛飞儿",
+       "eidolon": 0,
+       "superimposition": 1
+      }
+     ],
+     "tag": "满星",
+     "cycle": "2",
+     "ltd": 4,
+     "std": 7,
+     "date": "2026-10-11 14:58"
+    },
+    {
+     "group": "昔涟",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "长夜月",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-10-01 19:30"
+    },
+    {
+     "group": "阿格莱雅",
+     "runs_in_group": 3,
+     "lineup": [
+      {
+       "name": "阿格莱雅",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 0,
+     "date": "2026-10-02 00:20"
+    },
+    {
+     "group": "万敌",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "万敌",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "昔涟",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 4,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 5,
+     "date": "2026-10-01 18:32"
+    },
+    {
+     "group": "乱破",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "乱破",
+       "eidolon": 0,
+       "superimposition": 2
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 4,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (同谐)",
+       "eidolon": 6,
+       "superimposition": 4
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 5,
+     "date": "2026-10-02 15:42"
+    },
+    {
+     "group": "飞霄",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "飞霄",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "瓦尔特",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 5,
+     "std": 7,
+     "date": "2026-10-09 16:03"
+    },
+    {
+     "group": "波提欧",
+     "runs_in_group": 4,
+     "lineup": [
+      {
+       "name": "波提欧",
+       "eidolon": 1,
+       "superimposition": 4
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (同谐)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 6,
+     "std": 0,
+     "date": "2026-09-29 07:06"
+    },
+    {
+     "group": "灵砂",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "灵砂",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 2,
+       "superimposition": 4
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "开拓者 (同谐)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 6,
+     "std": 0,
+     "date": "2026-10-04 08:27"
+    },
+    {
+     "group": "遐蝶",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "遐蝶",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "风堇",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "千冶•刃",
+       "eidolon": 0,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 7,
+     "std": 0,
+     "date": "2026-10-08 21:28"
+    },
+    {
+     "group": "赛飞儿",
+     "runs_in_group": 2,
+     "lineup": [
+      {
+       "name": "赛飞儿",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "开拓者 (同谐)",
+       "eidolon": 6,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 7,
+     "std": 0,
+     "date": "2026-10-14 13:19"
+    },
+    {
+     "group": "青雀",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "青雀",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "花火",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 2,
+       "superimposition": 5
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 2,
+       "superimposition": 5
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 10,
+     "std": 0,
+     "date": "2026-10-08 15:39"
+    },
+    {
+     "group": "卡芙卡",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "卡芙卡",
+       "eidolon": 0,
+       "superimposition": 1
+      },
+      {
+       "name": "大丽花",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "缇宝",
+       "eidolon": 1,
+       "superimposition": 5
+      },
+      {
+       "name": "忘归人",
+       "eidolon": 0,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 14,
+     "std": 0,
+     "date": "2026-10-06 17:15"
+    },
+    {
+     "group": "彦卿",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "彦卿",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "星期日",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟",
+       "eidolon": 2,
+       "superimposition": 2
+      },
+      {
+       "name": "丹恒•腾荒",
+       "eidolon": 2,
+       "superimposition": 1
+      }
+     ],
+     "tag": "满星",
+     "cycle": "2",
+     "ltd": 22,
+     "std": 7,
+     "date": "2026-09-29 08:50"
+    },
+    {
+     "group": "云璃",
+     "runs_in_group": 1,
+     "lineup": [
+      {
+       "name": "云璃",
+       "eidolon": 2,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟•晴歌",
+       "eidolon": 6,
+       "superimposition": 1
+      },
+      {
+       "name": "知更鸟",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "藿藿",
+       "eidolon": 0,
+       "superimposition": 1
+      }
+     ],
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 26,
+     "std": 0,
+     "date": "2026-10-06 11:23"
+    }
+   ]
+  }
+ ]
+}

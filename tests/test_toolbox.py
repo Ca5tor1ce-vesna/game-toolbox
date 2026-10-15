@@ -2765,7 +2765,7 @@ class TestGreenPackage(unittest.TestCase):
         self.assertIn("游戏工具箱.exe", html)
         self.assertIn("userdata", html)
 
-# ---------------- 低配通关记录（herta/records） ----------------
+# ---------------- 角色顶分（herta/records） ----------------
 
 HERTA_SAMPLE = {
     "source": "https://theherta.com/archive", "collected_at": "2026-10-15 16:28 UTC+8", "selection_rule": "x",
@@ -2835,6 +2835,30 @@ class TestHertaRecords(unittest.TestCase):
     def test_bad_structure_rejected(self) -> None:
         with self.assertRaises(ValueError):
             self.mod.validate({"targets": [{"mode": "未知", "records": []}]})
+
+    def test_avatar_and_lightcone_mapping(self) -> None:
+        fixture = json.loads((ROOT / "tests" / "fixtures" / "herta_lightcone_sample.json").read_text(encoding="utf-8"))
+        result = self.mod.with_avatars({"data": fixture}, self.ctx)
+        av = result["avatars"]
+        self.assertEqual(av["三月七 (巡猎)"], "/modules/herta/assets/1224.webp")
+        self.assertTrue((ROOT / "modules" / "herta" / "assets" / "1224.webp").is_file())
+        chars = json.loads((ROOT / "modules" / MODULE_ID / "data" / "characters.json").read_text(encoding="utf-8"))
+        by_id = {c["id"]: c["icon"] for c in chars}
+        self.assertEqual(av["开拓者 (欢愉)"], by_id["8009"])
+        self.assertEqual(av["开拓者 (记忆)"], by_id["8007"])
+        for name in ("砂金•戏浪", "银狼LV.999", "Archer", "Saber"):
+            self.assertTrue(av[name].startswith("/modules/honkai-star-rail/assets/"), name)
+        self.assertEqual(result["unmapped"], ["不存在的角色"])
+        lc = result["lightcone_icons"]
+        self.assertIn("一场谎言的终幕", lc)
+        self.assertIn("舞! 舞! 舞!", lc)  # 半角/空格写法也能对上
+        self.assertIn("忍法帖·缭乱破魔", lc)  # · 与 • 等价
+        self.assertEqual(result["unmapped_lightcones"], ["不存在的光锥"])
+
+    def test_live_data_all_avatars_mapped(self) -> None:
+        sample = ROOT / "tests" / "fixtures" / "herta_latest_snapshot.json"
+        data = json.loads(sample.read_text(encoding="utf-8"))
+        self.assertEqual(self.mod.with_avatars({"data": data}, self.ctx)["unmapped"], [])
 
     def test_web_port_matches(self) -> None:
         node = shutil.which("node")

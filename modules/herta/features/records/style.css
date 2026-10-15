@@ -1,4 +1,4 @@
-/* 低配通关记录样式：仅 .hr- 前缀选择器，颜色/圆角等取宿主 CSS 变量 */
+/* 角色顶分样式：仅 .hr- 前缀选择器，颜色/圆角等取宿主 CSS 变量 */
 
 .hr-wrap {
   display: flex;
@@ -259,4 +259,50 @@
   text-align: center;
   padding-top: 8px;
   border-top: 1px solid var(--border);
+}
+
+.hr-avatar { overflow: hidden; }
+.hr-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 光锥：第一行 图标 + 叠影，第二行光锥名（最多两行） */
+.hr-lc {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 2px 4px;
+  width: 100%;
+  min-width: 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+.hr-lc-img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex: none;
+}
+.hr-lc-name {
+  order: 3;
+  flex-basis: 100%;
+  text-align: center;
+  font-size: 10.5px;
+  line-height: 1.3;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+}
+.hr-lc-s {
+  flex: none;
+  font-family: var(--mono);
+  padding: 0 4px;
+  border-radius: 4px;
+  background: var(--bg);
 }

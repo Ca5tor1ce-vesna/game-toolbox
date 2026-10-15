@@ -1,8 +1,9 @@
-/* 低配通关记录 —— 浏览器端实现（api.py 的移植）。经典脚本：浏览器挂 window.GT_HERTA_API，node 走 module.exports。
+/* 角色顶分 —— 浏览器端实现（api.py 的移植）。经典脚本：浏览器挂 window.GT_HERTA_API，node 走 module.exports。
  *
  *   const api = GT_HERTA_API.createApi({fetch, storage, now});
  *   await api.call("load", {refresh: true});   // 返回 Promise（网络请求是异步的）
  *
+ * characters / lightcones = 崩铁模块的 characters.json / lightcones.json（算头像、光锥图标用，可省略）。
  * fetch   = 全局 fetch（node 18+ / 浏览器）或测试替身；storage = {load(), save(obj)}（浏览器注入 localStorage 包装）。
  * 镜像列表、校验、缓存规则与 api.py 完全一致；SHA-256 用 crypto.subtle。
  */
@@ -25,6 +26,55 @@
   const TIMEOUT = 4.0;
   const CACHE_FRESH_SECONDS = 3600;
   const MODES = ["混沌回忆", "虚构叙事", "末日幻影", "异相仲裁"];
+
+  // 头像映射（与 api.py 的 avatar_map 一致）
+  const AVATAR_OVERRIDES = { "三月七 (巡猎)": "/modules/herta/assets/1224.webp" };
+  const VARIANT = /^(.+?)\s*[(（]([^()（）]+)[)）]$/;
+  function avatarMap(characters, names) {
+    const byName = new Map();
+    for (const c of characters || []) {
+      if (!byName.has(c.name)) byName.set(c.name, []);
+      byName.get(c.name).push(c);
+    }
+    const avatars = {};
+    const missing = [];
+    const sorted = Array.from(new Set(names)).sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
+    for (const name of sorted) {
+      let icon = AVATAR_OVERRIDES[name];
+      if (!icon) {
+        let hits = byName.get(name) || [];
+        const m = VARIANT.exec(name);
+        if (m) hits = (byName.get(m[1].trim()) || []).filter((c) => c.pathName === m[2].trim());
+        if (hits.length === 1) icon = hits[0].icon;
+      }
+      if (icon) avatars[name] = icon;
+      else missing.push(name);
+    }
+    return { avatars, missing };
+  }
+  const LC_PUNCT = { "！": "!", "，": ",", "？": "?", "：": ":", "·": "•", "・": "•" };
+  const normLc = (name) => String(name || "").replace(/\s+/g, "").replace(/[！，？：·・]/g, (c) => LC_PUNCT[c]).toLowerCase();
+  function lightconeMap(lightcones, names) {
+    const by = new Map();
+    for (const lc of lightcones || []) {
+      const k = normLc(lc.name);
+      if (!by.has(k)) by.set(k, []);
+      by.get(k).push(lc);
+    }
+    const icons = {};
+    const missing = [];
+    const sorted = Array.from(new Set(names.filter(Boolean))).sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
+    for (const name of sorted) {
+      const hits = by.get(normLc(name)) || [];
+      if (hits.length === 1 && hits[0].icon) icons[name] = hits[0].icon;
+      else missing.push(name);
+    }
+    return { icons, missing };
+  }
+  const lightconeNames = (data) =>
+    ((data && data.targets) || []).flatMap((t) => (t.records || []).flatMap((r) => (r.lineup || []).map((c) => c.lightcone).filter(Boolean)));
+  const lineupNames = (data) =>
+    ((data && data.targets) || []).flatMap((t) => (t.records || []).flatMap((r) => (r.lineup || []).map((c) => c.name)));
 
   function validate(data) {
     if (!data || typeof data !== "object" || !Array.isArray(data.targets) || !data.targets.length)
@@ -117,12 +167,17 @@
     return {
       MIRRORS, tryMirrors,
       async call(action, payload) {
-        if (action === "load") return load(payload || {});
+        if (action === "load") {
+          const result = await load(payload || {});
+          const { avatars, missing } = avatarMap(opts.characters || [], lineupNames(result.data));
+          const lc = lightconeMap(opts.lightcones || [], lightconeNames(result.data));
+          return { ...result, avatars, unmapped: missing, lightcone_icons: lc.icons, unmapped_lightcones: lc.missing };
+        }
         if (action === "mirrors") return { mirrors: MIRRORS, timeout: TIMEOUT };
         throw new Error(`未知动作 ${action}`);
       },
     };
   }
 
-  return { createApi, MIRRORS, validate };
+  return { createApi, MIRRORS, validate, avatarMap, lightconeMap, AVATAR_OVERRIDES };
 });

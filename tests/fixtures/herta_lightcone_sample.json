@@ -1,0 +1,83 @@
+{
+ "source": "https://theherta.com/archive",
+ "collected_at": "2026-10-15 17:00 UTC+8",
+ "selection_rule": "x",
+ "targets": [
+  {
+   "mode": "混沌回忆",
+   "season": "4.5",
+   "stage": "测试关",
+   "category": "0轮次",
+   "total_runs": 2,
+   "records": [
+    {
+     "group": "砂金•戏浪",
+     "runs_in_group": 1,
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 1,
+     "std": 0,
+     "date": "2026-10-01 00:00",
+     "lineup": [
+      {
+       "name": "砂金•戏浪",
+       "eidolon": 0,
+       "superimposition": 1,
+       "lightcone": "一场谎言的终幕"
+      },
+      {
+       "name": "开拓者 (欢愉)",
+       "eidolon": 6,
+       "superimposition": 5,
+       "lightcone": "舞! 舞! 舞!"
+      },
+      {
+       "name": "三月七 (巡猎)",
+       "eidolon": 6,
+       "superimposition": 5,
+       "lightcone": null
+      },
+      {
+       "name": "银狼LV.999",
+       "eidolon": 0,
+       "superimposition": 5
+      }
+     ]
+    },
+    {
+     "group": "Archer",
+     "runs_in_group": 1,
+     "tag": "0轮次",
+     "cycle": "0",
+     "ltd": 1,
+     "std": 0,
+     "date": "2026-10-02 00:00",
+     "lineup": [
+      {
+       "name": "Archer",
+       "eidolon": 0,
+       "superimposition": 5,
+       "lightcone": "不存在的光锥"
+      },
+      {
+       "name": "Saber",
+       "eidolon": 0,
+       "superimposition": 5,
+       "lightcone": "忍法帖·缭乱破魔"
+      },
+      {
+       "name": "开拓者 (记忆)",
+       "eidolon": 6,
+       "superimposition": 5
+      },
+      {
+       "name": "不存在的角色",
+       "eidolon": 0,
+       "superimposition": 1
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
