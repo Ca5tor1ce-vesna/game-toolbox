@@ -1,422 +1,207 @@
-/* 配速查询：功能专属样式 */
+/* 配速查询（0.17.0）：左边步骤卡片，右边固定结论区。间距按 8px 网格，颜色全走外壳的 CSS 变量。 */
 
-.effect-list {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  max-height: 300px;
+.sp {
+  display: grid;
+  grid-template-columns: minmax(0, 58fr) minmax(0, 42fr);
+  gap: var(--s3, 24px);
+  align-items: start;
+}
+.sp-left { min-width: 0; }
+.sp-right {
+  position: sticky;
+  top: 0;
+  min-width: 0;
+  max-height: calc(100vh - 56px - 2 * var(--view-pad, 24px));
   overflow-y: auto;
-  margin-top: 8px;
-}
-
-.effect-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--panel-2);
-  font-size: 12.5px;
-  line-height: 1.5;
-}
-.effect-row .grow {
-  flex: 1;
-}
-.effect-row .num {
-  font-family: var(--mono);
-  color: var(--accent);
-  white-space: nowrap;
-}
-/* 「仅队友」的效果：视觉上弱化，提醒它不算自己的速度 */
-.effect-row.ally-only {
-  opacity: 0.72;
-}
-.effect-row.ally-only .num {
-  color: var(--muted);
-  text-decoration: line-through;
-}
-.effect-row input[type="checkbox"] {
-  width: 15px;
-  height: 15px;
-  accent-color: var(--accent);
-  flex: none;
-}
-
-table.data td.reachable {
-  color: var(--good);
-}
-table.data td.unreachable {
-  color: var(--muted);
-}
-
-/* ---------------- 角色立绘 + 带图标的下拉 ---------------- */
-
-.picker-layout {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-  flex-wrap: wrap;
-}
-
-.splash-panel {
-  flex: 0 0 210px;
-  width: 210px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: linear-gradient(180deg, #1b2030, var(--panel-2));
-  overflow: hidden;
-  position: relative;
-}
-.splash-panel img {
-  display: block;
-  width: 100%;
-  height: 300px;
-  object-fit: contain;
-  object-position: top center;
-  background: rgba(0, 0, 0, 0.15);
-}
-.splash-panel .splash-meta {
-  padding: 8px 10px;
-  font-size: 12px;
-  line-height: 1.7;
-  border-top: 1px solid var(--border);
-}
-.splash-panel .splash-meta b {
-  font-size: 14px;
-}
-.splash-panel .splash-meta .row-meta {
-  color: var(--muted);
-}
-
-.picker-controls {
-  flex: 1;
-  min-width: 320px;
-}
-
-.picker-button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  min-width: 190px;
-  padding: 6px 9px;
-  background: var(--panel-2);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--text);
-  cursor: pointer;
-  font: inherit;
-  text-align: left;
-}
-.picker-button:hover {
-  border-color: var(--accent);
-}
-.picker-button img {
-  width: 26px;
-  height: 26px;
-  border-radius: 5px;
-  object-fit: cover;
-  flex: none;
-  background: rgba(0, 0, 0, 0.25);
-}
-.picker-button .pb-name {
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.picker-button .pb-caret {
-  color: var(--muted);
-  font-size: 11px;
-}
-
-.picker-popup {
-  position: fixed;
-  z-index: 50;
   background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 10px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  border-radius: var(--radius);
+  padding: var(--card-pad);
 }
-.picker-popup.hidden {
-  display: none;
+.sp-col-title { font-size: 15px; font-weight: 650; margin: 0 0 12px; }
+.sp-grow { flex: 1 1 200px; }
+
+/* ---------- 步骤卡片 ---------- */
+
+.sp-step {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: var(--s2, 16px);
+  overflow: hidden;
 }
-.picker-search {
-  width: 100%;
-}
-.picker-list {
-  overflow-y: auto;
-  overflow-x: hidden; /* 说明文字再长也不许撑出横向滚动条 */
-  max-height: min(340px, 56vh);
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  -webkit-overflow-scrolling: touch;
-}
-.picker-item {
+.sp-step-head {
   display: flex;
   align-items: center;
-  gap: 9px;
-  padding: 5px 8px;
-  /* 关键：列表是纵向 flex 容器且限了高度，项默认 flex-shrink:1 会被**压扁**
-     （93 个角色时每行被压到 20px 出头，文字互相重叠、图标被裁——就是这个毛病）。
-     所以这里禁止压缩 + 给最小高度，让它正常滚动。 */
-  flex: 0 0 auto;
-  min-height: 40px;
+  gap: 8px;
+  width: 100%;
+  padding: 12px var(--card-pad);
   border: 0;
-  border-radius: 7px;
   background: transparent;
   color: var(--text);
-  cursor: pointer;
   font: inherit;
-  text-align: left;
-  width: 100%;
-  min-width: 0; /* 允许内部元素收缩，名字才不会被挤没 */
-  overflow: hidden;
-}
-.picker-item:hover {
-  background: var(--panel-2);
-}
-.picker-item.active {
-  background: color-mix(in srgb, var(--accent) 18%, transparent);
-}
-.picker-item img {
-  width: 30px;
-  height: 30px;
-  border-radius: 6px;
-  object-fit: cover;
-  flex: none;
-  background: rgba(0, 0, 0, 0.25);
-}
-.picker-item .pi-name {
-  /* 名字优先显示：按内容占位、最多一半宽，绝不被说明挤没 */
-  flex: 0 0 auto;
-  max-width: 48%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.picker-item .pi-meta {
-  /* 说明吃掉剩余宽度，超了就用省略号（完整文案在 tooltip 里） */
-  flex: 1 1 auto;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: right;
-  color: var(--muted);
-  font-size: 11.5px;
-  white-space: nowrap;
-}
-
-/* 面板里的下拉（模式 / T 数）用小号 */
-select.input.small {
-  width: auto;
-  min-width: 116px;
-  max-width: 220px;
-  padding: 4px 6px;
-  font-size: 12.5px;
-}
-
-/* 触屏设备：手指比鼠标粗，行高和图都给大一点 */
-@media (pointer: coarse) {
-  .picker-item {
-    padding: 9px 8px;
-  }
-  .picker-item img {
-    width: 34px;
-    height: 34px;
-  }
-  .picker-button {
-    padding: 9px 10px;
-  }
-  .picker-button img {
-    width: 30px;
-    height: 30px;
-  }
-  .effect-row input[type="checkbox"] {
-    width: 19px;
-    height: 19px;
-  }
-}
-
-/* 顶部快捷操作区：和下面卡片共用同一份状态 */
-.quick-setup {
-  margin-top: 12px;
-  padding: 10px 12px;
-  border: 1px dashed var(--border);
-  border-radius: 10px;
-  background: color-mix(in srgb, var(--accent) 5%, transparent);
-}
-.quick-setup .qs-title {
-  font-size: 12px;
-  color: var(--accent);
-  margin-bottom: 8px;
-  font-weight: 600;
-}
-.quick-setup .row {
-  align-items: flex-end;
-}
-.quick-setup .picker-button {
-  min-width: 170px;
-}
-
-/* 效果勾选行上的触发标记：常驻 / 开大 / 进战 / 条件 */
-.trigger-badge {
-  flex: none;
-  font-size: 11px;
-  padding: 1px 6px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  white-space: nowrap;
-}
-.trigger-badge.perUlt {
-  color: var(--warn);
-  border-color: color-mix(in srgb, var(--warn) 45%, transparent);
-}
-.trigger-badge.onEnter {
-  color: var(--good);
-  border-color: color-mix(in srgb, var(--good) 45%, transparent);
-}
-.trigger-badge.conditional {
-  color: var(--bad);
-  border-color: color-mix(in srgb, var(--bad) 45%, transparent);
-}
-
-/* 角色卡片右下角的小结：选了什么遗器 + 配速结论 */
-.pick-summary {
-  margin-top: 12px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--panel-2);
-  padding: 10px 12px;
-  font-size: 12.5px;
-}
-.pick-summary:empty {
-  display: none;
-}
-.pick-summary .ps-title {
-  color: var(--accent);
-  font-weight: 600;
-  font-size: 12px;
-  margin: 6px 0 4px;
-}
-.pick-summary .ps-title:first-child {
-  margin-top: 0;
-}
-.pick-summary .ps-row {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  padding: 3px 0;
-  flex-wrap: wrap;
-}
-.pick-summary .ps-row > span:first-child {
-  color: var(--muted);
-  flex: 0 0 92px;
-}
-.pick-summary .ps-row > b {
-  flex: 1;
-  font-weight: 500;
-  word-break: break-all;
-}
-/* 面板里直接可改的控件 */
-.pick-summary .ps-controls {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-  min-width: 0;
-}
-.pick-summary .ps-label {
-  color: var(--muted);
-  font-size: 12px;
-  white-space: nowrap;
-}
-.pick-summary .ps-check {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 12.5px;
-  white-space: nowrap;
   cursor: pointer;
+  text-align: left;
 }
-.pick-summary .ps-check input[type="checkbox"] {
-  width: 15px;
-  height: 15px;
-  accent-color: var(--accent);
-}
-.input.tiny {
-  width: 68px;
-  min-width: 68px;
-  padding: 4px 6px;
+.sp-step-head:hover { background: var(--panel-2); }
+.sp-step-no { color: var(--accent); font-size: 16px; font-weight: 700; }
+.sp-step-title { font-weight: 650; font-size: 14.5px; flex: 0 0 auto; }
+.sp-step-sum {
+  flex: 1;
+  min-width: 0;
+  color: var(--muted);
   font-size: 12.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 8px;
 }
-.pick-summary .picker-button {
-  min-width: 190px;
-  flex: 0 1 260px;
-}
-.pick-summary .ps-need {
-  color: var(--accent);
-  font-family: var(--mono);
-  font-size: 14px;
-}
-.pick-summary .ps-good {
-  color: var(--good);
-}
-.pick-summary .ps-bad {
-  color: var(--bad);
-}
+.sp-caret { color: var(--muted); font-size: 11px; transition: transform 0.15s; }
+.sp-step.collapsed .sp-caret { transform: rotate(-90deg); }
+.sp-step.collapsed .sp-step-body { display: none; }
+.sp-step-body { padding: 0 var(--card-pad) var(--card-pad); border-top: 1px solid var(--border); padding-top: var(--card-pad); }
+.sp-step-body h3 { font-size: 13px; color: var(--muted); margin: 16px 0 8px; }
 
-/* ---------------- 下拉浮层：动画 + 好看的滚动条 ---------------- */
+/* ---------- ① 角色 ---------- */
 
-@keyframes picker-pop {
-  from { opacity: 0; transform: translateY(-5px) scale(0.985); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+.sp-char-top { display: flex; gap: 16px; align-items: center; margin-bottom: 12px; }
+.sp-splash {
+  width: 112px; height: 112px; object-fit: cover; object-position: top;
+  border-radius: var(--radius); background: var(--panel-2); border: 1px solid var(--border); flex: 0 0 auto;
 }
+.sp-char-meta { min-width: 0; }
+.sp-splash-meta b { font-size: 16px; }
+.sp-search { width: 100%; margin-bottom: 8px; }
+.sp-char-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  gap: 8px;
+  max-height: 248px;
+  overflow-y: auto;
+  padding: 2px;
+}
+.sp-char {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 8px 4px; border-radius: 8px; border: 1px solid transparent;
+  background: var(--panel-2); color: var(--text); font: inherit; cursor: pointer; min-width: 0;
+}
+.sp-char:hover { border-color: var(--border); background: color-mix(in srgb, var(--panel-2) 70%, var(--accent) 6%); }
+.sp-char.active { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, var(--panel-2)); }
+.sp-char img, .sp-char .sp-noimg, .sp-custom-icon { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; background: var(--bg); }
+.sp-custom-icon { display: grid; place-items: center; font-size: 22px; color: var(--accent); border: 1px dashed var(--accent); background: transparent; }
+.sp-char-name { font-size: 12px; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sp-custom { margin-top: 12px; padding: 12px; border: 1px dashed color-mix(in srgb, var(--accent) 50%, var(--border)); border-radius: 8px; }
+
+/* ---------- 效果清单 ---------- */
+
+.sp-effect-group { margin-bottom: 12px; }
+.sp-effect-group-head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.effect-list { display: flex; flex-direction: column; gap: 4px; }
+.effect-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--border);
+  font-size: 13px; margin-top: 4px;
+}
+label.effect-row { cursor: pointer; }
+.effect-row .grow { flex: 1; min-width: 0; }
+.effect-row .num { font-family: var(--mono); color: var(--accent); white-space: nowrap; }
+.effect-row.ally-only { opacity: 0.7; }
+.effect-row.ally-only .num { color: var(--muted); text-decoration: line-through; }
+.effect-row input[type="checkbox"] { flex: 0 0 auto; }
+
+.trigger-badge { display: inline-block; padding: 0 8px; border-radius: 999px; font-size: 11px; line-height: 18px; white-space: nowrap; background: color-mix(in srgb, var(--good) 18%, transparent); color: var(--good); }
+.trigger-badge.onEnter { background: color-mix(in srgb, var(--accent-2) 20%, transparent); color: var(--accent-2); }
+.trigger-badge.perUlt { background: color-mix(in srgb, var(--accent) 20%, transparent); color: var(--accent); }
+.trigger-badge.conditional { background: color-mix(in srgb, var(--warn) 18%, transparent); color: var(--warn); }
+.trigger-badge.enemy { background: color-mix(in srgb, var(--bad) 18%, transparent); color: var(--bad); }
+
+/* ---------- 右栏 ---------- */
+
+.sp-presetbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.sp-presetbar-label { font-weight: 650; font-size: 13px; }
+.sp-presetbar select { flex: 1 1 96px; min-width: 0; width: 96px; }
+.btn.small-btn { height: 28px; padding: 0 12px; font-size: 12.5px; }
+.sp-preset-note { margin: 4px 0 12px; }
+
+.sp-hero {
+  border-radius: var(--radius);
+  padding: 16px;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--accent) 10%, var(--panel-2)), var(--panel-2));
+  border: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.sp-hero.is-error { border-color: color-mix(in srgb, var(--bad) 60%, transparent); }
+.sp-hero-nums { display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+.sp-hero-num .k { color: var(--muted); font-size: 12.5px; }
+.sp-hero-num .v { font-size: clamp(28px, 2.6vw, 40px); line-height: 1.1; font-weight: 750; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.sp-hero-num .v.accent { color: var(--accent); }
+.sp-hero-vs { color: var(--muted); font-size: 22px; padding-bottom: 6px; }
+.sp-hero-gap { margin-top: 8px; font-size: 18px; font-weight: 700; }
+.sp-hero-gap.good { color: var(--good); }
+.sp-hero-gap.bad { color: var(--bad); }
+.sp-hero-sub { color: var(--muted); font-size: 12.5px; margin-top: 4px; }
+#hero-error .error-text { margin: 8px 0 0; }
+
+.sp-panel h3:first-child { margin-top: 0; }
+.sp-panel h3 { font-size: 13px; color: var(--muted); margin: 16px 0 8px; }
+.sp-panel .warnbar { margin-top: 8px; }
+
+.sp-mode-switch { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
+.sp-mode-switch .ghost.active { color: var(--text); border-color: var(--accent); }
+
+table.data td.reachable { color: var(--good); }
+table.data td.unreachable { color: var(--muted); }
+table.sp-req th, table.sp-req td { padding: 6px 8px; }
+
+.sp-timeline { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.sp-timeline li {
+  display: grid; grid-template-columns: 64px 72px 80px 1fr; gap: 8px; align-items: baseline;
+  padding: 6px 10px; background: var(--panel-2); border-radius: 8px; font-size: 13px;
+}
+.sp-timeline .num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.sp-tl-no { font-weight: 600; }
+.sp-tl-active { min-width: 0; overflow-wrap: anywhere; }
+
+/* ---------- 带图下拉 ---------- */
+
+.picker-button {
+  display: flex; align-items: center; gap: 8px; width: 100%; min-width: 180px; height: 40px;
+  padding: 0 10px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--panel-2); color: var(--text); font: inherit; cursor: pointer; text-align: left;
+}
+.picker-button:hover { border-color: var(--accent); }
+.picker-button img, .picker-button .sp-noimg { width: 28px; height: 28px; border-radius: 6px; object-fit: cover; flex: 0 0 auto; }
+.picker-button .pb-name { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.picker-button .pb-caret { color: var(--muted); font-size: 11px; }
 
 .picker-popup {
-  animation: picker-pop 130ms cubic-bezier(0.2, 0.9, 0.3, 1);
-  transform-origin: top center;
-  /* 系统默认滚动条又白又粗，统一换成跟随主题的细条 */
-  scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--muted) 45%, transparent) transparent;
+  position: fixed; z-index: 50; background: var(--panel); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45); padding: 8px;
+  animation: picker-pop 0.12s ease-out;
 }
-@media (prefers-reduced-motion: reduce) {
-  .picker-popup { animation: none; }
+.picker-popup.hidden { display: none; }
+.picker-search { width: 100%; margin-bottom: 8px; }
+.picker-list { max-height: 340px; overflow-y: auto; display: flex; flex-direction: column; gap: 2px; }
+.picker-item {
+  display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 8px; border: 0;
+  background: transparent; color: var(--text); font: inherit; font-size: 13px; cursor: pointer; text-align: left; min-width: 0;
 }
+.picker-item:hover { background: var(--panel-2); }
+.picker-item.active { background: color-mix(in srgb, var(--accent) 16%, transparent); }
+.picker-item img, .picker-item .sp-noimg { width: 32px; height: 32px; border-radius: 6px; object-fit: cover; flex: 0 0 auto; }
+.picker-item .pi-name { flex: 0 1 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 64px; }
+.picker-item .pi-meta { flex: 1 1 auto; color: var(--muted); font-size: 11.5px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+@keyframes picker-pop { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .picker-popup { animation: none; } }
 
-.picker-list {
-  scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--muted) 45%, transparent) transparent;
-}
-.picker-list::-webkit-scrollbar { width: 10px; }
-.picker-list::-webkit-scrollbar-track { background: transparent; }
-.picker-list::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--muted) 42%, transparent);
-  border-radius: 999px;
-  /* 透明边框把滑块做细，槽里留白更透气 */
-  border: 3px solid transparent;
-  background-clip: content-box;
-}
-.picker-list::-webkit-scrollbar-thumb:hover {
-  background: color-mix(in srgb, var(--accent) 65%, transparent);
-  background-clip: content-box;
-}
-.picker-list::-webkit-scrollbar-corner { background: transparent; }
+/* ---------- 窄屏：单栏（单文件网页版在手机上会用到） ---------- */
 
-/* ---------------- 小结面板：收紧一点，整体更整齐 ---------------- */
-
-.pick-summary { padding: 9px 11px; }
-.pick-summary .ps-row { padding: 2px 0; gap: 8px; }
-.pick-summary .ps-title { margin: 5px 0 3px; }
-.pick-summary .ps-row > span:first-child { flex: 0 0 86px; }
-.pick-summary .picker-button { min-width: 168px; flex: 0 1 250px; }
-.pick-summary .ps-controls { gap: 5px; }
-.pick-summary .ps-label { font-size: 11.5px; }
+@media (max-width: 1099px) {
+  .sp { grid-template-columns: minmax(0, 1fr); }
+  .sp-right { position: static; max-height: none; }
+}
+@media (pointer: coarse) {
+  .picker-item { padding: 10px 8px; }
+  .sp-char { padding: 10px 4px; }
+}
+.sp-right .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

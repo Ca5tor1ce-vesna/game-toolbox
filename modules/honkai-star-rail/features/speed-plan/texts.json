@@ -4,5 +4,21 @@
   "speed-plan.card.advance": "🌀 拉条来源",
   "speed-plan.card.targets": "📋 需求速度：各模式 × T 数 × 动数",
   "speed-plan.card.recommend": "🧠 自动推荐配装",
-  "speed-plan.card.error": "读不到数据"
+  "speed-plan.card.error": "读不到数据",
+  "speed-plan.step.character": "角色",
+  "speed-plan.step.lightcone": "光锥",
+  "speed-plan.step.relic": "遗器",
+  "speed-plan.step.bonus": "加成与拉条",
+  "speed-plan.step.target": "目标",
+  "speed-plan.custom.hint": "自定义角色没有自带的速度效果；光锥不限命途。",
+  "speed-plan.preset.title": "我的配装",
+  "speed-plan.preset.apply": "套用",
+  "speed-plan.preset.save": "保存",
+  "speed-plan.preset.delete": "删除",
+  "speed-plan.hero.current": "当前速度",
+  "speed-plan.hero.required": "需要速度",
+  "speed-plan.tab.detail": "计算明细",
+  "speed-plan.tab.timeline": "行动时间轴",
+  "speed-plan.tab.tables": "各模式需求",
+  "speed-plan.tab.recommend": "自动推荐"
 }

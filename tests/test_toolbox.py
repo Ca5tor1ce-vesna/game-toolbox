@@ -2522,9 +2522,14 @@ class TestFixesV0167Frontend(unittest.TestCase):
         self.assertNotIn("${err.message}", self.read(self.FEAT / "gacha" / "ui.js"))
 
     def test_a27_no_html_string_into_text_content(self) -> None:
+        # 0.17.0 新界面：「需要开大」提示走 innerHTML，并且名字经过 esc()；
+        # 任何 textContent 赋值都不能是带标签的字符串
+        import re
         src = self.read(self.FEAT / "speed-plan" / "ui.js")
-        block = src[src.index('"#ps-contrib",'):][:200]
-        self.assertNotIn("hint", block)
+        block = src[src.index('$("#relic-warn").innerHTML'):][:300]
+        self.assertIn("esc(", block)
+        for match in re.finditer(r"textContent\s*=\s*`([^`]*)`", src):
+            self.assertNotRegex(match.group(1), r"<[a-z]", match.group(0))
 
     def test_a28_pool_hint_keeps_error(self) -> None:
         src = self.read(self.FEAT / "gacha" / "ui.js")
