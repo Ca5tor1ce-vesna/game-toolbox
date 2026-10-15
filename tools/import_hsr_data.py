@@ -75,6 +75,10 @@ EFFECT_PATTERNS: list[tuple[str, str, int]] = [
 ALLY_HINTS = ("我方单体", "被指定的", "赐福")
 TEAM_HINTS = ("我方全体", "全体队友", "所有队友", "全体", "队友")
 SELF_HINTS = ("自身", "自己", "装备者", "本角色")
+# 作用在敌人身上的速度变化（减速 / 敌方提速）：永远不计入本角色速度
+ENEMY_HINTS = ("敌方", "敌人")
+# 只会挂在敌人身上的减益状态：文案里不写「敌方」也是敌方（银狼【缺陷】、梦应归于何处【溃败】）
+ENEMY_DEBUFF_HINTS = ("【缺陷】", "【溃败】")
 
 # 「速度提高」前面 12 个字：足够包住「得到【赐福】的我方单体施放终结技后」里的
 # 「我方单体」，又不会把前一句的无关内容卷进来。
@@ -364,7 +368,7 @@ def is_speed_noise(sentence: str) -> bool:
 
 
 def apply_of(sentence: str) -> str:
-    """这条速度效果加在谁身上：self / team / ally。
+    """这条速度效果加在谁身上：self / team / ally / enemy（敌方，不计入）。
 
     只加信息，不过滤：以前判成 team 的现在可能变成 ally（「只给队友的提速」），
     界面上会标注「仅队友」，配速时不计入本角色速度。
@@ -380,6 +384,9 @@ def apply_of(sentence: str) -> str:
     """
     subject = ""
     for match in SPEED_CLAUSE_RE.finditer(sentence or ""):
+        if _enemy_subject(sentence or "", match):
+            subject = "enemy"
+            continue
         window = (sentence or "")[max(0, match.start() - SUBJECT_WINDOW) : match.start()]
         found = ""
         for hint in ALLY_HINTS:
@@ -395,6 +402,31 @@ def apply_of(sentence: str) -> str:
         elif not subject:
             subject = "self"
     return subject or "self"
+
+
+def _enemy_subject(sentence: str, match: "re.Match[str]") -> bool:
+    """这一处速度变化是不是作用在敌人身上。
+
+    * 减速（速度降低/减少）：句中它前面最后出现的作用对象是「敌方/敌人」→ 敌方。
+      能跨逗号：「禁锢状态下，敌方目标行动延后6%，速度降低10%」。
+    * 提速：只看**同一小句**里紧挨着的主语（「敌方目标速度提高」），
+      不能跨逗号——「使装备者在消灭敌方目标后，速度提高10%」是自己提速。
+    """
+    before = sentence[: match.start()]
+    others = SELF_HINTS + ALLY_HINTS + TEAM_HINTS + ("我方",)
+    last_other = max((before.rfind(h) for h in others), default=-1)
+    if match.group(0).endswith(("降低", "减少")):
+        if any(h in sentence for h in ENEMY_DEBUFF_HINTS):
+            return True
+        last_enemy = max((before.rfind(h) for h in ENEMY_HINTS), default=-1)
+        return last_enemy > last_other
+    clause = CLAUSE_SPLIT_RE.split(before)[-1]
+    last_enemy = max((clause.rfind(h) for h in ENEMY_HINTS), default=-1)
+    last_other_c = max((clause.rfind(h) for h in others), default=-1)
+    # 「对指定敌方单体造成伤害」这类不是主语：敌方词后面紧跟的必须就是速度子句
+    return last_enemy >= 0 and last_enemy > last_other_c and clause[last_enemy:].endswith(
+        ("敌方目标", "敌方单体", "敌方全体", "敌人", "敌方目标的")
+    )
 
 
 def duration_of(sentence: str) -> int:

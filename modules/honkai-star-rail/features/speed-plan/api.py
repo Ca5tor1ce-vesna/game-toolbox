@@ -559,7 +559,9 @@ def _collect_effects(ctx, character: dict, cone: dict | None, superimpose: int,
             )
             # 星魂是你**主动选**的（我把星魂调到 2 魂，就是要它的效果），
             # 所以星魂来源的速度效果默认勾上——否则界面上选了星魂却看不到任何变化。
-            or (kind in ("pct", "flat") and (raw.get("source") or "") == "星魂"),
+            # 作用在敌人身上的（减速等）永远不默认勾
+            or (kind in ("pct", "flat") and (raw.get("source") or "") == "星魂"
+                and raw.get("apply") != "enemy"),
         }
         if kind in ("pct", "flat"):
             speed.append(entry)
@@ -1008,12 +1010,15 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
         value = float(effect["value"] or 0)
         is_team = effect["apply"] == "team"
         is_ally = effect["apply"] == "ally"
-        applied.append({**effect, "counted": True, "countedForSelf": not is_ally})
+        # apply == "enemy"（「使敌方目标速度降低」）：作用在敌人身上，勾上也绝不计入本角色
+        is_enemy = effect["apply"] == "enemy"
+        applied.append({**effect, "counted": True, "countedForSelf": not (is_ally or is_enemy)})
         label = (
             f"{effect['origin']}·{effect['name'] or ''}".strip("·")
             + TRIGGER_NOTES.get(effect.get("trigger"), "")
             + ("（全队）" if is_team else "")
             + ("（仅队友，不计入本角色）" if is_ally else "")
+            + ("（作用于敌方，不计入本角色）" if is_enemy else "")
         )
         breakdown.append(
             {
@@ -1025,7 +1030,7 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
                 "ally": is_ally,
             }
         )
-        if is_ally:
+        if is_ally or is_enemy:
             continue
         speed_mod = modifier_of(
             label=label,

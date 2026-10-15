@@ -792,7 +792,7 @@
             !CONDITION_MARKERS.some((marker) => text.indexOf(marker) !== -1)) ||
           // 星魂是用户主动选的（调到 2 魂就是要它的效果），星魂来源默认勾上；
           // 否则界面上选了星魂却看不到任何变化。与 api.py 逐位一致。
-          ((kind === "pct" || kind === "flat") && raw.source === "星魂"),
+          ((kind === "pct" || kind === "flat") && raw.source === "星魂" && raw.apply !== "enemy"),
       };
       if (kind === "pct" || kind === "flat") speed.push(entry);
       else if (kind === "advance") advance.push(entry);
@@ -1358,13 +1358,16 @@
         // 提速加在**队友**身上，不是这个角色 —— 照旧列出来让界面标注「仅队友」，
         // 但模拟内核不收，也不并进 S0。
         const isAlly = effect.apply === "ally";
-        applied.push(Object.assign({}, effect, { counted: true, countedForSelf: !isAlly }));
+        // apply == "enemy"：作用在敌人身上，勾上也绝不计入本角色
+        const isEnemy = effect.apply === "enemy";
+        applied.push(Object.assign({}, effect, { counted: true, countedForSelf: !(isAlly || isEnemy) }));
         const label =
           // 顺序不能反：先触发标注，再全队标注
           (effect.origin + "·" + (effect.name || "")).replace(/^·+/, "").replace(/·+$/, "") +
           (TRIGGER_NOTES[effect.trigger] || "") +
           (isTeam ? "（全队）" : "") +
-          (isAlly ? "（仅队友，不计入本角色）" : "");
+          (isAlly ? "（仅队友，不计入本角色）" : "") +
+          (isEnemy ? "（作用于敌方，不计入本角色）" : "");
         breakdown.push({
           label: label,
           kind: effect.kind,
@@ -1373,7 +1376,7 @@
           team: isTeam,
           ally: isAlly,
         });
-        if (isAlly) continue;
+        if (isAlly || isEnemy) continue;
         const speedMod = modifierOf({
           label: label,
           kind: effect.kind,

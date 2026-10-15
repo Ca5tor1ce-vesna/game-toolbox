@@ -2243,12 +2243,13 @@ class TestFixesV0167SpeedPlan(unittest.TestCase):
         json.dumps(r, allow_nan=False)
 
     def test_a8_empty_enabled_effects_is_honoured(self) -> None:
-        walter = "1004"
-        default = call("speed-plan", "plan", {"characterId": walter, "target": {"t": 0, "actions": 2}})
-        none = call("speed-plan", "plan", {"characterId": walter, "enabledEffects": [], "target": {"t": 0, "actions": 2}})
+        march = "1224"  # 三月七：有默认勾选的常驻自身提速
+        default = call("speed-plan", "plan", {"characterId": march, "target": {"t": 0, "actions": 2}})
+        none = call("speed-plan", "plan", {"characterId": march, "enabledEffects": [], "target": {"t": 0, "actions": 2}})
         self.assertTrue(default["effects"]["enabled"])
         self.assertEqual(none["effects"]["enabled"], [])
-        self.assertNotEqual(none["speed"]["final"], default["speed"]["final"])
+        self.assertGreater(default["speed"]["final"], none["speed"]["final"])
+        walter = "1004"
         with self.assertRaisesRegex(ValueError, "enabledEffects"):
             call("speed-plan", "plan", {"characterId": walter, "enabledEffects": "char1#1"})
 
@@ -2577,6 +2578,64 @@ class TestFixesV0167Packaging(unittest.TestCase):
 
     def test_a32_no_stale_version_fallback(self) -> None:
         self.assertNotIn('"0.16.2"', (ROOT / "tools/make_source_package.py").read_text(encoding="utf-8"))
+
+
+
+class TestEnemyEffects(unittest.TestCase):
+    """0.17.0：作用在敌方身上的速度效果（减速/缺陷/溃败）绝不计入本角色速度。"""
+
+    def ids_and_speed(self, cid, enabled, **kw):
+        r = call("speed-plan", "plan", {"characterId": cid, "enabledEffects": enabled, "eidolon": 6, **kw})
+        return r, r["speed"]["final"]
+
+    def test_enemy_effects_never_change_self_speed(self) -> None:
+        for cid in ("1004", "1002", "1006"):  # 瓦尔特 / 丹恒 / 银狼
+            probe = call("speed-plan", "plan", {"characterId": cid, "eidolon": 6})
+            enemy = [e["id"] for e in probe["effects"]["speed"] if e["apply"] == "enemy"]
+            self.assertTrue(enemy, cid)
+            for e in probe["effects"]["speed"]:
+                if e["apply"] == "enemy":
+                    self.assertFalse(e["defaultEnabled"], e["text"])
+            _, none = self.ids_and_speed(cid, [])
+            r, ticked = self.ids_and_speed(cid, enemy)
+            self.assertEqual(ticked, none, cid)
+            self.assertTrue(any("作用于敌方" in b["label"] for b in r["speed"]["breakdown"]))
+
+    def test_enemy_debuff_on_lightcone(self) -> None:
+        cone = next(c for c in call("speed-plan", "lightcones")["lightcones"] if c["name"] == "梦应归于何处")
+        char = next(c for c in call("speed-plan", "catalog")["characters"] if c["path"] == cone["path"])
+        probe = call("speed-plan", "plan", {"characterId": char["id"], "lightconeId": cone["id"], "superimpose": 1})
+        enemy = [e["id"] for e in probe["effects"]["speed"] if e["apply"] == "enemy"]
+        self.assertTrue(enemy)
+        _, none = self.ids_and_speed(char["id"], [], lightconeId=cone["id"], superimpose=1)
+        _, ticked = self.ids_and_speed(char["id"], enemy, lightconeId=cone["id"], superimpose=1)
+        self.assertEqual(none, ticked)
+
+    def test_classifier(self) -> None:
+        sys.path.insert(0, str(ROOT / "tools"))
+        import import_hsr_data as imp
+        cases = {
+            "攻击命中时有65%的基础概率使受到攻击的敌方目标速度降低10%，持续2回合": "enemy",
+            "禁锢状态下，敌方目标行动延后6.0%，速度降低10%": "enemy",
+            "银狼能够制造：攻击力降低5.0%、防御力降低6.0%、速度降低3.0%3种【缺陷】": "enemy",
+            "【溃败】状态下目标受到装备者造成的击破伤害提高24.0%，速度降低20%，同类效果无法叠加": "enemy",
+            "使装备者的速度降低8%": "self",
+            "使装备者在消灭敌方目标后，速度提高10%，持续2回合": "self",
+            "我方目标为敌方目标添加弱点时，速度提高30%，持续2回合": "self",
+            "使希儿的速度提高25%，并对指定敌方单体造成等同于希儿180%攻击力的量子属性伤害，速度提高效果持续3回合": "self",
+            "我方全体速度提高12%。": "team",
+        }
+        for text, want in cases.items():
+            self.assertEqual(imp.apply_of(text), want, text)
+
+    def test_data_tags_match_classifier(self) -> None:
+        sys.path.insert(0, str(ROOT / "tools"))
+        import import_hsr_data as imp
+        data = ROOT / "modules" / MODULE_ID / "data"
+        for name in ("characters.json", "lightcones.json", "relic_sets.json"):
+            for item in json.loads((data / name).read_text(encoding="utf-8")):
+                for e in item.get("effects") or []:
+                    self.assertEqual(e.get("apply") or "self", imp.apply_of(e.get("text") or ""), (item["name"], e["text"]))
 
 
 if __name__ == "__main__":

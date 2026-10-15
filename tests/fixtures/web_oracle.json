@@ -1588,9 +1588,9 @@
     "baseRaw": 107.0,
     "traceSpeed": 0.0,
     "traceSpeedPct": 0.0,
-    "pct": 19.5,
+    "pct": 30.0,
     "flat": 25.0,
-    "final": 152.865
+    "final": 164.1
    },
    "advance": {
     "total": 0.0,
@@ -1602,8 +1602,8 @@
     "actions": 2,
     "totalAV": 150.0,
     "requiredSpeed": 133.333333,
-    "currentSpeed": 152.865,
-    "gap": -19.531667,
+    "currentSpeed": 164.1,
+    "gap": -30.766667,
     "achievableActions": 2
    },
    "relicSetCount": 0,
@@ -1613,17 +1613,17 @@
      "id": "char0#0",
      "kind": "pct",
      "value": -3.0,
-     "apply": "self",
+     "apply": "enemy",
      "trigger": "passive",
-     "defaultEnabled": true
+     "defaultEnabled": false
     },
     {
      "id": "char2#2",
      "kind": "pct",
      "value": -7.5,
-     "apply": "self",
+     "apply": "enemy",
      "trigger": "passive",
-     "defaultEnabled": true
+     "defaultEnabled": false
     },
     {
      "id": "cone3#3",
@@ -3218,7 +3218,7 @@
      "id": "char0#0",
      "kind": "pct",
      "value": -10.0,
-     "apply": "self",
+     "apply": "enemy",
      "trigger": "conditional",
      "defaultEnabled": false
     },
@@ -3226,25 +3226,25 @@
      "id": "char1#1",
      "kind": "pct",
      "value": -10.0,
-     "apply": "self",
+     "apply": "enemy",
      "trigger": "passive",
-     "defaultEnabled": true
+     "defaultEnabled": false
     },
     {
      "id": "char2#2",
      "kind": "pct",
      "value": -5.0,
-     "apply": "self",
+     "apply": "enemy",
      "trigger": "passive",
-     "defaultEnabled": true
+     "defaultEnabled": false
     },
     {
      "id": "char3#3",
      "kind": "pct",
      "value": -10.0,
-     "apply": "self",
+     "apply": "enemy",
      "trigger": "passive",
-     "defaultEnabled": true
+     "defaultEnabled": false
     }
    ]
   },
