@@ -2765,6 +2765,85 @@ class TestGreenPackage(unittest.TestCase):
         self.assertIn("游戏工具箱.exe", html)
         self.assertIn("userdata", html)
 
+# ---------------- 低配通关记录（herta/records） ----------------
+
+HERTA_SAMPLE = {
+    "source": "https://theherta.com/archive", "collected_at": "2026-10-15 16:28 UTC+8", "selection_rule": "x",
+    "targets": [{"mode": "混沌回忆", "season": "4.5", "stage": "关卡", "category": "0轮次", "total_runs": 3,
+                 "records": [{"group": "爻光", "runs_in_group": 1, "tag": "0轮次", "cycle": "0", "ltd": 1, "std": 0,
+                              "date": "2026-10-01 00:00",
+                              "lineup": [{"name": "爻光", "eidolon": 0, "superimposition": 5}]}]}],
+}
+
+
+class TestHertaRecords(unittest.TestCase):
+    def setUp(self) -> None:
+        self.ctx = feature_api.CONTEXTS[("herta", "records")]
+        self.mod = sys.modules[feature_api.HANDLERS[("herta", "records")]["load"].__module__]
+        path = self.ctx.user_path(self.mod.CACHE)
+        if path.exists():
+            path.unlink()
+        self.body = json.dumps(HERTA_SAMPLE, ensure_ascii=False).encode("utf-8")
+        self.sha = hashlib.sha256(self.body).hexdigest()
+
+    def fake(self, good: set[str], bad_sha: set[str] = frozenset()):
+        calls = []
+
+        def fetch(url, timeout):
+            calls.append(url)
+            name = next(m["name"] for m in self.mod.MIRRORS if url.startswith(m["base"]))
+            if name not in good:
+                raise OSError("down")
+            if url.endswith(".sha256"):
+                return (("0" * 64) if name in bad_sha else self.sha).encode() + b"  latest.json\n"
+            return self.body
+        return fetch, calls
+
+    def test_mirror_list_covers_required_hosts(self) -> None:
+        bases = " ".join(m["base"] for m in self.mod.MIRRORS)
+        for host in ("raw.githubusercontent.com", "cdn.jsdelivr.net/gh/Ca5tor1ce-vesna/herta-data@main",
+                     "fastly.jsdelivr.net", "gcore.jsdelivr.net", "ghfast.top/https://", "gh-proxy.com/https://"):
+            self.assertIn(host, bases)
+        self.assertEqual(self.mod.MIRRORS[0]["name"], "GitHub Raw")
+
+    def test_first_working_mirror_wins_and_checksum_mismatch_skipped(self) -> None:
+        fetch, _ = self.fake({"jsDelivr", "ghfast.top"}, bad_sha={"jsDelivr"})
+        result = self.mod.load({"refresh": True}, self.ctx, fetch)
+        self.assertEqual(result["mirror"], "ghfast.top")
+        self.assertFalse(result["offline"])
+        self.assertEqual(result["sha256"], self.sha)
+        self.assertEqual([a["ok"] for a in result["attempts"]], [False, False, False, False, True])
+        self.assertIn("校验不一致", result["attempts"][1]["error"])
+
+    def test_cache_then_offline_fallback(self) -> None:
+        fetch, _ = self.fake({"GitHub Raw"})
+        self.mod.load({"refresh": True}, self.ctx, fetch)
+        fetch2, calls = self.fake(set())
+        fresh = self.mod.load({}, self.ctx, fetch2)
+        self.assertTrue(fresh["from_cache"])
+        self.assertEqual(calls, [])  # 缓存新鲜不联网
+        offline = self.mod.load({"refresh": True}, self.ctx, fetch2)
+        self.assertTrue(offline["offline"])
+        self.assertIn("离线", offline["note"])
+        self.assertEqual(offline["data"]["targets"][0]["stage"], "关卡")
+
+    def test_no_mirror_no_cache_raises(self) -> None:
+        fetch, _ = self.fake(set())
+        with self.assertRaises(ValueError):
+            self.mod.load({"refresh": True}, self.ctx, fetch)
+
+    def test_bad_structure_rejected(self) -> None:
+        with self.assertRaises(ValueError):
+            self.mod.validate({"targets": [{"mode": "未知", "records": []}]})
+
+    def test_web_port_matches(self) -> None:
+        node = shutil.which("node")
+        if not node:
+            self.skipTest("没有 node")
+        import subprocess
+        proc = subprocess.run([node, str(ROOT / "tools" / "check_herta_web.mjs")], capture_output=True, text=True)
+        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

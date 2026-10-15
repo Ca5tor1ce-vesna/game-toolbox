@@ -1,0 +1,262 @@
+/* 低配通关记录样式：仅 .hr- 前缀选择器，颜色/圆角等取宿主 CSS 变量 */
+
+.hr-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hr-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+
+.hr-tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.hr-tab {
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  padding: 8px 14px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.hr-tab.is-active {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+  font-weight: 600;
+}
+
+.hr-season {
+  margin-left: 6px;
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--panel-2);
+  color: var(--muted);
+}
+
+.hr-tools {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.hr-search {
+  width: 200px;
+  padding: 6px 10px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+}
+
+.hr-refresh {
+  padding: 6px 14px;
+  background: var(--accent);
+  color: #1a1300;
+  border: 0;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.hr-refresh:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.hr-status {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.hr-status.is-ok {
+  color: var(--good);
+}
+
+.hr-status.is-offline {
+  color: var(--warn);
+}
+
+.hr-stagebar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.hr-label {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.hr-stage {
+  padding: 6px 10px;
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  min-width: 220px;
+}
+
+.hr-chip {
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: rgba(232, 184, 75, 0.15);
+  color: var(--accent);
+  border: 1px solid rgba(232, 184, 75, 0.4);
+  font-size: 13px;
+}
+
+.hr-meta {
+  color: var(--muted);
+  font-size: 12px;
+  margin-left: auto;
+}
+
+.hr-note {
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  background: rgba(251, 191, 36, 0.1);
+  color: var(--warn);
+  font-size: 13px;
+}
+
+.hr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
+}
+
+.hr-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hr-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.hr-group {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.hr-runs {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.hr-lineup {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.hr-char {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 2px;
+  border-radius: 8px;
+  background: var(--panel-2);
+  min-width: 0;
+}
+
+.hr-char.is-match {
+  outline: 2px solid var(--accent);
+}
+
+.hr-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--border);
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.hr-name {
+  font-size: 12px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hr-cons {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 0 6px;
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--muted);
+}
+
+.hr-cons.is-up {
+  color: var(--accent);
+}
+
+.hr-stats {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.hr-pill {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--panel-2);
+  color: var(--text);
+}
+
+.hr-ltd {
+  color: #f0abfc;
+}
+
+.hr-std {
+  color: #93c5fd;
+}
+
+.hr-date {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: right;
+}
+
+.hr-empty {
+  padding: 40px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.hr-footer {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
