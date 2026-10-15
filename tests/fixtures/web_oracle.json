@@ -2378,7 +2378,7 @@
     "achievedActions": 2,
     "completedActions": 2,
     "notes": [
-     "第 0 次行动后开大，「骇域漫游的信使·4件套（开大触发，按一次计入）」从第 1 次行动起生效，持续 1 次行动（第 2 次行动起失效）"
+     "进战即开大，「骇域漫游的信使·4件套（开大触发，按一次计入）」从第 1 次行动起生效，持续 1 次行动（第 2 次行动起失效）"
     ],
     "timeline": [
      {
@@ -3345,6 +3345,200 @@
      "defaultEnabled": false
     }
    ]
+  },
+  {
+   "label": "0.17.0·自定义角色 基础100 行迹5",
+   "payload": {
+    "characterId": "__custom__",
+    "customCharacter": {
+     "name": "测试",
+     "baseSpeed": 100,
+     "traceSpeed": 5
+    },
+    "relic": {
+     "speedBoots": true
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 2
+    }
+   },
+   "speed": {
+    "base": 105.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 5.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 25.0,
+    "final": 130.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 2,
+    "totalAV": 150.0,
+    "requiredSpeed": 133.333333,
+    "currentSpeed": 130.0,
+    "gap": 3.333333,
+    "achievableActions": 1
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": []
+  },
+  {
+   "label": "0.17.0·自定义角色+任意命途光锥",
+   "payload": {
+    "characterId": "__custom__",
+    "customCharacter": {
+     "baseSpeed": 120
+    },
+    "lightconeId": "23054",
+    "superimpose": 1,
+    "relic": {},
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 1,
+     "actions": 3
+    }
+   },
+   "speed": {
+    "base": 120.0,
+    "baseRaw": 120.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 18.0,
+    "flat": 0.0,
+    "final": 141.6
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 1,
+    "actions": 3,
+    "totalAV": 250.0,
+    "requiredSpeed": 120.0,
+    "currentSpeed": 141.6,
+    "gap": -21.6,
+    "achievableActions": 3
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": [
+    {
+     "id": "cone0#0",
+     "kind": "pct",
+     "value": 18.0,
+     "apply": "self",
+     "trigger": "passive",
+     "defaultEnabled": true
+    }
+   ]
+  },
+  {
+   "label": "0.17.0·信使 进战即开大（firstUltAction=0）+自定义角色",
+   "payload": {
+    "characterId": "__custom__",
+    "customCharacter": {
+     "baseSpeed": 110
+    },
+    "relic": {
+     "speedBoots": true,
+     "fourPieceId": "114",
+     "fourPieceUlts": 2,
+     "ultTargetsAlly": true
+    },
+    "advance": {},
+    "simulation": {
+     "firstUltAction": 0
+    },
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 3
+    }
+   },
+   "speed": {
+    "base": 110.0,
+    "baseRaw": 110.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 6.0,
+    "flat": 25.0,
+    "final": 141.6
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 3,
+    "totalAV": 150.0,
+    "requiredSpeed": 195.789257,
+    "currentSpeed": 141.6,
+    "gap": 54.189257,
+    "achievableActions": 2
+   },
+   "relicSetCount": 1,
+   "warningCount": 0,
+   "effects": [],
+   "simulation": {
+    "firstUltAction": 0,
+    "windowAV": 150.0,
+    "achievedActions": 2,
+    "completedActions": 2,
+    "notes": [
+     "进战即开大，「骇域漫游的信使·4件套（开大触发，按一次计入）」从第 1 次行动起生效，持续 1 次行动（第 2 次行动起失效）"
+    ],
+    "timeline": [
+     {
+      "action": 1,
+      "speed": 154.8,
+      "av": 0.0,
+      "pct": 18.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套",
+       "骇域漫游的信使·4件套（开大触发，按一次计入）"
+      ]
+     },
+     {
+      "action": 2,
+      "speed": 141.6,
+      "av": 64.599483,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     },
+     {
+      "action": 3,
+      "speed": 141.6,
+      "av": 135.220952,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     }
+    ]
+   }
   }
  ],
  "recommends": [
@@ -3360,7 +3554,7 @@
    },
    "assumptions": {
     "speedBoots": true,
-    "superimpose": 5,
+    "superimpose": 1,
     "coneUlts": 1.0,
     "fourPieceUlts": 1.0,
     "excludeLastUlt": false
@@ -3375,10 +3569,10 @@
      "ornamentIds": [
       "308"
      ],
-     "speed": 155.0,
+     "speed": 143.0,
      "advance": 65.0,
      "required": 156.666667,
-     "neededSubstatSpeed": 1.666667,
+     "neededSubstatSpeed": 13.666667,
      "ok": false
     },
     {
@@ -3386,34 +3580,6 @@
      "coneName": "谎言在风中飘扬",
      "fourPieceId": "125",
      "fourPieceName": "烈阳惊雷的女武神",
-     "ornamentIds": [
-      "308"
-     ],
-     "speed": 167.0,
-     "advance": 40.0,
-     "required": 173.333333,
-     "neededSubstatSpeed": 6.333333,
-     "ok": false
-    },
-    {
-     "coneId": "23043",
-     "coneName": "谎言在风中飘扬",
-     "fourPieceId": "130",
-     "fourPieceName": "应天涉远的卜者",
-     "ornamentIds": [
-      "308"
-     ],
-     "speed": 161.0,
-     "advance": 40.0,
-     "required": 173.333333,
-     "neededSubstatSpeed": 12.333333,
-     "ok": false
-    },
-    {
-     "coneId": "23043",
-     "coneName": "谎言在风中飘扬",
-     "fourPieceId": null,
-     "fourPieceName": "（不指定）",
      "ornamentIds": [
       "308"
      ],
@@ -3426,15 +3592,43 @@
     {
      "coneId": "23043",
      "coneName": "谎言在风中飘扬",
+     "fourPieceId": "130",
+     "fourPieceName": "应天涉远的卜者",
+     "ornamentIds": [
+      "308"
+     ],
+     "speed": 149.0,
+     "advance": 40.0,
+     "required": 173.333333,
+     "neededSubstatSpeed": 24.333333,
+     "ok": false
+    },
+    {
+     "coneId": "23043",
+     "coneName": "谎言在风中飘扬",
+     "fourPieceId": null,
+     "fourPieceName": "（不指定）",
+     "ornamentIds": [
+      "308"
+     ],
+     "speed": 143.0,
+     "advance": 40.0,
+     "required": 173.333333,
+     "neededSubstatSpeed": 30.333333,
+     "ok": false
+    },
+    {
+     "coneId": "23004",
+     "coneName": "以世界之名",
      "fourPieceId": "110",
      "fourPieceName": "晨昏交界的翔鹰",
      "ornamentIds": [
-      "323"
+      "308"
      ],
-     "speed": 163.0,
-     "advance": 25.0,
-     "required": 183.333333,
-     "neededSubstatSpeed": 20.333333,
+     "speed": 125.0,
+     "advance": 65.0,
+     "required": 156.666667,
+     "neededSubstatSpeed": 31.666667,
      "ok": false
     }
    ]
@@ -3454,7 +3648,7 @@
    },
    "assumptions": {
     "speedBoots": true,
-    "superimpose": 5,
+    "superimpose": 1,
     "coneUlts": 1.0,
     "fourPieceUlts": 1.0,
     "excludeLastUlt": true
@@ -3528,6 +3722,102 @@
      "speed": 142.6,
      "advance": 40.0,
      "required": 115.0,
+     "neededSubstatSpeed": 0.0,
+     "ok": true
+    }
+   ]
+  },
+  {
+   "label": "0.17.0·自定义角色推荐",
+   "payload": {
+    "characterId": "__custom__",
+    "customCharacter": {
+     "name": "自定义",
+     "baseSpeed": 105,
+     "traceSpeed": 0
+    },
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 2
+    }
+   },
+   "assumptions": {
+    "speedBoots": true,
+    "superimpose": 1,
+    "coneUlts": 1.0,
+    "fourPieceUlts": 1.0,
+    "excludeLastUlt": false
+   },
+   "evaluated": 7105,
+   "results": [
+    {
+     "coneId": "23033",
+     "coneName": "忍法帖•缭乱破魔",
+     "fourPieceId": "110",
+     "fourPieceName": "晨昏交界的翔鹰",
+     "ornamentIds": [
+      "308"
+     ],
+     "speed": 130.0,
+     "advance": 115.0,
+     "required": 56.666667,
+     "neededSubstatSpeed": 0.0,
+     "ok": true
+    },
+    {
+     "coneId": "23063",
+     "coneName": "你将起身歌唱",
+     "fourPieceId": "110",
+     "fourPieceName": "晨昏交界的翔鹰",
+     "ornamentIds": [
+      "308"
+     ],
+     "speed": 151.0,
+     "advance": 95.0,
+     "required": 70.0,
+     "neededSubstatSpeed": 0.0,
+     "ok": true
+    },
+    {
+     "coneId": "23033",
+     "coneName": "忍法帖•缭乱破魔",
+     "fourPieceId": null,
+     "fourPieceName": "（不指定）",
+     "ornamentIds": [
+      "308"
+     ],
+     "speed": 130.0,
+     "advance": 90.0,
+     "required": 73.333333,
+     "neededSubstatSpeed": 0.0,
+     "ok": true
+    },
+    {
+     "coneId": "23033",
+     "coneName": "忍法帖•缭乱破魔",
+     "fourPieceId": "124",
+     "fourPieceName": "哀歌覆国的诗人",
+     "ornamentIds": [
+      "308"
+     ],
+     "speed": 121.6,
+     "advance": 90.0,
+     "required": 73.333333,
+     "neededSubstatSpeed": 0.0,
+     "ok": true
+    },
+    {
+     "coneId": "23033",
+     "coneName": "忍法帖•缭乱破魔",
+     "fourPieceId": "130",
+     "fourPieceName": "应天涉远的卜者",
+     "ornamentIds": [
+      "308"
+     ],
+     "speed": 136.3,
+     "advance": 90.0,
+     "required": 73.333333,
      "neededSubstatSpeed": 0.0,
      "ok": true
     }

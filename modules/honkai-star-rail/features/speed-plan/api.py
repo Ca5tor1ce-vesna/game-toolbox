@@ -120,6 +120,50 @@ def _num(payload: dict[str, Any], key: str, default: float = 0.0) -> float:
     return number
 
 
+CUSTOM_ID = "__custom__"
+CUSTOM_NAME_MAX = 20
+
+
+def _custom_character(payload: dict[str, Any]) -> dict[str, Any]:
+    """「自定义角色」：只给名字 / 基础速度 / 行迹速度，没有任何角色自带效果、不限命途。"""
+    raw = payload.get("customCharacter")
+    if not isinstance(raw, dict):
+        raise ValueError("自定义角色需要 customCharacter 对象")
+    name = raw.get("name")
+    if name is not None and not isinstance(name, str):
+        raise ValueError("自定义角色名字需要是文字")
+    name = (name or "").strip() or "自定义角色"
+    if len(name) > CUSTOM_NAME_MAX:
+        raise ValueError(f"自定义角色名字最多 {CUSTOM_NAME_MAX} 个字")
+    base = _num(raw, "baseSpeed", 0)
+    if not 1 <= base <= 1000:
+        raise ValueError(f"参数 customCharacter.baseSpeed 需要在 1–1000 之间，收到 {base:g}")
+    trace = _num(raw, "traceSpeed", 0)
+    if not 0 <= trace <= 200:
+        raise ValueError(f"参数 customCharacter.traceSpeed 需要在 0–200 之间，收到 {trace:g}")
+    return {
+        "id": CUSTOM_ID,
+        "name": name,
+        "baseSpeed": base,
+        "traceSpeed": trace,
+        "path": None,
+        "pathName": "自定义",
+        "elementName": None,
+        "rarity": None,
+        "effects": [],
+        "custom": True,
+    }
+
+
+def _resolve_character(payload: dict[str, Any], ctx) -> dict[str, Any]:
+    if _id_str(payload.get("characterId")) == CUSTOM_ID:
+        return _custom_character(payload)
+    character = _find(_characters(ctx), payload.get("characterId"))
+    if character is None:
+        raise ValueError(f"找不到角色 {payload.get('characterId')!r}")
+    return character
+
+
 def _check_target(actions: int, window_av: float) -> None:
     if actions > SIM_MAX_ACTIONS:
         raise ValueError(f"目标动数最多 {SIM_MAX_ACTIONS}，收到 {actions}")
@@ -447,7 +491,8 @@ def _simulation_notes(modifiers: list[dict], first_ult_action: int) -> list[str]
                 if duration > 0
                 else "，一直有效到窗口结束"
             )
-            notes.append(f"第 {first_ult_action or 0} 次行动后开大，「{label}」从第 {begin} 次行动起生效{tail}")
+            when = "进战即开大" if not first_ult_action else f"第 {first_ult_action} 次行动后开大"
+            notes.append(f"{when}，「{label}」从第 {begin} 次行动起生效{tail}")
         elif semantics == "stack":
             notes.append(
                 f"「{label}」每次行动叠 1 层，最多 {item.get('maxStacks')} 层"
@@ -711,10 +756,7 @@ def lightcones(payload: dict[str, Any], ctx) -> dict[str, Any]:
 @api("plan")
 def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
     """算实际速度 + 各模式各 T 数各动数的需求速度。"""
-    characters = _characters(ctx)
-    character = _find(characters, payload.get("characterId"))
-    if character is None:
-        raise ValueError(f"找不到角色 {payload.get('characterId')!r}")
+    character = _resolve_character(payload, ctx)
 
     eidolon = max(0, min(int(_num(payload, "eidolon", 0)), 6))
     superimpose = max(1, min(int(_num(payload, "superimpose", 1)), 5))
@@ -1603,9 +1645,7 @@ def recommend(payload: dict[str, Any], ctx) -> dict[str, Any]:
     说明：这是**自动推荐**——在你的可选范围内算出来的最优解，不是社区主流配装表
     （那个数据源米游社详情接口拿不到，见 README）。
     """
-    character = _find(_characters(ctx), payload.get("characterId"))
-    if character is None:
-        raise ValueError(f"找不到角色 {payload.get('characterId')!r}")
+    character = _resolve_character(payload, ctx)
     base_speed = float(character.get("baseSpeed") or 0) + float(character.get("traceSpeed") or 0)
     if base_speed <= 0:
         raise ValueError(f"{character.get('name')} 没有基础速度数据")
@@ -1629,7 +1669,7 @@ def recommend(payload: dict[str, Any], ctx) -> dict[str, Any]:
 
     relic_in = payload.get("relic") or {}
     use_boots = bool(relic_in.get("speedBoots", True))
-    superimpose = max(1, min(int(_num(payload, "superimpose", 5)), 5))
+    superimpose = max(1, min(int(_num(payload, "superimpose", 1)), 5))  # 默认叠影 1（与配速页一致）
     cone_ults = max(0.0, _num(payload, "coneUlts", 1))
     four_ults = max(0.0, _num(payload, "fourPieceUlts", 1))
     limit = max(1, min(int(_num(payload, "maxResults", 10)), 30))
@@ -1639,7 +1679,9 @@ def recommend(payload: dict[str, Any], ctx) -> dict[str, Any]:
         four_ults = max(0.0, four_ults - 1)
 
     # 候选：同命途光锥（星级高、速度相关优先）
-    cones = [item for item in _lightcones(ctx) if item.get("path") == character.get("path")]
+    # 自定义角色不限命途：在全部光锥里挑
+    cones = [item for item in _lightcones(ctx)
+             if character.get("custom") or item.get("path") == character.get("path")]
     cones.sort(
         key=lambda item: (
             -(item.get("rarity") or 0),

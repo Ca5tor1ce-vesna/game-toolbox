@@ -831,7 +831,7 @@ class TestSpeedPlanRecommend(unittest.TestCase):
     def test_assumptions_and_target_are_reported(self) -> None:
         result = self.recommend(target={"t": 0, "actions": 3, "customAV": 0})
         self.assertEqual(result["assumptions"]["speedBoots"], True)
-        self.assertEqual(result["assumptions"]["superimpose"], 5)
+        self.assertEqual(result["assumptions"]["superimpose"], 1)  # 0.17.0 起默认叠影 1
         self.assertAlmostEqual(result["target"]["totalAV"], 150.0, places=6)
         self.assertEqual(result["target"]["actions"], 3)
         self.assertGreater(result["evaluated"], 100)
@@ -2636,6 +2636,77 @@ class TestEnemyEffects(unittest.TestCase):
             for item in json.loads((data / name).read_text(encoding="utf-8")):
                 for e in item.get("effects") or []:
                     self.assertEqual(e.get("apply") or "self", imp.apply_of(e.get("text") or ""), (item["name"], e["text"]))
+
+
+class TestV0170Features(unittest.TestCase):
+    """0.17.0：自定义角色 / 默认叠影 1 / 进战即开大。"""
+
+    CUSTOM = {"characterId": "__custom__", "customCharacter": {"name": "测试", "baseSpeed": 100, "traceSpeed": 5}}
+
+    def test_custom_character_plan(self) -> None:
+        r = call("speed-plan", "plan", dict(self.CUSTOM, relic={"speedBoots": True}, target={"t": 0, "actions": 2}))
+        self.assertEqual(r["character"]["id"], "__custom__")
+        self.assertEqual(r["character"]["name"], "测试")
+        self.assertAlmostEqual(r["speed"]["final"], 130.0)  # 100 + 5 + 鞋 25
+        self.assertEqual(r["effects"]["speed"], [])  # 没有角色自带效果
+        self.assertEqual(r["effects"]["advance"], [])
+
+    def test_custom_character_any_path_cone(self) -> None:
+        for cone in call("speed-plan", "lightcones")["lightcones"][:5]:
+            call("speed-plan", "plan", dict(self.CUSTOM, lightconeId=cone["id"]))
+
+    def test_custom_character_validation(self) -> None:
+        bad = [
+            ({}, "customCharacter"),
+            ({"customCharacter": {"baseSpeed": 0}}, "1–1000"),
+            ({"customCharacter": {"baseSpeed": 1000.5}}, "1–1000"),
+            ({"customCharacter": {"baseSpeed": 100, "traceSpeed": -0.1}}, "0–200"),
+            ({"customCharacter": {"baseSpeed": 100, "traceSpeed": 201}}, "0–200"),
+            ({"customCharacter": {"baseSpeed": "nan"}}, "超出范围"),
+            ({"customCharacter": {"baseSpeed": 100, "name": "字" * 21}}, "最多 20"),
+        ]
+        for extra, msg in bad:
+            with self.assertRaisesRegex(ValueError, msg):
+                call("speed-plan", "plan", {"characterId": "__custom__", **extra})
+        ok = call("speed-plan", "plan", {"characterId": "__custom__", "customCharacter": {"baseSpeed": 1000, "traceSpeed": 200}})
+        self.assertEqual(ok["character"]["name"], "自定义角色")
+
+    def test_custom_character_recommend(self) -> None:
+        r = call("speed-plan", "recommend", dict(self.CUSTOM, target={"t": 0, "actions": 2}))
+        self.assertTrue(r["results"])
+        self.assertEqual(r["character"]["id"], "__custom__")
+
+    def test_custom_character_preset_roundtrip(self) -> None:
+        cfg = {"characterId": "__custom__", "customCharacter": {"name": "存档", "baseSpeed": 111, "traceSpeed": 2}, "superimpose": 3}
+        call("speed-plan", "save_preset", {"characterId": "__custom__", "name": "存档", "config": cfg})
+        stored = call("speed-plan", "presets")["presets"]["__custom__"]
+        self.assertEqual(stored["config"], cfg)  # 原样存，叠影保留存的值
+        self.assertEqual(stored["name"], "存档")
+        call("speed-plan", "delete_preset", {"characterId": "__custom__"})
+
+    def test_superimpose_default_one(self) -> None:
+        cone = next(c for c in call("speed-plan", "lightcones")["lightcones"] if c["name"] == "舞！舞！舞！")
+        a = call("speed-plan", "plan", {"characterId": "1412", "lightconeId": cone["id"], "advance": {"coneUlts": 1}})
+        b = call("speed-plan", "plan", {"characterId": "1412", "lightconeId": cone["id"], "superimpose": 1, "advance": {"coneUlts": 1}})
+        self.assertEqual(a["advance"]["total"], b["advance"]["total"])
+        rec = call("speed-plan", "recommend", {"characterId": "1005", "target": {"t": 0, "actions": 2}})
+        self.assertEqual(rec["assumptions"]["superimpose"], 1)
+
+    def test_first_ult_action_zero(self) -> None:
+        relic = {"speedBoots": True, "fourPieceId": "114", "fourPieceUlts": 2, "ultTargetsAlly": True}
+        zero = call("speed-plan", "plan", {"characterId": "1005", "relic": relic, "simulation": {"firstUltAction": 0},
+                                           "target": {"t": 0, "actions": 3}})
+        one = call("speed-plan", "plan", {"characterId": "1005", "relic": relic, "simulation": {"firstUltAction": 1},
+                                          "target": {"t": 0, "actions": 3}})
+        tl0, tl1 = zero["simulation"]["timeline"], one["simulation"]["timeline"]
+        # 0 = 进战即开大：开大效果从第 1 次行动就生效
+        self.assertGreater(tl0[0]["speed"], tl1[0]["speed"])
+        self.assertAlmostEqual(tl0[0]["speed"], tl1[1]["speed"])
+        notes = " ".join(zero["simulation"]["notes"])
+        self.assertIn("进战即开大", notes)
+        self.assertIn("从第 1 次行动起生效", notes)
+        self.assertNotIn("第 0 次行动", notes)
+        self.assertIn("第 1 次行动后开大", " ".join(one["simulation"]["notes"]))
 
 
 if __name__ == "__main__":

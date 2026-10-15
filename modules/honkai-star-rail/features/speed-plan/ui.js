@@ -27,7 +27,7 @@ export default {
     const state = {
       characterId: catalog.characters[0]?.id || null,
       lightconeId: null,
-      superimpose: 5,
+      superimpose: 1,
       eidolon: 0,
       enabled: null, // null = 用后端的默认勾选
       relic: {
@@ -67,7 +67,7 @@ export default {
               </div>
               <div class="field"><label>叠影</label>
                 <select id="superimpose" class="input narrow">
-                  <option>1</option><option>2</option><option>3</option><option>4</option><option selected>5</option>
+                  <option selected>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
                 </select>
               </div>
               <div class="field"><label>星魂</label>
@@ -118,7 +118,7 @@ export default {
               <div class="ps-row"><span>首次开大</span>
                 <span class="ps-controls">
                   <label class="ps-label">第</label>
-                  <input id="firstUltAction-panel" class="input tiny" type="number" value="1" min="1" step="1" />
+                  <input id="firstUltAction-panel" class="input tiny" type="number" value="1" min="0" step="1" />
                   <label class="ps-label">次行动后（只影响「开大才提速」的加速，不影响拉条）</label>
                 </span></div>
               <div class="ps-row"><span>套装贡献</span><b id="ps-contrib">—</b></div>
@@ -222,7 +222,7 @@ export default {
           <div class="field"><label>光锥开大次数</label><input id="recConeUlts" class="input narrow" type="number" value="1" min="0" step="1" /></div>
           <div class="field"><label>风套开大次数</label><input id="recFourUlts" class="input narrow" type="number" value="1" min="0" step="1" /></div>
           <div class="field"><label>光锥叠影</label>
-            <select id="recS" class="input narrow"><option>1</option><option>2</option><option>3</option><option>4</option><option selected>5</option></select>
+            <select id="recS" class="input narrow"><option selected>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
           </div>
           <button id="rec-btn" class="btn">算一下哪套最省</button>
         </div>
@@ -1092,7 +1092,7 @@ export default {
       if (!saved?.config) return;
       const config = saved.config;
       state.lightconeId = config.lightconeId || "";
-      state.superimpose = config.superimpose ?? 5;
+      state.superimpose = config.superimpose ?? 1;
       state.eidolon = config.eidolon ?? 0;
       state.enabled = config.enabledEffects ?? null;
       state.relic = { ...state.relic, ...(config.relic || {}) };
@@ -1139,7 +1139,9 @@ export default {
       state.advance.custom = Number(value || 0);
     });
     root.querySelector("#firstUltAction-panel").addEventListener("input", (event) => {
-      state.simulation.firstUltAction = Math.max(1, Number(event.target.value || 1));
+      // 0 = 进战即开大（开大类效果从第 1 次行动起生效）
+      const raw = event.target.value;
+      state.simulation.firstUltAction = Math.max(0, raw === "" ? 1 : Number(raw));
       schedule();
     });
 
@@ -1155,7 +1157,7 @@ export default {
           characterId: state.characterId,
           target: state.target,
           relic: { speedBoots: state.relic.speedBoots },
-          superimpose: Number(root.querySelector("#recS").value || 5),
+          superimpose: Number(root.querySelector("#recS").value || 1),
           coneUlts: Number(root.querySelector("#recConeUlts").value || 0),
           fourPieceUlts: Number(root.querySelector("#recFourUlts").value || 0),
           // 「轴底开大」也要作用于推荐，否则推荐出来的方案套用后会变

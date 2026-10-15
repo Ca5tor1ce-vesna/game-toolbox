@@ -276,6 +276,14 @@ CONFIGS.extend([
 if DANCE:
     CONFIGS.append({"label": "0.16.7·舞舞舞 coneUlts+danceUlts 不重复", "payload": {"characterId": pick("刻律德菈"), "lightconeId": DANCE, "superimpose": 5, "relic": {}, "advance": {"danceUlts": 2, "coneUlts": 2}, "target": {"mode": "moc", "t": 0, "actions": 2}}})
 
+# ---- 0.17.0：自定义角色 / 进战即开大 ----
+CONFIGS.extend([
+    {"label": "0.17.0·自定义角色 基础100 行迹5", "payload": {"characterId": "__custom__", "customCharacter": {"name": "测试", "baseSpeed": 100, "traceSpeed": 5}, "relic": {"speedBoots": True}, "advance": {}, "target": {"mode": "moc", "t": 0, "actions": 2}}},
+    {"label": "0.17.0·自定义角色+任意命途光锥", "payload": {"characterId": "__custom__", "customCharacter": {"baseSpeed": 120}, "lightconeId": cone_id("当她决定看见"), "superimpose": 1, "relic": {}, "advance": {}, "target": {"mode": "moc", "t": 1, "actions": 3}}},
+])
+if MESSENGER:
+    CONFIGS.append({"label": "0.17.0·信使 进战即开大（firstUltAction=0）+自定义角色", "payload": {"characterId": "__custom__", "customCharacter": {"baseSpeed": 110}, "relic": {"speedBoots": True, "fourPieceId": MESSENGER, "fourPieceUlts": 2, "ultTargetsAlly": True}, "advance": {}, "simulation": {"firstUltAction": 0}, "target": {"mode": "moc", "t": 0, "actions": 3}}})
+
 oracle: list[dict] = []
 for config in CONFIGS:
     result = call("plan", config["payload"])
@@ -371,6 +379,7 @@ rec_cases = [
             "excludeLastUlt": True,
         },
     },
+    {"label": "0.17.0·自定义角色推荐", "payload": {"characterId": "__custom__", "customCharacter": {"name": "自定义", "baseSpeed": 105, "traceSpeed": 0}, "target": {"mode": "moc", "t": 0, "actions": 2}}},
 ]
 recommend_oracle: list[dict] = []
 for case in rec_cases:

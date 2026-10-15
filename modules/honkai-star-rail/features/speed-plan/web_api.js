@@ -427,6 +427,43 @@
   const MAX_WINDOW_AV = 100000.0; // 行动值节点上限
   const NUM_LIMIT = 1e9; // 数字参数绝对值上限
 
+  const CUSTOM_ID = "__custom__";
+  const CUSTOM_NAME_MAX = 20;
+
+  /** 「自定义角色」：只有名字 / 基础速度 / 行迹速度，没有角色自带效果、不限命途（对应 api.py）。 */
+  function customCharacter(p) {
+    const raw = p.customCharacter;
+    if (!isDict(raw)) throw new Error("自定义角色需要 customCharacter 对象");
+    let name = raw.name;
+    if (name !== undefined && name !== null && typeof name !== "string") {
+      throw new Error("自定义角色名字需要是文字");
+    }
+    name = (name || "").replace(/^\s+|\s+$/g, "") || "自定义角色";
+    if (Array.from(name).length > CUSTOM_NAME_MAX) {
+      throw new Error("自定义角色名字最多 " + CUSTOM_NAME_MAX + " 个字");
+    }
+    const base = num(raw, "baseSpeed", 0);
+    if (!(base >= 1 && base <= 1000)) {
+      throw new Error("参数 customCharacter.baseSpeed 需要在 1–1000 之间，收到 " + pyG(base));
+    }
+    const trace = num(raw, "traceSpeed", 0);
+    if (!(trace >= 0 && trace <= 200)) {
+      throw new Error("参数 customCharacter.traceSpeed 需要在 0–200 之间，收到 " + pyG(trace));
+    }
+    return {
+      id: CUSTOM_ID,
+      name: name,
+      baseSpeed: base,
+      traceSpeed: trace,
+      path: null,
+      pathName: "自定义",
+      elementName: null,
+      rarity: null,
+      effects: [],
+      custom: true,
+    };
+  }
+
   function checkTarget(actions, windowAv) {
     if (actions > SIM_MAX_ACTIONS) {
       throw new Error("目标动数最多 " + SIM_MAX_ACTIONS + "，收到 " + actions);
@@ -674,7 +711,8 @@
           duration > 0
             ? "，持续 " + duration + " 次行动（第 " + (begin + duration) + " 次行动起失效）"
             : "，一直有效到窗口结束";
-        notes.push("第 " + (firstUltAction || 0) + " 次行动后开大，「" + label + "」从第 " + begin + " 次行动起生效" + tail);
+        const when = !firstUltAction ? "进战即开大" : "第 " + firstUltAction + " 次行动后开大";
+        notes.push(when + "，「" + label + "」从第 " + begin + " 次行动起生效" + tail);
       } else if (semantics === "timed") {
         const duration = item.durationTurns || 0;
         notes.push(
@@ -1050,14 +1088,17 @@
       return { lightcones: out, path: path === undefined ? null : path };
     }
 
+    function resolveCharacter(p) {
+      if (pyStrNum(p.characterId) === CUSTOM_ID) return customCharacter(p);
+      const character = find(characters(), p.characterId);
+      if (character === null) throw new Error("找不到角色 " + pyRepr(p.characterId));
+      return character;
+    }
+
     /** 算实际速度 + 各模式各 T 数各动数的需求速度。 */
     function plan(payload) {
       const p = payload || {};
-      const chars = characters();
-      const character = find(chars, p.characterId);
-      if (character === null) {
-        throw new Error("找不到角色 " + pyRepr(p.characterId));
-      }
+      const character = resolveCharacter(p);
 
       const eidolon = Math.max(0, Math.min(pyInt(num(p, "eidolon", 0)), 6));
       const superimpose = Math.max(1, Math.min(pyInt(num(p, "superimpose", 1)), 5));
@@ -1935,10 +1976,7 @@
      */
     function recommend(payload) {
       const p = payload || {};
-      const character = find(characters(), p.characterId);
-      if (character === null) {
-        throw new Error("找不到角色 " + pyRepr(p.characterId));
-      }
+      const character = resolveCharacter(p);
       const baseSpeed = Number(character.baseSpeed || 0) + Number(character.traceSpeed || 0);
       if (baseSpeed <= 0) {
         throw new Error(character.name + " 没有基础速度数据");
@@ -1963,7 +2001,7 @@
 
       const relicIn = p.relic || {};
       const useBoots = pyBool(relicIn.speedBoots === undefined ? true : relicIn.speedBoots);
-      const superimpose = Math.max(1, Math.min(pyInt(num(p, "superimpose", 5)), 5));
+      const superimpose = Math.max(1, Math.min(pyInt(num(p, "superimpose", 1)), 5)); // 默认叠影 1
       let coneUlts = Math.max(0.0, num(p, "coneUlts", 1));
       let fourUlts = Math.max(0.0, num(p, "fourPieceUlts", 1));
       const limit = Math.max(1, Math.min(pyInt(num(p, "maxResults", 10)), 30));
@@ -1974,7 +2012,8 @@
       }
 
       // 候选：同命途光锥（星级高、速度相关优先）
-      let cones = lightconesData().filter((item) => item.path === character.path);
+      // 自定义角色不限命途：在全部光锥里挑
+      let cones = lightconesData().filter((item) => character.custom || item.path === character.path);
       cones = cones.slice().sort(
         cmpBy([
           (item) => -(item.rarity || 0),
