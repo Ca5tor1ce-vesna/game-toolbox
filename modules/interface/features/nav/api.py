@@ -123,12 +123,19 @@ def load(payload: dict[str, Any], ctx) -> dict[str, Any]:
 def save(payload: dict[str, Any], ctx) -> dict[str, Any]:
     """保存覆盖（清洗后落盘）。"""
     cleaned = sanitize(payload.get("overrides") or {})
-    path = config.save_overrides(cleaned)
+    # shell-overrides.json 和「文字替换」共用：只替换本功能管的键，texts 原样保留
+    with config.USERDATA_LOCK:
+        current = config.load_overrides()
+        merged = {**cleaned, **({"texts": current["texts"]} if "texts" in current else {})}
+        path = config.save_overrides(merged)
     return {"overrides": cleaned, "saved": True, "path": str(path)}
 
 
 @api("reset")
 def reset(payload: dict[str, Any], ctx) -> dict[str, Any]:
     """恢复默认：清空覆盖文件（功能名/顺序全部回到各模块自己的定义）。"""
-    path = config.save_overrides({})
+    with config.USERDATA_LOCK:
+        current = config.load_overrides()
+        kept = {"texts": current["texts"]} if "texts" in current else {}
+        path = config.save_overrides(kept)
     return {"overrides": {}, "saved": True, "path": str(path)}

@@ -87,13 +87,26 @@ class FeatureContext:
     # ---------------- 数据 ----------------
 
     @staticmethod
-    def _read_json(path: Path, default: Any = None) -> Any:
+    def _read_json(path: Path, default: Any = None, *, user: bool = False) -> Any:
+        """utf-8-sig：记事本存的带 BOM 的 JSON 也认。
+
+        user=True（userdata 下的文件）坏了就改名留档、返回默认值，功能还能用；
+        模块自带数据坏了照旧报错（那是包本身的问题）。报错里只给相对位置，不暴露绝对路径。
+        """
         try:
-            return json.loads(path.read_text(encoding="utf-8"))
+            if user:
+                with config.USERDATA_LOCK:
+                    text = path.read_text(encoding="utf-8-sig")
+            else:
+                text = path.read_text(encoding="utf-8-sig")
+            return json.loads(text)
         except FileNotFoundError:
             return default
         except Exception as exc:  # 数据坏了只该影响这一个功能，不该拖垮工具箱
-            raise ValueError(f"数据文件解析失败：{path}（{exc}）") from exc
+            if user:
+                config.quarantine(path)
+                return default
+            raise ValueError(f"数据文件解析失败：{path.parent.name}/{path.name}（{exc}）") from exc
 
     _NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]{0,80}$")
 
@@ -114,7 +127,7 @@ class FeatureContext:
     def data(self, name: str, default: Any = None) -> Any:
         """读模块数据，用户覆盖层优先（用户改过的值不会被升级覆盖回去）。"""
         base = self._read_json(self.module_data_path(name), default)
-        overlay = self._read_json(self.user_path(name), None)
+        overlay = self._read_json(self.user_path(name), None, user=True)
         return _merge(base, overlay)
 
     def raw_data(self, name: str, default: Any = None) -> Any:
@@ -122,15 +135,15 @@ class FeatureContext:
         return self._read_json(self.module_data_path(name), default)
 
     def user_data(self, name: str, default: Any = None) -> Any:
-        return self._read_json(self.user_path(name), default)
+        return self._read_json(self.user_path(name), default, user=True)
 
     def save_user_data(self, name: str, value: Any) -> str:
-        path = self.user_path(name)
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(
-            json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-        )
-        return str(path)
+        return str(config.write_json_atomic(self.user_path(name), value))
+
+    @property
+    def lock(self) -> "threading.RLock":
+        """「读 → 改 → 写」用户数据时包在 `with ctx.lock:` 里，防并发保存互相覆盖。"""
+        return config.USERDATA_LOCK
 
 
 def load_feature_api(

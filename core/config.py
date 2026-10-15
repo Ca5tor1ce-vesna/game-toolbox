@@ -10,6 +10,8 @@ import json
 import os
 import socket
 import sys
+import threading
+import time
 from pathlib import Path
 from typing import Any
 
@@ -74,7 +76,7 @@ def load() -> dict[str, Any]:
                 break
     if config_file.is_file():
         try:
-            user = json.loads(config_file.read_text(encoding="utf-8"))
+            user = json.loads(config_file.read_text(encoding="utf-8-sig"))
         except Exception:
             user = {}
         if isinstance(user, dict):
@@ -83,7 +85,87 @@ def load() -> dict[str, Any]:
                     cfg[key].update(value)
                 else:
                     cfg[key] = value
+    _coerce_types(cfg, DEFAULTS)
     return cfg
+
+
+def _coerce_types(cfg: dict[str, Any], defaults: dict[str, Any], prefix: str = "") -> None:
+    """config.json 里类型写错的项（如 "port": "8765a"）回退到默认值，不让启动崩溃。"""
+    for key, default in defaults.items():
+        if key not in cfg:
+            continue
+        value = cfg[key]
+        name = f"{prefix}{key}"
+        if isinstance(default, dict):
+            if not isinstance(value, dict):
+                cfg[key] = json.loads(json.dumps(default))
+                _warn_config(name, value)
+            else:
+                _coerce_types(value, default, prefix=f"{name}.")
+            continue
+        if isinstance(default, bool):
+            if not isinstance(value, bool):
+                cfg[key] = default
+                _warn_config(name, value)
+            continue
+        if isinstance(default, (int, float)):
+            try:
+                if isinstance(value, bool):
+                    raise ValueError
+                number = float(value)
+                if number != number or number in (float("inf"), float("-inf")):
+                    raise ValueError
+            except (TypeError, ValueError):
+                cfg[key] = default
+                _warn_config(name, value)
+                continue
+            cfg[key] = int(number) if isinstance(default, int) and number.is_integer() else number
+            continue
+        if isinstance(default, str) and not isinstance(value, str):
+            cfg[key] = default
+            _warn_config(name, value)
+
+
+def _warn_config(name: str, value: Any) -> None:
+    print(f"[工具箱] config.json 里的 {name} = {value!r} 类型不对，已改用默认值。", file=sys.stderr)
+
+
+# 用户数据（userdata/ 下的 JSON、shell-overrides.json）的进程内锁：
+# 服务是多线程的，「读 → 改 → 写」必须整体串行，否则并发保存会互相覆盖。
+USERDATA_LOCK = threading.RLock()
+
+
+def write_json_atomic(path: Path, data: Any) -> Path:
+    """先写临时文件再原子替换：写到一半崩了/并发写也不会留下半截 JSON。"""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    text = json.dumps(data, ensure_ascii=False, indent=2) + "\n"
+    with USERDATA_LOCK:
+        tmp = path.with_name(f".{path.name}.{os.getpid()}.{threading.get_ident()}.tmp")
+        tmp.write_text(text, encoding="utf-8")
+        for attempt in range(10):
+            try:
+                os.replace(tmp, path)
+                break
+            except PermissionError:
+                # Windows：目标文件正被杀毒/索引短暂占用，稍等重试
+                if attempt == 9:
+                    tmp.unlink(missing_ok=True)
+                    raise
+                time.sleep(0.05)
+    return path
+
+
+def quarantine(path: Path) -> Path | None:
+    """坏掉的用户数据文件改名留档（不删），让功能可以用默认值继续工作。"""
+    stamp = time.strftime("%Y%m%d-%H%M%S")
+    target = path.with_name(f"{path.stem}.corrupt-{stamp}{path.suffix}")
+    try:
+        with USERDATA_LOCK:
+            os.replace(path, target)
+    except OSError:
+        return None
+    print(f"[工具箱] 用户数据 {path.name} 已损坏，已改名为 {target.name}，改用默认值。", file=sys.stderr)
+    return target
 
 
 def save(cfg: dict[str, Any]) -> Path:
@@ -114,21 +196,18 @@ def ensure_dirs() -> None:
 
 def load_overrides() -> dict[str, Any]:
     """读外壳覆盖（功能改名/隐藏/排序）。文件坏了就当没有，不影响启动。"""
-    if not OVERRIDES_PATH.is_file():
-        return {}
-    try:
-        data = json.loads(OVERRIDES_PATH.read_text(encoding="utf-8"))
-    except Exception:
-        return {}
+    with USERDATA_LOCK:
+        if not OVERRIDES_PATH.is_file():
+            return {}
+        try:
+            data = json.loads(OVERRIDES_PATH.read_text(encoding="utf-8-sig"))
+        except Exception:
+            return {}
     return data if isinstance(data, dict) else {}
 
 
 def save_overrides(data: dict[str, Any]) -> Path:
-    OVERRIDES_PATH.parent.mkdir(parents=True, exist_ok=True)
-    OVERRIDES_PATH.write_text(
-        json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
-    return OVERRIDES_PATH
+    return write_json_atomic(OVERRIDES_PATH, data)
 
 
 def port_available(host: str, port: int) -> bool:

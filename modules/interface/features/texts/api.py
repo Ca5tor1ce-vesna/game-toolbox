@@ -65,19 +65,21 @@ def save(payload: dict[str, Any], ctx) -> dict[str, Any]:
             text = _clean(value)
             if text and text != catalog[key]:  # 和默认一样就不必存
                 cleaned[key] = text
-    overrides = config.load_overrides()
-    if cleaned:
-        overrides["texts"] = cleaned
-    else:
-        overrides.pop("texts", None)
-    path = config.save_overrides(overrides)
+    with config.USERDATA_LOCK:
+        overrides = config.load_overrides()
+        if cleaned:
+            overrides["texts"] = cleaned
+        else:
+            overrides.pop("texts", None)
+        path = config.save_overrides(overrides)
     return {"texts": cleaned, "saved": True, "path": str(path)}
 
 
 @api("reset")
 def reset(payload: dict[str, Any], ctx) -> dict[str, Any]:
     """只清掉文字替换，保留功能改名/隐藏/排序。"""
-    overrides = config.load_overrides()
-    overrides.pop("texts", None)
-    path = config.save_overrides(overrides)
+    with config.USERDATA_LOCK:
+        overrides = config.load_overrides()
+        overrides.pop("texts", None)
+        path = config.save_overrides(overrides)
     return {"texts": {}, "saved": True, "path": str(path)}

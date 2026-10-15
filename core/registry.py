@@ -105,8 +105,17 @@ class Module:
         }
 
 
+def _order(value: Any, errors: list[dict[str, Any]], where: Path) -> int:
+    """order 写错（如 "top"）只记一条警告、按 100 排，不能让整个扫描失败。"""
+    try:
+        return int(value or 100)
+    except (TypeError, ValueError):
+        errors.append({"scope": where.name, "error": f"order 需要是整数，收到 {value!r}，按 100 处理"})
+        return 100
+
+
 def _read_json(path: Path) -> dict[str, Any]:
-    data = json.loads(path.read_text(encoding="utf-8"))
+    data = json.loads(path.read_text(encoding="utf-8-sig"))
     if not isinstance(data, dict):
         raise ValueError(f"{path.name} 的顶层必须是一个 JSON 对象")
     return data
@@ -151,7 +160,7 @@ def _scan_features(module: Module, errors: list[dict[str, Any]]) -> None:
             icon=str(meta.get("icon") or "•"),
             description=str(meta.get("description") or ""),
             tags=[str(t) for t in raw_tags] if isinstance(raw_tags, list) else [],
-            order=int(meta.get("order") or 100),
+            order=_order(meta.get("order"), errors, fdir),
             ui_file=str(meta.get("ui") or "ui.js"),
             api_file=str(meta.get("api") or "api.py"),
             dir=fdir,

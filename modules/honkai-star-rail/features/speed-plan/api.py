@@ -1511,22 +1511,24 @@ def save_preset(payload: dict[str, Any], ctx) -> dict[str, Any]:
 
     characters = _characters(ctx)
     character = _find(characters, character_id)
-    store = _preset_store(ctx)
-    store[character_id] = {
-        "name": str(payload.get("name") or (character or {}).get("name") or character_id),
-        "savedAt": datetime.now().strftime("%Y-%m-%d %H:%M"),
-        "config": config,
-    }
-    path = ctx.save_user_data(PRESET_KEY, store)
+    with ctx.lock:  # 读 → 改 → 写 整体串行，并发保存不会互相覆盖
+        store = _preset_store(ctx)
+        store[character_id] = {
+            "name": str(payload.get("name") or (character or {}).get("name") or character_id),
+            "savedAt": datetime.now().strftime("%Y-%m-%d %H:%M"),
+            "config": config,
+        }
+        path = ctx.save_user_data(PRESET_KEY, store)
     return {"saved": character_id, "count": len(store), "path": path}
 
 
 @api("delete_preset")
 def delete_preset(payload: dict[str, Any], ctx) -> dict[str, Any]:
     character_id = str(payload.get("characterId") or "").strip()
-    store = _preset_store(ctx)
-    store.pop(character_id, None)
-    ctx.save_user_data(PRESET_KEY, store)
+    with ctx.lock:
+        store = _preset_store(ctx)
+        store.pop(character_id, None)
+        ctx.save_user_data(PRESET_KEY, store)
     return {"deleted": character_id, "count": len(store)}
 
 
