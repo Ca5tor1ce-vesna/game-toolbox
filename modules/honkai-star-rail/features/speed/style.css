@@ -3,3 +3,7 @@
 #units-table input.input { min-width: 64px; }
 #units-table select.input { min-width: 72px; }
 #threshold-result .stat-grid { margin-top: 12px; }
+
+/* U5：表格列多时只在表格内部横向滚动，不再把整个内容区撑宽 */
+#table-result, #threshold-result { overflow-x: auto; max-width: 100%; }
+#units-table { display: block; overflow-x: auto; max-width: 100%; }

@@ -69,15 +69,15 @@ DEFAULTS: dict[str, Any] = {
         "bad": "#f87171",
     },
     "fonts": {
-        "sans": '"Microsoft YaHei UI", "Segoe UI", system-ui, sans-serif',
+        "sans": '-apple-system, "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", "Segoe UI", system-ui, sans-serif',
         "mono": '"Cascadia Mono", "JetBrains Mono", Consolas, "Courier New", monospace',
         "baseSize": 14,
         "lineHeight": 1.6,
     },
     "layout": {
         "radius": 10,
-        "sidebarWidth": 268,
-        "viewPadding": 18,
+        "sidebarWidth": 220,
+        "viewPadding": 24,
         "cardPadding": 16,
     },
     "text": {
@@ -88,7 +88,8 @@ DEFAULTS: dict[str, Any] = {
 
 # 界面上的字体候选（用户也可以直接手填）
 FONT_CHOICES: list[dict[str, str]] = [
-    {"label": "微软雅黑（默认）", "value": '"Microsoft YaHei UI", "Segoe UI", system-ui, sans-serif'},
+    {"label": "系统中文字体（默认）", "value": '-apple-system, "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", "Segoe UI", system-ui, sans-serif'},
+    {"label": "微软雅黑", "value": '"Microsoft YaHei UI", "Segoe UI", system-ui, sans-serif'},
     {"label": "思源黑体 / Noto Sans SC", "value": '"Noto Sans SC", "Source Han Sans SC", "Microsoft YaHei UI", sans-serif'},
     {"label": "系统 UI 无衬线", "value": 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'},
     {"label": "等宽（Consolas）", "value": '"Cascadia Mono", Consolas, "Courier New", monospace'},

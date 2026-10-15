@@ -214,6 +214,18 @@ function matches(module, feature, needle) {
   return haystack.includes(needle);
 }
 
+const NAV_COLLAPSE_KEY = "gt-nav-collapsed";
+const navCollapsed = new Set(
+  (() => {
+    try {
+      const v = JSON.parse(localStorage.getItem(NAV_COLLAPSE_KEY) || "[]");
+      return Array.isArray(v) ? v : [];
+    } catch {
+      return [];
+    }
+  })(),
+);
+
 function renderNav() {
   const nav = $("#nav");
   const needle = state.filter.trim().toLowerCase();
@@ -238,18 +250,22 @@ function renderNav() {
           title="${escapeHtml(f.description || f.name)}">
           <span class="icon">${escapeHtml(f.icon || "•")}</span>
           <span class="name">${escapeHtml(f.name)}</span>
-          ${f.hasApi ? '<span class="tag">API</span>' : ""}
         </button>`,
         )
         .join("");
+      // 搜索时全部展开；平时按用户上次的折叠状态
+      const collapsed = !needle && navCollapsed.has(module.id);
       return `
-        <div class="nav-module">
-          <div class="nav-module-title">
+        <div class="nav-module${collapsed ? " collapsed" : ""}" data-module-id="${escapeHtml(module.id)}">
+          <button type="button" class="nav-module-title" aria-expanded="${collapsed ? "false" : "true"}"
+            title="v${escapeHtml(module.version || "0.0.0")}">
             <span>${escapeHtml(module.icon || "🎮")}</span>
             <span>${escapeHtml(module.name)}</span>
-            <span class="ver">v${escapeHtml(module.version || "0.0.0")}</span>
-          </div>
+            <span class="caret">▾</span>
+          </button>
+          <div class="nav-items">
           ${items || '<div class="nav-empty" data-text="shell.moduleEmpty">这个模块还没有功能</div>'}
+          </div>
         </div>`;
     })
     .join("");
@@ -257,6 +273,22 @@ function renderNav() {
   nav.querySelectorAll(".nav-feature").forEach((btn) => {
     btn.addEventListener("click", () => {
       openFeature(btn.dataset.module, btn.dataset.feature);
+    });
+  });
+  nav.querySelectorAll(".nav-module-title").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const box = btn.closest(".nav-module");
+      const id = box.dataset.moduleId;
+      const nowCollapsed = !box.classList.contains("collapsed");
+      box.classList.toggle("collapsed", nowCollapsed);
+      btn.setAttribute("aria-expanded", nowCollapsed ? "false" : "true");
+      if (nowCollapsed) navCollapsed.add(id);
+      else navCollapsed.delete(id);
+      try {
+        localStorage.setItem(NAV_COLLAPSE_KEY, JSON.stringify([...navCollapsed]));
+      } catch {
+        /* 存不了就只在本次会话里记住 */
+      }
     });
   });
 }

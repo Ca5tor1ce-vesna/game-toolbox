@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>b站：@syllo椭圆</title>
     <link rel="stylesheet" href="/app/style.css" />
-  <link rel="icon" type="image/x-icon" href="/app/favicon.ico" />
-</head>
+    <link rel="icon" type="image/x-icon" href="/app/favicon.ico" />
+  </head>
   <body>
     <div id="app">
       <aside id="sidebar">
@@ -18,16 +18,7 @@
           </div>
         </div>
 
-        <div class="search-wrap">
-          <input
-            id="search"
-            type="search"
-            placeholder="搜索功能…（配速 / 抽卡 / 伤害）"
-            autocomplete="off"
-          />
-        </div>
-
-        <nav id="nav" class="nav"></nav>
+        <nav id="nav" class="nav" aria-label="功能导航"></nav>
 
         <div class="sidebar-footer">
           <button class="ghost" data-admin-only hidden data-page="guide" data-text="shell.guide">📘 扩展指南</button>
@@ -38,6 +29,10 @@
       <main id="main">
         <header id="topbar">
           <div id="crumb" class="crumb" data-text="shell.pick">选择一个功能开始</div>
+          <div class="search-wrap">
+            <input id="search" type="search" placeholder="搜索功能…（配速 / 抽卡 / 伤害）" autocomplete="off" aria-label="搜索功能" />
+            <kbd class="search-kbd">Ctrl K</kbd>
+          </div>
           <div class="topbar-actions">
             <span id="meta" class="meta"></span>
             <button id="rescan" data-text="shell.rescan" class="ghost small" title="重新扫描 modules/ 目录，加载新加的功能">↻ 重新扫描</button>
