@@ -19,6 +19,14 @@ $ErrorActionPreference = "Stop"
 $source = Split-Path -Parent $PSScriptRoot
 $exe = Join-Path $Target "GameToolbox.exe"
 
+# exe 在哪：发布包里放在根目录；在源码目录里跑时，build_exe.ps1 输出在 dist\exe\。
+# 先找到再动手（旧版先整树复制、最后才检查，必然失败还留下一堆源码）。
+$sourceExe = $null
+foreach ($candidate in @((Join-Path $source "GameToolbox.exe"), (Join-Path $source "dist\exe\GameToolbox.exe"))) {
+    if (Test-Path $candidate) { $sourceExe = $candidate; break }
+}
+if (-not $sourceExe) { throw "找不到 GameToolbox.exe：请先运行 tools\build_exe.ps1，或使用 exe 发布包" }
+
 Write-Host "  安装目录：$Target" -ForegroundColor Cyan
 
 # 1. 关掉正在跑的旧实例（按路径过滤，别误伤别的程序）
@@ -42,9 +50,12 @@ if (Test-Path $userdata) {
 
 # 3. 复制文件
 New-Item -ItemType Directory -Force -Path $Target | Out-Null
-# userdata 在 exe 旁边，不在 _internal 里。edge-profile 是本机 Edge 配置，不能装给别人。
-robocopy $source $Target /E /XD userdata edge-profile /XF "*.pyc" /NFL /NDL /NJH /NJS /NP | Out-Null
-if ($LASTEXITCODE -ge 8) { throw "复制文件失败（robocopy $LASTEXITCODE）" }
+# 单文件 exe 已经自带 app / modules / docs 和默认配置；只装 exe + 卸载脚本。
+# 不再整树复制：那样会把源码、dist\、带 admin:true 的 config.json 一起装给用户。
+Copy-Item $sourceExe $exe -Force
+Copy-Item (Join-Path $source "卸载.bat") (Join-Path $Target "卸载.bat") -Force
+New-Item -ItemType Directory -Force -Path (Join-Path $Target "tools") | Out-Null
+Copy-Item (Join-Path $source "tools\uninstall.ps1") (Join-Path $Target "tools\uninstall.ps1") -Force
 
 if ($hasBackup) {
     if (Test-Path $userdata) { Remove-Item $userdata -Recurse -Force -ErrorAction SilentlyContinue }

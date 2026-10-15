@@ -2531,5 +2531,53 @@ class TestFixesV0167Frontend(unittest.TestCase):
         self.assertIn("pool.baseRate === undefined) return;", body)
 
 
+class TestFixesV0167Packaging(unittest.TestCase):
+    """0.16.7 打包 / Windows 脚本修复的回归检查（A17-A20, A29-A34）。"""
+
+    def test_a17_a33_bom_rules(self) -> None:
+        for name in ("start.ps1", "tools/build_exe.ps1", "tools/install_exe.ps1", "tools/uninstall.ps1"):
+            data = (ROOT / name).read_bytes()
+            if any(b > 127 for b in data):
+                self.assertTrue(data.startswith(b"\xef\xbb\xbf"), f"{name} 含中文必须带 BOM")
+        for bat in list(ROOT.glob("*.bat")) + list((ROOT / "tools").glob("*.bat")):
+            self.assertFalse(bat.read_bytes().startswith(b"\xef\xbb\xbf"), f"{bat.name} 不能带 BOM")
+
+    def test_a18_no_machine_specific_paths(self) -> None:
+        for name in ("tools/build_exe.ps1", "tools/打包回传.bat"):
+            text = (ROOT / name).read_text(encoding="utf-8-sig")
+            self.assertNotIn("Administrator", text)
+            self.assertNotIn(".dsh", text)
+        self.assertIn("$PSScriptRoot", (ROOT / "tools/build_exe.ps1").read_text(encoding="utf-8"))
+
+    def test_a19_a20_install_exe_finds_exe_first_and_copies_only_exe(self) -> None:
+        text = (ROOT / "tools/install_exe.ps1").read_text(encoding="utf-8-sig")
+        self.assertNotIn("robocopy $source", text)
+        self.assertIn("dist\\exe\\GameToolbox.exe", text)
+        self.assertLess(text.index("找不到 GameToolbox.exe"), text.index("Copy-Item $sourceExe"))
+
+    def test_a34_exe_bundles_docs(self) -> None:
+        self.assertIn('--add-data "$root\\docs;docs"', (ROOT / "tools/build_exe.ps1").read_text(encoding="utf-8"))
+
+    def test_a29_source_package_has_no_duplicate_entries(self) -> None:
+        import subprocess
+        import zipfile
+        out = Path(tempfile.mkdtemp()) / "src.zip"
+        subprocess.run([sys.executable, str(ROOT / "tools" / "make_source_package.py"), "--out", str(out)],
+                       check=True, capture_output=True)
+        names = zipfile.ZipFile(out).namelist()
+        self.assertEqual(len(names), len(set(names)))
+        shutil.rmtree(out.parent, True)
+
+    def test_a30_a31_usage_text(self) -> None:
+        sys.path.insert(0, str(ROOT))
+        import make_package
+        self.assertNotIn("\\\\", make_package.USAGE)
+        self.assertIn("{test_count}", make_package.USAGE)
+        self.assertGreaterEqual(make_package.count_tests(), 180)
+
+    def test_a32_no_stale_version_fallback(self) -> None:
+        self.assertNotIn('"0.16.2"', (ROOT / "tools/make_source_package.py").read_text(encoding="utf-8"))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

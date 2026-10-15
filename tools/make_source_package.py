@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import datetime
+import sys
 import zipfile
 from pathlib import Path
 
@@ -75,6 +76,8 @@ def build(out: Path, with_userdata: bool) -> Path:
                 continue
             if any(part.startswith(".") for part in parts):
                 continue
+            if rel.as_posix() == "源码版说明.txt":
+                continue  # 上面已经写过最新的一份，再写会在 zip 里出现重名条目
             zf.write(path, str(rel))
             count += 1
     return out, count
@@ -92,7 +95,9 @@ def main() -> int:
     elif args.with_userdata:
         out = ROOT / "dist" / f"回传-{stamp}.zip"
     else:
-        version = "0.16.2"
+        # 兜底版本号直接取 core.__version__，不再手写一个会过期的常量
+        sys.path.insert(0, str(ROOT))
+        from core import __version__ as version
         init = (ROOT / "core" / "__init__.py").read_text(encoding="utf-8")
         for line in init.splitlines():
             if "__version__" in line:

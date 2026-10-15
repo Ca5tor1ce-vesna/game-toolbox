@@ -1,4 +1,4 @@
-# 游戏实用工具箱 —— Windows 启动脚本
+﻿# 游戏实用工具箱 —— Windows 启动脚本
 # 用法：start.bat（桌面窗口） / start-web.bat（仅网页） / 手机打开.bat（手机访问）
 #       自检.bat / 打包.bat
 #

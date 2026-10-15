@@ -13,6 +13,7 @@ import hashlib
 import json
 import shutil
 import sys
+import re
 import zipfile
 from datetime import datetime
 from pathlib import Path
@@ -82,21 +83,21 @@ USAGE = r"""{name} v{version} —— 使用说明
     [抽卡规划] 期望抽数 / 概率分位 / 星琼成本 / 累计概率曲线 / 参数自检
 {admin_block}
 【游戏更新了怎么更新数据】
-  python tools\\import_hsr_data.py            （联网重抓，缓存在 tools\\.cache）
-  python tools\\import_hsr_data.py --offline  （只用缓存重新生成）
+  python tools\import_hsr_data.py            （联网重抓，缓存在 tools\.cache）
+  python tools\import_hsr_data.py --offline  （只用缓存重新生成）
 
 【想验证算得对不对】
-  双击 自检.bat，会跑 142 项测试：
+  双击 自检.bat，会跑 {test_count} 项测试：
     - 配速公式对拍公开攻略里的数值（134 / 200 / 167.33 / 140.67）
     - 抽卡模型对拍官方公布的综合概率（角色池 1.600%、光锥池 1.870%）
   终端里最后显示 OK 就是全过。
   网页版与 Python 版的一致性另外对拍（需要 node）：
-    node tools\\check_web_port.mjs
+    node tools\check_web_port.mjs
   想更狠一点（用 20 万次随机模拟交叉验证解析解）：
-    在命令行里跑  python tests\\verify_gacha_montecarlo.py 200000
+    在命令行里跑  python tests\verify_gacha_montecarlo.py 200000
 
 【怎么加新功能】
-  看 docs\\EXTENDING.md，或者在程序里点左下角「扩展指南」。
+  看 docs\EXTENDING.md，或者在程序里点左下角「扩展指南」。
   最快的办法是在项目目录里跑：
     python run.py new-feature honkai-star-rail <目录名> "<显示名>"
   加完点界面右上角「重新扫描」，不用重启。
@@ -236,6 +237,12 @@ def write_zip(
     }
 
 
+def count_tests() -> int:
+    """自检的测试条数按源码现数（旧版写死 142，加了测试就对不上）。"""
+    text = (ROOT / "tests" / "test_toolbox.py").read_text(encoding="utf-8")
+    return len(re.findall(r"^    def test_", text, flags=re.M))
+
+
 def main() -> int:
     DIST_DIR.mkdir(parents=True, exist_ok=True)
     built_at = datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -251,6 +258,7 @@ def main() -> int:
             line="=" * 46,
             built_at=built_at,
             admin_block=admin_block if admin else "",
+            test_count=count_tests(),
         )
 
     print(f"打包 {PACKAGE_NAME}（用户包 + 作者包） …")
