@@ -10,5 +10,5 @@
 详见 `docs/EXTENDING.md`。
 """
 
-__version__ = "0.16.6"
+__version__ = "0.16.7"
 __toolbox_name__ = "b站：@syllo椭圆"
