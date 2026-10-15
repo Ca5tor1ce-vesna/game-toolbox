@@ -205,3 +205,14 @@ table.sp-req th, table.sp-req td { padding: 6px 8px; }
   .sp-char { padding: 10px 4px; }
 }
 .sp-right .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+/* 1100–1300px：右栏较窄，去掉箭头和配装栏标题，页签收紧，避免换行 */
+@media (max-width: 1300px) {
+  .sp-hero-vs, .sp-presetbar-label { display: none; }
+  .sp-hero-nums { gap: 24px; }
+  .sp-tabs .tab { font-size: 13px; }
+}
+
+/* 右栏四个页签等分一行，任何宽度都不换行 */
+.sp-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; }
+.sp-tabs .tab { padding: 8px 2px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
