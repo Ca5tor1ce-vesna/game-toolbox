@@ -12,7 +12,7 @@ b站：@syllo椭圆 出品的《崩坏：星穹铁道》配速工具箱。
 
 ## 下载和使用
 
-1. 到 [Releases](https://github.com/txh0058-blip/game-toolbox/releases) 下载最新的 `游戏工具箱-v版本号-绿色版.zip`。
+1. 到 [Releases](https://github.com/Ca5tor1ce-vesna/game-toolbox/releases) 下载最新的 `游戏工具箱-v版本号-绿色版.zip`。
 2. 解压到任意文件夹（路径带中文或空格也没问题）。
 3. 双击 `游戏工具箱.exe`。不用装 Python，也不用联网安装任何东西。
 
