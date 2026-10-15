@@ -6,6 +6,16 @@ const DEFAULT_UNITS = [
   { name: "花火", speed: 168, startAdvance: 0, everyNActions: 3, advancePercent: 24, advanceTarget: "all" },
 ];
 
+/** 用户输入/后端回显的文本插进 HTML 前必须转义（含引号：会进 value="…"）。 */
+function esc(text) {
+  return String(text ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function num(id, root) {
   const el = root.querySelector(id);
   return el ? Number(el.value || 0) : 0;
@@ -77,7 +87,7 @@ export default {
     try {
       info = await ctx.call("info");
     } catch (err) {
-      root.querySelector("#presets").textContent = `读不到配速常数：${err.message}`;
+      root.querySelector("#presets").textContent = `读不到配速常数：${esc(err.message)}`;
     }
     const advance = info.constants?.advance || {};
     root.querySelector("#presets").innerHTML =
@@ -119,7 +129,7 @@ export default {
         });
         const cuts = res.cuts.length
           ? `<table class="data" style="margin-top:10px"><thead><tr><th>拉条来源</th><th class="num">折算路程</th></tr></thead><tbody>${res.cuts
-              .map((c) => `<tr><td>${c.label}</td><td class="num">−${c.distance.toFixed(0)}</td></tr>`)
+              .map((c) => `<tr><td>${esc(c.label)}</td><td class="num">−${c.distance.toFixed(0)}</td></tr>`)
               .join("")}<tr><td><b>合计</b></td><td class="num"><b>−${res.cutDistance.toFixed(0)}</b></td></tr></tbody></table>`
           : "";
         box.innerHTML = `
@@ -134,7 +144,7 @@ export default {
           ${cuts}
         `;
       } catch (err) {
-        box.innerHTML = `<p class="error-text">${err.message}</p>`;
+        box.innerHTML = `<p class="error-text">${esc(err.message)}</p>`;
       }
     }
     root.querySelector("#calc").addEventListener("click", calc);
@@ -168,7 +178,7 @@ export default {
           <p class="hint">${res.note}</p>
         `;
       } catch (err) {
-        box.innerHTML = `<p class="error-text">${err.message}</p>`;
+        box.innerHTML = `<p class="error-text">${esc(err.message)}</p>`;
       }
     }
     root.querySelector("#table-btn").addEventListener("click", buildTable);
@@ -179,7 +189,7 @@ export default {
       body.innerHTML = units
         .map(
           (u, i) => `<tr data-i="${i}">
-            <td><input class="input" data-k="name" value="${u.name}" style="min-width:80px" /></td>
+            <td><input class="input" data-k="name" value="${esc(u.name)}" style="min-width:80px" /></td>
             <td><input class="input narrow" data-k="speed" type="number" value="${u.speed}" step="0.1" /></td>
             <td><input class="input narrow" data-k="startAdvance" type="number" value="${u.startAdvance}" step="1" /></td>
             <td><input class="input narrow" data-k="everyNActions" type="number" value="${u.everyNActions}" min="0" step="1" /></td>
@@ -233,7 +243,7 @@ export default {
                   .sort((a, b) => Number(a[0]) - Number(b[0]))
                   .map(([c, n]) => `第${c}轮 ${n} 次`)
                   .join("，");
-                return `<tr><td>${s.name}</td><td class="num">${s.speed}</td><td class="num">${s.baseAV.toFixed(1)}</td><td class="num">${s.actions}</td><td>${per || "—"}</td></tr>`;
+                return `<tr><td>${esc(s.name)}</td><td class="num">${s.speed}</td><td class="num">${s.baseAV.toFixed(1)}</td><td class="num">${s.actions}</td><td>${per || "—"}</td></tr>`;
               })
               .join("")}</tbody>
           </table>`;
@@ -241,7 +251,7 @@ export default {
         const timeline = res.timeline
           .map(
             (e) =>
-              `<tr class="${e.index === 1 ? "highlight" : ""}"><td class="num">${e.index}</td><td class="num">${e.time.toFixed(2)}</td><td class="num">第 ${e.cycle} 轮</td><td>${e.unit}</td><td class="num">第 ${e.unitAction} 次</td></tr>`,
+              `<tr class="${e.index === 1 ? "highlight" : ""}"><td class="num">${e.index}</td><td class="num">${e.time.toFixed(2)}</td><td class="num">第 ${e.cycle} 轮</td><td>${esc(e.unit)}</td><td class="num">第 ${e.unitAction} 次</td></tr>`,
           )
           .join("");
 
@@ -256,13 +266,13 @@ export default {
           <div style="max-height:340px;overflow:auto">
             <table class="data">
               <thead><tr><th class="num">#</th><th class="num">时间</th><th class="num">轮次</th><th>单位</th><th class="num">该单位第几次</th></tr></thead>
-              <tbody>${res.timeline.slice(0, 200).map((e) => `<tr><td class="num">${e.index}</td><td class="num">${e.time.toFixed(2)}</td><td class="num">第 ${e.cycle} 轮</td><td>${e.unit}</td><td class="num">第 ${e.unitAction} 次</td></tr>`).join("")}</tbody>
+              <tbody>${res.timeline.slice(0, 200).map((e) => `<tr><td class="num">${e.index}</td><td class="num">${e.time.toFixed(2)}</td><td class="num">第 ${e.cycle} 轮</td><td>${esc(e.unit)}</td><td class="num">第 ${e.unitAction} 次</td></tr>`).join("")}</tbody>
             </table>
           </div>
           ${res.timeline.length > 200 ? '<p class="hint">只显示了前 200 条。</p>' : ""}
         `;
       } catch (err) {
-        box.innerHTML = `<p class="error-text">${err.message}</p>`;
+        box.innerHTML = `<p class="error-text">${esc(err.message)}</p>`;
       }
     }
     root.querySelector("#sim-btn").addEventListener("click", simulate);

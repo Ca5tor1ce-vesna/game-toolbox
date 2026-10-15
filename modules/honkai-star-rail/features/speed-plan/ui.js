@@ -863,17 +863,26 @@ export default {
       const perUltBlocked = (result.effects?.conditional || []).filter(
         (item) => item.note && item.note.includes("需要开大"),
       );
-      const hint = perUltBlocked.length
-        ? `<div class="hint" style="color:var(--warn)">⚠ ${perUltBlocked
-            .map((item) => item.setName || item.name || "该效果")
-            .join("、")} 需要<span style="color:var(--text)">开大</span>才生效：
-            请把上面的「开大次数」设成 1 或更大（目前是 0，所以没计入）。</div>`
-        : "";
       set(
         "#ps-contrib",
-        (contributions || (extras.length ? `${extras.join("，")}（套装无速度相关效果）` : "无速度相关效果")) +
-          (hint ? " " + hint : ""),
+        contributions || (extras.length ? `${extras.join("，")}（套装无速度相关效果）` : "无速度相关效果"),
       );
+      // 提示用 DOM 拼（旧版把 HTML 字符串塞进 textContent，界面上显示成源码）
+      const contribEl = root.querySelector("#ps-contrib");
+      if (contribEl && perUltBlocked.length) {
+        const hint = document.createElement("div");
+        hint.className = "hint";
+        hint.style.color = "var(--warn)";
+        const word = document.createElement("span");
+        word.style.color = "var(--text)";
+        word.textContent = "开大";
+        hint.append(
+          `⚠ ${perUltBlocked.map((item) => item.setName || item.name || "该效果").join("、")} 需要`,
+          word,
+          "才生效：请把上面的「开大次数」设成 1 或更大（目前是 0，所以没计入）。",
+        );
+        contribEl.append(" ", hint);
+      }
       set(
         "#ps-target",
         `（${verdict.customAV > 0 ? `${fix(verdict.customAV, 0)} AV 节点` : `${verdict.t}T`} · ${

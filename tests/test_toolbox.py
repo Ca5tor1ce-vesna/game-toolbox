@@ -2498,5 +2498,38 @@ class TestFixesV0167Core(unittest.TestCase):
         self.assertEqual(cfg["host"], "127.0.0.1")
 
 
+class TestFixesV0167Frontend(unittest.TestCase):
+    """0.16.7 前端修复的静态回归检查（A10/A11/A27/A28；浏览器里的复现见 修改记录.md）。"""
+
+    FEAT = ROOT / "modules" / MODULE_ID / "features"
+
+    def read(self, path: Path) -> str:
+        return path.read_text(encoding="utf-8")
+
+    def test_a10_escape_html_escapes_quotes(self) -> None:
+        src = self.read(ROOT / "app" / "app.js")
+        body = src[src.index("function escapeHtml"):][:300]
+        self.assertIn("&quot;", body)
+        self.assertIn("&#39;", body)
+
+    def test_a11_speed_page_escapes_user_text(self) -> None:
+        src = self.read(self.FEAT / "speed" / "ui.js")
+        self.assertIn('value="${esc(u.name)}"', src)
+        self.assertNotIn("${err.message}", src)
+        self.assertNotIn("<td>${e.unit}</td>", src)
+        self.assertNotIn("<td>${s.name}</td>", src)
+        self.assertNotIn("${err.message}", self.read(self.FEAT / "gacha" / "ui.js"))
+
+    def test_a27_no_html_string_into_text_content(self) -> None:
+        src = self.read(self.FEAT / "speed-plan" / "ui.js")
+        block = src[src.index('"#ps-contrib",'):][:200]
+        self.assertNotIn("hint", block)
+
+    def test_a28_pool_hint_keeps_error(self) -> None:
+        src = self.read(self.FEAT / "gacha" / "ui.js")
+        body = src[src.index("function updatePoolHint"):][:300]
+        self.assertIn("pool.baseRate === undefined) return;", body)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -67,6 +67,17 @@ function cdfChart(cdf, marks = []) {
   </svg>`;
 }
 
+
+/** 用户输入/后端回显的文本插进 HTML 前必须转义（含引号：会进 value="…"）。 */
+function esc(text) {
+  return String(text ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 export default {
   title: "抽卡规划",
 
@@ -101,7 +112,7 @@ export default {
     try {
       dataset = await ctx.call("pools");
     } catch (err) {
-      root.querySelector("#pool-hint").innerHTML = `<span class="error-text">读不到卡池数据：${err.message}</span>`;
+      root.querySelector("#pool-hint").innerHTML = `<span class="error-text">读不到卡池数据：${esc(err.message)}</span>`;
     }
 
     const poolSelect = root.querySelector("#pool");
@@ -114,6 +125,8 @@ export default {
 
     function updatePoolHint() {
       const pool = currentPool();
+      // 卡池没读到（数据坏了/接口报错）时保留错误提示，不要用 NaN/undefined 盖掉它
+      if (!pool || pool.baseRate === undefined) return;
       const hasUp = pool.upChance !== null && pool.upChance !== undefined;
       root.querySelector("#guaranteed-wrap").classList.toggle("hidden", !hasUp);
       root.querySelector("#pool-hint").innerHTML =
@@ -189,7 +202,7 @@ export default {
           </div>
         `;
       } catch (err) {
-        box.innerHTML = `<div class="card error"><p class="error-text">${err.message}</p></div>`;
+        box.innerHTML = `<div class="card error"><p class="error-text">${esc(err.message)}</p></div>`;
       }
     }
     root.querySelector("#go").addEventListener("click", run);
@@ -218,7 +231,7 @@ export default {
           <p class="hint">${res.note}</p>
         `;
       } catch (err) {
-        box.innerHTML = `<p class="error-text">${err.message}</p>`;
+        box.innerHTML = `<p class="error-text">${esc(err.message)}</p>`;
       }
     }
     root.querySelector("#check").addEventListener("click", runCheck);
