@@ -1,0 +1,4076 @@
+[
+ {
+  "id": "23056",
+  "name": "一场谎言的终幕",
+  "rarity": 5,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "contentId": 7114,
+  "icon": "/modules/honkai-star-rail/assets/f2fcea3b7d652e7c.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/04/07/276833758/41c209b76b558c344e24ef329583e2c5_3244966262132533315.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 3,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/04/07/276833758/41c209b76b558c344e24ef329583e2c5_3244966262132533315.png"
+  }
+ },
+ {
+  "id": "24004",
+  "name": "不息的演算",
+  "rarity": 5,
+  "path": "Mage",
+  "pathName": "智识",
+  "contentId": 3163,
+  "icon": "/modules/honkai-star-rail/assets/4fb2d87383e8254f.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/06/10/299598919/dd495eee5f35c41f07fb60e1555f1ae4_1372104409990973338.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 82,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "不息的演算",
+    "kind": "pct",
+    "value": 8.0,
+    "apply": "self",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "施放攻击后，每击中一名敌方目标，使攻击力额外提高4%，该效果最多叠加5次，持续至下次攻击后，若击中大于等于3名敌方目标，使自身速度提高8%，持续1回合"
+   },
+   {
+    "source": "光锥",
+    "name": "不息的演算",
+    "kind": "pct",
+    "value": 10.0,
+    "apply": "self",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "施放攻击后，每击中一名敌方目标，使攻击力额外提高5%，该效果最多叠加5次，持续至下次攻击后，若击中大于等于3名敌方目标，使自身速度提高10%，持续1回合"
+   },
+   {
+    "source": "光锥",
+    "name": "不息的演算",
+    "kind": "pct",
+    "value": 12.0,
+    "apply": "self",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "施放攻击后，每击中一名敌方目标，使攻击力额外提高6%，该效果最多叠加5次，持续至下次攻击后，若击中大于等于3名敌方目标，使自身速度提高12%，持续1回合"
+   },
+   {
+    "source": "光锥",
+    "name": "不息的演算",
+    "kind": "pct",
+    "value": 14.0,
+    "apply": "self",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "施放攻击后，每击中一名敌方目标，使攻击力额外提高7%，该效果最多叠加5次，持续至下次攻击后，若击中大于等于3名敌方目标，使自身速度提高14%，持续1回合"
+   },
+   {
+    "source": "光锥",
+    "name": "不息的演算",
+    "kind": "pct",
+    "value": 16.0,
+    "apply": "self",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "施放攻击后，每击中一名敌方目标，使攻击力额外提高8%，该效果最多叠加5次，持续至下次攻击后，若击中大于等于3名敌方目标，使自身速度提高16%，持续1回合"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/06/10/299598919/dd495eee5f35c41f07fb60e1555f1ae4_1372104409990973338.png"
+  }
+ },
+ {
+  "id": "23001",
+  "name": "于夜色中",
+  "rarity": 5,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "contentId": 268,
+  "icon": "/modules/honkai-star-rail/assets/1636b692c794477a.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/0d1d36702e6a3549b30d5cf38d55b3cc_2720868240836308865.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 80,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/0d1d36702e6a3549b30d5cf38d55b3cc_2720868240836308865.png"
+  }
+ },
+ {
+  "id": "23004",
+  "name": "以世界之名",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 273,
+  "icon": "/modules/honkai-star-rail/assets/7f494a4772a2c1b7.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/276833758/ffdb8f52a5032c84908d17f61e5aa3f9_1447337515306015527.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 77,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/276833758/ffdb8f52a5032c84908d17f61e5aa3f9_1447337515306015527.png"
+  }
+ },
+ {
+  "id": "23003",
+  "name": "但战斗还未结束",
+  "rarity": 5,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "contentId": 362,
+  "icon": "/modules/honkai-star-rail/assets/fc285597f95c4538.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/80663279/3a8d165b2805cf35fb67b0ba3ee902ca_2437564607005004142.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 78,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/80663279/3a8d165b2805cf35fb67b0ba3ee902ca_2437564607005004142.png"
+  }
+ },
+ {
+  "id": "23063",
+  "name": "你将起身歌唱",
+  "rarity": 5,
+  "path": "Memory",
+  "pathName": "记忆",
+  "contentId": 7987,
+  "icon": "/modules/honkai-star-rail/assets/2ad1d40bed8c1ca3.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/08/26/299598919/e391f3606ae892ea63c651b01f76b70d_5209136921674600903.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 4,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "你将起身歌唱",
+    "kind": "advance",
+    "value": 30.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "进入战斗时，使装备者的行动提前30%，并使装备者获得【新声】，持续2回合"
+   },
+   {
+    "source": "光锥",
+    "name": "你将起身歌唱",
+    "kind": "pct",
+    "value": 20.0,
+    "apply": "team",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "装备者持有【新声】时，我方全体速度提高20%"
+   },
+   {
+    "source": "光锥",
+    "name": "你将起身歌唱",
+    "kind": "advance",
+    "value": 32.5,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "进入战斗时，使装备者的行动提前32.5%，并使装备者获得【新声】，持续2回合"
+   },
+   {
+    "source": "光锥",
+    "name": "你将起身歌唱",
+    "kind": "pct",
+    "value": 25.0,
+    "apply": "team",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "装备者持有【新声】时，我方全体速度提高25%"
+   },
+   {
+    "source": "光锥",
+    "name": "你将起身歌唱",
+    "kind": "advance",
+    "value": 35.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "进入战斗时，使装备者的行动提前35%，并使装备者获得【新声】，持续2回合"
+   },
+   {
+    "source": "光锥",
+    "name": "你将起身歌唱",
+    "kind": "pct",
+    "value": 30.0,
+    "apply": "team",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "装备者持有【新声】时，我方全体速度提高30%"
+   },
+   {
+    "source": "光锥",
+    "name": "你将起身歌唱",
+    "kind": "advance",
+    "value": 37.5,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "进入战斗时，使装备者的行动提前37.5%，并使装备者获得【新声】，持续2回合"
+   },
+   {
+    "source": "光锥",
+    "name": "你将起身歌唱",
+    "kind": "pct",
+    "value": 35.0,
+    "apply": "team",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "装备者持有【新声】时，我方全体速度提高35%"
+   },
+   {
+    "source": "光锥",
+    "name": "你将起身歌唱",
+    "kind": "advance",
+    "value": 40.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "进入战斗时，使装备者的行动提前40%，并使装备者获得【新声】，持续2回合"
+   },
+   {
+    "source": "光锥",
+    "name": "你将起身歌唱",
+    "kind": "pct",
+    "value": 40.0,
+    "apply": "team",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "装备者持有【新声】时，我方全体速度提高40%"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/08/26/299598919/e391f3606ae892ea63c651b01f76b70d_5209136921674600903.png"
+  }
+ },
+ {
+  "id": "23028",
+  "name": "偏偏希望无价",
+  "rarity": 5,
+  "path": "Mage",
+  "pathName": "智识",
+  "contentId": 3399,
+  "icon": "/modules/honkai-star-rail/assets/0ba0b923e1a53dcd.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/06/28/299598919/38e8bbda60fbab945e784d8d8b1b3d9b_8708450804958696480.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 66,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/06/28/299598919/38e8bbda60fbab945e784d8d8b1b3d9b_8708450804958696480.png"
+  }
+ },
+ {
+  "id": "23009",
+  "name": "到不了的彼岸",
+  "rarity": 5,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 1215,
+  "icon": "/modules/honkai-star-rail/assets/1d3d7704705a9103.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/24/276833758/b4cf6dcb35059978ae3176aac8dfa211_7257985557652117803.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 43,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/24/276833758/b4cf6dcb35059978ae3176aac8dfa211_7257985557652117803.png"
+  }
+ },
+ {
+  "id": "23005",
+  "name": "制胜的瞬间",
+  "rarity": 5,
+  "path": "Knight",
+  "pathName": "存护",
+  "contentId": 388,
+  "icon": "/modules/honkai-star-rail/assets/2fab4500914dae69.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/302610298/db00d2b9c57f6d3f38ea580e5cd2663c_5188104094300521248.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 76,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/302610298/db00d2b9c57f6d3f38ea580e5cd2663c_5188104094300521248.png"
+  }
+ },
+ {
+  "id": "23050",
+  "name": "勿忘她的火焰",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 6698,
+  "icon": "/modules/honkai-star-rail/assets/6d64d4a50c0aa814.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/12/18/299598919/9d1164f764a726fa24525f28ace638a2_1526668326811159052.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 23,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/12/18/299598919/9d1164f764a726fa24525f28ace638a2_1526668326811159052.png"
+  }
+ },
+ {
+  "id": "23006",
+  "name": "只需等待",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 1324,
+  "icon": "/modules/honkai-star-rail/assets/62ad832e1d43174d.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/302610298/098eddf3e0a1c3f0c77e6bf81c10fcdf_6232723680152517532.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 40,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "只需等待",
+    "kind": "pct",
+    "value": 4.8,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 3,
+    "rank": null,
+    "superimpose": 1,
+    "text": "装备者每次施放攻击后，速度提高4.8%，最多叠加3层"
+   },
+   {
+    "source": "光锥",
+    "name": "只需等待",
+    "kind": "pct",
+    "value": 5.6,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 3,
+    "rank": null,
+    "superimpose": 2,
+    "text": "装备者每次施放攻击后，速度提高5.6%，最多叠加3层"
+   },
+   {
+    "source": "光锥",
+    "name": "只需等待",
+    "kind": "pct",
+    "value": 6.4,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 3,
+    "rank": null,
+    "superimpose": 3,
+    "text": "装备者每次施放攻击后，速度提高6.4%，最多叠加3层"
+   },
+   {
+    "source": "光锥",
+    "name": "只需等待",
+    "kind": "pct",
+    "value": 7.2,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 3,
+    "rank": null,
+    "superimpose": 4,
+    "text": "装备者每次施放攻击后，速度提高7.2%，最多叠加3层"
+   },
+   {
+    "source": "光锥",
+    "name": "只需等待",
+    "kind": "pct",
+    "value": 8.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 3,
+    "rank": null,
+    "superimpose": 5,
+    "text": "装备者每次施放攻击后，速度提高8.0%，最多叠加3层"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/302610298/098eddf3e0a1c3f0c77e6bf81c10fcdf_6232723680152517532.png"
+  }
+ },
+ {
+  "id": "23064",
+  "name": "向浪花掷下盛夏",
+  "rarity": 5,
+  "path": "Elation",
+  "pathName": "欢愉",
+  "contentId": 8072,
+  "icon": "/modules/honkai-star-rail/assets/57bc1f83661f7dbb.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/08/26/299598919/e4b36c743e486ba9d2409ec999b361b2_7074441568616546887.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 2,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "向浪花掷下盛夏",
+    "kind": "pct",
+    "value": 24.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "装备者施放欢愉技时，获得【风口】，【风口】使装备者的速度提高24%"
+   },
+   {
+    "source": "光锥",
+    "name": "向浪花掷下盛夏",
+    "kind": "pct",
+    "value": 28.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "装备者施放欢愉技时，获得【风口】，【风口】使装备者的速度提高28%"
+   },
+   {
+    "source": "光锥",
+    "name": "向浪花掷下盛夏",
+    "kind": "pct",
+    "value": 32.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "装备者施放欢愉技时，获得【风口】，【风口】使装备者的速度提高32%"
+   },
+   {
+    "source": "光锥",
+    "name": "向浪花掷下盛夏",
+    "kind": "pct",
+    "value": 36.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "装备者施放欢愉技时，获得【风口】，【风口】使装备者的速度提高36%"
+   },
+   {
+    "source": "光锥",
+    "name": "向浪花掷下盛夏",
+    "kind": "pct",
+    "value": 40.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "装备者施放欢愉技时，获得【风口】，【风口】使装备者的速度提高40%"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/08/26/299598919/e4b36c743e486ba9d2409ec999b361b2_7074441568616546887.png"
+  }
+ },
+ {
+  "id": "23037",
+  "name": "向着不可追问处",
+  "rarity": 5,
+  "path": "Mage",
+  "pathName": "智识",
+  "contentId": 4639,
+  "icon": "/modules/honkai-star-rail/assets/5261f7392a713eff.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/01/07/299598919/c6bb2471950fcbb7ad6bd584e6a9e515_2089240105759348183.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 37,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/01/07/299598919/c6bb2471950fcbb7ad6bd584e6a9e515_2089240105759348183.png"
+  }
+ },
+ {
+  "id": "23023",
+  "name": "命运从未公平",
+  "rarity": 5,
+  "path": "Knight",
+  "pathName": "存护",
+  "contentId": 2607,
+  "icon": "/modules/honkai-star-rail/assets/d76b081b50f3d836.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/d627b62210655a9fca0325c75e1d3018_6313103210999752187.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 11,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/d627b62210655a9fca0325c75e1d3018_6313103210999752187.png"
+  }
+ },
+ {
+  "id": "23032",
+  "name": "唯有香如故",
+  "rarity": 5,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "contentId": 4157,
+  "icon": "/modules/honkai-star-rail/assets/e9be4029fee6bb57.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/09/03/299598919/a29d035ac6be1e288fed5ca1a5559fe6_5528853125627721645.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 34,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/09/03/299598919/a29d035ac6be1e288fed5ca1a5559fe6_5528853125627721645.png"
+  }
+ },
+ {
+  "id": "23034",
+  "name": "回到大地的飞行",
+  "rarity": 5,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "contentId": 4469,
+  "icon": "/modules/honkai-star-rail/assets/7833367cdc4a6f2a.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/11/26/299598919/73d85ea01d731071a5d7189fe1467657_6359775726880484961.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 20,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/11/26/299598919/73d85ea01d731071a5d7189fe1467657_6359775726880484961.png"
+  }
+ },
+ {
+  "id": "23026",
+  "name": "夜色流光溢彩",
+  "rarity": 5,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "contentId": 2732,
+  "icon": "/modules/honkai-star-rail/assets/f39a33432167e5eb.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/08/299598919/e9c5a030761b994dd7bb275756213f5e_7064326759109949608.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 65,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/08/299598919/e9c5a030761b994dd7bb275756213f5e_7064326759109949608.png"
+  }
+ },
+ {
+  "id": "23011",
+  "name": "她已闭上双眼",
+  "rarity": 5,
+  "path": "Knight",
+  "pathName": "存护",
+  "contentId": 1677,
+  "icon": "/modules/honkai-star-rail/assets/e6c2b159f89d0a7b.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/9b518424cb7d3feb9b491243c5144e77_8513469935490955856.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 74,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/9b518424cb7d3feb9b491243c5144e77_8513469935490955856.png"
+  }
+ },
+ {
+  "id": "23038",
+  "name": "如果时间是一朵花",
+  "rarity": 5,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "contentId": 4956,
+  "icon": "/modules/honkai-star-rail/assets/92b290ebb0f4eb2c.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/02/19/299598919/7a7813acd29c5c4ff2715e6da3b7a2da_4959366358970696082.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 19,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/02/19/299598919/7a7813acd29c5c4ff2715e6da3b7a2da_4959366358970696082.png"
+  }
+ },
+ {
+  "id": "23012",
+  "name": "如泥酣眠",
+  "rarity": 5,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "contentId": 566,
+  "icon": "/modules/honkai-star-rail/assets/c367ce3b57432265.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/c60e6cd22440a5d430f1ef53b9dbb943_4029085065230979229.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 73,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/c60e6cd22440a5d430f1ef53b9dbb943_4029085065230979229.png"
+  }
+ },
+ {
+  "id": "24003",
+  "name": "孤独的疗愈",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 1477,
+  "icon": "/modules/honkai-star-rail/assets/1f24eb6ebec43d65.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/302610298/cc4ef629aa66466fc733173a29bbef3c_4118411273444745584.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 83,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/302610298/cc4ef629aa66466fc733173a29bbef3c_4118411273444745584.png"
+  }
+ },
+ {
+  "id": "23036",
+  "name": "将光阴织成黄金",
+  "rarity": 5,
+  "path": "Memory",
+  "pathName": "记忆",
+  "contentId": 4887,
+  "icon": "/modules/honkai-star-rail/assets/7914edb98cac0f99.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/01/27/299598919/117c63bfdb19731ff39ca8a9a564f39b_4074164867080184106.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 32,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/01/27/299598919/117c63bfdb19731ff39ca8a9a564f39b_4074164867080184106.png"
+  }
+ },
+ {
+  "id": "23060",
+  "name": "当一颗星照亮夜空",
+  "rarity": 5,
+  "path": "Mage",
+  "pathName": "智识",
+  "contentId": 7811,
+  "icon": "/modules/honkai-star-rail/assets/83bd2f5909cad506.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/07/19/299598919/e4c8405624459a1609b39a0f5c5d9995_4872095059104054476.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 8,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/07/19/299598919/e4c8405624459a1609b39a0f5c5d9995_4872095059104054476.png"
+  }
+ },
+ {
+  "id": "23054",
+  "name": "当她决定看见",
+  "rarity": 5,
+  "path": "Elation",
+  "pathName": "欢愉",
+  "contentId": 6873,
+  "icon": "/modules/honkai-star-rail/assets/ef0c3d77dde6326d.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/02/13/299598919/c555bc5a5d0ce8d1466094f9b1716ad9_2858842493020142304.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 18,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "当她决定看见",
+    "kind": "pct",
+    "value": 18.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "使装备者的速度提高18%"
+   },
+   {
+    "source": "光锥",
+    "name": "当她决定看见",
+    "kind": "pct",
+    "value": 21.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "使装备者的速度提高21%"
+   },
+   {
+    "source": "光锥",
+    "name": "当她决定看见",
+    "kind": "pct",
+    "value": 24.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "使装备者的速度提高24%"
+   },
+   {
+    "source": "光锥",
+    "name": "当她决定看见",
+    "kind": "pct",
+    "value": 27.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "使装备者的速度提高27%"
+   },
+   {
+    "source": "光锥",
+    "name": "当她决定看见",
+    "kind": "pct",
+    "value": 30.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "使装备者的速度提高30%"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/02/13/299598919/c555bc5a5d0ce8d1466094f9b1716ad9_2858842493020142304.png"
+  }
+ },
+ {
+  "id": "23033",
+  "name": "忍法帖•缭乱破魔",
+  "rarity": 5,
+  "path": "Mage",
+  "pathName": "智识",
+  "contentId": 4238,
+  "icon": "/modules/honkai-star-rail/assets/6ce01c7dcd354db7.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/10/15/299598919/b1035c717da0c524b1440ccd5863918d_7642633790254335053.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 28,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "忍法帖•缭乱破魔",
+    "kind": "advance",
+    "value": 50.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "进入战斗时立即恢复30.0点能量，且装备者施放终结技后获得【雷遁】，施放2次普攻后，装备者行动提前50%，并移除【雷遁】"
+   },
+   {
+    "source": "光锥",
+    "name": "忍法帖•缭乱破魔",
+    "kind": "advance",
+    "value": 55.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "进入战斗时立即恢复32.5点能量，且装备者施放终结技后获得【雷遁】，施放2次普攻后，装备者行动提前55%，并移除【雷遁】"
+   },
+   {
+    "source": "光锥",
+    "name": "忍法帖•缭乱破魔",
+    "kind": "advance",
+    "value": 60.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "进入战斗时立即恢复35.0点能量，且装备者施放终结技后获得【雷遁】，施放2次普攻后，装备者行动提前60%，并移除【雷遁】"
+   },
+   {
+    "source": "光锥",
+    "name": "忍法帖•缭乱破魔",
+    "kind": "advance",
+    "value": 65.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "进入战斗时立即恢复37.5点能量，且装备者施放终结技后获得【雷遁】，施放2次普攻后，装备者行动提前65%，并移除【雷遁】"
+   },
+   {
+    "source": "光锥",
+    "name": "忍法帖•缭乱破魔",
+    "kind": "advance",
+    "value": 70.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "进入战斗时立即恢复40.0点能量，且装备者施放终结技后获得【雷遁】，施放2次普攻后，装备者行动提前70%，并移除【雷遁】"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/10/15/299598919/b1035c717da0c524b1440ccd5863918d_7642633790254335053.png"
+  }
+ },
+ {
+  "id": "23017",
+  "name": "惊魂夜",
+  "rarity": 5,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "contentId": 1943,
+  "icon": "/modules/honkai-star-rail/assets/6436cafbe38dfe5d.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/5a841078abcc6c129bed5f0b8f0af193_5663435948986514779.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 62,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/5a841078abcc6c129bed5f0b8f0af193_5663435948986514779.png"
+  }
+ },
+ {
+  "id": "23042",
+  "name": "愿虹光永驻天空",
+  "rarity": 5,
+  "path": "Memory",
+  "pathName": "记忆",
+  "contentId": 5380,
+  "icon": "/modules/honkai-star-rail/assets/bc25f0060807c216.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/05/21/75216984/4531253242a7becea5400efa86b00cb0_3663214243100598840.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 5,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "愿虹光永驻天空",
+    "kind": "pct",
+    "value": 18.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "使装备者的速度提高18%"
+   },
+   {
+    "source": "光锥",
+    "name": "愿虹光永驻天空",
+    "kind": "pct",
+    "value": 21.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "使装备者的速度提高21%"
+   },
+   {
+    "source": "光锥",
+    "name": "愿虹光永驻天空",
+    "kind": "pct",
+    "value": 24.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "使装备者的速度提高24%"
+   },
+   {
+    "source": "光锥",
+    "name": "愿虹光永驻天空",
+    "kind": "pct",
+    "value": 27.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "使装备者的速度提高27%"
+   },
+   {
+    "source": "光锥",
+    "name": "愿虹光永驻天空",
+    "kind": "pct",
+    "value": 30.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "使装备者的速度提高30%"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/05/21/75216984/4531253242a7becea5400efa86b00cb0_3663214243100598840.png"
+  }
+ },
+ {
+  "id": "23031",
+  "name": "我将，巡征追猎",
+  "rarity": 5,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "contentId": 3863,
+  "icon": "/modules/honkai-star-rail/assets/8cedf291a9fb21d8.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/09/03/299598919/56a81a6037affaf73f6646c7613d3276_1666548407537860073.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 21,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/09/03/299598919/56a81a6037affaf73f6646c7613d3276_1666548407537860073.png"
+  }
+ },
+ {
+  "id": "23062",
+  "name": "所见即我",
+  "rarity": 5,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 7836,
+  "icon": "/modules/honkai-star-rail/assets/bbf0182b0f88667a.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/07/24/299598919/17b5013810906e5d82083cd7c36b3c72_8747534515194029686.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 7,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/07/24/299598919/17b5013810906e5d82083cd7c36b3c72_8747534515194029686.png"
+  }
+ },
+ {
+  "id": "23010",
+  "name": "拂晓之前",
+  "rarity": 5,
+  "path": "Mage",
+  "pathName": "智识",
+  "contentId": 361,
+  "icon": "/modules/honkai-star-rail/assets/ed33b90298d9bea4.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/89ea2f9edf1c0a785b7d3632d8e8dd04_1554783897695826473.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 67,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/89ea2f9edf1c0a785b7d3632d8e8dd04_1554783897695826473.png"
+  }
+ },
+ {
+  "id": "23002",
+  "name": "无可取代的东西",
+  "rarity": 5,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 384,
+  "icon": "/modules/honkai-star-rail/assets/f12035039694fd71.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/24/276833758/1455f27f0804a61456b686608538a24d_561537448323852310.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 79,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/24/276833758/1455f27f0804a61456b686608538a24d_561537448323852310.png"
+  }
+ },
+ {
+  "id": "23013",
+  "name": "时节不居",
+  "rarity": 5,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "contentId": 567,
+  "icon": "/modules/honkai-star-rail/assets/9e6a4c8d02065f3e.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/2626a890e219f9c4e0f0b9557955f1a0_2467976161400658122.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 72,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/2626a890e219f9c4e0f0b9557955f1a0_2467976161400658122.png"
+  }
+ },
+ {
+  "id": "24001",
+  "name": "星海巡航",
+  "rarity": 5,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "contentId": 870,
+  "icon": "/modules/honkai-star-rail/assets/e31c8c80ae3dd7cb.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/9c0763b2c7f475037f195a398ea1e6e2_8215997090822993152.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 85,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/9c0763b2c7f475037f195a398ea1e6e2_8215997090822993152.png"
+  }
+ },
+ {
+  "id": "23061",
+  "name": "星火悄然闪耀",
+  "rarity": 5,
+  "path": "Mage",
+  "pathName": "智识",
+  "contentId": 7835,
+  "icon": "/modules/honkai-star-rail/assets/7a858c032cd0571e.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/07/24/299598919/2e15adc292076e82fa672218cf537ec2_2211750655855995044.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 6,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/07/24/299598919/2e15adc292076e82fa672218cf537ec2_2211750655855995044.png"
+  }
+ },
+ {
+  "id": "23025",
+  "name": "梦应归于何处",
+  "rarity": 5,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 3115,
+  "icon": "/modules/honkai-star-rail/assets/903ba56d72c135e0.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/06/10/299598919/b4ca6c5466cf5ab21d06bc5b02f1bb18_7194044831181876298.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 25,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "梦应归于何处",
+    "kind": "pct",
+    "value": -20.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "【溃败】状态下目标受到装备者造成的击破伤害提高24.0%，速度降低20%，同类效果无法叠加"
+   },
+   {
+    "source": "光锥",
+    "name": "梦应归于何处",
+    "kind": "pct",
+    "value": -20.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "【溃败】状态下目标受到装备者造成的击破伤害提高28.0%，速度降低20%，同类效果无法叠加"
+   },
+   {
+    "source": "光锥",
+    "name": "梦应归于何处",
+    "kind": "pct",
+    "value": -20.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "【溃败】状态下目标受到装备者造成的击破伤害提高32.0%，速度降低20%，同类效果无法叠加"
+   },
+   {
+    "source": "光锥",
+    "name": "梦应归于何处",
+    "kind": "pct",
+    "value": -20.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "【溃败】状态下目标受到装备者造成的击破伤害提高36.0%，速度降低20%，同类效果无法叠加"
+   },
+   {
+    "source": "光锥",
+    "name": "梦应归于何处",
+    "kind": "pct",
+    "value": -20.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "【溃败】状态下目标受到装备者造成的击破伤害提高40.0%，速度降低20%，同类效果无法叠加"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/06/10/299598919/b4ca6c5466cf5ab21d06bc5b02f1bb18_7194044831181876298.png"
+  }
+ },
+ {
+  "id": "23008",
+  "name": "棺的回响",
+  "rarity": 5,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "contentId": 1186,
+  "icon": "/modules/honkai-star-rail/assets/c0f28dff783d4a75.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/49084187f190932dd216cabbc10d32f2_8701081252306753242.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 75,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "棺的回响",
+    "kind": "flat",
+    "value": 12.0,
+    "apply": "team",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "当装备者施放终结技后，使我方全体速度提高12点，持续1回合"
+   },
+   {
+    "source": "光锥",
+    "name": "棺的回响",
+    "kind": "flat",
+    "value": 14.0,
+    "apply": "team",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "当装备者施放终结技后，使我方全体速度提高14点，持续1回合"
+   },
+   {
+    "source": "光锥",
+    "name": "棺的回响",
+    "kind": "flat",
+    "value": 16.0,
+    "apply": "team",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "当装备者施放终结技后，使我方全体速度提高16点，持续1回合"
+   },
+   {
+    "source": "光锥",
+    "name": "棺的回响",
+    "kind": "flat",
+    "value": 18.0,
+    "apply": "team",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "当装备者施放终结技后，使我方全体速度提高18点，持续1回合"
+   },
+   {
+    "source": "光锥",
+    "name": "棺的回响",
+    "kind": "flat",
+    "value": 20.0,
+    "apply": "team",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "当装备者施放终结技后，使我方全体速度提高20点，持续1回合"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/49084187f190932dd216cabbc10d32f2_8701081252306753242.png"
+  }
+ },
+ {
+  "id": "24006",
+  "name": "欢愉满溢祝福",
+  "rarity": 5,
+  "path": "Elation",
+  "pathName": "欢愉",
+  "contentId": 7227,
+  "icon": "/modules/honkai-star-rail/assets/54019ecc353c7443.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/04/14/299598919/26e0c29f483d3fdbb76d3a98fc5a7039_5594213744817771481.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 26,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/04/14/299598919/26e0c29f483d3fdbb76d3a98fc5a7039_5594213744817771481.png"
+  }
+ },
+ {
+  "id": "23057",
+  "name": "欢迎来到银河城",
+  "rarity": 5,
+  "path": "Elation",
+  "pathName": "欢愉",
+  "contentId": 7316,
+  "icon": "/modules/honkai-star-rail/assets/09f2177e3750edae.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/04/23/299598919/e0a03ae0305734d92977d58683872623_5702237578226231476.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 22,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "欢迎来到银河城",
+    "kind": "pct",
+    "value": 18.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "使装备者的速度提高18%，造成的欢愉伤害无视目标20%的防御力"
+   },
+   {
+    "source": "光锥",
+    "name": "欢迎来到银河城",
+    "kind": "pct",
+    "value": 21.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "使装备者的速度提高21%，造成的欢愉伤害无视目标24%的防御力"
+   },
+   {
+    "source": "光锥",
+    "name": "欢迎来到银河城",
+    "kind": "pct",
+    "value": 24.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "使装备者的速度提高24%，造成的欢愉伤害无视目标28%的防御力"
+   },
+   {
+    "source": "光锥",
+    "name": "欢迎来到银河城",
+    "kind": "pct",
+    "value": 27.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "使装备者的速度提高27%，造成的欢愉伤害无视目标32%的防御力"
+   },
+   {
+    "source": "光锥",
+    "name": "欢迎来到银河城",
+    "kind": "pct",
+    "value": 30.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "使装备者的速度提高30%，造成的欢愉伤害无视目标36%的防御力"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/04/23/299598919/e0a03ae0305734d92977d58683872623_5702237578226231476.png"
+  }
+ },
+ {
+  "id": "23014",
+  "name": "此身为剑",
+  "rarity": 5,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 1718,
+  "icon": "/modules/honkai-star-rail/assets/e4cb6aa62122dc68.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/24/276833758/3173a5122f906be1bdfda459947a175a_2356140141090517635.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 42,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/24/276833758/3173a5122f906be1bdfda459947a175a_2356140141090517635.png"
+  }
+ },
+ {
+  "id": "23015",
+  "name": "比阳光更明亮的",
+  "rarity": 5,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 1475,
+  "icon": "/modules/honkai-star-rail/assets/62819cd5b31c9d46.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/24/276833758/e86f9fcb57a1804932ed33c08b2ab2ba_1643671821198351752.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 68,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/24/276833758/e86f9fcb57a1804932ed33c08b2ab2ba_1643671821198351752.png"
+  }
+ },
+ {
+  "id": "23045",
+  "name": "没有回报的加冕",
+  "rarity": 5,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 5674,
+  "icon": "/modules/honkai-star-rail/assets/86d2f3f6cc90e301.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/06/29/299598919/4705c4b98434ae405691bbff8ec12ff9_1444591935006443418.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 41,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/06/29/299598919/4705c4b98434ae405691bbff8ec12ff9_1444591935006443418.png"
+  }
+ },
+ {
+  "id": "23047",
+  "name": "海洋为何而歌",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 5751,
+  "icon": "/modules/honkai-star-rail/assets/e112439b7efe069e.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/08/13/299598919/e4090fddbeb5b3be98d032be995bc099_8609123408549346151.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 30,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "海洋为何而歌",
+    "kind": "pct",
+    "value": 10.0,
+    "apply": "self",
+    "durationTurns": 3,
+    "maxStacks": 6,
+    "rank": null,
+    "superimpose": 1,
+    "text": "【魂迷】状态下，每有1个装备者施加的负面效果，受到的持续伤害提高5.0%，该效果最多叠加6层，受到我方目标攻击时，使攻击者速度提高10.0%，持续3回合"
+   },
+   {
+    "source": "光锥",
+    "name": "海洋为何而歌",
+    "kind": "pct",
+    "value": 12.5,
+    "apply": "self",
+    "durationTurns": 3,
+    "maxStacks": 6,
+    "rank": null,
+    "superimpose": 2,
+    "text": "【魂迷】状态下，每有1个装备者施加的负面效果，受到的持续伤害提高6.2%，该效果最多叠加6层，受到我方目标攻击时，使攻击者速度提高12.5%，持续3回合"
+   },
+   {
+    "source": "光锥",
+    "name": "海洋为何而歌",
+    "kind": "pct",
+    "value": 15.0,
+    "apply": "self",
+    "durationTurns": 3,
+    "maxStacks": 6,
+    "rank": null,
+    "superimpose": 3,
+    "text": "【魂迷】状态下，每有1个装备者施加的负面效果，受到的持续伤害提高7.5%，该效果最多叠加6层，受到我方目标攻击时，使攻击者速度提高15.0%，持续3回合"
+   },
+   {
+    "source": "光锥",
+    "name": "海洋为何而歌",
+    "kind": "pct",
+    "value": 17.5,
+    "apply": "self",
+    "durationTurns": 3,
+    "maxStacks": 6,
+    "rank": null,
+    "superimpose": 4,
+    "text": "【魂迷】状态下，每有1个装备者施加的负面效果，受到的持续伤害提高8.8%，该效果最多叠加6层，受到我方目标攻击时，使攻击者速度提高17.5%，持续3回合"
+   },
+   {
+    "source": "光锥",
+    "name": "海洋为何而歌",
+    "kind": "pct",
+    "value": 20.0,
+    "apply": "self",
+    "durationTurns": 3,
+    "maxStacks": 6,
+    "rank": null,
+    "superimpose": 5,
+    "text": "【魂迷】状态下，每有1个装备者施加的负面效果，受到的持续伤害提高10.0%，该效果最多叠加6层，受到我方目标攻击时，使攻击者速度提高20.0%，持续3回合"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/08/13/299598919/e4090fddbeb5b3be98d032be995bc099_8609123408549346151.png"
+  }
+ },
+ {
+  "id": "23021",
+  "name": "游戏尘寰",
+  "rarity": 5,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "contentId": 2412,
+  "icon": "/modules/honkai-star-rail/assets/9c4d42cfe89240a9.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/02/26/279865110/bf2a82c5959c362a3b1a482aabbc2681_6708517303659503108.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 29,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/02/26/279865110/bf2a82c5959c362a3b1a482aabbc2681_6708517303659503108.png"
+  }
+ },
+ {
+  "id": "23059",
+  "name": "灼尽炼狱的新骸",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 7646,
+  "icon": "/modules/honkai-star-rail/assets/152da3c805d420bc.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/06/01/299598919/05696c4ef68b5028f5b4835a139dae74_6882323657178576628.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 17,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/06/01/299598919/05696c4ef68b5028f5b4835a139dae74_6882323657178576628.png"
+  }
+ },
+ {
+  "id": "23016",
+  "name": "烦恼着，幸福着",
+  "rarity": 5,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "contentId": 1719,
+  "icon": "/modules/honkai-star-rail/assets/fe4b5f34621d2350.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/38a9aad1ca568425b0d0402ba31a712c_573180173737387811.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 71,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/38a9aad1ca568425b0d0402ba31a712c_573180173737387811.png"
+  }
+ },
+ {
+  "id": "23052",
+  "name": "爱如此刻永恒",
+  "rarity": 5,
+  "path": "Memory",
+  "pathName": "记忆",
+  "contentId": 6065,
+  "icon": "/modules/honkai-star-rail/assets/17272385df645a97.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/11/05/299598919/9533c39e482497b1a421c23652fa62a5_5280966288089188420.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 15,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "爱如此刻永恒",
+    "kind": "pct",
+    "value": 18.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "使装备者的速度提高18%"
+   },
+   {
+    "source": "光锥",
+    "name": "爱如此刻永恒",
+    "kind": "pct",
+    "value": 21.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "使装备者的速度提高21%"
+   },
+   {
+    "source": "光锥",
+    "name": "爱如此刻永恒",
+    "kind": "pct",
+    "value": 24.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "使装备者的速度提高24%"
+   },
+   {
+    "source": "光锥",
+    "name": "爱如此刻永恒",
+    "kind": "pct",
+    "value": 27.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "使装备者的速度提高27%"
+   },
+   {
+    "source": "光锥",
+    "name": "爱如此刻永恒",
+    "kind": "pct",
+    "value": 30.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "使装备者的速度提高30%"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/11/05/299598919/9533c39e482497b1a421c23652fa62a5_5280966288089188420.png"
+  }
+ },
+ {
+  "id": "23018",
+  "name": "片刻，留在眼底",
+  "rarity": 5,
+  "path": "Mage",
+  "pathName": "智识",
+  "contentId": 2037,
+  "icon": "/modules/honkai-star-rail/assets/442d8a70f15879ba.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/819e052a9b7fd5809768995c127e768d_4445821835787673552.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 70,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/819e052a9b7fd5809768995c127e768d_4445821835787673552.png"
+  }
+ },
+ {
+  "id": "23055",
+  "name": "献给明日的色彩",
+  "rarity": 5,
+  "path": "Elation",
+  "pathName": "欢愉",
+  "contentId": 8119,
+  "icon": "/modules/honkai-star-rail/assets/455a86ba346153ae.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/09/29/299598919/55c517e9df5cb2afa0e94d670631bcd7_8225752427229009121.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 0,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/09/29/299598919/55c517e9df5cb2afa0e94d670631bcd7_8225752427229009121.png"
+  }
+ },
+ {
+  "id": "23046",
+  "name": "理想燃烧的地狱",
+  "rarity": 5,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "contentId": 5675,
+  "icon": "/modules/honkai-star-rail/assets/e523fb1e3550dccb.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/06/29/299598919/4539595b50b8462d8f5999acbc6c80eb_2492699245007235162.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 38,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/06/29/299598919/4539595b50b8462d8f5999acbc6c80eb_2492699245007235162.png"
+  }
+ },
+ {
+  "id": "23041",
+  "name": "生命当付之一炬",
+  "rarity": 5,
+  "path": "Mage",
+  "pathName": "智识",
+  "contentId": 5289,
+  "icon": "/modules/honkai-star-rail/assets/e9d9ce2183865631.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/04/26/299598919/70ea1bcda378be81494e7e9606d620c7_1685837507243740331.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 10,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/04/26/299598919/70ea1bcda378be81494e7e9606d620c7_1685837507243740331.png"
+  }
+ },
+ {
+  "id": "23020",
+  "name": "纯粹思维的洗礼",
+  "rarity": 5,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "contentId": 2088,
+  "icon": "/modules/honkai-star-rail/assets/66495ee877f39f0a.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/01/08/299598919/016e497ac50a2697d4ee784b7492a66a_3034879153928027814.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 59,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/01/08/299598919/016e497ac50a2697d4ee784b7492a66a_3034879153928027814.png"
+  }
+ },
+ {
+  "id": "23051",
+  "name": "纵然山河万程",
+  "rarity": 5,
+  "path": "Knight",
+  "pathName": "存护",
+  "contentId": 5998,
+  "icon": "/modules/honkai-star-rail/assets/eca99de55b9a48c4.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/10/15/299598919/fa711cb179d1fb007b38932e97b8d8f7_3071187308771694258.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 13,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/10/15/299598919/fa711cb179d1fb007b38932e97b8d8f7_3071187308771694258.png"
+  }
+ },
+ {
+  "id": "23049",
+  "name": "致长夜的星光",
+  "rarity": 5,
+  "path": "Memory",
+  "pathName": "记忆",
+  "contentId": 5910,
+  "icon": "/modules/honkai-star-rail/assets/80bd0a31b6e782f4.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/23/299598919/048844faeabcc9ced19040351840d966_3881358433532767733.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 14,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/23/299598919/048844faeabcc9ced19040351840d966_3881358433532767733.png"
+  }
+ },
+ {
+  "id": "23053",
+  "name": "花花世界迷人眼",
+  "rarity": 5,
+  "path": "Elation",
+  "pathName": "欢愉",
+  "contentId": 6953,
+  "icon": "/modules/honkai-star-rail/assets/93d96b7cd2a8b0ef.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/02/13/299598919/ee473bdb4b2bcf0a6eb996d715c5cc38_4929919493010391681.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 12,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/02/13/299598919/ee473bdb4b2bcf0a6eb996d715c5cc38_4929919493010391681.png"
+  }
+ },
+ {
+  "id": "23030",
+  "name": "落日时起舞",
+  "rarity": 5,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 3524,
+  "icon": "/modules/honkai-star-rail/assets/98ab8e18efb01703.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/07/22/299598919/a5e46f9bce78ccfaac768c44122f6044_4446331404055176937.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 64,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/07/22/299598919/a5e46f9bce78ccfaac768c44122f6044_4446331404055176937.png"
+  }
+ },
+ {
+  "id": "23039",
+  "name": "血火啊，燃烧前路",
+  "rarity": 5,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 5106,
+  "icon": "/modules/honkai-star-rail/assets/66dafe745305368b.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/03/12/299598919/238c80436cd571b37381839761cb0b12_9057720332997970582.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 36,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/03/12/299598919/238c80436cd571b37381839761cb0b12_9057720332997970582.png"
+  }
+ },
+ {
+  "id": "23024",
+  "name": "行于流逝的岸",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 2546,
+  "icon": "/modules/honkai-star-rail/assets/e685af9f86c8f605.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/03/19/299598919/9e9660103e311927a1b5e06f9f07d81d_7498311333580162129.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 61,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/03/19/299598919/9e9660103e311927a1b5e06f9f07d81d_7498311333580162129.png"
+  }
+ },
+ {
+  "id": "23040",
+  "name": "让告别，更美一些",
+  "rarity": 5,
+  "path": "Memory",
+  "pathName": "记忆",
+  "contentId": 5154,
+  "icon": "/modules/honkai-star-rail/assets/55acca536b459275.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/04/08/299598919/8b35614039025652e16a037ffc9a06ac_3703826638385418673.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 24,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "让告别，更美一些",
+    "kind": "advance",
+    "value": 12.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "当装备者的忆灵消失时，使装备者行动提前12%"
+   },
+   {
+    "source": "光锥",
+    "name": "让告别，更美一些",
+    "kind": "advance",
+    "value": 15.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "当装备者的忆灵消失时，使装备者行动提前15%"
+   },
+   {
+    "source": "光锥",
+    "name": "让告别，更美一些",
+    "kind": "advance",
+    "value": 18.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "当装备者的忆灵消失时，使装备者行动提前18%"
+   },
+   {
+    "source": "光锥",
+    "name": "让告别，更美一些",
+    "kind": "advance",
+    "value": 21.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "当装备者的忆灵消失时，使装备者行动提前21%"
+   },
+   {
+    "source": "光锥",
+    "name": "让告别，更美一些",
+    "kind": "advance",
+    "value": 24.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "当装备者的忆灵消失时，使装备者行动提前24%"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/04/08/299598919/8b35614039025652e16a037ffc9a06ac_3703826638385418673.png"
+  }
+ },
+ {
+  "id": "24000",
+  "name": "记一位星神的陨落",
+  "rarity": 5,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 844,
+  "icon": "/modules/honkai-star-rail/assets/9e41181db2b5acfe.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/24/276833758/e32654f5e896bdb2a52982cb007a94d1_352276020096152326.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 86,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/24/276833758/e32654f5e896bdb2a52982cb007a94d1_352276020096152326.png"
+  }
+ },
+ {
+  "id": "24005",
+  "name": "记忆永不落幕",
+  "rarity": 5,
+  "path": "Memory",
+  "pathName": "记忆",
+  "contentId": 4957,
+  "icon": "/modules/honkai-star-rail/assets/b39dfaa27c14ed6f.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/02/19/299598919/0d538be7ac65044fa5f9255ffa863e7f_7453925995714279496.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 63,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "记忆永不落幕",
+    "kind": "pct",
+    "value": 6.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "使装备者的速度提高6.0%"
+   },
+   {
+    "source": "光锥",
+    "name": "记忆永不落幕",
+    "kind": "pct",
+    "value": 7.5,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "使装备者的速度提高7.5%"
+   },
+   {
+    "source": "光锥",
+    "name": "记忆永不落幕",
+    "kind": "pct",
+    "value": 9.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "使装备者的速度提高9.0%"
+   },
+   {
+    "source": "光锥",
+    "name": "记忆永不落幕",
+    "kind": "pct",
+    "value": 10.5,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "使装备者的速度提高10.5%"
+   },
+   {
+    "source": "光锥",
+    "name": "记忆永不落幕",
+    "kind": "pct",
+    "value": 12.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "使装备者的速度提高12.0%"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/02/19/299598919/0d538be7ac65044fa5f9255ffa863e7f_7453925995714279496.png"
+  }
+ },
+ {
+  "id": "24002",
+  "name": "记忆的质料",
+  "rarity": 5,
+  "path": "Knight",
+  "pathName": "存护",
+  "contentId": 871,
+  "icon": "/modules/honkai-star-rail/assets/10f737492e836f74.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/302610298/0467dde9dc8e32c06ca5e007549f5cfc_439668997699904332.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 84,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/302610298/0467dde9dc8e32c06ca5e007549f5cfc_439668997699904332.png"
+  }
+ },
+ {
+  "id": "23043",
+  "name": "谎言在风中飘扬",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 5574,
+  "icon": "/modules/honkai-star-rail/assets/3366e0173f47f26e.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/06/11/197948068/d86776c0ee96ab60ef567c4d003664b3_2668588483194102093.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 35,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "谎言在风中飘扬",
+    "kind": "pct",
+    "value": 18.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "使装备者的速度提高18%"
+   },
+   {
+    "source": "光锥",
+    "name": "谎言在风中飘扬",
+    "kind": "pct",
+    "value": 21.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "使装备者的速度提高21%"
+   },
+   {
+    "source": "光锥",
+    "name": "谎言在风中飘扬",
+    "kind": "pct",
+    "value": 24.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "使装备者的速度提高24%"
+   },
+   {
+    "source": "光锥",
+    "name": "谎言在风中飘扬",
+    "kind": "pct",
+    "value": 27.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "使装备者的速度提高27%"
+   },
+   {
+    "source": "光锥",
+    "name": "谎言在风中飘扬",
+    "kind": "pct",
+    "value": 30.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "使装备者的速度提高30%"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/06/11/197948068/d86776c0ee96ab60ef567c4d003664b3_2668588483194102093.png"
+  }
+ },
+ {
+  "id": "23058",
+  "name": "邂逅于下一个花季",
+  "rarity": 5,
+  "path": "Elation",
+  "pathName": "欢愉",
+  "contentId": 7477,
+  "icon": "/modules/honkai-star-rail/assets/6358d7812ab49346.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/05/13/299598919/0ca76cdb1e05465dc78729c540d6c6de_5445063082863773509.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 1,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/05/13/299598919/0ca76cdb1e05465dc78729c540d6c6de_5445063082863773509.png"
+  }
+ },
+ {
+  "id": "23029",
+  "name": "那无数个春天",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 3713,
+  "icon": "/modules/honkai-star-rail/assets/d1bf2a5e8e8001ed.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/08/09/299598919/29ad0627a466cd64d35dc2ea30c00955_3261209240102863272.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 60,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/08/09/299598919/29ad0627a466cd64d35dc2ea30c00955_3261209240102863272.png"
+  }
+ },
+ {
+  "id": "23022",
+  "name": "重塑时光之忆",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 2313,
+  "icon": "/modules/honkai-star-rail/assets/1bc57541a1eaf2f1.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/302610298/688b021db44ea4c0c5987595173326a4_6177221834950398991.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 31,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/302610298/688b021db44ea4c0c5987595173326a4_6177221834950398991.png"
+  }
+ },
+ {
+  "id": "23048",
+  "name": "金血铭刻的时代",
+  "rarity": 5,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "contentId": 5847,
+  "icon": "/modules/honkai-star-rail/assets/373962d1a0dc43a9.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/01/299598919/753e642fb52d295b15cfe6f1de5f2a1f_7573695822422846334.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 9,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/01/299598919/753e642fb52d295b15cfe6f1de5f2a1f_7573695822422846334.png"
+  }
+ },
+ {
+  "id": "23000",
+  "name": "银河铁道之夜",
+  "rarity": 5,
+  "path": "Mage",
+  "pathName": "智识",
+  "contentId": 390,
+  "icon": "/modules/honkai-star-rail/assets/6426de8cf51c0c64.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/e7edd6a326cc7c3c7d50bdf5232bdac4_8916170144710666308.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 81,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/e7edd6a326cc7c3c7d50bdf5232bdac4_8916170144710666308.png"
+  }
+ },
+ {
+  "id": "23019",
+  "name": "镜中故我",
+  "rarity": 5,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "contentId": 2089,
+  "icon": "/modules/honkai-star-rail/assets/769c33ba6d695abf.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2023/12/22/279865110/455b5ac67a8fb518d11dfaefd9919954_923415315140351433.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 69,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2023/12/22/279865110/455b5ac67a8fb518d11dfaefd9919954_923415315140351433.png"
+  }
+ },
+ {
+  "id": "23035",
+  "name": "长路终有归途",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 4577,
+  "icon": "/modules/honkai-star-rail/assets/fad8503b0b82e231.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/12/18/299598919/35cc0edd608bc0c59a7b0a29a66ac175_6858786014701291054.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 33,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/12/18/299598919/35cc0edd608bc0c59a7b0a29a66ac175_6858786014701291054.png"
+  }
+ },
+ {
+  "id": "23007",
+  "name": "雨一直下",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 1086,
+  "icon": "/modules/honkai-star-rail/assets/f81b9bd2d4451ee6.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/8a4eca8d37a5bfa0032d824b53b2e76a_509164481897230723.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 39,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/8a4eca8d37a5bfa0032d824b53b2e76a_509164481897230723.png"
+  }
+ },
+ {
+  "id": "23027",
+  "name": "驶向第二次生命",
+  "rarity": 5,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "contentId": 2883,
+  "icon": "/modules/honkai-star-rail/assets/f2a24fe9bc5a422c.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/22/299598919/6b8ad4e004ada73ba6bb0f7985c9619c_104806879307732227.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 27,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "驶向第二次生命",
+    "kind": "pct",
+    "value": 12.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "当装备者在战斗中击破特攻大于等于150%时，速度提高12%"
+   },
+   {
+    "source": "光锥",
+    "name": "驶向第二次生命",
+    "kind": "pct",
+    "value": 14.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "当装备者在战斗中击破特攻大于等于150%时，速度提高14%"
+   },
+   {
+    "source": "光锥",
+    "name": "驶向第二次生命",
+    "kind": "pct",
+    "value": 16.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "当装备者在战斗中击破特攻大于等于150%时，速度提高16%"
+   },
+   {
+    "source": "光锥",
+    "name": "驶向第二次生命",
+    "kind": "pct",
+    "value": 18.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "当装备者在战斗中击破特攻大于等于150%时，速度提高18%"
+   },
+   {
+    "source": "光锥",
+    "name": "驶向第二次生命",
+    "kind": "pct",
+    "value": 20.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "当装备者在战斗中击破特攻大于等于150%时，速度提高20%"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/22/299598919/6b8ad4e004ada73ba6bb0f7985c9619c_104806879307732227.png"
+  }
+ },
+ {
+  "id": "23044",
+  "name": "黎明恰如此燃烧",
+  "rarity": 5,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 5622,
+  "icon": "/modules/honkai-star-rail/assets/21987a9c5fae903c.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/06/25/299598919/bd12c26bd6a09336e444f786072e6a58_5753716842770110261.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 16,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/06/25/299598919/bd12c26bd6a09336e444f786072e6a58_5753716842770110261.png"
+  }
+ },
+ {
+  "id": "21006",
+  "name": "「我」的诞生",
+  "rarity": 4,
+  "path": "Mage",
+  "pathName": "智识",
+  "contentId": 196,
+  "icon": "/modules/honkai-star-rail/assets/fed918ed80fc25a3.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/55d39730daedb2da8ae1a1de27a3423a_3609028583271316396.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 135,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/55d39730daedb2da8ae1a1de27a3423a_3609028583271316396.png"
+  }
+ },
+ {
+  "id": "21000",
+  "name": "一场术后对话",
+  "rarity": 4,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "contentId": 221,
+  "icon": "/modules/honkai-star-rail/assets/de67141be16df883.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/4466b87c404a78ffffa6896b33f8af99_9065925211774712632.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 141,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/4466b87c404a78ffffa6896b33f8af99_9065925211774712632.png"
+  }
+ },
+ {
+  "id": "21058",
+  "name": "一行往日的血",
+  "rarity": 4,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 5626,
+  "icon": "/modules/honkai-star-rail/assets/258eb13eb24f2bff.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/06/29/299598919/8d2bfb00b6a22c65d500004f90a53f82_5764210145790687212.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 57,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/06/29/299598919/8d2bfb00b6a22c65d500004f90a53f82_5764210145790687212.png"
+  }
+ },
+ {
+  "id": "21011",
+  "name": "与行星相会",
+  "rarity": 4,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "contentId": 244,
+  "icon": "/modules/honkai-star-rail/assets/2fe4ab4f710e9582.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/80663279/58e8a11dbc14418157845e2e8c249614_5163147387852431990.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 130,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/80663279/58e8a11dbc14418157845e2e8c249614_5163147387852431990.png"
+  }
+ },
+ {
+  "id": "21043",
+  "name": "两个人的演唱会",
+  "rarity": 4,
+  "path": "Knight",
+  "pathName": "存护",
+  "contentId": 2586,
+  "icon": "/modules/honkai-star-rail/assets/1f211c0da9f854f2.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/302610298/6b7b136ee3cfc8d125cdac918a3a6c3a_263563941812281660.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 98,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/302610298/6b7b136ee3cfc8d125cdac918a3a6c3a_263563941812281660.png"
+  }
+ },
+ {
+  "id": "22002",
+  "name": "为了明日的旅途",
+  "rarity": 4,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "contentId": 2729,
+  "icon": "/modules/honkai-star-rail/assets/322b43055c750444.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/80663279/d94864f5f6be6111456bbd63d42c6d10_1846826427784324916.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 142,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/80663279/d94864f5f6be6111456bbd63d42c6d10_1846826427784324916.png"
+  }
+ },
+ {
+  "id": "21062",
+  "name": "于那终点再见",
+  "rarity": 4,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "contentId": 5623,
+  "icon": "/modules/honkai-star-rail/assets/4786ad844d38323e.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/06/25/299598919/b17bb54ca5cd48a85d028012eaac5ea5_2123035886278498384.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 54,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/06/25/299598919/b17bb54ca5cd48a85d028012eaac5ea5_2123035886278498384.png"
+  }
+ },
+ {
+  "id": "21034",
+  "name": "今日亦是和平的一日",
+  "rarity": 4,
+  "path": "Mage",
+  "pathName": "智识",
+  "contentId": 546,
+  "icon": "/modules/honkai-star-rail/assets/df15ee18b41cbf07.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/ddd008fefd6920aab47997497a84f3f8_6507486394170507946.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 107,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/ddd008fefd6920aab47997497a84f3f8_6507486394170507946.png"
+  }
+ },
+ {
+  "id": "21065",
+  "name": "今日好手气",
+  "rarity": 4,
+  "path": "Elation",
+  "pathName": "欢愉",
+  "contentId": 6876,
+  "icon": "/modules/honkai-star-rail/assets/3d8340263a6203c1.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/02/13/299598919/201599e460ee6620cc83f0a6793f0bdd_2356697553820399613.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 47,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/02/13/299598919/201599e460ee6620cc83f0a6793f0bdd_2356697553820399613.png"
+  }
+ },
+ {
+  "id": "21035",
+  "name": "何物为真",
+  "rarity": 4,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "contentId": 2320,
+  "icon": "/modules/honkai-star-rail/assets/417e44cf0a2b28e3.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/02/04/279865110/0081cd55105b9fa6a14aa507b7e006bf_510009601232383441.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 106,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/02/04/279865110/0081cd55105b9fa6a14aa507b7e006bf_510009601232383441.png"
+  }
+ },
+ {
+  "id": "21002",
+  "name": "余生的第一天",
+  "rarity": 4,
+  "path": "Knight",
+  "pathName": "存护",
+  "contentId": 271,
+  "icon": "/modules/honkai-star-rail/assets/cd7f837c28b59526.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/f8e4e16f6cc144d7a4eadb0987063429_2074944416623489134.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 139,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/f8e4e16f6cc144d7a4eadb0987063429_2074944416623489134.png"
+  }
+ },
+ {
+  "id": "21061",
+  "name": "假日浴场大冒险",
+  "rarity": 4,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 5624,
+  "icon": "/modules/honkai-star-rail/assets/4354dffdbfd0df83.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/06/25/299598919/c1b188dddd683abf60995677999e405c_6956057955140291372.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 52,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/06/25/299598919/c1b188dddd683abf60995677999e405c_6956057955140291372.png"
+  }
+ },
+ {
+  "id": "21015",
+  "name": "决心如汗珠般闪耀",
+  "rarity": 4,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 853,
+  "icon": "/modules/honkai-star-rail/assets/fbb435281f4593d8.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/bd191974a51a465c8afa61aa70099cf3_4666128362298823122.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 126,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/bd191974a51a465c8afa61aa70099cf3_4666128362298823122.png"
+  }
+ },
+ {
+  "id": "21013",
+  "name": "别让世界静下来",
+  "rarity": 4,
+  "path": "Mage",
+  "pathName": "智识",
+  "contentId": 200,
+  "icon": "/modules/honkai-star-rail/assets/a66ab68e140bd3e1.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/29dbbce48413acdcaf5bea573cd51ffc_5876788075948048304.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 128,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/29dbbce48413acdcaf5bea573cd51ffc_5876788075948048304.png"
+  }
+ },
+ {
+  "id": "21007",
+  "name": "同一种心情",
+  "rarity": 4,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "contentId": 360,
+  "icon": "/modules/honkai-star-rail/assets/3a4c7fe15ab1f2b9.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/8ae198f0cf19b8e2041cd5320cd5ed5f_1768920922183907672.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 134,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/8ae198f0cf19b8e2041cd5320cd5ed5f_1768920922183907672.png"
+  }
+ },
+ {
+  "id": "21029",
+  "name": "后会有期",
+  "rarity": 4,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 543,
+  "icon": "/modules/honkai-star-rail/assets/8c9926a128e627d9.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/b7c0d8af4290a2a7070c44fd86eb381c_4604132035137003234.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 112,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/b7c0d8af4290a2a7070c44fd86eb381c_4604132035137003234.png"
+  }
+ },
+ {
+  "id": "22008",
+  "name": "向着地平线的终点",
+  "rarity": 4,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "contentId": 7990,
+  "icon": "/modules/honkai-star-rail/assets/343f86eeb6a94a43.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/08/26/299598919/b8d5f59c4433c6d1b5239d8be2735900_6745489985144196328.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 44,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/08/26/299598919/b8d5f59c4433c6d1b5239d8be2735900_6745489985144196328.png"
+  }
+ },
+ {
+  "id": "21003",
+  "name": "唯有沉默",
+  "rarity": 4,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "contentId": 66,
+  "icon": "/modules/honkai-star-rail/assets/d3cf016b15b52474.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/26207c06c88dc6e6acf09d5075222a96_3394515290750449816.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 138,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/26207c06c88dc6e6acf09d5075222a96_3394515290750449816.png"
+  }
+ },
+ {
+  "id": "22001",
+  "name": "嘿，我在这儿",
+  "rarity": 4,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "contentId": 1964,
+  "icon": "/modules/honkai-star-rail/assets/410251a9dfd147f3.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2023/11/14/75216984/913d45761df3ecb16a1a791d0c71f08f_7363791401001638005.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 143,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2023/11/14/75216984/913d45761df3ecb16a1a791d0c71f08f_7363791401001638005.png"
+  }
+ },
+ {
+  "id": "21038",
+  "name": "在火的远处",
+  "rarity": 4,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 2319,
+  "icon": "/modules/honkai-star-rail/assets/9fade29b6f4fdc20.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/02/04/279865110/942124cdf2810db3a5a744468eef79eb_5368028484572427577.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 103,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/02/04/279865110/942124cdf2810db3a5a744468eef79eb_5368028484572427577.png"
+  }
+ },
+ {
+  "id": "21019",
+  "name": "在蓝天下",
+  "rarity": 4,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 845,
+  "icon": "/modules/honkai-star-rail/assets/5333e38b8b66287f.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/24/276833758/e18149f00e9aec5dd43c8690c3da7582_4639892382802029209.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 122,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/24/276833758/e18149f00e9aec5dd43c8690c3da7582_4639892382802029209.png"
+  }
+ },
+ {
+  "id": "21052",
+  "name": "多流汗，少流泪",
+  "rarity": 4,
+  "path": "Memory",
+  "pathName": "记忆",
+  "contentId": 4641,
+  "icon": "/modules/honkai-star-rail/assets/f1abe9be9d24e028.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/01/07/299598919/e7ffe591dcd073f334ac7a8e137f7b06_3217398018073022162.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 89,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/01/07/299598919/e7ffe591dcd073f334ac7a8e137f7b06_3217398018073022162.png"
+  }
+ },
+ {
+  "id": "21020",
+  "name": "天才们的休憩",
+  "rarity": 4,
+  "path": "Mage",
+  "pathName": "智识",
+  "contentId": 856,
+  "icon": "/modules/honkai-star-rail/assets/1f49486339bd1db0.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/8b7b4f49209407d362d013cfee2d5dd5_7646184036601551342.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 121,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/8b7b4f49209407d362d013cfee2d5dd5_7646184036601551342.png"
+  }
+ },
+ {
+  "id": "21051",
+  "name": "天才们的问候",
+  "rarity": 4,
+  "path": "Memory",
+  "pathName": "记忆",
+  "contentId": 4684,
+  "icon": "/modules/honkai-star-rail/assets/af9fd0e938fe41ef.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/01/16/299598919/47b8755bcaa7c2219c988ae384005bd0_8964799793880676825.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 88,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/01/16/299598919/47b8755bcaa7c2219c988ae384005bd0_8964799793880676825.png"
+  }
+ },
+ {
+  "id": "21041",
+  "name": "好戏开演",
+  "rarity": 4,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 2325,
+  "icon": "/modules/honkai-star-rail/assets/99a4a3699434076b.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/02/04/279865110/d838b1fe02fa6552a7e0731dc9bfd6ff_714564013491787331.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 100,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/02/04/279865110/d838b1fe02fa6552a7e0731dc9bfd6ff_714564013491787331.png"
+  }
+ },
+ {
+  "id": "22004",
+  "name": "宇宙大生意",
+  "rarity": 4,
+  "path": "Mage",
+  "pathName": "智识",
+  "contentId": 5155,
+  "icon": "/modules/honkai-star-rail/assets/3fe7613231ee559a.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/04/08/299598919/6df3a41b1cc5c54823f58b91e961d76a_7542897907261002437.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 87,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/04/08/299598919/6df3a41b1cc5c54823f58b91e961d76a_7542897907261002437.png"
+  }
+ },
+ {
+  "id": "21016",
+  "name": "宇宙市场趋势",
+  "rarity": 4,
+  "path": "Knight",
+  "pathName": "存护",
+  "contentId": 848,
+  "icon": "/modules/honkai-star-rail/assets/06f47a06d242e0ee.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/302610298/cd432a9c2a9bc414dbd16b65e9de3fad_706141158933914651.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 125,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/302610298/cd432a9c2a9bc414dbd16b65e9de3fad_706141158933914651.png"
+  }
+ },
+ {
+  "id": "21022",
+  "name": "延长记号",
+  "rarity": 4,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 850,
+  "icon": "/modules/honkai-star-rail/assets/241fb0c7602e2aef.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/f930743da9e0b4890146df10f41b9986_5141859286021515887.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 119,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/f930743da9e0b4890146df10f41b9986_5141859286021515887.png"
+  }
+ },
+ {
+  "id": "22003",
+  "name": "忍事录•音律狩猎",
+  "rarity": 4,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 4254,
+  "icon": "/modules/honkai-star-rail/assets/5f9766a204f01262.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/10/22/276833758/74327dddf92aad496358b8af5317f5a0_2404174723386638584.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 92,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/10/22/276833758/74327dddf92aad496358b8af5317f5a0_2404174723386638584.png"
+  }
+ },
+ {
+  "id": "21053",
+  "name": "愿旅途永远坦然",
+  "rarity": 4,
+  "path": "Knight",
+  "pathName": "存护",
+  "contentId": 5631,
+  "icon": "/modules/honkai-star-rail/assets/a14ade67df0a9514.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/06/29/299598919/6c79c95270d5dafd5ec3282d2e182188_2141444453280017933.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 53,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/06/29/299598919/6c79c95270d5dafd5ec3282d2e182188_2141444453280017933.png"
+  }
+ },
+ {
+  "id": "21023",
+  "name": "我们是地火",
+  "rarity": 4,
+  "path": "Knight",
+  "pathName": "存护",
+  "contentId": 849,
+  "icon": "/modules/honkai-star-rail/assets/cf915e361cd8b14b.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/302610298/fb58027f92328541f4e8509a543695f1_289678924916514457.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 118,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/302610298/fb58027f92328541f4e8509a543695f1_289678924916514457.png"
+  }
+ },
+ {
+  "id": "21066",
+  "name": "放个短假",
+  "rarity": 4,
+  "path": "Elation",
+  "pathName": "欢愉",
+  "contentId": 7989,
+  "icon": "/modules/honkai-star-rail/assets/059750c2ab9e5317.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/08/26/299598919/0c582656786ef1988bb706234f1dd34f_3071688159469136894.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 45,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/08/26/299598919/0c582656786ef1988bb706234f1dd34f_3071688159469136894.png"
+  }
+ },
+ {
+  "id": "21054",
+  "name": "故事的下一页",
+  "rarity": 4,
+  "path": "Memory",
+  "pathName": "记忆",
+  "contentId": 5630,
+  "icon": "/modules/honkai-star-rail/assets/327639b907e62821.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/06/29/299598919/19828a700da213bb4bac9bac736f97af_8213713847173898350.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 58,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/06/29/299598919/19828a700da213bb4bac9bac736f97af_8213713847173898350.png"
+  }
+ },
+ {
+  "id": "22000",
+  "name": "新手任务开始前",
+  "rarity": 4,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 1087,
+  "icon": "/modules/honkai-star-rail/assets/366f98629f50419a.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/85dad2cdb446f311998a8ce3bf5257e8_6870740146546533281.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 144,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/85dad2cdb446f311998a8ce3bf5257e8_6870740146546533281.png"
+  }
+ },
+ {
+  "id": "21033",
+  "name": "无处可逃",
+  "rarity": 4,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 549,
+  "icon": "/modules/honkai-star-rail/assets/ee97a1fa786e10f1.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/24/276833758/3f69a6e6c7076ec29897b1f0a04590ae_5601959838266435939.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 108,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/24/276833758/3f69a6e6c7076ec29897b1f0a04590ae_5601959838266435939.png"
+  }
+ },
+ {
+  "id": "21044",
+  "name": "无边曼舞",
+  "rarity": 4,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 2730,
+  "icon": "/modules/honkai-star-rail/assets/99ea236f529b7382.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/08/299598919/d64ea8ccfaf1e06f823baf8dd3c2ee45_159382635701080494.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 97,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/08/299598919/d64ea8ccfaf1e06f823baf8dd3c2ee45_159382635701080494.png"
+  }
+ },
+ {
+  "id": "21027",
+  "name": "早餐的仪式感",
+  "rarity": 4,
+  "path": "Mage",
+  "pathName": "智识",
+  "contentId": 545,
+  "icon": "/modules/honkai-star-rail/assets/67b7784568f8485d.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/aeacdff5238e219aa853a43318932692_5864479766398806354.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 114,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/aeacdff5238e219aa853a43318932692_5864479766398806354.png"
+  }
+ },
+ {
+  "id": "21024",
+  "name": "春水初生",
+  "rarity": 4,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "contentId": 855,
+  "icon": "/modules/honkai-star-rail/assets/479f1e51294c2d89.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/d48ab60ab5a2b5c16a6221fbe9a1029c_2018192525134178614.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 117,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "春水初生",
+    "kind": "pct",
+    "value": 8.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "进入战斗后，使装备者速度提高8%，造成的伤害提高12%"
+   },
+   {
+    "source": "光锥",
+    "name": "春水初生",
+    "kind": "pct",
+    "value": 9.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "进入战斗后，使装备者速度提高9%，造成的伤害提高15%"
+   },
+   {
+    "source": "光锥",
+    "name": "春水初生",
+    "kind": "pct",
+    "value": 10.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "进入战斗后，使装备者速度提高10%，造成的伤害提高18%"
+   },
+   {
+    "source": "光锥",
+    "name": "春水初生",
+    "kind": "pct",
+    "value": 11.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "进入战斗后，使装备者速度提高11%，造成的伤害提高21%"
+   },
+   {
+    "source": "光锥",
+    "name": "春水初生",
+    "kind": "pct",
+    "value": 12.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "进入战斗后，使装备者速度提高12%，造成的伤害提高24%"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/d48ab60ab5a2b5c16a6221fbe9a1029c_2018192525134178614.png"
+  }
+ },
+ {
+  "id": "21001",
+  "name": "晚安与睡颜",
+  "rarity": 4,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 224,
+  "icon": "/modules/honkai-star-rail/assets/58c11e8b9862888b.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/5a61371cd7189e0863c24dce73cb7acd_8248582663786039646.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 140,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/5a61371cd7189e0863c24dce73cb7acd_8248582663786039646.png"
+  }
+ },
+ {
+  "id": "21028",
+  "name": "暖夜不会漫长",
+  "rarity": 4,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "contentId": 541,
+  "icon": "/modules/honkai-star-rail/assets/5899e2c973145f49.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/68a540a7073f22e107194d603a191af1_4043049272192069630.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 113,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/68a540a7073f22e107194d603a191af1_4043049272192069630.png"
+  }
+ },
+ {
+  "id": "21037",
+  "name": "最后的赢家",
+  "rarity": 4,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "contentId": 2322,
+  "icon": "/modules/honkai-star-rail/assets/376c53388d531bde.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/02/04/279865110/371f607d7cec5c790b96ffbbf83a7c63_7773387794281375618.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 104,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/02/04/279865110/371f607d7cec5c790b96ffbbf83a7c63_7773387794281375618.png"
+  }
+ },
+ {
+  "id": "21009",
+  "name": "朗道的选择",
+  "rarity": 4,
+  "path": "Knight",
+  "pathName": "存护",
+  "contentId": 419,
+  "icon": "/modules/honkai-star-rail/assets/a38490ee6e96149a.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/35f70cc6a66dad6202a985c96b796e6e_5321135466049037353.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 132,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/35f70cc6a66dad6202a985c96b796e6e_5321135466049037353.png"
+  }
+ },
+ {
+  "id": "22007",
+  "name": "未来，有我们一起",
+  "rarity": 4,
+  "path": "Elation",
+  "pathName": "欢愉",
+  "contentId": 7438,
+  "icon": "/modules/honkai-star-rail/assets/a3e06fd1a9b939ef.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/04/28/299598919/0e9800be6d3078528e29241fede3c036_8870077311307673229.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 94,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/04/28/299598919/0e9800be6d3078528e29241fede3c036_8870077311307673229.png"
+  }
+ },
+ {
+  "id": "21048",
+  "name": "梦的蒙太奇",
+  "rarity": 4,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "contentId": 4237,
+  "icon": "/modules/honkai-star-rail/assets/e809b0b5cf13651c.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/10/15/299598919/6923fa9a18a24435fbc605dbfb68d538_5066971036486704000.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 91,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "梦的蒙太奇",
+    "kind": "pct",
+    "value": 8.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "使装备者的速度提高8%，攻击处于弱点击破状态下的敌方目标后，恢复3.0点能量，该效果每回合最多触发2次"
+   },
+   {
+    "source": "光锥",
+    "name": "梦的蒙太奇",
+    "kind": "pct",
+    "value": 9.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "使装备者的速度提高9%，攻击处于弱点击破状态下的敌方目标后，恢复3.5点能量，该效果每回合最多触发2次"
+   },
+   {
+    "source": "光锥",
+    "name": "梦的蒙太奇",
+    "kind": "pct",
+    "value": 10.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "使装备者的速度提高10%，攻击处于弱点击破状态下的敌方目标后，恢复4.0点能量，该效果每回合最多触发2次"
+   },
+   {
+    "source": "光锥",
+    "name": "梦的蒙太奇",
+    "kind": "pct",
+    "value": 11.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "使装备者的速度提高11%，攻击处于弱点击破状态下的敌方目标后，恢复4.5点能量，该效果每回合最多触发2次"
+   },
+   {
+    "source": "光锥",
+    "name": "梦的蒙太奇",
+    "kind": "pct",
+    "value": 12.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "使装备者的速度提高12%，攻击处于弱点击破状态下的敌方目标后，恢复5.0点能量，该效果每回合最多触发2次"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/10/15/299598919/6923fa9a18a24435fbc605dbfb68d538_5066971036486704000.png"
+  }
+ },
+ {
+  "id": "21014",
+  "name": "此时恰好",
+  "rarity": 4,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "contentId": 846,
+  "icon": "/modules/honkai-star-rail/assets/a00f789351958dd5.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/74b769d790fc9ec5f0c1ff5d7a0aa3bb_2866913374414451707.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 127,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/74b769d790fc9ec5f0c1ff5d7a0aa3bb_2866913374414451707.png"
+  }
+ },
+ {
+  "id": "21060",
+  "name": "氤氲麦香的梦",
+  "rarity": 4,
+  "path": "Mage",
+  "pathName": "智识",
+  "contentId": 5625,
+  "icon": "/modules/honkai-star-rail/assets/d7102feb84dcfed1.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/06/29/299598919/f90489c8e01efde0f1a2102175a7214f_7964195661280700908.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 56,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/06/29/299598919/f90489c8e01efde0f1a2102175a7214f_7964195661280700908.png"
+  }
+ },
+ {
+  "id": "22005",
+  "name": "永远的迷境饭",
+  "rarity": 4,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "contentId": 5771,
+  "icon": "/modules/honkai-star-rail/assets/67f2cc92a3ba2d95.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/08/19/299598919/a10c5f7dde740dfec60f55d11075d4d7_6428010159150043699.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 50,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/08/19/299598919/a10c5f7dde740dfec60f55d11075d4d7_6428010159150043699.png"
+  }
+ },
+ {
+  "id": "21026",
+  "name": "汪！散步时间！",
+  "rarity": 4,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 548,
+  "icon": "/modules/honkai-star-rail/assets/af0dde51deb25c9c.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/24/276833758/b0955aed6b68b3e659eceec91450cd20_4715711631028072461.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 115,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/24/276833758/b0955aed6b68b3e659eceec91450cd20_4715711631028072461.png"
+  }
+ },
+ {
+  "id": "21017",
+  "name": "点个关注吧！",
+  "rarity": 4,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "contentId": 854,
+  "icon": "/modules/honkai-star-rail/assets/23d30583cb5364fd.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/3354c9c86cbabd048467c69f906e10f2_8527620291650769591.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 124,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/3354c9c86cbabd048467c69f906e10f2_8527620291650769591.png"
+  }
+ },
+ {
+  "id": "21008",
+  "name": "猎物的视线",
+  "rarity": 4,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 225,
+  "icon": "/modules/honkai-star-rail/assets/02206a2f8efdae6a.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/8a5b7f296278abd8f411c0115d8b257d_4125158378996459840.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 133,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/8a5b7f296278abd8f411c0115d8b257d_4125158378996459840.png"
+  }
+ },
+ {
+  "id": "21055",
+  "name": "直到明天的明天",
+  "rarity": 4,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "contentId": 5629,
+  "icon": "/modules/honkai-star-rail/assets/c5b8179a57ead6b1.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/06/29/299598919/6d936182ba1aaae829a49c14ccc71546_4928491545977158462.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 51,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/06/29/299598919/6d936182ba1aaae829a49c14ccc71546_4928491545977158462.png"
+  }
+ },
+ {
+  "id": "21012",
+  "name": "秘密誓心",
+  "rarity": 4,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 222,
+  "icon": "/modules/honkai-star-rail/assets/bb1117908d013ba6.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/90f0bfb4cea78a53f9d564e6b810bc69_8593286288619743802.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 129,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/90f0bfb4cea78a53f9d564e6b810bc69_8593286288619743802.png"
+  }
+ },
+ {
+  "id": "21021",
+  "name": "等价交换",
+  "rarity": 4,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "contentId": 847,
+  "icon": "/modules/honkai-star-rail/assets/d87dc91c87f4d3a4.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/0fe1786f90e8ffb0d8e8c19938c651a6_1189168761296957531.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 120,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/0fe1786f90e8ffb0d8e8c19938c651a6_1189168761296957531.png"
+  }
+ },
+ {
+  "id": "21039",
+  "name": "织造命运之线",
+  "rarity": 4,
+  "path": "Knight",
+  "pathName": "存护",
+  "contentId": 2323,
+  "icon": "/modules/honkai-star-rail/assets/0601667db74876bb.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/302610298/54774f62bccb0f5b3d1a1f04f20d0b7c_5536534879934199639.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 102,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/302610298/54774f62bccb0f5b3d1a1f04f20d0b7c_5536534879934199639.png"
+  }
+ },
+ {
+  "id": "21036",
+  "name": "美梦小镇大冒险",
+  "rarity": 4,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "contentId": 2321,
+  "icon": "/modules/honkai-star-rail/assets/19edf0a54b8ec621.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/80663279/207a0a841f47f2b1ece35ddacacc6f04_1364033505784784699.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 105,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/80663279/207a0a841f47f2b1ece35ddacacc6f04_1364033505784784699.png"
+  }
+ },
+ {
+  "id": "21050",
+  "name": "胜利只在朝夕间",
+  "rarity": 4,
+  "path": "Memory",
+  "pathName": "记忆",
+  "contentId": 4642,
+  "icon": "/modules/honkai-star-rail/assets/32124f8c2357ec4f.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/01/07/299598919/888d3e89f26442cd67591bb32353c11f_4878646284837484654.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 90,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/01/07/299598919/888d3e89f26442cd67591bb32353c11f_4878646284837484654.png"
+  }
+ },
+ {
+  "id": "21018",
+  "name": "舞！舞！舞！",
+  "rarity": 4,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "contentId": 851,
+  "icon": "/modules/honkai-star-rail/assets/510fb944f3b195b8.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/80663279/01dda3544239ceee5bd07f93bb59ec73_3807002833122783082.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 123,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "舞！舞！舞！",
+    "kind": "advance",
+    "value": 16.0,
+    "apply": "team",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "当装备者施放终结技后，我方全体行动提前16%"
+   },
+   {
+    "source": "光锥",
+    "name": "舞！舞！舞！",
+    "kind": "advance",
+    "value": 18.0,
+    "apply": "team",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "当装备者施放终结技后，我方全体行动提前18%"
+   },
+   {
+    "source": "光锥",
+    "name": "舞！舞！舞！",
+    "kind": "advance",
+    "value": 20.0,
+    "apply": "team",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "当装备者施放终结技后，我方全体行动提前20%"
+   },
+   {
+    "source": "光锥",
+    "name": "舞！舞！舞！",
+    "kind": "advance",
+    "value": 22.0,
+    "apply": "team",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "当装备者施放终结技后，我方全体行动提前22%"
+   },
+   {
+    "source": "光锥",
+    "name": "舞！舞！舞！",
+    "kind": "advance",
+    "value": 24.0,
+    "apply": "team",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "当装备者施放终结技后，我方全体行动提前24%"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/80663279/01dda3544239ceee5bd07f93bb59ec73_3807002833122783082.png"
+  }
+ },
+ {
+  "id": "21057",
+  "name": "花儿不会忘记",
+  "rarity": 4,
+  "path": "Memory",
+  "pathName": "记忆",
+  "contentId": 5627,
+  "icon": "/modules/honkai-star-rail/assets/271148d60e00ad6c.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/06/29/299598919/41bdc5689c25460c965c21dce01c4cfb_4859621724919951627.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 49,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/06/29/299598919/41bdc5689c25460c965c21dce01c4cfb_4859621724919951627.png"
+  }
+ },
+ {
+  "id": "21046",
+  "name": "芳华待灼",
+  "rarity": 4,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "contentId": 3712,
+  "icon": "/modules/honkai-star-rail/assets/37d89bd8af4ed445.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/07/23/299598919/4f9b625e820040573189192e46f4766b_1550143917262692152.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 95,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/07/23/299598919/4f9b625e820040573189192e46f4766b_1550143917262692152.png"
+  }
+ },
+ {
+  "id": "21064",
+  "name": "菇菇嘎嘎历险记",
+  "rarity": 4,
+  "path": "Elation",
+  "pathName": "欢愉",
+  "contentId": 6875,
+  "icon": "/modules/honkai-star-rail/assets/7777f350f5b6e92b.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/02/13/299598919/3830caab95028c90dbe5695f991f537a_4092506721175956649.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 46,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/02/13/299598919/3830caab95028c90dbe5695f991f537a_4092506721175956649.png"
+  }
+ },
+ {
+  "id": "21004",
+  "name": "记忆中的模样",
+  "rarity": 4,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "contentId": 242,
+  "icon": "/modules/honkai-star-rail/assets/b2bd6caf0cecbfc1.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/80663279/080319eb99462760557c73f0f8cef912_283696773002460680.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 137,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/80663279/080319eb99462760557c73f0f8cef912_283696773002460680.png"
+  }
+ },
+ {
+  "id": "21010",
+  "name": "论剑",
+  "rarity": 4,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "contentId": 316,
+  "icon": "/modules/honkai-star-rail/assets/88460a1d51a3d8a8.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/85187164ac1c0b2c985b09664fed15eb_9025911681258788878.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 131,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/85187164ac1c0b2c985b09664fed15eb_9025911681258788878.png"
+  }
+ },
+ {
+  "id": "21045",
+  "name": "谐乐静默之后",
+  "rarity": 4,
+  "path": "Mage",
+  "pathName": "智识",
+  "contentId": 3416,
+  "icon": "/modules/honkai-star-rail/assets/89085264a6e103b3.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/06/28/299598919/9089bcb26aa3c5f3544404add4bd9042_6969364513626188975.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 96,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "谐乐静默之后",
+    "kind": "pct",
+    "value": 8.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "装备者施放终结技后，速度提高8%，持续2回合"
+   },
+   {
+    "source": "光锥",
+    "name": "谐乐静默之后",
+    "kind": "pct",
+    "value": 10.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "装备者施放终结技后，速度提高10%，持续2回合"
+   },
+   {
+    "source": "光锥",
+    "name": "谐乐静默之后",
+    "kind": "pct",
+    "value": 12.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "装备者施放终结技后，速度提高12%，持续2回合"
+   },
+   {
+    "source": "光锥",
+    "name": "谐乐静默之后",
+    "kind": "pct",
+    "value": 14.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "装备者施放终结技后，速度提高14%，持续2回合"
+   },
+   {
+    "source": "光锥",
+    "name": "谐乐静默之后",
+    "kind": "pct",
+    "value": 16.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "装备者施放终结技后，速度提高16%，持续2回合"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/06/28/299598919/9089bcb26aa3c5f3544404add4bd9042_6969364513626188975.png"
+  }
+ },
+ {
+  "id": "21025",
+  "name": "过往未来",
+  "rarity": 4,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "contentId": 852,
+  "icon": "/modules/honkai-star-rail/assets/9e6705820f3af7e3.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/80663279/21234b4147c028118f46658c4ef92fc4_2741684264124201081.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 116,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/80663279/21234b4147c028118f46658c4ef92fc4_2741684264124201081.png"
+  }
+ },
+ {
+  "id": "21030",
+  "name": "这就是我啦！",
+  "rarity": 4,
+  "path": "Knight",
+  "pathName": "存护",
+  "contentId": 542,
+  "icon": "/modules/honkai-star-rail/assets/7d42747a7af9d459.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/a92e4bb7fec3c1f69d8e1cf03c5e7a1f_7781215750819954269.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 111,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/a92e4bb7fec3c1f69d8e1cf03c5e7a1f_7781215750819954269.png"
+  }
+ },
+ {
+  "id": "21056",
+  "name": "追逐风的时候",
+  "rarity": 4,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "contentId": 5628,
+  "icon": "/modules/honkai-star-rail/assets/e5b2dace1473bfa7.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/06/29/299598919/660911d2b864a06eacf0b89d079cf4bd_3358417247818180108.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 55,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/06/29/299598919/660911d2b864a06eacf0b89d079cf4bd_3358417247818180108.png"
+  }
+ },
+ {
+  "id": "21031",
+  "name": "重返幽冥",
+  "rarity": 4,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "contentId": 547,
+  "icon": "/modules/honkai-star-rail/assets/d3d9697e683918aa.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/5749b09da490259f4275348479bdc859_6965708611455220133.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 110,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/5749b09da490259f4275348479bdc859_6965708611455220133.png"
+  }
+ },
+ {
+  "id": "21042",
+  "name": "铭记于心的约定",
+  "rarity": 4,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 2373,
+  "icon": "/modules/honkai-star-rail/assets/cf7dd843a8bc17e6.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/02/05/299598919/6bc84cba844763764733220e63617351_7818286245456547207.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 99,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/02/05/299598919/6bc84cba844763764733220e63617351_7818286245456547207.png"
+  }
+ },
+ {
+  "id": "21040",
+  "name": "银河沦陷日",
+  "rarity": 4,
+  "path": "Mage",
+  "pathName": "智识",
+  "contentId": 2324,
+  "icon": "/modules/honkai-star-rail/assets/dfc2a381ecce5a8a.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/02/04/279865110/8e568cc661edbba36dccfd7aab4aa23f_6926556805403944403.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 101,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/02/04/279865110/8e568cc661edbba36dccfd7aab4aa23f_6926556805403944403.png"
+  }
+ },
+ {
+  "id": "21032",
+  "name": "镂月裁云之意",
+  "rarity": 4,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "contentId": 544,
+  "icon": "/modules/honkai-star-rail/assets/f56373e89aba2963.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/80663279/8c3e9e36303ae9fdcb58454ec2b42711_4952209459584755095.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 109,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/80663279/8c3e9e36303ae9fdcb58454ec2b42711_4952209459584755095.png"
+  }
+ },
+ {
+  "id": "22006",
+  "name": "飞向粉色的明天",
+  "rarity": 4,
+  "path": "Memory",
+  "pathName": "记忆",
+  "contentId": 6475,
+  "icon": "/modules/honkai-star-rail/assets/18656504d2c49744.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/11/07/299598919/fec44e5746f1fe5e9fd471d0944f34af_1784921690815039049.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 48,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/11/07/299598919/fec44e5746f1fe5e9fd471d0944f34af_1784921690815039049.png"
+  }
+ },
+ {
+  "id": "21047",
+  "name": "黑夜如影随行",
+  "rarity": 4,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "contentId": 4158,
+  "icon": "/modules/honkai-star-rail/assets/9a70ee03c583f297.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/09/03/299598919/e22b3e49382a2d0769090c0c2ad56224_7202745990140155434.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 93,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "黑夜如影随行",
+    "kind": "pct",
+    "value": 8.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "进入战斗时或造成击破伤害后，速度提高8%，持续2回合，该效果每回合只可触发1次"
+   },
+   {
+    "source": "光锥",
+    "name": "黑夜如影随行",
+    "kind": "pct",
+    "value": 9.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "进入战斗时或造成击破伤害后，速度提高9%，持续2回合，该效果每回合只可触发1次"
+   },
+   {
+    "source": "光锥",
+    "name": "黑夜如影随行",
+    "kind": "pct",
+    "value": 10.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "进入战斗时或造成击破伤害后，速度提高10%，持续2回合，该效果每回合只可触发1次"
+   },
+   {
+    "source": "光锥",
+    "name": "黑夜如影随行",
+    "kind": "pct",
+    "value": 11.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "进入战斗时或造成击破伤害后，速度提高11%，持续2回合，该效果每回合只可触发1次"
+   },
+   {
+    "source": "光锥",
+    "name": "黑夜如影随行",
+    "kind": "pct",
+    "value": 12.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "进入战斗时或造成击破伤害后，速度提高12%，持续2回合，该效果每回合只可触发1次"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/09/03/299598919/e22b3e49382a2d0769090c0c2ad56224_7202745990140155434.png"
+  }
+ },
+ {
+  "id": "21005",
+  "name": "鼹鼠党欢迎你",
+  "rarity": 4,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 241,
+  "icon": "/modules/honkai-star-rail/assets/3b786a17571ffe1d.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/24/276833758/f2a32caa1a0c02205bd603818da7d5f3_2202438103098652024.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 136,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/24/276833758/f2a32caa1a0c02205bd603818da7d5f3_2202438103098652024.png"
+  }
+ },
+ {
+  "id": "20009",
+  "name": "乐圮",
+  "rarity": 3,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 324,
+  "icon": "/modules/honkai-star-rail/assets/e41037e34ebd5f1e.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/66dd90a9fd7b0416d3293c4294ddc77f_9216649977895098848.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 160,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/66dd90a9fd7b0416d3293c4294ddc77f_9216649977895098848.png"
+  }
+ },
+ {
+  "id": "20016",
+  "name": "俱殁",
+  "rarity": 3,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 556,
+  "icon": "/modules/honkai-star-rail/assets/7badaaf3f68640dd.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/d131e73133dff6547f7bb96bab5b211c_6094721783077445585.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 153,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/d131e73133dff6547f7bb96bab5b211c_6094721783077445585.png"
+  }
+ },
+ {
+  "id": "20018",
+  "name": "匿影",
+  "rarity": 3,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 551,
+  "icon": "/modules/honkai-star-rail/assets/25b77a3fb2a67e25.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/0031472f74576c9fd819ba62954a0237_2514026746214599087.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 151,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/0031472f74576c9fd819ba62954a0237_2514026746214599087.png"
+  }
+ },
+ {
+  "id": "20023",
+  "name": "嗤笑",
+  "rarity": 3,
+  "path": "Elation",
+  "pathName": "欢愉",
+  "contentId": 7097,
+  "icon": "/modules/honkai-star-rail/assets/bad787bd05cfc851.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/03/25/299598919/df574d3c939e047b89884e69c01e2229_6492706571837495999.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 145,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/03/25/299598919/df574d3c939e047b89884e69c01e2229_6492706571837495999.png"
+  }
+ },
+ {
+  "id": "20008",
+  "name": "嘉果",
+  "rarity": 3,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "contentId": 336,
+  "icon": "/modules/honkai-star-rail/assets/e9eaf651248c5028.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/6c25213a77e47db25d35714568758cb9_641448699698310799.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 161,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/6c25213a77e47db25d35714568758cb9_641448699698310799.png"
+  }
+ },
+ {
+  "id": "20002",
+  "name": "天倾",
+  "rarity": 3,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "contentId": 323,
+  "icon": "/modules/honkai-star-rail/assets/b1e77553cd38cabd.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/a8613dde8e46442e5ca16d6adc755a2b_8967697487478473463.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 167,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/a8613dde8e46442e5ca16d6adc755a2b_8967697487478473463.png"
+  }
+ },
+ {
+  "id": "20004",
+  "name": "幽邃",
+  "rarity": 3,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 333,
+  "icon": "/modules/honkai-star-rail/assets/2d93610a9b03d86e.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/a3c10a51e6e8366e31a8e689e11b4e2c_665792373629333561.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 165,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/a3c10a51e6e8366e31a8e689e11b4e2c_665792373629333561.png"
+  }
+ },
+ {
+  "id": "20017",
+  "name": "开疆",
+  "rarity": 3,
+  "path": "Knight",
+  "pathName": "存护",
+  "contentId": 552,
+  "icon": "/modules/honkai-star-rail/assets/eaeb14d2c244a641.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/d8486babf0a19b083d92d8b805f8e169_3563091998573413141.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 152,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/d8486babf0a19b083d92d8b805f8e169_3563091998573413141.png"
+  }
+ },
+ {
+  "id": "20010",
+  "name": "戍御",
+  "rarity": 3,
+  "path": "Knight",
+  "pathName": "存护",
+  "contentId": 334,
+  "icon": "/modules/honkai-star-rail/assets/c8fb28c91394bfec.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/4750c20ec98f043ab93b6d1062c7c827_2965140346395289272.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 159,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/4750c20ec98f043ab93b6d1062c7c827_2965140346395289272.png"
+  }
+ },
+ {
+  "id": "20006",
+  "name": "智库",
+  "rarity": 3,
+  "path": "Mage",
+  "pathName": "智识",
+  "contentId": 328,
+  "icon": "/modules/honkai-star-rail/assets/49f8d19e8f1cae43.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/ddf579558fef2199143083cb72915531_6581846529443663377.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 163,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/ddf579558fef2199143083cb72915531_6581846529443663377.png"
+  }
+ },
+ {
+  "id": "20024",
+  "name": "残泪",
+  "rarity": 3,
+  "path": "Elation",
+  "pathName": "欢愉",
+  "contentId": 7096,
+  "icon": "/modules/honkai-star-rail/assets/68834f8a89f04f91.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/03/25/299598919/ace35157d69b3de35948689747ece6c0_2727708596716107525.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 146,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/03/25/299598919/ace35157d69b3de35948689747ece6c0_2727708596716107525.png"
+  }
+ },
+ {
+  "id": "20011",
+  "name": "渊环",
+  "rarity": 3,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "contentId": 332,
+  "icon": "/modules/honkai-star-rail/assets/25d4385eadb80018.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/13a06655f8cfd48964ab486eb0c405a2_3215056201832777847.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 158,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/13a06655f8cfd48964ab486eb0c405a2_3215056201832777847.png"
+  }
+ },
+ {
+  "id": "20022",
+  "name": "溯忆",
+  "rarity": 3,
+  "path": "Memory",
+  "pathName": "记忆",
+  "contentId": 4638,
+  "icon": "/modules/honkai-star-rail/assets/77232b83b9fd51f1.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/01/07/299598919/145a200d2f64e7c7421ad5ccd545426e_4170396392162943928.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 148,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/01/07/299598919/145a200d2f64e7c7421ad5ccd545426e_4170396392162943928.png"
+  }
+ },
+ {
+  "id": "20013",
+  "name": "灵钥",
+  "rarity": 3,
+  "path": "Mage",
+  "pathName": "智识",
+  "contentId": 325,
+  "icon": "/modules/honkai-star-rail/assets/4336cae821f754a9.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/60f170b38a5ab7813fac495e67596c7d_182731908049140217.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 156,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/60f170b38a5ab7813fac495e67596c7d_182731908049140217.png"
+  }
+ },
+ {
+  "id": "20021",
+  "name": "焚影",
+  "rarity": 3,
+  "path": "Memory",
+  "pathName": "记忆",
+  "contentId": 4640,
+  "icon": "/modules/honkai-star-rail/assets/1867437b6360212d.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/01/07/299598919/bbab777764cfd260debba16215f384ed_5275852724075650409.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 147,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/01/07/299598919/bbab777764cfd260debba16215f384ed_5275852724075650409.png"
+  }
+ },
+ {
+  "id": "20001",
+  "name": "物穰",
+  "rarity": 3,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "contentId": 335,
+  "icon": "/modules/honkai-star-rail/assets/744605a4e611f226.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/7fa88d4f19e6b32fa95561a9c09091bb_6368880190172318726.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 168,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/7fa88d4f19e6b32fa95561a9c09091bb_6368880190172318726.png"
+  }
+ },
+ {
+  "id": "20003",
+  "name": "琥珀",
+  "rarity": 3,
+  "path": "Knight",
+  "pathName": "存护",
+  "contentId": 331,
+  "icon": "/modules/honkai-star-rail/assets/bbf11c3ad1b6e3f8.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/1dcbf733bde92e0eb4b811f3127cd0b4_3003045558131567910.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 166,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/1dcbf733bde92e0eb4b811f3127cd0b4_3003045558131567910.png"
+  }
+ },
+ {
+  "id": "20014",
+  "name": "相抗",
+  "rarity": 3,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "contentId": 555,
+  "icon": "/modules/honkai-star-rail/assets/a55a2f0f5939e33c.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/36132f06f5f621b57a816abb0b355f68_3295580344598920522.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 155,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "相抗",
+    "kind": "pct",
+    "value": 10.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "使装备者在消灭敌方目标后，速度提高10%，持续2回合"
+   },
+   {
+    "source": "光锥",
+    "name": "相抗",
+    "kind": "pct",
+    "value": 12.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "使装备者在消灭敌方目标后，速度提高12%，持续2回合"
+   },
+   {
+    "source": "光锥",
+    "name": "相抗",
+    "kind": "pct",
+    "value": 14.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "使装备者在消灭敌方目标后，速度提高14%，持续2回合"
+   },
+   {
+    "source": "光锥",
+    "name": "相抗",
+    "kind": "pct",
+    "value": 16.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "使装备者在消灭敌方目标后，速度提高16%，持续2回合"
+   },
+   {
+    "source": "光锥",
+    "name": "相抗",
+    "kind": "pct",
+    "value": 18.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "使装备者在消灭敌方目标后，速度提高18%，持续2回合"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/36132f06f5f621b57a816abb0b355f68_3295580344598920522.png"
+  }
+ },
+ {
+  "id": "20020",
+  "name": "睿见",
+  "rarity": 3,
+  "path": "Mage",
+  "pathName": "智识",
+  "contentId": 554,
+  "icon": "/modules/honkai-star-rail/assets/33e6f35749a26dc7.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/45cfa648e74660901d3fa656a19b3705_3332491149913151087.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 149,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/45cfa648e74660901d3fa656a19b3705_3332491149913151087.png"
+  }
+ },
+ {
+  "id": "20007",
+  "name": "离弦",
+  "rarity": 3,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "contentId": 327,
+  "icon": "/modules/honkai-star-rail/assets/671e0894c3adc7a7.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/900c70e673f7d2c360957b8b4ecbabc1_8981786639846529374.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 162,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/900c70e673f7d2c360957b8b4ecbabc1_8981786639846529374.png"
+  }
+ },
+ {
+  "id": "20015",
+  "name": "蕃息",
+  "rarity": 3,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "contentId": 553,
+  "icon": "/modules/honkai-star-rail/assets/bb23b5030d6e332f.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/22b571c54a903b01eb82e3aededcab7f_7918182918741863912.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 154,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "蕃息",
+    "kind": "advance",
+    "value": 12.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "当装备者施放普攻后，使下一次行动提前12%"
+   },
+   {
+    "source": "光锥",
+    "name": "蕃息",
+    "kind": "advance",
+    "value": 14.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "当装备者施放普攻后，使下一次行动提前14%"
+   },
+   {
+    "source": "光锥",
+    "name": "蕃息",
+    "kind": "advance",
+    "value": 16.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "当装备者施放普攻后，使下一次行动提前16%"
+   },
+   {
+    "source": "光锥",
+    "name": "蕃息",
+    "kind": "advance",
+    "value": 18.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "当装备者施放普攻后，使下一次行动提前18%"
+   },
+   {
+    "source": "光锥",
+    "name": "蕃息",
+    "kind": "advance",
+    "value": 20.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "当装备者施放普攻后，使下一次行动提前20%"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/26/197948068/22b571c54a903b01eb82e3aededcab7f_7918182918741863912.png"
+  }
+ },
+ {
+  "id": "20019",
+  "name": "调和",
+  "rarity": 3,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "contentId": 550,
+  "icon": "/modules/honkai-star-rail/assets/f39159c0afde66af.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/27/299598919/0428d435f06fb584b1a9b7c48d623ea8_6628911250593994498.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 150,
+  "effects": [
+   {
+    "source": "光锥",
+    "name": "调和",
+    "kind": "flat",
+    "value": 12.0,
+    "apply": "team",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 1,
+    "text": "进入战斗时，我方全体速度提高12点，持续1回合"
+   },
+   {
+    "source": "光锥",
+    "name": "调和",
+    "kind": "flat",
+    "value": 14.0,
+    "apply": "team",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 2,
+    "text": "进入战斗时，我方全体速度提高14点，持续1回合"
+   },
+   {
+    "source": "光锥",
+    "name": "调和",
+    "kind": "flat",
+    "value": 16.0,
+    "apply": "team",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 3,
+    "text": "进入战斗时，我方全体速度提高16点，持续1回合"
+   },
+   {
+    "source": "光锥",
+    "name": "调和",
+    "kind": "flat",
+    "value": 18.0,
+    "apply": "team",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 4,
+    "text": "进入战斗时，我方全体速度提高18点，持续1回合"
+   },
+   {
+    "source": "光锥",
+    "name": "调和",
+    "kind": "flat",
+    "value": 20.0,
+    "apply": "team",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": 5,
+    "text": "进入战斗时，我方全体速度提高20点，持续1回合"
+   }
+  ],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/27/299598919/0428d435f06fb584b1a9b7c48d623ea8_6628911250593994498.png"
+  }
+ },
+ {
+  "id": "20012",
+  "name": "轮契",
+  "rarity": 3,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "contentId": 329,
+  "icon": "/modules/honkai-star-rail/assets/b575fcd299d8871f.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/27/299598919/6c599d6812a275aa36791248c414c38d_4919056639187363593.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 157,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/27/299598919/6c599d6812a275aa36791248c414c38d_4919056639187363593.png"
+  }
+ },
+ {
+  "id": "20000",
+  "name": "锋镝",
+  "rarity": 3,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "contentId": 326,
+  "icon": "/modules/honkai-star-rail/assets/9a15d887ac6edf96.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/1057d14e9dc0508c2dba1cc9352643af_5543522890096226430.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 169,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/25/276833758/1057d14e9dc0508c2dba1cc9352643af_5543522890096226430.png"
+  }
+ },
+ {
+  "id": "20005",
+  "name": "齐颂",
+  "rarity": 3,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "contentId": 330,
+  "icon": "/modules/honkai-star-rail/assets/021c9ece9cf3409e.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2024/05/27/299598919/1efba8b611c2c4d95b836a6ecf169f13_4178643465082967322.png?x-oss-process=image/resize,w_128/format,webp",
+  "releaseOrder": 164,
+  "effects": [],
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2024/05/27/299598919/1efba8b611c2c4d95b836a6ecf169f13_4178643465082967322.png"
+  }
+ }
+]

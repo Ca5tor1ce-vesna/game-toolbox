@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "name": "崩铁各模式轮次结构",
+    "version": "2026.10",
+    "source": "行动值 = 10000 / 速度；混沌回忆等模式首轮 150 AV、其后每轮 100 AV。异相仲裁按实测：首轮 300 AV、其后每轮 100 AV。",
+    "note": "T 数按社区口径：0T = 只打第一轮。总行动值 = 该模式首轮行动值 + T × 该模式每轮行动值。",
+    "warning": "玩法若调整轮次，改这个文件即可；每个模式可以有自己的首轮/每轮行动值。"
+  },
+  "cycles": {
+    "firstCycleAV": 150,
+    "cycleAV": 100,
+    "distancePerAction": 10000
+  },
+  "modes": [
+    {
+      "id": "moc",
+      "name": "混沌回忆",
+      "shortName": "混沌",
+      "firstCycleAV": 150,
+      "cycleAV": 100,
+      "maxT": 3,
+      "note": "首轮 150 AV，之后每轮 100 AV；常用 0T~3T。"
+    },
+    {
+      "id": "yixiang",
+      "name": "异相仲裁·普通王棋",
+      "shortName": "王棋",
+      "firstCycleAV": 300,
+      "cycleAV": 100,
+      "maxT": 5,
+      "note": "骑士关与普通王棋同结构：首轮 300 AV，其后每轮 100 AV（0T=300、1T=400、2T=500 … 5T=800）。"
+    },
+    {
+      "id": "yixiang_juejing",
+      "name": "异相仲裁·绝境王棋",
+      "shortName": "绝境",
+      "firstCycleAV": 300,
+      "cycleAV": 100,
+      "maxT": 5,
+      "note": "绝境和普通王棋用同一套轮次：首轮 300 AV，其后每轮 100 AV。绝境难在敌人强度，不在行动值。若以后实测轮次变了，只改这个文件。"
+    },
+    {
+      "id": "xugou",
+      "name": "虚构叙事",
+      "shortName": "虚构",
+      "firstCycleAV": 150,
+      "cycleAV": 100,
+      "maxT": 3,
+      "note": "共 4 轮（150 + 3×100 = 450 AV）。"
+    },
+    {
+      "id": "mori",
+      "name": "末日幻影",
+      "shortName": "末日",
+      "firstCycleAV": 150,
+      "cycleAV": 100,
+      "maxT": 4,
+      "note": "计分制，轮次仍按首轮 150 / 后续 100 计算，按需选取 T 数。"
+    }
+  ],
+  "targets": {
+    "minActions": 1,
+    "maxActions": 8
+  }
+}

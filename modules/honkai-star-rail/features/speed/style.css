@@ -1,0 +1,5 @@
+/* 配速排轴：功能专属样式（全局类在 app/style.css 里） */
+
+#units-table input.input { min-width: 64px; }
+#units-table select.input { min-width: 72px; }
+#threshold-result .stat-grid { margin-top: 12px; }

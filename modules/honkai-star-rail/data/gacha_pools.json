@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "name": "崩铁卡池参数",
+    "version": "2026.10",
+    "source": "基础概率 / 综合概率 / 硬保底取自官方概率公示；软保底起点与步长为社区拟合值。",
+    "note": "软保底参数可用「综合概率」自校验：模型算出的期望抽数取倒数应≈官方综合概率（角色池 ≈1.600%，光锥池 ≈1.870%）。工具箱的「抽卡规划」页有『参数自检』按钮。",
+    "warning": "游戏版本更新可能调整概率；改这个文件即可，不用动代码。"
+  },
+  "currency": {
+    "name": "星琼",
+    "perPull": 160,
+    "ticketName": "星轨专票"
+  },
+  "pools": [
+    {
+      "id": "character_event",
+      "name": "角色活动跃迁（限定）",
+      "kind": "character",
+      "hardPity": 90,
+      "baseRate": 0.006,
+      "softPityStart": 74,
+      "softPityStep": 0.06,
+      "upChance": 0.5,
+      "officialOverallRate": 0.016,
+      "fourStar": { "base": 0.051, "overall": 0.13, "pity": 10 }
+    },
+    {
+      "id": "lightcone_event",
+      "name": "光锥活动跃迁（限定）",
+      "kind": "lightcone",
+      "hardPity": 80,
+      "baseRate": 0.008,
+      "softPityStart": 66,
+      "softPityStep": 0.06,
+      "upChance": 0.75,
+      "officialOverallRate": 0.0187,
+      "fourStar": { "base": 0.066, "overall": 0.148, "pity": 10 }
+    },
+    {
+      "id": "standard",
+      "name": "常驻跃迁",
+      "kind": "standard",
+      "hardPity": 90,
+      "baseRate": 0.006,
+      "softPityStart": 74,
+      "softPityStep": 0.06,
+      "upChance": null,
+      "officialOverallRate": 0.016,
+      "fourStar": { "base": 0.051, "overall": 0.13, "pity": 10 }
+    }
+  ]
+}

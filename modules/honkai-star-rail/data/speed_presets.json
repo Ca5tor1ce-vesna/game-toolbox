@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "name": "崩铁行动值与配速常数",
+    "version": "2026.10",
+    "source": "行动值 = 10000 / 速度；轮次时间 = 轮数 × 100 + 50（首轮多 50）。阈值公式见 17173/米游社《怎么算速度阈值》。",
+    "note": "拉条按“缩短路程”折算：拉条 25% 相当于把 10000 的路程减掉 2500。"
+  },
+  "constants": {
+    "distancePerAction": 10000,
+    "firstCycleAV": 150,
+    "cycleAV": 100,
+    "advance": {
+      "windSetPerUlt": 25,
+      "danceDanceDanceS5PerUlt": 24,
+      "vonwacqOnEnter": 40
+    }
+  },
+  "presets": [
+    { "label": "首轮 2 动（俗称卡 134）", "cycles": 1, "actions": 2, "expect": 133.33 },
+    { "label": "首轮 3 动", "cycles": 1, "actions": 3, "expect": 200 },
+    { "label": "每轮 2 动", "cycles": 1, "actions": 2, "expect": 200, "note": "稳态一轮两动需要 200 速或拉条辅助" },
+    { "label": "4 轮 8 动", "cycles": 4, "actions": 8, "expect": 177.78 },
+    { "label": "4 轮 9 动", "cycles": 4, "actions": 9, "expect": 200 }
+  ],
+  "advanceSources": [
+    { "id": "wind", "name": "风套", "detail": "开大后自身拉条 25%", "perUlt": 25 },
+    { "id": "dance", "name": "叠五『舞！舞！舞！』", "detail": "开大后全队拉条 24%", "perUlt": 24 },
+    { "id": "vonwacq", "name": "翁瓦克", "detail": "进战后自身拉条 40%（一次性）", "onEnter": 40 }
+  ]
+}

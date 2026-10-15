@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>b站：@syllo椭圆</title>
+    <link rel="stylesheet" href="/app/style.css" />
+  <link rel="icon" type="image/x-icon" href="/app/favicon.ico" />
+</head>
+  <body>
+    <div id="app">
+      <aside id="sidebar">
+        <div class="brand">
+          <span class="brand-icon">🧰</span>
+          <div class="brand-text">
+            <b>b站：@syllo椭圆</b>
+            <small id="brand-version">加载中…</small>
+          </div>
+        </div>
+
+        <div class="search-wrap">
+          <input
+            id="search"
+            type="search"
+            placeholder="搜索功能…（配速 / 抽卡 / 伤害）"
+            autocomplete="off"
+          />
+        </div>
+
+        <nav id="nav" class="nav"></nav>
+
+        <div class="sidebar-footer">
+          <button class="ghost" data-admin-only hidden data-page="guide" data-text="shell.guide">📘 扩展指南</button>
+          <button class="ghost" data-admin-only hidden data-page="status" data-text="shell.status">🩺 模块状态 <span id="err-badge" class="badge hidden">0</span></button>
+        </div>
+      </aside>
+
+      <main id="main">
+        <header id="topbar">
+          <div id="crumb" class="crumb" data-text="shell.pick">选择一个功能开始</div>
+          <div class="topbar-actions">
+            <span id="meta" class="meta"></span>
+            <button id="rescan" data-text="shell.rescan" class="ghost small" title="重新扫描 modules/ 目录，加载新加的功能">↻ 重新扫描</button>
+          </div>
+        </header>
+        <div id="warnings"></div>
+        <section id="view" class="view">
+          <div class="welcome card">
+            <h1>b站：@syllo椭圆</h1>
+            <p class="muted">
+              左边选功能。加新功能不用改核心代码——在
+              <code>modules/</code> 里丢一个目录就行，点右上角「重新扫描」立刻生效。
+            </p>
+            <p class="muted">第一次用的话，点左下角「📘 扩展指南」看怎么加东西。</p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="/app/app.js"></script>
+  </body>
+</html>

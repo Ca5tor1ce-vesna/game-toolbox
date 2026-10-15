@@ -1,0 +1,11 @@
+/* 原版工具用 iframe 承载：给它一整块视口，内部自己滚动，尽量还原"单独打开一个页面"的感觉 */
+
+.aha-original-frame {
+  display: block;
+  width: 100%;
+  height: calc(100vh - 118px);
+  min-height: 520px;
+  border: 0;
+  border-radius: 10px;
+  background: #0f172a; /* 原版 body 的底色，加载瞬间不闪白 */
+}

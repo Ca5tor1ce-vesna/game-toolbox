@@ -1,0 +1,4406 @@
+[
+ {
+  "id": "1503",
+  "name": "真珠",
+  "rarity": 5,
+  "path": "Elation",
+  "pathName": "欢愉",
+  "element": "Ice",
+  "elementName": "冰",
+  "baseSpeed": 99,
+  "traceSpeed": 9.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 4.0
+   }
+  ],
+  "effectiveBaseSpeed": 108.0,
+  "contentId": 7935,
+  "icon": "/modules/honkai-star-rail/assets/fac97741543fd039.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/09/20/276833758/960b14943e619d938e2edaaad4b88603_5619752529735310456.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/12547a33b0af08d6.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/09/28/331632599/904cbcb5ed23e7e4e0f791b83ee0eaaf_8814695911784044522.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/09/28/331632599/904cbcb5ed23e7e4e0f791b83ee0eaaf_8814695911784044522.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 0,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "鉴映灵魂的底色",
+    "kind": "advance",
+    "value": 10.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "队伍中「欢愉」命途角色数量等于1/2/3或以上时，使【美学底本】行动提前10%/15%/30%"
+   }
+  ],
+  "order": 0,
+  "releaseAt": 1790586000,
+  "_remote": {
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1503.png",
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/09/20/276833758/960b14943e619d938e2edaaad4b88603_5619752529735310456.png"
+  }
+ },
+ {
+  "id": "1505",
+  "name": "绯英",
+  "rarity": 5,
+  "path": "Elation",
+  "pathName": "欢愉",
+  "element": "Physical",
+  "elementName": "物理",
+  "baseSpeed": 104,
+  "traceSpeed": 5.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   }
+  ],
+  "effectiveBaseSpeed": 109.0,
+  "contentId": 7045,
+  "icon": "/modules/honkai-star-rail/assets/637f00d24d6ea96b.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/03/12/276833758/163eba256fa0841317907a9a988fb81e_3696879567499397282.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/56d99dd58b7b8a6c.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/09/30/276833758/2dad2831b4fa2d2fe69c66a428f7b495_72662193326065040.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/09/30/276833758/2dad2831b4fa2d2fe69c66a428f7b495_72662193326065040.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 1,
+  "effects": [],
+  "order": 7,
+  "releaseAt": 1778662800,
+  "_remote": {
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1505.png",
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/03/12/276833758/163eba256fa0841317907a9a988fb81e_3696879567499397282.png"
+  }
+ },
+ {
+  "id": "1513",
+  "name": "砂金•戏浪",
+  "rarity": 5,
+  "path": "Elation",
+  "pathName": "欢愉",
+  "element": "Quantum",
+  "elementName": "量子",
+  "baseSpeed": 107,
+  "traceSpeed": 9.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 4.0
+   }
+  ],
+  "effectiveBaseSpeed": 116.0,
+  "contentId": 7725,
+  "icon": "/modules/honkai-star-rail/assets/147e3998a4184c53.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/06/30/276833758/0d25cad8508a1692232838acb5fd45fe_8731785532410161342.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/1a86032120d45041.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/09/30/276833758/0a5008a22786e92c9481193ec198c3fd_4873664146040202564.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/09/30/276833758/0a5008a22786e92c9481193ec198c3fd_4873664146040202564.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 3,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "胜局，凌越飓浪之上",
+    "kind": "pct",
+    "value": 12.0,
+    "apply": "self",
+    "durationTurns": 4,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "并使自身速度提高12%，持续4回合"
+   },
+   {
+    "source": "技能",
+    "name": "",
+    "kind": "pct",
+    "value": 39.0,
+    "apply": "self",
+    "durationTurns": 4,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "并使自身速度提高39%，持续4回合"
+   },
+   {
+    "source": "技能",
+    "name": "",
+    "kind": "pct",
+    "value": 25.0,
+    "apply": "team",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "当「欢愉」命途升格时，若只有星神★阿哈1位「欢愉」命途的队友，则行迹【纵享惊涛】中只存在砂金•戏浪1名「欢愉」命途角色时的效果也会生效，且该效果获得加强：我方全体速度提高25%，队友施放攻击后，砂金•戏浪额外获得2点【热意】以及2个爽点"
+   }
+  ],
+  "order": 1,
+  "releaseAt": 1789203600,
+  "_remote": {
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1513.png",
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/06/30/276833758/0d25cad8508a1692232838acb5fd45fe_8731785532410161342.png"
+  }
+ },
+ {
+  "id": "1504",
+  "name": "不死途",
+  "rarity": 5,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "element": "Thunder",
+  "elementName": "雷",
+  "baseSpeed": 106,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 106.0,
+  "contentId": 6814,
+  "icon": "/modules/honkai-star-rail/assets/91eb745ab8c280a2.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/02/07/276833758/72a5e9c401c0ac49d4818704e30b50be_5408854750319529183.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/791f84d4e5f5360d.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/09/30/276833758/0f156af196beeec4f7e57ca210cfd7e2_1696335226591365487.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/09/30/276833758/0f156af196beeec4f7e57ca210cfd7e2_1696335226591365487.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 4,
+  "effects": [],
+  "order": 11,
+  "releaseAt": 1774432800,
+  "_remote": {
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1504.png",
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/02/07/276833758/72a5e9c401c0ac49d4818704e30b50be_5408854750319529183.png"
+  }
+ },
+ {
+  "id": "1512",
+  "name": "知更鸟•晴歌",
+  "rarity": 5,
+  "path": "Memory",
+  "pathName": "记忆",
+  "element": "Wind",
+  "elementName": "风",
+  "baseSpeed": 95,
+  "traceSpeed": 14.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 4.0
+   }
+  ],
+  "effectiveBaseSpeed": 109.0,
+  "contentId": 7726,
+  "icon": "/modules/honkai-star-rail/assets/80060caea627daf4.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/06/30/276833758/038a8366f292b57bd71f0be764dea1c0_5167103770492526055.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/0e5542af995f5c1a.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/09/12/276833758/563061cf413d25b96a0ba4e7734f9165_6247336315360374522.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/09/12/276833758/563061cf413d25b96a0ba4e7734f9165_6247336315360374522.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 5,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "乘上夏夜晚风",
+    "kind": "advance",
+    "value": 50.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "「晴空乐手」消失时，使知更鸟•晴歌行动提前50%"
+   },
+   {
+    "source": "技能",
+    "name": "我们自成旋律",
+    "kind": "advance",
+    "value": 20.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "使用秘技后，使下一次战斗开始时行动提前20%，立即获得6点气氛值，并使我方全体造成的伤害提高30%，持续2回合"
+   },
+   {
+    "source": "技能",
+    "name": "乘上夏夜晚风",
+    "kind": "advance",
+    "value": 50.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "「晴空乐手」消失时，使知更鸟•晴歌行动提前50%"
+   },
+   {
+    "source": "技能",
+    "name": "",
+    "kind": "advance",
+    "value": 100.0,
+    "apply": "ally",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "使除知更鸟•晴歌外的指定我方单体角色行动提前100%并固定恢复等同于24.0%能量上限的能量"
+   }
+  ],
+  "order": 2,
+  "releaseAt": 1787734800,
+  "_remote": {
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1512.png",
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/06/30/276833758/038a8366f292b57bd71f0be764dea1c0_5167103770492526055.png"
+  }
+ },
+ {
+  "id": "1409",
+  "name": "风堇",
+  "rarity": 5,
+  "path": "Memory",
+  "pathName": "记忆",
+  "element": "Wind",
+  "elementName": "风",
+  "baseSpeed": 110,
+  "traceSpeed": 14.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 4.0
+   }
+  ],
+  "effectiveBaseSpeed": 124.0,
+  "contentId": 5108,
+  "icon": "/modules/honkai-star-rail/assets/ca8383888ecaaa1c.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/545c790035b3d76a07366c8d1a81e911_5537129695370226572.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/1be64147fca12d7b.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/09/12/276833758/1c1ffb8e148a59e623bc970fe274134f_1736549691567835622.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/09/12/276833758/1c1ffb8e148a59e623bc970fe274134f_1736549691567835622.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 6,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "坠落，然后飞翔",
+    "kind": "advance",
+    "value": 30.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "消失时，使风堇行动提前30%"
+   },
+   {
+    "source": "星魂",
+    "name": "请来我的庭院坐坐",
+    "kind": "pct",
+    "value": 30.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": 2,
+    "superimpose": null,
+    "text": "我方目标生命值降低时，速度提高30%，持续2回合"
+   }
+  ],
+  "order": 24,
+  "releaseAt": 1747818000,
+  "_remote": {
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1409.png",
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/545c790035b3d76a07366c8d1a81e911_5537129695370226572.png"
+  }
+ },
+ {
+  "id": "1508",
+  "name": "远坂凛",
+  "rarity": 5,
+  "path": "Mage",
+  "pathName": "智识",
+  "element": "Quantum",
+  "elementName": "量子",
+  "baseSpeed": 102,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 102.0,
+  "contentId": 7500,
+  "icon": "/modules/honkai-star-rail/assets/4080944710b3ac52.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/05/22/276833758/479d91f4abf5500736bd7eb2d6fd969e_7364513735168931666.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/268915b38366301e.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/08/26/276833758/9abab7d1eb4f428869f6e92150b255f5_3698114123974625330.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/08/26/276833758/9abab7d1eb4f428869f6e92150b255f5_3698114123974625330.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 7,
+  "effects": [
+   {
+    "source": "行迹",
+    "name": "淑女风范",
+    "kind": "pct",
+    "value": 20.0,
+    "apply": "self",
+    "durationTurns": 3,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "进入战斗时和施放强化战技后，远坂凛的速度提高20%，持续3回合"
+   }
+  ],
+  "order": 3,
+  "releaseAt": 1784883600,
+  "_remote": {
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1508.png",
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/05/22/276833758/479d91f4abf5500736bd7eb2d6fd969e_7364513735168931666.png"
+  }
+ },
+ {
+  "id": "1509",
+  "name": "吉尔伽美什",
+  "rarity": 5,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "element": "Thunder",
+  "elementName": "雷",
+  "baseSpeed": 97,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 97.0,
+  "contentId": 7499,
+  "icon": "/modules/honkai-star-rail/assets/8c0a2eeebb9de1c9.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/05/22/276833758/34ad4badd27ce4e6d1f9ac2a038f92f4_8014401071461097469.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/0c2a1798ebaa653a.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/08/26/276833758/c85f720b917845bb1415e789e692d229_2633013083128320722.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/08/26/276833758/c85f720b917845bb1415e789e692d229_2633013083128320722.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 8,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "「尽情取悦本王吧」",
+    "kind": "pct",
+    "value": 10.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "我方其他目标行动时，吉尔伽美什获得1点【兴致】，每拥有1点【兴致】使自身速度提高10%"
+   }
+  ],
+  "order": 4,
+  "releaseAt": 1784883600,
+  "_remote": {
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1509.png",
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/05/22/276833758/34ad4badd27ce4e6d1f9ac2a038f92f4_8014401071461097469.png"
+  }
+ },
+ {
+  "id": "1510",
+  "name": "姬子•启行",
+  "rarity": 5,
+  "path": "Mage",
+  "pathName": "智识",
+  "element": "Fire",
+  "elementName": "火",
+  "baseSpeed": 98,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 98.0,
+  "contentId": 7484,
+  "icon": "/modules/honkai-star-rail/assets/edeff01906513658.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/05/20/276833758/42dc5bd95bfa7f0584b6e7c61d4462e3_850192482016235296.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/feb9b4ce11d70f99.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/08/26/276833758/88249b472a90fe1f4eabcb958d9df752_7313201859000252807.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/08/26/276833758/88249b472a90fe1f4eabcb958d9df752_7313201859000252807.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 9,
+  "effects": [],
+  "order": 5,
+  "releaseAt": 1784106000,
+  "_remote": {
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1510.png",
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/05/20/276833758/42dc5bd95bfa7f0584b6e7c61d4462e3_850192482016235296.png"
+  }
+ },
+ {
+  "id": "1412",
+  "name": "刻律德菈",
+  "rarity": 5,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "element": "Wind",
+  "elementName": "风",
+  "baseSpeed": 99,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 99.0,
+  "contentId": 5583,
+  "icon": "/modules/honkai-star-rail/assets/86c6377768cd2c4a.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/a4d99f2175288b4c17b62afa91d02155_5912334653064721792.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/4b24b65ae95eb13c.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/08/26/276833758/ac72faa941c1fbd79e4d802afaa8021a_3690091880028627179.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/08/26/276833758/ac72faa941c1fbd79e4d802afaa8021a_3690091880028627179.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 10,
+  "effects": [
+   {
+    "source": "行迹",
+    "name": "征服者",
+    "kind": "flat",
+    "value": 20.0,
+    "apply": "team",
+    "durationTurns": 3,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "施放战技时，使自身和持有【军功】的队友速度提高20点，持续3回合"
+   }
+  ],
+  "order": 18,
+  "releaseAt": 1756803600,
+  "_remote": {
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1412.png",
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/a4d99f2175288b4c17b62afa91d02155_5912334653064721792.png"
+  }
+ },
+ {
+  "id": "1405",
+  "name": "那刻夏",
+  "rarity": 5,
+  "path": "Mage",
+  "pathName": "智识",
+  "element": "Wind",
+  "elementName": "风",
+  "baseSpeed": 97,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 97.0,
+  "contentId": 4917,
+  "icon": "/modules/honkai-star-rail/assets/fa949392fa75d5ce.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/097c90c1d32bb1c00379bf571113a728_6231797367616293068.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/d91a1cffcb4eb53b.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/08/26/276833758/4705efabbcc06c1e4b97006dd11def50_2004398840591842286.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/08/26/276833758/4705efabbcc06c1e4b97006dd11def50_2004398840591842286.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 11,
+  "effects": [],
+  "order": 25,
+  "releaseAt": 1746003600,
+  "_remote": {
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1405.png",
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/097c90c1d32bb1c00379bf571113a728_6231797367616293068.png"
+  }
+ },
+ {
+  "id": "1304",
+  "name": "砂金",
+  "rarity": 5,
+  "path": "Knight",
+  "pathName": "存护",
+  "element": "Imaginary",
+  "elementName": "虚数",
+  "baseSpeed": 106,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 106.0,
+  "contentId": 2302,
+  "icon": "/modules/honkai-star-rail/assets/094ecdd50676bd33.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/fa3ed88dbe2ac5dd9fa4ad10c73249a0_9126079395451066606.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/d2fc2bcc76ea4f47.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/08/26/276833758/166d7b03b198113dab60200cb6f7894f_744871279220336639.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/08/26/276833758/166d7b03b198113dab60200cb6f7894f_744871279220336639.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 12,
+  "effects": [],
+  "order": 48,
+  "releaseAt": 1713344400,
+  "_remote": {
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1304.png",
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/fa3ed88dbe2ac5dd9fa4ad10c73249a0_9126079395451066606.png"
+  }
+ },
+ {
+  "id": "1501",
+  "name": "火花",
+  "rarity": 5,
+  "path": "Elation",
+  "pathName": "欢愉",
+  "element": "Fire",
+  "elementName": "火",
+  "baseSpeed": 107,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 107.0,
+  "contentId": 6747,
+  "icon": "/modules/honkai-star-rail/assets/c7288aee77dc8914.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/01/02/276833758/689ac58f7bc47f487dd9139276e4a826_5077367114093647811.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/e6b45b8dfe2748fc.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/08/06/276833758/4df83cd20a74a28c29e3ec801b2a8afb_8664179915740418407.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/08/06/276833758/4df83cd20a74a28c29e3ec801b2a8afb_8664179915740418407.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 13,
+  "effects": [],
+  "order": 12,
+  "releaseAt": 1770976800,
+  "_remote": {
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1501.png",
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/01/02/276833758/689ac58f7bc47f487dd9139276e4a826_5077367114093647811.png"
+  }
+ },
+ {
+  "id": "1414",
+  "name": "丹恒•腾荒",
+  "rarity": 5,
+  "path": "Knight",
+  "pathName": "存护",
+  "element": "Physical",
+  "elementName": "物理",
+  "baseSpeed": 97,
+  "traceSpeed": 5.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   }
+  ],
+  "effectiveBaseSpeed": 102.0,
+  "contentId": 5737,
+  "icon": "/modules/honkai-star-rail/assets/132078f09961df4a.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/b9fa558c0ef9b06875d1c8657614cec7_1558019627032473362.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/18256cea58b063f7.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/08/06/276833758/dc8543d5ca42c0424e7102d18b9eb3cd_653014916312287078.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/08/06/276833758/dc8543d5ca42c0424e7102d18b9eb3cd_653014916312287078.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 14,
+  "effects": [
+   {
+    "source": "星魂",
+    "name": "守望开拓的赤子",
+    "kind": "advance",
+    "value": 100.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": 2,
+    "superimpose": null,
+    "text": "终结技的强化龙灵行动效果额外增加2次，丹恒•腾荒施放终结技后【龙灵】行动提前100%"
+   },
+   {
+    "source": "行迹",
+    "name": "葳蕤",
+    "kind": "advance",
+    "value": 40.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "战斗开始时，丹恒•腾荒行动提前40%"
+   },
+   {
+    "source": "行迹",
+    "name": "葳蕤",
+    "kind": "advance",
+    "value": 15.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "【同袍】施放攻击时，丹恒•腾荒恢复6点能量，使【龙灵】行动提前15%"
+   }
+  ],
+  "order": 16,
+  "releaseAt": 1760173200,
+  "_remote": {
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1414.png",
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/b9fa558c0ef9b06875d1c8657614cec7_1558019627032473362.png"
+  }
+ },
+ {
+  "id": "1413",
+  "name": "长夜月",
+  "rarity": 5,
+  "path": "Memory",
+  "pathName": "记忆",
+  "element": "Ice",
+  "elementName": "冰",
+  "baseSpeed": 99,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 99.0,
+  "contentId": 5736,
+  "icon": "/modules/honkai-star-rail/assets/035c8f350acfe4ce.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/18ba8af91c0bcdae902b991d00e4a061_3384352487023497797.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/ef4e8562d751eea0.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/08/06/276833758/68d8487cde88bc982339e4d93e0734a9_3199678977582721808.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/08/06/276833758/68d8487cde88bc982339e4d93e0734a9_3199678977582721808.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 15,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "与你，再见，无期",
+    "kind": "pct",
+    "value": 10.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "消失时，使长夜月的速度提高10%，若因施放【迷梦，流失，如露】消失，本次攻击每消耗了1点【忆质】额外使长夜月的速度提高1%，最多计算40点【忆质】"
+   },
+   {
+    "source": "技能",
+    "name": "与你，再见，无期",
+    "kind": "pct",
+    "value": 1.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "消失时，使长夜月的速度提高10%，若因施放【迷梦，流失，如露】消失，本次攻击每消耗了1点【忆质】额外使长夜月的速度提高1%，最多计算40点【忆质】"
+   },
+   {
+    "source": "技能",
+    "name": "与你，再见，无期",
+    "kind": "pct",
+    "value": 10.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "消失时，使长夜月的速度提高10%，若因施放【迷梦，流失，如露】消失，本次攻击每消耗了1点【忆质】额外使长夜月的速度提高1%，最多计算40点【忆质】"
+   },
+   {
+    "source": "技能",
+    "name": "与你，再见，无期",
+    "kind": "pct",
+    "value": 1.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "消失时，使长夜月的速度提高10%，若因施放【迷梦，流失，如露】消失，本次攻击每消耗了1点【忆质】额外使长夜月的速度提高1%，最多计算40点【忆质】"
+   }
+  ],
+  "order": 17,
+  "releaseAt": 1758790800,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/18ba8af91c0bcdae902b991d00e4a061_3384352487023497797.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1413.png"
+  }
+ },
+ {
+  "id": "1415",
+  "name": "昔涟",
+  "rarity": 5,
+  "path": "Memory",
+  "pathName": "记忆",
+  "element": "Ice",
+  "elementName": "冰",
+  "baseSpeed": 101,
+  "traceSpeed": 9.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 4.0
+   }
+  ],
+  "effectiveBaseSpeed": 110.0,
+  "contentId": 5851,
+  "icon": "/modules/honkai-star-rail/assets/92c9605096fea29a.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/11/05/276833758/6e558e2bc44ae6ed652b43e5c203da1a_7105918530439173264.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/390cb67bc41ebe00.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/07/15/276833758/f1174587f9bcce21047c9b6793128857_6566154787041279866.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/07/15/276833758/f1174587f9bcce21047c9b6793128857_6566154787041279866.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 16,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "献予「纷争」之诗",
+    "kind": "advance",
+    "value": 100.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "若万敌不处于【血仇】状态，则使万敌行动提前100%"
+   },
+   {
+    "source": "技能",
+    "name": "献予「大地」之诗",
+    "kind": "advance",
+    "value": 100.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "对丹恒•腾荒施放时，使龙灵行动提前100%，并使龙灵下一次行动时获得丹恒•腾荒终结技的强化效果、提供的护盾量为原护盾量的150%，不消耗丹恒•腾荒终结技的强化次数"
+   },
+   {
+    "source": "星魂",
+    "name": "记忆，化作涟漪片片♪",
+    "kind": "advance",
+    "value": 100.0,
+    "apply": "team",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": 6,
+    "superimpose": null,
+    "text": "昔涟首次施放终结技时，使我方全体行动提前100%"
+   },
+   {
+    "source": "星魂",
+    "name": "记忆，化作涟漪片片♪",
+    "kind": "advance",
+    "value": 24.0,
+    "apply": "team",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": 6,
+    "superimpose": null,
+    "text": "至少2次：使我方全体行动提前24%"
+   }
+  ],
+  "order": 15,
+  "releaseAt": 1762336800,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/11/05/276833758/6e558e2bc44ae6ed652b43e5c203da1a_7105918530439173264.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1415.png"
+  }
+ },
+ {
+  "id": "1408",
+  "name": "白厄",
+  "rarity": 5,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "element": "Physical",
+  "elementName": "物理",
+  "baseSpeed": 94,
+  "traceSpeed": 5.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   }
+  ],
+  "effectiveBaseSpeed": 99.0,
+  "contentId": 5107,
+  "icon": "/modules/honkai-star-rail/assets/7a096222834c6bc5.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/b9058718efc9735f014c777e0447ce97_8893619200052817963.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/18ad4d178270e9fa.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/07/15/276833758/8cd4b246b30f78edda38fca2901b7efb_1002434224921265737.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/07/15/276833758/8cd4b246b30f78edda38fca2901b7efb_1002434224921265737.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 17,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "命运•此躯即神",
+    "kind": "pct",
+    "value": 15.0,
+    "apply": "team",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "变身结束时，使我方全体速度提高15%，持续1回合"
+   }
+  ],
+  "order": 22,
+  "releaseAt": 1751446800,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/b9058718efc9735f014c777e0447ce97_8893619200052817963.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1408.png"
+  }
+ },
+ {
+  "id": "1507",
+  "name": "千冶•刃",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "element": "Fire",
+  "elementName": "火",
+  "baseSpeed": 107,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 107.0,
+  "contentId": 7155,
+  "icon": "/modules/honkai-star-rail/assets/a28afce8f90160fe.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/04/07/276833758/1772b39a61cb74d29336fcd3d14e530e_7449467186276986111.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/2255d4e139d666ed.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/06/25/276833758/2698dc59bee36d68d8d700d091bed110_1919252556188307786.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/06/25/276833758/2698dc59bee36d68d8d700d091bed110_1919252556188307786.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 18,
+  "effects": [],
+  "order": 6,
+  "releaseAt": 1780304400,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/04/07/276833758/1772b39a61cb74d29336fcd3d14e530e_7449467186276986111.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1507.png"
+  }
+ },
+ {
+  "id": "1502",
+  "name": "爻光",
+  "rarity": 5,
+  "path": "Elation",
+  "pathName": "欢愉",
+  "element": "Physical",
+  "elementName": "物理",
+  "baseSpeed": 101,
+  "traceSpeed": 9.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 4.0
+   }
+  ],
+  "effectiveBaseSpeed": 110.0,
+  "contentId": 6746,
+  "icon": "/modules/honkai-star-rail/assets/b64ca696a51e795f.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/01/02/276833758/2a1311351f8eee50b73df0baf495461c_8336179883999891591.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/53bcbcdff999ce1d.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/06/25/276833758/8bfc69b8edb462e8be1778fccc237947_2953907972106333055.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/06/25/276833758/8bfc69b8edb462e8be1778fccc237947_2953907972106333055.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 19,
+  "effects": [
+   {
+    "source": "星魂",
+    "name": "飞箭无目，青翎为瞳",
+    "kind": "pct",
+    "value": 12.0,
+    "apply": "team",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": 2,
+    "superimpose": null,
+    "text": "结界持续期间，我方全体目标速度提高12%，欢愉度额外提高16%"
+   }
+  ],
+  "order": 13,
+  "releaseAt": 1770976800,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/01/02/276833758/2a1311351f8eee50b73df0baf495461c_8336179883999891591.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1502.png"
+  }
+ },
+ {
+  "id": "1403",
+  "name": "缇宝",
+  "rarity": 5,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "element": "Quantum",
+  "elementName": "量子",
+  "baseSpeed": 96,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 96.0,
+  "contentId": 4608,
+  "icon": "/modules/honkai-star-rail/assets/1315055bd7fab293.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/2d7f5f3b14e3c8c8f27a603997b3148f_1693173018687202251.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/87be4b06005aff3c.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/06/03/276833758/f7fcc2175f3633517454c76ed5de517e_1037078140540448778.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/06/03/276833758/f7fcc2175f3633517454c76ed5de517e_1037078140540448778.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 20,
+  "effects": [],
+  "order": 28,
+  "releaseAt": 1740564000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/2d7f5f3b14e3c8c8f27a603997b3148f_1693173018687202251.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1403.png"
+  }
+ },
+ {
+  "id": "1313",
+  "name": "星期日",
+  "rarity": 5,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "element": "Imaginary",
+  "elementName": "虚数",
+  "baseSpeed": 96,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 96.0,
+  "contentId": 4174,
+  "icon": "/modules/honkai-star-rail/assets/beec83e4895cc5ca.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/e763e4ff36268f3e7c2f2f7ebdc273ec_8725136671792619733.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/38f0e92a82a1e80c.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/06/03/276833758/ad25cd4c126ed31051964bfaeac64274_7039445046835411028.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/06/03/276833758/ad25cd4c126ed31051964bfaeac64274_7039445046835411028.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 21,
+  "effects": [],
+  "order": 34,
+  "releaseAt": 1733306400,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/e763e4ff36268f3e7c2f2f7ebdc273ec_8725136671792619733.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1313.png"
+  }
+ },
+ {
+  "id": "1220",
+  "name": "飞霄",
+  "rarity": 5,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "element": "Wind",
+  "elementName": "风",
+  "baseSpeed": 112,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 112.0,
+  "contentId": 3501,
+  "icon": "/modules/honkai-star-rail/assets/19201b4ad61c46be.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/d3a547b49ae7f1a6b89ca930eea0d05f_3826973416359973391.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/26e15bf8af54d5bd.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/06/03/276833758/fb3f3cb808700dd3aa180932141a301a_3796448915002452799.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/06/03/276833758/fb3f3cb808700dd3aa180932141a301a_3796448915002452799.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 22,
+  "effects": [
+   {
+    "source": "星魂",
+    "name": "驱飓听冰",
+    "kind": "pct",
+    "value": 8.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": 4,
+    "superimpose": null,
+    "text": "天赋的追加攻击的削韧值提高100%，并且发动时使自身速度提高8%，持续2回合"
+   }
+  ],
+  "order": 37,
+  "releaseAt": 1725958800,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/d3a547b49ae7f1a6b89ca930eea0d05f_3826973416359973391.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1220.png"
+  }
+ },
+ {
+  "id": "1506",
+  "name": "银狼LV.999",
+  "rarity": 5,
+  "path": "Elation",
+  "pathName": "欢愉",
+  "element": "Imaginary",
+  "elementName": "虚数",
+  "baseSpeed": 110,
+  "traceSpeed": 9.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 4.0
+   }
+  ],
+  "effectiveBaseSpeed": 119.0,
+  "contentId": 7044,
+  "icon": "/modules/honkai-star-rail/assets/004ad8da0498bc47.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/03/10/276833758/7e9a1edb090c9628f7bab4e2ea36f0a0_4923693619078594680.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/ec3b86acc2173f8e.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/05/13/276833758/db6ee5cb7235104055d7ed48616e50c0_4221406293306271958.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/05/13/276833758/db6ee5cb7235104055d7ed48616e50c0_4221406293306271958.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 23,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "无敌玩家，启动！",
+    "kind": "advance",
+    "value": 100.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "进入【无敌玩家】状态并且行动提前100%"
+   }
+  ],
+  "order": 8,
+  "releaseAt": 1776848400,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/03/10/276833758/7e9a1edb090c9628f7bab4e2ea36f0a0_4923693619078594680.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1506.png"
+  }
+ },
+ {
+  "id": "1321",
+  "name": "大丽花",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "element": "Fire",
+  "elementName": "火",
+  "baseSpeed": 96,
+  "traceSpeed": 5.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   }
+  ],
+  "effectiveBaseSpeed": 101.0,
+  "contentId": 6025,
+  "icon": "/modules/honkai-star-rail/assets/7b375ccc163811aa.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/10/22/276833758/be9277457c73dbe82025b507378cb3f9_2479522683326441904.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/5ccb94a7a7221d8d.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/05/13/276833758/93a093e6117588f39205212d5e646af1_7627803381904999501.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/05/13/276833758/93a093e6117588f39205212d5e646af1_7627803381904999501.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 24,
+  "effects": [
+   {
+    "source": "星魂",
+    "name": "然而它总是，致命美丽",
+    "kind": "advance",
+    "value": 20.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": 6,
+    "superimpose": null,
+    "text": "施放天赋的追加攻击时，使所有【共舞者】下一次行动提前20%"
+   },
+   {
+    "source": "行迹",
+    "name": "弃旧，恋新",
+    "kind": "pct",
+    "value": 30.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "我方目标为敌方目标添加弱点时，速度提高30%，持续2回合"
+   }
+  ],
+  "order": 14,
+  "releaseAt": 1765101600,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/10/22/276833758/be9277457c73dbe82025b507378cb3f9_2479522683326441904.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1321.png"
+  }
+ },
+ {
+  "id": "1407",
+  "name": "遐蝶",
+  "rarity": 5,
+  "path": "Memory",
+  "pathName": "记忆",
+  "element": "Quantum",
+  "elementName": "量子",
+  "baseSpeed": 95,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 95.0,
+  "contentId": 4916,
+  "icon": "/modules/honkai-star-rail/assets/a01e4c5c8efebc83.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/c12e7c9c7f960e8217448ec3d72160ff_5234699864893306674.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/1fc3acf3a621e99b.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/05/13/276833758/e81ba05c3baa114521f1e2e0cd3ed12b_1085084424108765523.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/05/13/276833758/e81ba05c3baa114521f1e2e0cd3ed12b_1085084424108765523.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 25,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "悲鸣，赐死之先声",
+    "kind": "advance",
+    "value": 100.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "【冥茫】状态下主动攻击会使所有范围内的敌人进入战斗，同时召唤忆灵死龙使其行动提前100%并展开境界【遗世冥域】，死龙拥有等同于【新蕊】上限50%的当前生命值"
+   },
+   {
+    "source": "星魂",
+    "name": "以扑翼繁花加冕",
+    "kind": "advance",
+    "value": 100.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": 2,
+    "superimpose": null,
+    "text": "召唤忆灵死龙后，遐蝶获得2层【炽意】，【炽意】最多持有2层，可用来抵扣死龙忆灵技【燎尽黯泽的焰息】的生命值消耗，并使遐蝶行动提前100%，下一次施放强化战技遐蝶获得等同于【新蕊】上限30%点数的【新蕊】"
+   },
+   {
+    "source": "行迹",
+    "name": "倒置的火炬",
+    "kind": "pct",
+    "value": 40.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "遐蝶当前生命值大于等于自身生命上限的50%时，遐蝶速度提高40%"
+   },
+   {
+    "source": "行迹",
+    "name": "倒置的火炬",
+    "kind": "pct",
+    "value": 100.0,
+    "apply": "self",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "死龙施放【燎尽黯泽的焰息】对场上所有敌方造成致命伤害或敌方无法被继续削减生命值时，死龙速度提高100%，持续1回合"
+   }
+  ],
+  "order": 26,
+  "releaseAt": 1744189200,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/c12e7c9c7f960e8217448ec3d72160ff_5234699864893306674.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1407.png"
+  }
+ },
+ {
+  "id": "1310",
+  "name": "流萤",
+  "rarity": 5,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "element": "Fire",
+  "elementName": "火",
+  "baseSpeed": 104,
+  "traceSpeed": 5.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   }
+  ],
+  "effectiveBaseSpeed": 109.0,
+  "contentId": 2674,
+  "icon": "/modules/honkai-star-rail/assets/75634c9f2ac0043f.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/992adc29ece9ebadab04edac7239a5c0_519267570926039166.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/a20db0808a6f8024.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/05/13/276833758/808d877a4539b27109bdc5f729527692_2403031110924225300.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/05/13/276833758/808d877a4539b27109bdc5f729527692_2403031110924225300.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 26,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "指令-天火轰击",
+    "kind": "advance",
+    "value": 25.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "使自身下一次行动提前25%"
+   },
+   {
+    "source": "技能",
+    "name": "火萤Ⅳ型-完全燃烧",
+    "kind": "advance",
+    "value": 100.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "进入「完全燃烧」状态，自身行动提前100%并获得强化普攻和强化战技"
+   },
+   {
+    "source": "技能",
+    "name": "指令-天火轰击",
+    "kind": "advance",
+    "value": 25.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "使自身下一次行动提前25%"
+   },
+   {
+    "source": "技能",
+    "name": "火萤Ⅳ型-完全燃烧",
+    "kind": "advance",
+    "value": 100.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "进入「完全燃烧」状态，自身行动提前100%并获得强化普攻和强化战技"
+   }
+  ],
+  "order": 43,
+  "releaseAt": 1718787600,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/992adc29ece9ebadab04edac7239a5c0_519267570926039166.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1310.png"
+  }
+ },
+ {
+  "id": "1217",
+  "name": "藿藿",
+  "rarity": 5,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "element": "Wind",
+  "elementName": "风",
+  "baseSpeed": 98,
+  "traceSpeed": 5.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   }
+  ],
+  "effectiveBaseSpeed": 103.0,
+  "contentId": 1712,
+  "icon": "/modules/honkai-star-rail/assets/0c51b0724af035b5.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/0b55aff42296af2086812d86d99bb481_8515080342830529421.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/f5c74cf35ccb072c.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/04/22/276833758/756fb6b02b71f933a49476f0e234fddd_8637609547927388750.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/04/22/276833758/756fb6b02b71f933a49476f0e234fddd_8637609547927388750.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 27,
+  "effects": [
+   {
+    "source": "星魂",
+    "name": "岁阳寄体，妖邪依凭",
+    "kind": "pct",
+    "value": 12.0,
+    "apply": "team",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": 1,
+    "superimpose": null,
+    "text": "天赋产生的【禳命】持续时间延长1回合，当藿藿拥有【禳命】时自身治疗量提高20%，并使我方全体速度提高12%"
+   }
+  ],
+  "order": 59,
+  "releaseAt": 1700042400,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/0b55aff42296af2086812d86d99bb481_8515080342830529421.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1217.png"
+  }
+ },
+ {
+  "id": "1102",
+  "name": "希儿",
+  "rarity": 5,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "element": "Quantum",
+  "elementName": "量子",
+  "baseSpeed": 115,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 115.0,
+  "contentId": 317,
+  "icon": "/modules/honkai-star-rail/assets/d5b87c518a6e1ba7.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/1189f0012b47b380991c5f1963bec770_606902876354387333.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/8e020724eaced87d.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/04/22/276833758/7957d5aa3bb0438d3b6657f29ba1da7d_7805268913482712192.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/04/22/276833758/7957d5aa3bb0438d3b6657f29ba1da7d_7805268913482712192.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 28,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "归刃",
+    "kind": "pct",
+    "value": 25.0,
+    "apply": "self",
+    "durationTurns": 3,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "使希儿的速度提高25%，并对指定敌方单体造成等同于希儿180%攻击力的量子属性伤害，速度提高效果持续3回合"
+   },
+   {
+    "source": "技能",
+    "name": "归刃",
+    "kind": "pct",
+    "value": 25.0,
+    "apply": "self",
+    "durationTurns": 3,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "使希儿的速度提高25%，并对指定敌方单体造成等同于希儿180%攻击力的量子属性伤害，速度提高效果持续3回合"
+   },
+   {
+    "source": "行迹",
+    "name": "涟漪",
+    "kind": "advance",
+    "value": 20.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "施放普攻后，希儿的下一次行动提前20%"
+   },
+   {
+    "source": "行迹",
+    "name": "涟漪",
+    "kind": "advance",
+    "value": 20.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "施放普攻后，希儿的下一次行动提前20%"
+   }
+  ],
+  "order": 81,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/1189f0012b47b380991c5f1963bec770_606902876354387333.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1102.png"
+  }
+ },
+ {
+  "id": "1004",
+  "name": "瓦尔特",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "element": "Imaginary",
+  "elementName": "虚数",
+  "baseSpeed": 102,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 102.0,
+  "contentId": 560,
+  "icon": "/modules/honkai-star-rail/assets/919ed744fbdf4143.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/7876a85200a90efef241e953c21a3d31_6126296474937130602.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/a5054566fac4ce61.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/04/22/276833758/f564bb91166108430ad9fd1713891f67_8263931548454139189.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/04/22/276833758/f564bb91166108430ad9fd1713891f67_8263931548454139189.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 29,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "虚空断界",
+    "kind": "pct",
+    "value": -10.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "攻击命中时有65%的基础概率使受到攻击的敌方目标速度降低10%，持续2回合"
+   },
+   {
+    "source": "技能",
+    "name": "拟似黑洞",
+    "kind": "pct",
+    "value": -10.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "禁锢状态下，敌方目标行动延后6.0%，速度降低10%"
+   },
+   {
+    "source": "技能",
+    "name": "时空扭曲",
+    "kind": "pct",
+    "value": -5.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "处于【失重】状态下的敌方目标防御力降低40%，速度降低5%"
+   },
+   {
+    "source": "技能",
+    "name": "画地为牢",
+    "kind": "pct",
+    "value": -10.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "禁锢状态下，敌方目标行动延后20%，速度降低10%"
+   },
+   {
+    "source": "技能",
+    "name": "虚空断界",
+    "kind": "pct",
+    "value": -10.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "攻击命中时有65%的基础概率使受到攻击的敌方目标速度降低10%，持续2回合"
+   },
+   {
+    "source": "技能",
+    "name": "拟似黑洞",
+    "kind": "pct",
+    "value": -10.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "禁锢状态下，敌方目标行动延后6.0%，速度降低10%"
+   },
+   {
+    "source": "技能",
+    "name": "时空扭曲",
+    "kind": "pct",
+    "value": -5.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "处于【失重】状态下的敌方目标防御力降低40%，速度降低5%"
+   },
+   {
+    "source": "技能",
+    "name": "画地为牢",
+    "kind": "pct",
+    "value": -10.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "禁锢状态下，敌方目标行动延后20%，速度降低10%"
+   }
+  ],
+  "order": 76,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/7876a85200a90efef241e953c21a3d31_6126296474937130602.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1004.png"
+  }
+ },
+ {
+  "id": "8009",
+  "name": "开拓者",
+  "rarity": 5,
+  "path": "Elation",
+  "pathName": "欢愉",
+  "element": "Thunder",
+  "elementName": "雷",
+  "baseSpeed": 106,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 106.0,
+  "contentId": 7046,
+  "icon": "/modules/honkai-star-rail/assets/5419723582b0ddfa.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/03/13/276833758/f74252627c740fec1a70d0ab8a0a6b3b_1977808064886475934.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/c27360605e038698.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/05/13/276833758/43bd3944c3a160cfed4cadc2ef9a7ec6_963876552250349189.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/05/13/276833758/43bd3944c3a160cfed4cadc2ef9a7ec6_963876552250349189.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 31,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "放心飞，开拓永相随！",
+    "kind": "advance",
+    "value": 50.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "若目标不拥有欢愉技，使其行动提前50%"
+   }
+  ],
+  "order": 9,
+  "releaseAt": 1776848400,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2026/03/13/276833758/f74252627c740fec1a70d0ab8a0a6b3b_1977808064886475934.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/8009.png"
+  }
+ },
+ {
+  "id": "1315",
+  "name": "波提欧",
+  "rarity": 5,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "element": "Physical",
+  "elementName": "物理",
+  "baseSpeed": 107,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 107.0,
+  "contentId": 2526,
+  "icon": "/modules/honkai-star-rail/assets/bbedc1fe27739fb9.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/5fb7bce666d37355e40e0f48a3186634_6087053411494749815.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/179b4bc4374ef80b.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/04/22/276833758/ccb458e7882e0d9b90b700c7da878483_268141998382859754.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/04/22/276833758/ccb458e7882e0d9b90b700c7da878483_268141998382859754.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 32,
+  "effects": [],
+  "order": 44,
+  "releaseAt": 1716973200,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/5fb7bce666d37355e40e0f48a3186634_6087053411494749815.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1315.png"
+  }
+ },
+ {
+  "id": "1317",
+  "name": "乱破",
+  "rarity": 5,
+  "path": "Mage",
+  "pathName": "智识",
+  "element": "Imaginary",
+  "elementName": "虚数",
+  "baseSpeed": 96,
+  "traceSpeed": 9.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 4.0
+   }
+  ],
+  "effectiveBaseSpeed": 105.0,
+  "contentId": 3732,
+  "icon": "/modules/honkai-star-rail/assets/e74fde14fef58c33.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/0ea4b79d1f9de163de9e52e90f708a50_5858034052553707158.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/f7ffbebc7b4a5182.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/03/25/276833758/49ef158f8238d3a4e6344358a95a0b33_1927809108342907088.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/03/25/276833758/49ef158f8238d3a4e6344358a95a0b33_1927809108342907088.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 33,
+  "effects": [
+   {
+    "source": "星魂",
+    "name": "经年劣化任侠无忍义",
+    "kind": "pct",
+    "value": 12.0,
+    "apply": "team",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": 4,
+    "superimpose": null,
+    "text": "【结印】状态期间，我方全体速度提高12%"
+   }
+  ],
+  "order": 35,
+  "releaseAt": 1729674000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/0ea4b79d1f9de163de9e52e90f708a50_5858034052553707158.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1317.png"
+  }
+ },
+ {
+  "id": "1306",
+  "name": "花火",
+  "rarity": 5,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "element": "Quantum",
+  "elementName": "量子",
+  "baseSpeed": 101,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 101.0,
+  "contentId": 2087,
+  "icon": "/modules/honkai-star-rail/assets/fcfcc0e53c4b62e6.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/70135004890b0e158ed40a914bb93678_7684551424766783801.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/c345a7d950fe3033.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/03/25/276833758/2f8c49b7a2644dc79d526e07b20250f5_3186412000210295471.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/03/25/276833758/2f8c49b7a2644dc79d526e07b20250f5_3186412000210295471.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 34,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "梦游鱼",
+    "kind": "advance",
+    "value": 50.0,
+    "apply": "self",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "使指定我方单体的暴击伤害提高，提高数值等同于花火12.0%暴击伤害+27.0%，持续1回合，并使该目标行动提前50%"
+   },
+   {
+    "source": "技能",
+    "name": "梦游鱼",
+    "kind": "advance",
+    "value": 50.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "使指定我方单体的暴击伤害提高，提高数值等同于花火12.0%暴击伤害+27.0%，持续2回合，并使该目标行动提前50%"
+   },
+   {
+    "source": "星魂",
+    "name": "悬置怀疑",
+    "kind": "pct",
+    "value": 15.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": 1,
+    "superimpose": null,
+    "text": "持有【谜诡】的我方目标攻击力提高40%，战斗开始时或施放战技时，花火的速度提高15%，持续2回合"
+   }
+  ],
+  "order": 52,
+  "releaseAt": 1707213600,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/70135004890b0e158ed40a914bb93678_7684551424766783801.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1306.png"
+  }
+ },
+ {
+  "id": "1307",
+  "name": "黑天鹅",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "element": "Wind",
+  "elementName": "风",
+  "baseSpeed": 102,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 102.0,
+  "contentId": 2082,
+  "icon": "/modules/honkai-star-rail/assets/39557ceda5560139.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/b1ff092942f330dff93feea210e5cabd_7119370203099676338.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/6175a911ef155c83.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/03/03/276833758/0059e17c617ef3453b309a1e878c8f61_7799689554844160913.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/03/03/276833758/0059e17c617ef3453b309a1e878c8f61_7799689554844160913.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 35,
+  "effects": [],
+  "order": 53,
+  "releaseAt": 1707213600,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/b1ff092942f330dff93feea210e5cabd_7119370203099676338.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1307.png"
+  }
+ },
+ {
+  "id": "1410",
+  "name": "海瑟音",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "element": "Physical",
+  "elementName": "物理",
+  "baseSpeed": 102,
+  "traceSpeed": 14.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 4.0
+   }
+  ],
+  "effectiveBaseSpeed": 116.0,
+  "contentId": 5582,
+  "icon": "/modules/honkai-star-rail/assets/d4f5d8b99d4071d7.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/885032aa4f3cbdffb6a84209f26fd0bf_2386144716869472728.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/a201ce88720a77e8.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/03/03/276833758/81f71db78a9b2e5f0c6506ca144cf138_4185202875186081776.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/03/03/276833758/81f71db78a9b2e5f0c6506ca144cf138_4185202875186081776.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 36,
+  "effects": [],
+  "order": 19,
+  "releaseAt": 1755075600,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/885032aa4f3cbdffb6a84209f26fd0bf_2386144716869472728.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1410.png"
+  }
+ },
+ {
+  "id": "1402",
+  "name": "阿格莱雅",
+  "rarity": 5,
+  "path": "Memory",
+  "pathName": "记忆",
+  "element": "Thunder",
+  "elementName": "雷",
+  "baseSpeed": 102,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 102.0,
+  "contentId": 4440,
+  "icon": "/modules/honkai-star-rail/assets/36b05124f9ef6344.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/3a8d5fe67f660f4a4f2a3a8e32b99879_1974796237695623042.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/2c3e039764365cd3.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/02/12/276833758/97e70f031581e698a8574d8ed665dedf_3484756158824813725.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/02/12/276833758/97e70f031581e698a8574d8ed665dedf_3484756158824813725.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 37,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "共舞吧，命定的衣匠",
+    "kind": "pct",
+    "value": 10.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "【至高之姿】状态下，阿格莱雅获得衣匠忆灵天赋的速度提高层数，每层使自身速度提高10.0%，普通攻击强化为【孤锋千吻】并且无法施放战技，衣匠免疫控制类负面状态"
+   },
+   {
+    "source": "技能",
+    "name": "泪水锻造的匠躯",
+    "kind": "flat",
+    "value": 44.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 6,
+    "rank": null,
+    "superimpose": null,
+    "text": "攻击处于【间隙织线】状态的敌人后，使自身的速度提高44点，该效果最多叠加6层"
+   },
+   {
+    "source": "技能",
+    "name": "飞驰之夏",
+    "kind": "advance",
+    "value": 100.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "衣匠被召唤时，使自身行动提前100%"
+   },
+   {
+    "source": "技能",
+    "name": "",
+    "kind": "pct",
+    "value": 17.5,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "\\n【至高之姿】状态下，阿格莱雅获得衣匠忆灵天赋的速度提高层数，每层使自身速度提高17.5%，普通攻击强化为【孤锋千吻】并且无法施放战技，衣匠免疫控制类负面状态"
+   }
+  ],
+  "order": 29,
+  "releaseAt": 1738749600,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/3a8d5fe67f660f4a4f2a3a8e32b99879_1974796237695623042.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1402.png"
+  }
+ },
+ {
+  "id": "1225",
+  "name": "忘归人",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "element": "Fire",
+  "elementName": "火",
+  "baseSpeed": 102,
+  "traceSpeed": 14.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 4.0
+   }
+  ],
+  "effectiveBaseSpeed": 116.0,
+  "contentId": 4175,
+  "icon": "/modules/honkai-star-rail/assets/113722c4ef8abce0.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/5a7ecd7426be3f206d924f5ac4c39679_7954576528650547027.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/e32dc38640100f33.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/02/01/276833758/883ee820ed8e1951771465fc01efc5a5_7175335214993922779.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/02/01/276833758/883ee820ed8e1951771465fc01efc5a5_7175335214993922779.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 38,
+  "effects": [
+   {
+    "source": "星魂",
+    "name": "瑞应之來，必昭有德",
+    "kind": "advance",
+    "value": 24.0,
+    "apply": "team",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": 2,
+    "superimpose": null,
+    "text": "施放终结技后，我方全体行动提前24%"
+   }
+  ],
+  "order": 33,
+  "releaseAt": 1735120800,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/5a7ecd7426be3f206d924f5ac4c39679_7954576528650547027.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1225.png"
+  }
+ },
+ {
+  "id": "1222",
+  "name": "灵砂",
+  "rarity": 5,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "element": "Fire",
+  "elementName": "火",
+  "baseSpeed": 98,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 98.0,
+  "contentId": 3502,
+  "icon": "/modules/honkai-star-rail/assets/8d37276bb2f45e66.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/b844408375431eee1837e17e9ae89ab1_3530598392208659602.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/e941685160c9fabb.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2026/02/01/276833758/29c6a63a5a992b426e4e7f7d7ea7c7ab_2239079517703587334.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2026/02/01/276833758/29c6a63a5a992b426e4e7f7d7ea7c7ab_2239079517703587334.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 39,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "识烟飞彩",
+    "kind": "advance",
+    "value": 20.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "对敌方全体造成等同于灵砂40%攻击力的火属性伤害，同时为我方全体回复等同于灵砂10.0%攻击力+105的生命值，使【浮元】行动提前20%"
+   },
+   {
+    "source": "技能",
+    "name": "幔亭缭霞",
+    "kind": "advance",
+    "value": 100.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "对敌方全体造成等同于灵砂90%攻击力的火属性伤害，同时为我方全体回复等同于灵砂8.0%攻击力+90的生命值，使【浮元】行动提前100%"
+   }
+  ],
+  "order": 36,
+  "releaseAt": 1727859600,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/b844408375431eee1837e17e9ae89ab1_3530598392208659602.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1222.png"
+  }
+ },
+ {
+  "id": "1406",
+  "name": "赛飞儿",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "element": "Quantum",
+  "elementName": "量子",
+  "baseSpeed": 106,
+  "traceSpeed": 14.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 4.0
+   }
+  ],
+  "effectiveBaseSpeed": 120.0,
+  "contentId": 5109,
+  "icon": "/modules/honkai-star-rail/assets/7f2264bf6be02d87.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/4cb746e0e30649ac10075dcc02504291_1178724090146395174.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/7f6d3f31dd31ac9b.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/12/17/276833758/b8e0a99f5b1f56b18a9f37805bd6b5e5_7059467133634383450.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/12/17/276833758/b8e0a99f5b1f56b18a9f37805bd6b5e5_7059467133634383450.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 40,
+  "effects": [],
+  "order": 23,
+  "releaseAt": 1749632400,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/4cb746e0e30649ac10075dcc02504291_1178724090146395174.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1406.png"
+  }
+ },
+ {
+  "id": "1404",
+  "name": "万敌",
+  "rarity": 5,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "element": "Imaginary",
+  "elementName": "虚数",
+  "baseSpeed": 95,
+  "traceSpeed": 5.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   }
+  ],
+  "effectiveBaseSpeed": 100.0,
+  "contentId": 4609,
+  "icon": "/modules/honkai-star-rail/assets/3f14620cdd12968d.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/6a277bb4ddbec710d203ca1f46cb96bb_6502244593517333023.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/7b8d42e6f00f3237.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/12/17/276833758/0379b2a9bb03cc42276596962f796ef2_2439249283982418778.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/12/17/276833758/0379b2a9bb03cc42276596962f796ef2_2439249283982418778.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 41,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "以血还血",
+    "kind": "advance",
+    "value": 100.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "充能达到100时消耗100点充能进入【血仇】状态并回复等同于万敌15%生命上限的生命值，同时行动提前100%"
+   }
+  ],
+  "order": 27,
+  "releaseAt": 1742378400,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/6a277bb4ddbec710d203ca1f46cb96bb_6502244593517333023.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1404.png"
+  }
+ },
+ {
+  "id": "1401",
+  "name": "大黑塔",
+  "rarity": 5,
+  "path": "Mage",
+  "pathName": "智识",
+  "element": "Ice",
+  "elementName": "冰",
+  "baseSpeed": 99,
+  "traceSpeed": 5.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   }
+  ],
+  "effectiveBaseSpeed": 104.0,
+  "contentId": 4439,
+  "icon": "/modules/honkai-star-rail/assets/436e440a9184c093.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/acd5836a7f7e3626c918e3373ca7b358_642146691220409403.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/68293b41140f2d78.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/10/15/276833758/43cef3dfd74d037069d3fe1d18495a3f_8258149470362812480.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/10/15/276833758/43cef3dfd74d037069d3fe1d18495a3f_8258149470362812480.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 42,
+  "effects": [
+   {
+    "source": "星魂",
+    "name": "穿过锁孔之风",
+    "kind": "advance",
+    "value": 35.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": 2,
+    "superimpose": null,
+    "text": "施放强化战技后，大黑塔的下一次行动提前35%"
+   },
+   {
+    "source": "星魂",
+    "name": "第十六把钥匙",
+    "kind": "pct",
+    "value": 12.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": 4,
+    "superimpose": null,
+    "text": "队伍中的「智识」命途角色的速度提高12%"
+   }
+  ],
+  "order": 30,
+  "releaseAt": 1736935200,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/acd5836a7f7e3626c918e3373ca7b358_642146691220409403.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1401.png"
+  }
+ },
+ {
+  "id": "1006",
+  "name": "银狼",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "element": "Quantum",
+  "elementName": "量子",
+  "baseSpeed": 107,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 107.0,
+  "contentId": 1085,
+  "icon": "/modules/honkai-star-rail/assets/3de96f5e3d62a249.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/0ea246ed5d9bcdbe57b52e1ab0f44c55_1924410239499595845.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/927b76693df637de.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/a8e3297c45a35c519706cb9e0124b174_4013926885969217187.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/a8e3297c45a35c519706cb9e0124b174_4013926885969217187.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 43,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "等待程序响应…",
+    "kind": "pct",
+    "value": -3.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "银狼能够制造：攻击力降低5.0%、防御力降低6.0%、速度降低3.0%3种【缺陷】"
+   },
+   {
+    "source": "技能",
+    "name": "等待程序响应…",
+    "kind": "pct",
+    "value": -3.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "银狼能够制造：攻击力降低5.0%、防御力降低6.0%、速度降低3.0%3种【缺陷】"
+   },
+   {
+    "source": "技能",
+    "name": "",
+    "kind": "pct",
+    "value": -7.5,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "银狼能够制造：攻击力降低12.5%、防御力降低10.0%、速度降低7.5%3种【缺陷】"
+   }
+  ],
+  "order": 71,
+  "releaseAt": 1686128400,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/0ea246ed5d9bcdbe57b52e1ab0f44c55_1924410239499595845.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1006.png"
+  }
+ },
+ {
+  "id": "1005",
+  "name": "卡芙卡",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "element": "Thunder",
+  "elementName": "雷",
+  "baseSpeed": 100,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 100.0,
+  "contentId": 1298,
+  "icon": "/modules/honkai-star-rail/assets/bb3400f50eaca375.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/8dae73a6087f176d079f9e67a7475739_5544120706980318006.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/214639c88f121639.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/acd0ff276402083b94b43fce2a7e3196_2190987700733877823.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/acd0ff276402083b94b43fce2a7e3196_2190987700733877823.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 44,
+  "effects": [],
+  "order": 66,
+  "releaseAt": 1689757200,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/8dae73a6087f176d079f9e67a7475739_5544120706980318006.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1005.png"
+  }
+ },
+ {
+  "id": "1212",
+  "name": "镜流",
+  "rarity": 5,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "element": "Ice",
+  "elementName": "冰",
+  "baseSpeed": 96,
+  "traceSpeed": 9.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 4.0
+   }
+  ],
+  "effectiveBaseSpeed": 105.0,
+  "contentId": 1708,
+  "icon": "/modules/honkai-star-rail/assets/96514d6aa74977a5.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/e46be92dcce33d2ecc4570bfa1527d5f_6602827820289543636.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/288de74ac4b75b93.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/7fc75c931a42e1f110f9ef1c302e424f_5597126508950075072.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/7fc75c931a42e1f110f9ef1c302e424f_5597126508950075072.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 45,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "澹月转魄",
+    "kind": "advance",
+    "value": 100.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "当拥有2层【朔望】时，镜流将进入【转魄】状态，额外获得1层【朔望】并使行动提前100%、暴击率提高40%，随后战技【无罅飞光】强化为【寒川映月】且仅能使用该战技"
+   },
+   {
+    "source": "技能",
+    "name": "澹月转魄",
+    "kind": "advance",
+    "value": 100.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "当拥有2层【朔望】时，镜流将进入【转魄】状态，额外获得1层【朔望】并使行动提前100%、暴击率提高40%，随后战技【无罅飞光】强化为【寒川映月】且仅能使用该战技"
+   },
+   {
+    "source": "行迹",
+    "name": "剑首",
+    "kind": "advance",
+    "value": 10.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "施放【无罅飞光】后，下次行动提前10%"
+   }
+  ],
+  "order": 62,
+  "releaseAt": 1697014800,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/e46be92dcce33d2ecc4570bfa1527d5f_6602827820289543636.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1212.png"
+  }
+ },
+ {
+  "id": "1205",
+  "name": "刃",
+  "rarity": 5,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "element": "Wind",
+  "elementName": "风",
+  "baseSpeed": 97,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 97.0,
+  "contentId": 1214,
+  "icon": "/modules/honkai-star-rail/assets/022d6d9532cc6a50.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/65693d14ec8067e276a9e7a454e8f7d4_9203424539193390471.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/15245ed0afc6f665.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/e4fd1247f1263eb5646baf40c95b8654_1560573644159233135.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/e4fd1247f1263eb5646baf40c95b8654_1560573644159233135.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 46,
+  "effects": [],
+  "order": 68,
+  "releaseAt": 1689757200,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/65693d14ec8067e276a9e7a454e8f7d4_9203424539193390471.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1205.png"
+  }
+ },
+ {
+  "id": "1014",
+  "name": "Saber",
+  "rarity": 5,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "element": "Wind",
+  "elementName": "风",
+  "baseSpeed": 101,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 101.0,
+  "contentId": 5339,
+  "icon": "/modules/honkai-star-rail/assets/6be274c5c42488d2.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/deb5a515e1acb8bbff9fa0b142698bfa_1227070409858232042.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/d4097381184ec698.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/c3fb4bae6be30e5c31d098b0223c8092_7454930483919688480.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/c3fb4bae6be30e5c31d098b0223c8092_7454930483919688480.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 47,
+  "effects": [],
+  "order": 20,
+  "releaseAt": 1752224400,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/deb5a515e1acb8bbff9fa0b142698bfa_1227070409858232042.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1014.png"
+  }
+ },
+ {
+  "id": "1015",
+  "name": "Archer",
+  "rarity": 5,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "element": "Quantum",
+  "elementName": "量子",
+  "baseSpeed": 105,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 105.0,
+  "contentId": 5338,
+  "icon": "/modules/honkai-star-rail/assets/7ef1c9fce84ea8b4.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/e7c9aebf492c1ed26183afb6888f0516_4771869183919996024.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/92a5155af3d778b9.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/fc473092554f32c16b24fd7140655d42_2569295798545304886.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/fc473092554f32c16b24fd7140655d42_2569295798545304886.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 48,
+  "effects": [],
+  "order": 21,
+  "releaseAt": 1752224400,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/e7c9aebf492c1ed26183afb6888f0516_4771869183919996024.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1015.png"
+  }
+ },
+ {
+  "id": "1305",
+  "name": "真理医生",
+  "rarity": 5,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "element": "Imaginary",
+  "elementName": "虚数",
+  "baseSpeed": 103,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 103.0,
+  "contentId": 1873,
+  "icon": "/modules/honkai-star-rail/assets/148159715d4263dd.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/c6fcf2a97d4df66af965045c7438871b_8944881835133211780.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/4cc22aeb0fe6b173.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/808f607632222d6607413fb538551354_8167093712239851389.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/808f607632222d6607413fb538551354_8167093712239851389.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 49,
+  "effects": [],
+  "order": 54,
+  "releaseAt": 1705485600,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/c6fcf2a97d4df66af965045c7438871b_8944881835133211780.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1305.png"
+  }
+ },
+ {
+  "id": "1218",
+  "name": "椒丘",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "element": "Fire",
+  "elementName": "火",
+  "baseSpeed": 98,
+  "traceSpeed": 5.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   }
+  ],
+  "effectiveBaseSpeed": 103.0,
+  "contentId": 3058,
+  "icon": "/modules/honkai-star-rail/assets/d818549bbd65f263.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/c54578ab60e544e161cd4b800e5e273a_1904618167113400548.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/9a719813b6907079.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/85a56fbeb3dcfefe054322120defd465_1407033125439323367.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/85a56fbeb3dcfefe054322120defd465_1407033125439323367.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 50,
+  "effects": [],
+  "order": 39,
+  "releaseAt": 1724230800,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/c54578ab60e544e161cd4b800e5e273a_1904618167113400548.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1218.png"
+  }
+ },
+ {
+  "id": "1308",
+  "name": "黄泉",
+  "rarity": 5,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "element": "Thunder",
+  "elementName": "雷",
+  "baseSpeed": 101,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 101.0,
+  "contentId": 2300,
+  "icon": "/modules/honkai-star-rail/assets/ded0d7b5d57fd2de.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/da9c48deac6347eea414d97719246d05_6091035812357016498.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/55fddde5c670920e.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/299ea4c0e85a6479d5787ee1cb5eefde_7819936905120811425.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/299ea4c0e85a6479d5787ee1cb5eefde_7819936905120811425.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 51,
+  "effects": [],
+  "order": 50,
+  "releaseAt": 1711533600,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/da9c48deac6347eea414d97719246d05_6091035812357016498.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1308.png"
+  }
+ },
+ {
+  "id": "1221",
+  "name": "云璃",
+  "rarity": 5,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "element": "Physical",
+  "elementName": "物理",
+  "baseSpeed": 94,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 94.0,
+  "contentId": 3056,
+  "icon": "/modules/honkai-star-rail/assets/51b61a59e3e7f635.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/b9b656849262d852cbe864cbede1c3f4_3571266396213989211.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/553e718855c170b6.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/347a1279fe4cad7107c4f1bad19cfa2c_8745659657197732450.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/347a1279fe4cad7107c4f1bad19cfa2c_8745659657197732450.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 52,
+  "effects": [],
+  "order": 40,
+  "releaseAt": 1722416400,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/b9b656849262d852cbe864cbede1c3f4_3571266396213989211.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1221.png"
+  }
+ },
+ {
+  "id": "1309",
+  "name": "知更鸟",
+  "rarity": 5,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "element": "Physical",
+  "elementName": "物理",
+  "baseSpeed": 102,
+  "traceSpeed": 5.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   }
+  ],
+  "effectiveBaseSpeed": 107.0,
+  "contentId": 2524,
+  "icon": "/modules/honkai-star-rail/assets/377c1ec7472f602c.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/ea65cd1afc2fb43540861c38db8cc8d3_8531761368252282661.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/2dc9f670b6da64c2.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/6273cbbc3cad2fe1e5528ed3fd353ee7_6566570394358839258.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/6273cbbc3cad2fe1e5528ed3fd353ee7_6566570394358839258.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 53,
+  "effects": [
+   {
+    "source": "星魂",
+    "name": "两者的午茶",
+    "kind": "pct",
+    "value": 16.0,
+    "apply": "team",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": 2,
+    "superimpose": null,
+    "text": "处于【协奏】状态时，我方全体速度提高16%"
+   },
+   {
+    "source": "行迹",
+    "name": "华彩花腔",
+    "kind": "advance",
+    "value": 25.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "战斗开始时，自身行动提前25%"
+   }
+  ],
+  "order": 45,
+  "releaseAt": 1715158800,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/ea65cd1afc2fb43540861c38db8cc8d3_8531761368252282661.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1309.png"
+  }
+ },
+ {
+  "id": "8007",
+  "name": "开拓者",
+  "rarity": 5,
+  "path": "Memory",
+  "pathName": "记忆",
+  "element": "Ice",
+  "elementName": "冰",
+  "baseSpeed": 103,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 103.0,
+  "contentId": 4441,
+  "icon": "/modules/honkai-star-rail/assets/e8d2e38cdba2c9b5.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/a4e98f31245da161130243af8d0e0aa4_672704169865489529.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/e73efcc95481fb34.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/357624a26f2db57676b5acba54ea5f52_6225646048259272380.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/357624a26f2db57676b5acba54ea5f52_6225646048259272380.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 55,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "遗憾…不留",
+    "kind": "advance",
+    "value": 25.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "迷迷消失时，使开拓者行动提前25%"
+   },
+   {
+    "source": "技能",
+    "name": "我会！帮你！",
+    "kind": "advance",
+    "value": 100.0,
+    "apply": "ally",
+    "durationTurns": 3,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "使指定我方单体行动提前100%并附上【迷迷的声援】，持续3回合"
+   },
+   {
+    "source": "行迹",
+    "name": "追念之权杖",
+    "kind": "advance",
+    "value": 30.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "战斗开始时，开拓者的行动提前30%"
+   }
+  ],
+  "order": 31,
+  "releaseAt": 1736935200,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/a4e98f31245da161130243af8d0e0aa4_672704169865489529.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/8007.png"
+  }
+ },
+ {
+  "id": "1314",
+  "name": "翡翠",
+  "rarity": 5,
+  "path": "Mage",
+  "pathName": "智识",
+  "element": "Quantum",
+  "elementName": "量子",
+  "baseSpeed": 103,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 103.0,
+  "contentId": 2675,
+  "icon": "/modules/honkai-star-rail/assets/2e66ac6ab209674a.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/f6b44be85d796a0696932d4955a6d937_1505719562319036846.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/edf225369e1492db.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/4d35d95d3524e354b890f0db0f1bd71a_4539348114328832096.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/4d35d95d3524e354b890f0db0f1bd71a_4539348114328832096.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 56,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "恣肆吞併的担保",
+    "kind": "flat",
+    "value": 30.0,
+    "apply": "self",
+    "durationTurns": 3,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "指定我方单体成为【收债人】，使其速度提高30点，持续3回合"
+   },
+   {
+    "source": "行迹",
+    "name": "折牙票",
+    "kind": "advance",
+    "value": 50.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "战斗开始时，翡翠的行动提前50%"
+   }
+  ],
+  "order": 42,
+  "releaseAt": 1720602000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/f6b44be85d796a0696932d4955a6d937_1505719562319036846.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1314.png"
+  }
+ },
+ {
+  "id": "1204",
+  "name": "景元",
+  "rarity": 5,
+  "path": "Mage",
+  "pathName": "智识",
+  "element": "Thunder",
+  "elementName": "雷",
+  "baseSpeed": 99,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 99.0,
+  "contentId": 389,
+  "icon": "/modules/honkai-star-rail/assets/804610899eedee3f.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/da4b06d98d96b3b73cb9560bb4b82ccb_2272231158292841277.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/eadf03fff06f5596.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/aa346440a374514332090a67e13bd703_1196914212838575197.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/aa346440a374514332090a67e13bd703_1196914212838575197.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 57,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "斩勘神形",
+    "kind": "flat",
+    "value": 10.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "【神君】最多累计10段攻击段数且每增加1段攻击段数，速度提高10点，行动结束后速度和攻击段数恢复至初始状态"
+   }
+  ],
+  "order": 72,
+  "releaseAt": 1684335600,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/da4b06d98d96b3b73cb9560bb4b82ccb_2272231158292841277.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1204.png"
+  }
+ },
+ {
+  "id": "1213",
+  "name": "丹恒•饮月",
+  "rarity": 5,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "element": "Imaginary",
+  "elementName": "虚数",
+  "baseSpeed": 102,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 102.0,
+  "contentId": 1472,
+  "icon": "/modules/honkai-star-rail/assets/4ecea2f051bdf80c.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/37a93d577488dc74789af16a1fb9ae11_2915344767214656161.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/5d16421614109d01.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/f78675d9e966c8bd5b02c625b5f20d54_2358553888074500822.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/f78675d9e966c8bd5b02c625b5f20d54_2358553888074500822.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 58,
+  "effects": [
+   {
+    "source": "星魂",
+    "name": "九斿",
+    "kind": "advance",
+    "value": 100.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": 2,
+    "superimpose": null,
+    "text": "施放终结技后丹恒•饮月行动提前100%，并且会额外获得1个【逆鳞】"
+   }
+  ],
+  "order": 65,
+  "releaseAt": 1693386000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/37a93d577488dc74789af16a1fb9ae11_2915344767214656161.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1213.png"
+  }
+ },
+ {
+  "id": "1303",
+  "name": "阮•梅",
+  "rarity": 5,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "element": "Ice",
+  "elementName": "冰",
+  "baseSpeed": 104,
+  "traceSpeed": 5.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   }
+  ],
+  "effectiveBaseSpeed": 109.0,
+  "contentId": 1874,
+  "icon": "/modules/honkai-star-rail/assets/b7a77a98e4409de3.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/1092fa065907fa1cd87c9d783ac5dff9_5783604912882066564.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/c7004c8e54753d7a.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/7bc1d6481ceabf954fa8b5e782cc3cd6_5308369774356945843.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/7bc1d6481ceabf954fa8b5e782cc3cd6_5308369774356945843.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 59,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "分型的螺旋",
+    "kind": "pct",
+    "value": 8.0,
+    "apply": "team",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "使除自身以外的队友速度提高8.0%"
+   },
+   {
+    "source": "技能",
+    "name": "",
+    "kind": "pct",
+    "value": 11.0,
+    "apply": "team",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "使除自身以外的队友速度提高11.0%"
+   }
+  ],
+  "order": 56,
+  "releaseAt": 1703671200,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/1092fa065907fa1cd87c9d783ac5dff9_5783604912882066564.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1303.png"
+  }
+ },
+ {
+  "id": "1302",
+  "name": "银枝",
+  "rarity": 5,
+  "path": "Mage",
+  "pathName": "智识",
+  "element": "Physical",
+  "elementName": "物理",
+  "baseSpeed": 103,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 103.0,
+  "contentId": 1714,
+  "icon": "/modules/honkai-star-rail/assets/c98c60e12747beda.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/fc83fc4a985dd73e24327bcfa9e1e34a_3653760887079871888.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/df55fe355ed4e610.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/813fc75074b6df366b774ed7d583da36_3212711880297763380.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/813fc75074b6df366b774ed7d583da36_3212711880297763380.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 60,
+  "effects": [],
+  "order": 58,
+  "releaseAt": 1701856800,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/fc83fc4a985dd73e24327bcfa9e1e34a_3653760887079871888.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1302.png"
+  }
+ },
+ {
+  "id": "1211",
+  "name": "白露",
+  "rarity": 5,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "element": "Thunder",
+  "elementName": "雷",
+  "baseSpeed": 98,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 98.0,
+  "contentId": 564,
+  "icon": "/modules/honkai-star-rail/assets/c09a9929a9b482c8.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/f697137404857d5a09d87eebc5b732ca_7537532264207582713.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/ccfa18b0861cc55e.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/b6c281639035daf378fe2baf491d35f0_6653311081406149192.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/b6c281639035daf378fe2baf491d35f0_6653311081406149192.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 61,
+  "effects": [],
+  "order": 93,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/f697137404857d5a09d87eebc5b732ca_7537532264207582713.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1211.png"
+  }
+ },
+ {
+  "id": "1209",
+  "name": "彦卿",
+  "rarity": 5,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "element": "Ice",
+  "elementName": "冰",
+  "baseSpeed": 109,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 109.0,
+  "contentId": 565,
+  "icon": "/modules/honkai-star-rail/assets/e40bd9d3a3e7c6aa.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/5519404b617e1823d6afb1e5e083e397_203664969238161947.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/4917b895c2fa1db7.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/cd028c66e1cce030cd5f7d0f402e1ed2_5201997366006409399.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/cd028c66e1cce030cd5f7d0f402e1ed2_5201997366006409399.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 62,
+  "effects": [
+   {
+    "source": "行迹",
+    "name": "轻吕",
+    "kind": "pct",
+    "value": 10.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "触发暴击时，速度提高10%，持续2回合"
+   }
+  ],
+  "order": 92,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/5519404b617e1823d6afb1e5e083e397_203664969238161947.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1209.png"
+  }
+ },
+ {
+  "id": "1208",
+  "name": "符玄",
+  "rarity": 5,
+  "path": "Knight",
+  "pathName": "存护",
+  "element": "Quantum",
+  "elementName": "量子",
+  "baseSpeed": 100,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 100.0,
+  "contentId": 1646,
+  "icon": "/modules/honkai-star-rail/assets/025bbe219934b428.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/8b02e35ce1ef04ba026dcc8edccc20df_7730649138871733652.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/9466366e7c8482a6.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/59e7360e2e3ebaaa4ea92579632e7ab3_6622783952186849485.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/59e7360e2e3ebaaa4ea92579632e7ab3_6622783952186849485.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 63,
+  "effects": [],
+  "order": 64,
+  "releaseAt": 1695200400,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/8b02e35ce1ef04ba026dcc8edccc20df_7730649138871733652.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1208.png"
+  }
+ },
+ {
+  "id": "1203",
+  "name": "罗刹",
+  "rarity": 5,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "element": "Imaginary",
+  "elementName": "虚数",
+  "baseSpeed": 101,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 101.0,
+  "contentId": 1188,
+  "icon": "/modules/honkai-star-rail/assets/6c4445cb76b2088a.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/c4dffd3e17d31757ba5cc0c156b129d2_5810929769560552241.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/b20fda07d3033c50.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/6f24a5600bb43e73fcaece9cd51634d1_2711125993442108229.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/6f24a5600bb43e73fcaece9cd51634d1_2711125993442108229.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 64,
+  "effects": [],
+  "order": 69,
+  "releaseAt": 1687942800,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/c4dffd3e17d31757ba5cc0c156b129d2_5810929769560552241.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1203.png"
+  }
+ },
+ {
+  "id": "1112",
+  "name": "托帕&账账",
+  "rarity": 5,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "element": "Fire",
+  "elementName": "火",
+  "baseSpeed": 110,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 110.0,
+  "contentId": 1709,
+  "icon": "/modules/honkai-star-rail/assets/37862623af5e2c00.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/dd464bac20e8e0dac96b4329afafe52d_343083618670543601.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/b99aa41378dcbec5.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/08f6b42f4fa8cc3ebfc58c1f1b1c4db7_6283011608044212483.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/08f6b42f4fa8cc3ebfc58c1f1b1c4db7_6283011608044212483.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 65,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "扭亏为盈！",
+    "kind": "advance",
+    "value": 50.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "使账账进入【涨幅惊人！】状态，伤害倍率提高75%，暴击伤害提高12.5%，且当陷入【负债证明】状态下的敌方目标受到我方的普攻、战技或终结技的攻击时，账账行动提前50%"
+   },
+   {
+    "source": "技能",
+    "name": "猪市？！",
+    "kind": "advance",
+    "value": 50.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "陷入【负债证明】状态下的敌方目标受到我方的追加攻击时，账账行动提前50%"
+   },
+   {
+    "source": "星魂",
+    "name": "敏捷处理",
+    "kind": "advance",
+    "value": 20.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": 4,
+    "superimpose": null,
+    "text": "账账自身回合开始时，托帕的行动提前20%"
+   }
+  ],
+  "order": 60,
+  "releaseAt": 1698483600,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/dd464bac20e8e0dac96b4329afafe52d_343083618670543601.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1112.png"
+  }
+ },
+ {
+  "id": "1107",
+  "name": "克拉拉",
+  "rarity": 5,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "element": "Physical",
+  "elementName": "物理",
+  "baseSpeed": 90,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 90.0,
+  "contentId": 414,
+  "icon": "/modules/honkai-star-rail/assets/1d3132c796a03720.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/01f9d57802fc1b0f9113860a9497ccf6_6419734283202298730.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/a54873d61125fc32.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/299091e174b4ee42430be8cfd40909d2_898951534483344862.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/299091e174b4ee42430be8cfd40909d2_898951534483344862.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 66,
+  "effects": [],
+  "order": 86,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/01f9d57802fc1b0f9113860a9497ccf6_6419734283202298730.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1107.png"
+  }
+ },
+ {
+  "id": "1104",
+  "name": "杰帕德",
+  "rarity": 5,
+  "path": "Knight",
+  "pathName": "存护",
+  "element": "Ice",
+  "elementName": "冰",
+  "baseSpeed": 92,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 92.0,
+  "contentId": 424,
+  "icon": "/modules/honkai-star-rail/assets/ca68bea1bed2afa8.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/5abd3ea9a89ab57be1f52a9c3056e0fc_7175612953149507458.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/89fb99c99965fe6d.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/93cae0e36e3a3e24793fa0ffa962fe90_151063065587076101.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/93cae0e36e3a3e24793fa0ffa962fe90_151063065587076101.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 67,
+  "effects": [],
+  "order": 83,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/5abd3ea9a89ab57be1f52a9c3056e0fc_7175612953149507458.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1104.png"
+  }
+ },
+ {
+  "id": "1101",
+  "name": "布洛妮娅",
+  "rarity": 5,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "element": "Wind",
+  "elementName": "风",
+  "baseSpeed": 99,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 99.0,
+  "contentId": 453,
+  "icon": "/modules/honkai-star-rail/assets/427c6ba6a5bea1ff.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/1400437bcdf653e38897e9eb91f68453_7290780151168971335.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/c23ade499f7242ff.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/ee5dd49517860d10d39a7538c977982f_611827734368054119.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/ee5dd49517860d10d39a7538c977982f_611827734368054119.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 68,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "先人一步",
+    "kind": "advance",
+    "value": 15.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "施放普攻后，布洛妮娅的下一次行动提前15%"
+   },
+   {
+    "source": "星魂",
+    "name": "快速行军",
+    "kind": "pct",
+    "value": 30.0,
+    "apply": "ally",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": 2,
+    "superimpose": null,
+    "text": "施放战技时，被指定的我方目标在行动后速度提高30%，持续1回合"
+   },
+   {
+    "source": "技能",
+    "name": "",
+    "kind": "advance",
+    "value": 37.5,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "施放普攻后，布洛妮娅的下一次行动提前37.5%"
+   }
+  ],
+  "order": 80,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/1400437bcdf653e38897e9eb91f68453_7290780151168971335.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1101.png"
+  }
+ },
+ {
+  "id": "1003",
+  "name": "姬子",
+  "rarity": 5,
+  "path": "Mage",
+  "pathName": "智识",
+  "element": "Fire",
+  "elementName": "火",
+  "baseSpeed": 96,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 96.0,
+  "contentId": 407,
+  "icon": "/modules/honkai-star-rail/assets/4d4191fac04bca81.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/2f2a190effafbf7f87d99238bfddcf87_5736252689476159758.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/14b5d5b5e2676784.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/c7e6262df3023d4946a3e8965fa20976_6312977482613525347.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/c7e6262df3023d4946a3e8965fa20976_6312977482613525347.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 69,
+  "effects": [
+   {
+    "source": "星魂",
+    "name": "童年",
+    "kind": "pct",
+    "value": 20.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": 1,
+    "superimpose": null,
+    "text": "【乘胜追击】触发后，姬子的速度提高20%，持续2回合"
+   }
+  ],
+  "order": 75,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/2f2a190effafbf7f87d99238bfddcf87_5736252689476159758.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1003.png"
+  }
+ },
+ {
+  "id": "8005",
+  "name": "开拓者",
+  "rarity": 5,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "element": "Imaginary",
+  "elementName": "虚数",
+  "baseSpeed": 105,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 105.0,
+  "contentId": 872,
+  "icon": "/modules/honkai-star-rail/assets/e49ee84ca5bcf985.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/07ac3b55fffa192bc787160b6a4f8edb_880994807237524133.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/102f61893f25307c.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/6befa78db0e70d2dcbea12f451e9a5c9_3448677920368146518.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/6befa78db0e70d2dcbea12f451e9a5c9_3448677920368146518.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 71,
+  "effects": [],
+  "order": 46,
+  "releaseAt": 1715158800,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/07ac3b55fffa192bc787160b6a4f8edb_880994807237524133.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/8005.png"
+  }
+ },
+ {
+  "id": "8003",
+  "name": "开拓者",
+  "rarity": 5,
+  "path": "Knight",
+  "pathName": "存护",
+  "element": "Fire",
+  "elementName": "火",
+  "baseSpeed": 95,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 95.0,
+  "contentId": 3123,
+  "icon": "/modules/honkai-star-rail/assets/f4b079f5a1d9b7e5.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/41ec0f52ea6ecc2860393d49bbe30e58_3861740060434158769.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/88c5c449334f8ca5.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/b962a936810acf6c6643804870ea89dd_6579882429214340972.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/b962a936810acf6c6643804870ea89dd_6579882429214340972.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 73,
+  "effects": [],
+  "order": 96,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/41ec0f52ea6ecc2860393d49bbe30e58_3861740060434158769.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/8003.png"
+  }
+ },
+ {
+  "id": "8001",
+  "name": "开拓者",
+  "rarity": 5,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "element": "Physical",
+  "elementName": "物理",
+  "baseSpeed": 100,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 100.0,
+  "contentId": 3128,
+  "icon": "/modules/honkai-star-rail/assets/535d38d17eab28db.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/2b2ad6ce11c7a3dd9df76c9f07494471_842729206887858238.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/ff351386cb28aa33.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/c1aafe9c83662e444f7bf6dc2a2c7851_8491567780532715208.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/c1aafe9c83662e444f7bf6dc2a2c7851_8491567780532715208.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 75,
+  "effects": [],
+  "order": 94,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/2b2ad6ce11c7a3dd9df76c9f07494471_842729206887858238.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/8001.png"
+  }
+ },
+ {
+  "id": "1312",
+  "name": "米沙",
+  "rarity": 4,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "element": "Ice",
+  "elementName": "冰",
+  "baseSpeed": 96,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 96.0,
+  "contentId": 2086,
+  "icon": "/modules/honkai-star-rail/assets/572545c14817d364.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/ee5f375eacbee98b90467e14597b4ad4_8898033914676607690.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/4bd9b42dd04e6477.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/9d601150bf009e0be3f92a43b178748b_7495870778158130489.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/9d601150bf009e0be3f92a43b178748b_7495870778158130489.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 76,
+  "effects": [],
+  "order": 51,
+  "releaseAt": 1709200800,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/ee5f375eacbee98b90467e14597b4ad4_8898033914676607690.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1312.png"
+  }
+ },
+ {
+  "id": "1301",
+  "name": "加拉赫",
+  "rarity": 4,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "element": "Fire",
+  "elementName": "火",
+  "baseSpeed": 98,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 98.0,
+  "contentId": 2304,
+  "icon": "/modules/honkai-star-rail/assets/153e5cd661a50f9a.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/2f3661986d05e147ea179a7cfb55cac5_2896031885016283323.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/01e2c23d86d5ea89.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/2148cf318b98b74a46f1b2ea022fe18f_834228318239914926.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/2148cf318b98b74a46f1b2ea022fe18f_834228318239914926.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 77,
+  "effects": [
+   {
+    "source": "行迹",
+    "name": "天然酵母",
+    "kind": "advance",
+    "value": 100.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "施放终结技后，立刻使自己行动提前100%"
+   }
+  ],
+  "order": 49,
+  "releaseAt": 1711533600,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/2f3661986d05e147ea179a7cfb55cac5_2896031885016283323.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1301.png"
+  }
+ },
+ {
+  "id": "1223",
+  "name": "貊泽",
+  "rarity": 4,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "element": "Thunder",
+  "elementName": "雷",
+  "baseSpeed": 111,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 111.0,
+  "contentId": 3505,
+  "icon": "/modules/honkai-star-rail/assets/79f0364929443bb5.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/271645e921724d4372a898ce18d783ff_7242908034071017922.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/4ba1d35d5ec88750.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/497564d38934a089ec380ec14babb980_8840848952636090706.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/497564d38934a089ec380ec14babb980_8840848952636090706.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 79,
+  "effects": [
+   {
+    "source": "行迹",
+    "name": "手奋匕尺",
+    "kind": "advance",
+    "value": 20.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "貊泽解除离场状态时，行动提前20%"
+   },
+   {
+    "source": "行迹",
+    "name": "手奋匕尺",
+    "kind": "advance",
+    "value": 30.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "每个波次开始时，貊泽行动提前30%"
+   }
+  ],
+  "order": 38,
+  "releaseAt": 1725958800,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/271645e921724d4372a898ce18d783ff_7242908034071017922.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1223.png"
+  }
+ },
+ {
+  "id": "1215",
+  "name": "寒鸦",
+  "rarity": 4,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "element": "Physical",
+  "elementName": "物理",
+  "baseSpeed": 110,
+  "traceSpeed": 9.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 2.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 3.0
+   },
+   {
+    "name": "速度强化",
+    "kind": "flat",
+    "value": 4.0
+   }
+  ],
+  "effectiveBaseSpeed": 119.0,
+  "contentId": 1717,
+  "icon": "/modules/honkai-star-rail/assets/3105faaaf37cb2d3.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/5fe564e2244cea484b233734a77c0216_5175214625373410645.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/3a320ce5d48b54c0.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/44f1de7f1e711104a8cc4afddb028fc7_5873593383775918867.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/44f1de7f1e711104a8cc4afddb028fc7_5873593383775918867.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 80,
+  "effects": [
+   {
+    "source": "星魂",
+    "name": "一心",
+    "kind": "advance",
+    "value": 15.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": 1,
+    "superimpose": null,
+    "text": "持有终结技效果的我方目标消灭敌方目标时，寒鸦行动提前15%，该效果每回合只能触发1次"
+   },
+   {
+    "source": "星魂",
+    "name": "二观",
+    "kind": "pct",
+    "value": 20.0,
+    "apply": "self",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": 2,
+    "superimpose": null,
+    "text": "施放战技后，速度提高20%，持续1回合"
+   }
+  ],
+  "order": 57,
+  "releaseAt": 1701856800,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/5fe564e2244cea484b233734a77c0216_5175214625373410645.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1215.png"
+  }
+ },
+ {
+  "id": "1214",
+  "name": "雪衣",
+  "rarity": 4,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "element": "Quantum",
+  "elementName": "量子",
+  "baseSpeed": 103,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 103.0,
+  "contentId": 1872,
+  "icon": "/modules/honkai-star-rail/assets/e41c2d709667fcf7.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/8b8e50756e3755445facc6839d476b35_6736193734361553071.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/e9e6be373910b880.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/197948068/5763ed7580d987fa28d4e7678a55ecab_6824451384055569130.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/197948068/5763ed7580d987fa28d4e7678a55ecab_6824451384055569130.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 81,
+  "effects": [],
+  "order": 55,
+  "releaseAt": 1703671200,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/8b8e50756e3755445facc6839d476b35_6736193734361553071.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1214.png"
+  }
+ },
+ {
+  "id": "1210",
+  "name": "桂乃芬",
+  "rarity": 4,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "element": "Fire",
+  "elementName": "火",
+  "baseSpeed": 106,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 106.0,
+  "contentId": 1710,
+  "icon": "/modules/honkai-star-rail/assets/6543779cd7ce99c0.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/6fcc18fdb8e6d49932ae1b466afc0670_8726448455960654597.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/7efdfdf4a9fff115.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/232d3f2f83586d7dbc6b21badbc3dfd3_2704432119866249943.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/232d3f2f83586d7dbc6b21badbc3dfd3_2704432119866249943.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 82,
+  "effects": [
+   {
+    "source": "行迹",
+    "name": "投狭",
+    "kind": "advance",
+    "value": 25.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "战斗开始时，桂乃芬的行动提前25%"
+   }
+  ],
+  "order": 61,
+  "releaseAt": 1698483600,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/6fcc18fdb8e6d49932ae1b466afc0670_8726448455960654597.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1210.png"
+  }
+ },
+ {
+  "id": "1207",
+  "name": "驭空",
+  "rarity": 4,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "element": "Imaginary",
+  "elementName": "虚数",
+  "baseSpeed": 107,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 107.0,
+  "contentId": 1187,
+  "icon": "/modules/honkai-star-rail/assets/aaef0e8e0602e2bc.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/b2c31bee632f937f233ed00ff486f53e_4964898377307229465.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/b6dbe77a6e6a55bb.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/106b01e90355c2b48d385afa415f660d_3009439067640878064.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/106b01e90355c2b48d385afa415f660d_3009439067640878064.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 83,
+  "effects": [
+   {
+    "source": "星魂",
+    "name": "天舶飞将，枕弧待战",
+    "kind": "pct",
+    "value": 10.0,
+    "apply": "team",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": 1,
+    "superimpose": null,
+    "text": "进入战斗时，我方全体速度提高10%，持续2回合"
+   }
+  ],
+  "order": 70,
+  "releaseAt": 1687942800,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/b2c31bee632f937f233ed00ff486f53e_4964898377307229465.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1207.png"
+  }
+ },
+ {
+  "id": "1206",
+  "name": "素裳",
+  "rarity": 4,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "element": "Physical",
+  "elementName": "物理",
+  "baseSpeed": 107,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 107.0,
+  "contentId": 412,
+  "icon": "/modules/honkai-star-rail/assets/641ff29b975e4365.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/b7d6cef3b95387fd6651717fea75fecc_604107541199084753.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/711d1b111cad2d40.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/88abe07ccc6024333d67d999ec530b1e_2666436399375395259.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/88abe07ccc6024333d67d999ec530b1e_2666436399375395259.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 84,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "游刃若水",
+    "kind": "pct",
+    "value": 15.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "当场上有敌方目标的弱点被击破，素裳的速度提高15.00%，持续2回合"
+   },
+   {
+    "source": "行迹",
+    "name": "破敌",
+    "kind": "advance",
+    "value": 15.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "施放普攻或战技后，若场上有敌方目标处于弱点击破状态，则素裳的行动提前15%"
+   },
+   {
+    "source": "技能",
+    "name": "",
+    "kind": "pct",
+    "value": 22.5,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "当场上有敌方目标的弱点被击破，素裳的速度提高22.50%，持续2回合"
+   }
+  ],
+  "order": 91,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/b7d6cef3b95387fd6651717fea75fecc_604107541199084753.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1206.png"
+  }
+ },
+ {
+  "id": "1202",
+  "name": "停云",
+  "rarity": 4,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "element": "Thunder",
+  "elementName": "雷",
+  "baseSpeed": 112,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 112.0,
+  "contentId": 561,
+  "icon": "/modules/honkai-star-rail/assets/76cb037a5918f103.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/39501e4b3a9196c0fca042a345dc3093_3713371115832222644.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/a095724b363fbfe2.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/708bcb6f90dc85b72743574017cfb415_568509577740930243.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/708bcb6f90dc85b72743574017cfb415_568509577740930243.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 85,
+  "effects": [
+   {
+    "source": "星魂",
+    "name": "春风得意，时运驰骋",
+    "kind": "pct",
+    "value": 20.0,
+    "apply": "ally",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": 1,
+    "superimpose": null,
+    "text": "得到【赐福】的我方单体施放终结技后速度提高20%，持续1回合"
+   },
+   {
+    "source": "行迹",
+    "name": "驻晴",
+    "kind": "pct",
+    "value": 20.0,
+    "apply": "self",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "施放战技时，停云自身速度提高20%，持续1回合"
+   }
+  ],
+  "order": 90,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/39501e4b3a9196c0fca042a345dc3093_3713371115832222644.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1202.png"
+  }
+ },
+ {
+  "id": "1201",
+  "name": "青雀",
+  "rarity": 4,
+  "path": "Mage",
+  "pathName": "智识",
+  "element": "Quantum",
+  "elementName": "量子",
+  "baseSpeed": 98,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 98.0,
+  "contentId": 497,
+  "icon": "/modules/honkai-star-rail/assets/54e58c04d819a29a.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/a927a215863b86cccca20450f0023fb2_6798206180991410226.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/2611b283121ba4ee.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/0da6fa60604558f8aea55e428dfb559a_1094391784173329265.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/0da6fa60604558f8aea55e428dfb559a_1094391784173329265.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 86,
+  "effects": [
+   {
+    "source": "行迹",
+    "name": "抢杠",
+    "kind": "pct",
+    "value": 10.0,
+    "apply": "self",
+    "durationTurns": 1,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "施放强化普攻后，青雀的速度提高10%，持续1回合"
+   }
+  ],
+  "order": 89,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/a927a215863b86cccca20450f0023fb2_6798206180991410226.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1201.png"
+  }
+ },
+ {
+  "id": "1111",
+  "name": "卢卡",
+  "rarity": 4,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "element": "Physical",
+  "elementName": "物理",
+  "baseSpeed": 103,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 103.0,
+  "contentId": 1325,
+  "icon": "/modules/honkai-star-rail/assets/f8246596a2f8379f.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/b92d1c54d28740fbcb01e88ffb77be17_7661184070610938370.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/87742afb339bd270.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/c04f3bdad69b2e60b5601c03f3f3a17d_8386736647653121559.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/c04f3bdad69b2e60b5601c03f3f3a17d_8386736647653121559.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 87,
+  "effects": [],
+  "order": 67,
+  "releaseAt": 1689757200,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/b92d1c54d28740fbcb01e88ffb77be17_7661184070610938370.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1111.png"
+  }
+ },
+ {
+  "id": "1110",
+  "name": "玲可",
+  "rarity": 4,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "element": "Quantum",
+  "elementName": "量子",
+  "baseSpeed": 100,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 100.0,
+  "contentId": 1543,
+  "icon": "/modules/honkai-star-rail/assets/8d6ff71aeeb029c2.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/aba77baf97041d67aa47da9e388c388b_5297229665480717281.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/d3a9c8478e747c47.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/8e1fa2142ecf00f17cbaecdb7f07d1ae_3005188851995516512.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/8e1fa2142ecf00f17cbaecdb7f07d1ae_3005188851995516512.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 88,
+  "effects": [],
+  "order": 63,
+  "releaseAt": 1695200400,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/aba77baf97041d67aa47da9e388c388b_5297229665480717281.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1110.png"
+  }
+ },
+ {
+  "id": "1109",
+  "name": "虎克",
+  "rarity": 4,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "element": "Fire",
+  "elementName": "火",
+  "baseSpeed": 94,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 94.0,
+  "contentId": 76,
+  "icon": "/modules/honkai-star-rail/assets/ad727ecd222f1ce2.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/a8f147a175ba68bf8ba7496a22cfc9d8_7683189195267268008.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/62c71b5347d84df7.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/52c4535eba3585b1b39a80bb1357b665_7111599177708702826.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/52c4535eba3585b1b39a80bb1357b665_7111599177708702826.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 89,
+  "effects": [
+   {
+    "source": "行迹",
+    "name": "玩火",
+    "kind": "advance",
+    "value": 20.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "施放终结技后，虎克的行动提前20%并额外恢复5点能量"
+   }
+  ],
+  "order": 88,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/a8f147a175ba68bf8ba7496a22cfc9d8_7683189195267268008.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1109.png"
+  }
+ },
+ {
+  "id": "1108",
+  "name": "桑博",
+  "rarity": 4,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "element": "Wind",
+  "elementName": "风",
+  "baseSpeed": 102,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 102.0,
+  "contentId": 386,
+  "icon": "/modules/honkai-star-rail/assets/1a61c99d5f44d307.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/144b380f8d9859dddf3a3c8c1e1907a4_6323725522694637604.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/85c04fa3fa913cc7.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/c11868e273fdf4b27208dce94ad961ff_4319992030532972528.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/c11868e273fdf4b27208dce94ad961ff_4319992030532972528.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 90,
+  "effects": [],
+  "order": 87,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/144b380f8d9859dddf3a3c8c1e1907a4_6323725522694637604.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1108.png"
+  }
+ },
+ {
+  "id": "1106",
+  "name": "佩拉",
+  "rarity": 4,
+  "path": "Warlock",
+  "pathName": "虚无",
+  "element": "Ice",
+  "elementName": "冰",
+  "baseSpeed": 105,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 105.0,
+  "contentId": 422,
+  "icon": "/modules/honkai-star-rail/assets/b63d54041437999b.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/c1e32cc4bb8700e22c9cfb23f449de6e_3340087305036993021.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/c41f3f2af7b3e363.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/1ad234825d4e24edf8dd3139cfa478fc_431932821945694480.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/1ad234825d4e24edf8dd3139cfa478fc_431932821945694480.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 91,
+  "effects": [
+   {
+    "source": "星魂",
+    "name": "疾进不止",
+    "kind": "pct",
+    "value": 10.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": 2,
+    "superimpose": null,
+    "text": "施放战技解除增益效果时，速度提高10%，持续2回合"
+   }
+  ],
+  "order": 85,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/c1e32cc4bb8700e22c9cfb23f449de6e_3340087305036993021.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1106.png"
+  }
+ },
+ {
+  "id": "1105",
+  "name": "娜塔莎",
+  "rarity": 4,
+  "path": "Priest",
+  "pathName": "丰饶",
+  "element": "Physical",
+  "elementName": "物理",
+  "baseSpeed": 98,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 98.0,
+  "contentId": 46,
+  "icon": "/modules/honkai-star-rail/assets/095525e0156134af.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/e4f5bda40e521d5090d1dbd63b1f3827_4810299615609471053.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/b1e52e9816326abe.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/ee9fffa4f13d0482e48982efb02e390c_3146783244541414252.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/ee9fffa4f13d0482e48982efb02e390c_3146783244541414252.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 92,
+  "effects": [],
+  "order": 84,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/e4f5bda40e521d5090d1dbd63b1f3827_4810299615609471053.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1105.png"
+  }
+ },
+ {
+  "id": "1103",
+  "name": "希露瓦",
+  "rarity": 4,
+  "path": "Mage",
+  "pathName": "智识",
+  "element": "Thunder",
+  "elementName": "雷",
+  "baseSpeed": 104,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 104.0,
+  "contentId": 423,
+  "icon": "/modules/honkai-star-rail/assets/c648c8edabf17b47.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/953ecd13b4064cd1d04b5f620d736ad4_5632868602082918696.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/bab3cd7eb9254ebc.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/9cf6eea30b25292251d33440871cac85_6271972936728953757.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/9cf6eea30b25292251d33440871cac85_6271972936728953757.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 93,
+  "effects": [],
+  "order": 82,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/953ecd13b4064cd1d04b5f620d736ad4_5632868602082918696.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1103.png"
+  }
+ },
+ {
+  "id": "1013",
+  "name": "黑塔",
+  "rarity": 4,
+  "path": "Mage",
+  "pathName": "智识",
+  "element": "Ice",
+  "elementName": "冰",
+  "baseSpeed": 100,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 100.0,
+  "contentId": 49,
+  "icon": "/modules/honkai-star-rail/assets/06c4a2e9254a3498.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/d7a02904c72c65964c085b7cbb1ce115_6121853106930222341.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/4d42b6d061859044.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/197948068/7bc71700da749c346ad77d09979472d4_1171257609448281587.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/197948068/7bc71700da749c346ad77d09979472d4_1171257609448281587.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 94,
+  "effects": [],
+  "order": 79,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/d7a02904c72c65964c085b7cbb1ce115_6121853106930222341.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1013.png"
+  }
+ },
+ {
+  "id": "1009",
+  "name": "艾丝妲",
+  "rarity": 4,
+  "path": "Shaman",
+  "pathName": "同谐",
+  "element": "Fire",
+  "elementName": "火",
+  "baseSpeed": 106,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 106.0,
+  "contentId": 52,
+  "icon": "/modules/honkai-star-rail/assets/179f788897aef962.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/326abd4bc90b194d542a358f3713684c_7020687177488591971.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/ccd51f2a7697363b.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/74b05ff029c1c1a30ee2ca35a2d7ed46_2615468399062907348.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/74b05ff029c1c1a30ee2ca35a2d7ed46_2615468399062907348.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 95,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "星空祝言",
+    "kind": "flat",
+    "value": 36.0,
+    "apply": "team",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "使我方全体速度提高36点，持续2回合"
+   },
+   {
+    "source": "技能",
+    "name": "",
+    "kind": "flat",
+    "value": 57.0,
+    "apply": "team",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "使我方全体速度提高57点，持续2回合"
+   }
+  ],
+  "order": 78,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/326abd4bc90b194d542a358f3713684c_7020687177488591971.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1009.png"
+  }
+ },
+ {
+  "id": "1008",
+  "name": "阿兰",
+  "rarity": 4,
+  "path": "Warrior",
+  "pathName": "毁灭",
+  "element": "Thunder",
+  "elementName": "雷",
+  "baseSpeed": 102,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 102.0,
+  "contentId": 380,
+  "icon": "/modules/honkai-star-rail/assets/ce3f9fd8136cee20.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/990185d26fcb31f6a9f5a95f13d716e5_8050569333121274381.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/a50dcf81f1ee8a1c.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/853c59d8204a6b6f60a7864255227c46_1346996220082028626.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/853c59d8204a6b6f60a7864255227c46_1346996220082028626.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 96,
+  "effects": [],
+  "order": 77,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/990185d26fcb31f6a9f5a95f13d716e5_8050569333121274381.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1008.png"
+  }
+ },
+ {
+  "id": "1002",
+  "name": "丹恒",
+  "rarity": 4,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "element": "Wind",
+  "elementName": "风",
+  "baseSpeed": 110,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 110.0,
+  "contentId": 406,
+  "icon": "/modules/honkai-star-rail/assets/978e65ce4b4e576d.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/fbbf2eb95b147d51394f11b5230ac96a_5777838199567532071.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/ed6e4c126cc3ac4d.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/439113fadf8a38f97ab56fb78fb684a0_4803247797190426431.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/18/159300832/439113fadf8a38f97ab56fb78fb684a0_4803247797190426431.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 97,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "云骑枪术•疾雨",
+    "kind": "pct",
+    "value": -12.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "战技造成的伤害触发暴击时，有100%的基础概率使受到攻击的敌方目标速度降低12%，持续2回合"
+   },
+   {
+    "source": "行迹",
+    "name": "绝影",
+    "kind": "pct",
+    "value": 20.0,
+    "apply": "self",
+    "durationTurns": 2,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "施放攻击后有50%的固定概率使自身速度提高20%，持续2回合"
+   }
+  ],
+  "order": 74,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/fbbf2eb95b147d51394f11b5230ac96a_5777838199567532071.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1002.png"
+  }
+ },
+ {
+  "id": "1001",
+  "name": "三月七",
+  "rarity": 4,
+  "path": "Knight",
+  "pathName": "存护",
+  "element": "Ice",
+  "elementName": "冰",
+  "baseSpeed": 101,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 101.0,
+  "contentId": 48,
+  "icon": "/modules/honkai-star-rail/assets/a71f8ff1613d5caa.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/4f1814b5eccf0e0f608b8d296612e9ae_8335663287599795754.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/c009acf93b2e18b8.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/19/197948068/9916fcfb94a3c5a48a10859a3414b92a_8827764384544964119.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/19/197948068/9916fcfb94a3c5a48a10859a3414b92a_8827764384544964119.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 98,
+  "effects": [],
+  "order": 73,
+  "releaseAt": 1682460000,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/4f1814b5eccf0e0f608b8d296612e9ae_8335663287599795754.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1001.png"
+  }
+ },
+ {
+  "id": "1224",
+  "name": "三月七",
+  "rarity": 4,
+  "path": "Rogue",
+  "pathName": "巡猎",
+  "element": "Imaginary",
+  "elementName": "虚数",
+  "baseSpeed": 102,
+  "traceSpeed": 0.0,
+  "traceSpeedPct": 0.0,
+  "traceSpeedDetails": [],
+  "effectiveBaseSpeed": 102.0,
+  "contentId": 48,
+  "icon": "/modules/honkai-star-rail/assets/a71f8ff1613d5caa.webp",
+  "iconSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/4f1814b5eccf0e0f608b8d296612e9ae_8335663287599795754.png?x-oss-process=image/resize,w_128/format,webp",
+  "splash": "/modules/honkai-star-rail/assets/f1842db7cf41d021.webp",
+  "splashFallback": "https://act-upload.mihoyo.com/sr-wiki/2025/09/19/197948068/9916fcfb94a3c5a48a10859a3414b92a_8827764384544964119.png",
+  "splashSmall": "https://act-upload.mihoyo.com/sr-wiki/2025/09/19/197948068/9916fcfb94a3c5a48a10859a3414b92a_8827764384544964119.png?x-oss-process=image/resize,w_480/format,webp",
+  "releaseOrder": 98,
+  "effects": [
+   {
+    "source": "技能",
+    "name": "师父，请喝茶！",
+    "kind": "pct",
+    "value": 6.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "使除自身以外的我方指定单体成为【师父】，【师父】的速度提高6.0%"
+   },
+   {
+    "source": "星魂",
+    "name": "初花学剑动星芒",
+    "kind": "pct",
+    "value": 10.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": 1,
+    "superimpose": null,
+    "text": "场上存在【师父】时，三月七的速度提高10%"
+   },
+   {
+    "source": "行迹",
+    "name": "惊鸿",
+    "kind": "advance",
+    "value": 25.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "战斗开始时，三月七的行动提前25%"
+   },
+   {
+    "source": "技能",
+    "name": "",
+    "kind": "pct",
+    "value": 12.0,
+    "apply": "self",
+    "durationTurns": 0,
+    "maxStacks": 0,
+    "rank": null,
+    "superimpose": null,
+    "text": "使除自身以外的我方指定单体成为【师父】，【师父】的速度提高12.0%"
+   }
+  ],
+  "order": 41,
+  "releaseAt": 1722416400,
+  "_remote": {
+   "icon": "https://act-upload.mihoyo.com/sr-wiki/2025/09/20/159300832/4f1814b5eccf0e0f608b8d296612e9ae_8335663287599795754.png",
+   "splash": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1224.png"
+  }
+ }
+]

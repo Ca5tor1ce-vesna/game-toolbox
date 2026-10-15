@@ -1,0 +1,22 @@
+{
+ "generatedAt": "2026-10-14 19:07",
+ "sources": [
+  {
+   "name": "米游社官方 wiki 图鉴",
+   "url": "https://api-static.mihoyo.com/common/blackboard/sr_wiki/v1/home/content/list?app_sn=sr_wiki&channel_id=17",
+   "usedFor": "角色/光锥/遗器的官方名称、命途、属性、星级、图标、官方页面 id"
+  },
+  {
+   "name": "StarRailRes（社区维护的游戏数据镜像）",
+   "url": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/index_min/cn/",
+   "usedFor": "基础速度、技能/星魂/行迹文案、光锥叠影文案、遗器套装属性"
+  }
+ ],
+ "counts": {
+  "characters": 93,
+  "lightcones": 170,
+  "relics": 62,
+  "charactersWithoutBaseSpeed": 0
+ },
+ "note": "速度类效果是自动从文案里抽取的候选，条件是否成立要看实战，界面上请自行勾选确认。"
+}

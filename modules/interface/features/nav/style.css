@@ -1,0 +1,88 @@
+/* 功能与文字编辑器 */
+
+.nav-edit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.nav-edit-module {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  background: var(--panel-2);
+}
+
+.nav-edit-module-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px dashed var(--border);
+}
+
+.nav-edit-feature {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 4px 0;
+}
+
+.nav-edit-hide {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 12.5px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.nav-edit-hide input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--accent);
+}
+
+.nav-edit-icon {
+  flex: 0 0 54px;
+  width: 54px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.nav-edit-name {
+  flex: 0 0 168px;
+  width: 168px;
+}
+
+.nav-edit-desc {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+.nav-edit-order {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+
+.nav-edit-order-input {
+  width: 72px;
+  flex: 0 0 72px;
+  font-family: var(--mono);
+}
+
+@media (max-width: 700px) {
+  .nav-edit-name,
+  .nav-edit-icon,
+  .nav-edit-order-input {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+}

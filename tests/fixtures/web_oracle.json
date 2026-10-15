@@ -1,0 +1,2973 @@
+{
+ "generatedFrom": "Python 实现（modules/honkai-star-rail/features/speed-plan/api.py）",
+ "plans": [
+  {
+   "label": "卡芙卡·裸装",
+   "payload": {
+    "characterId": "1005",
+    "relic": {},
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 2
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 0.0,
+    "final": 100.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 2,
+    "totalAV": 150.0,
+    "requiredSpeed": 133.333333,
+    "currentSpeed": 100.0,
+    "gap": 33.333333,
+    "achievableActions": 1
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": [],
+   "tables": [
+    {
+     "id": "moc",
+     "firstCycleAV": 150.0,
+     "cycleAV": 100.0,
+     "tValues": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "cells": [
+      [
+       66.666667,
+       40.0,
+       28.571429,
+       22.222222
+      ],
+      [
+       133.333333,
+       80.0,
+       57.142857,
+       44.444444
+      ],
+      [
+       200.0,
+       120.0,
+       85.714286,
+       66.666667
+      ],
+      [
+       266.666667,
+       160.0,
+       114.285714,
+       88.888889
+      ],
+      [
+       333.333333,
+       200.0,
+       142.857143,
+       111.111111
+      ],
+      [
+       400.0,
+       240.0,
+       171.428571,
+       133.333333
+      ],
+      [
+       466.666667,
+       280.0,
+       200.0,
+       155.555556
+      ],
+      [
+       533.333333,
+       320.0,
+       228.571429,
+       177.777778
+      ]
+     ]
+    },
+    {
+     "id": "yixiang",
+     "firstCycleAV": 300.0,
+     "cycleAV": 100.0,
+     "tValues": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "cells": [
+      [
+       33.333333,
+       25.0,
+       20.0,
+       16.666667,
+       14.285714,
+       12.5
+      ],
+      [
+       66.666667,
+       50.0,
+       40.0,
+       33.333333,
+       28.571429,
+       25.0
+      ],
+      [
+       100.0,
+       75.0,
+       60.0,
+       50.0,
+       42.857143,
+       37.5
+      ],
+      [
+       133.333333,
+       100.0,
+       80.0,
+       66.666667,
+       57.142857,
+       50.0
+      ],
+      [
+       166.666667,
+       125.0,
+       100.0,
+       83.333333,
+       71.428571,
+       62.5
+      ],
+      [
+       200.0,
+       150.0,
+       120.0,
+       100.0,
+       85.714286,
+       75.0
+      ],
+      [
+       233.333333,
+       175.0,
+       140.0,
+       116.666667,
+       100.0,
+       87.5
+      ],
+      [
+       266.666667,
+       200.0,
+       160.0,
+       133.333333,
+       114.285714,
+       100.0
+      ]
+     ]
+    },
+    {
+     "id": "yixiang_juejing",
+     "firstCycleAV": 300.0,
+     "cycleAV": 100.0,
+     "tValues": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "cells": [
+      [
+       33.333333,
+       25.0,
+       20.0,
+       16.666667,
+       14.285714,
+       12.5
+      ],
+      [
+       66.666667,
+       50.0,
+       40.0,
+       33.333333,
+       28.571429,
+       25.0
+      ],
+      [
+       100.0,
+       75.0,
+       60.0,
+       50.0,
+       42.857143,
+       37.5
+      ],
+      [
+       133.333333,
+       100.0,
+       80.0,
+       66.666667,
+       57.142857,
+       50.0
+      ],
+      [
+       166.666667,
+       125.0,
+       100.0,
+       83.333333,
+       71.428571,
+       62.5
+      ],
+      [
+       200.0,
+       150.0,
+       120.0,
+       100.0,
+       85.714286,
+       75.0
+      ],
+      [
+       233.333333,
+       175.0,
+       140.0,
+       116.666667,
+       100.0,
+       87.5
+      ],
+      [
+       266.666667,
+       200.0,
+       160.0,
+       133.333333,
+       114.285714,
+       100.0
+      ]
+     ]
+    },
+    {
+     "id": "xugou",
+     "firstCycleAV": 150.0,
+     "cycleAV": 100.0,
+     "tValues": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "cells": [
+      [
+       66.666667,
+       40.0,
+       28.571429,
+       22.222222
+      ],
+      [
+       133.333333,
+       80.0,
+       57.142857,
+       44.444444
+      ],
+      [
+       200.0,
+       120.0,
+       85.714286,
+       66.666667
+      ],
+      [
+       266.666667,
+       160.0,
+       114.285714,
+       88.888889
+      ],
+      [
+       333.333333,
+       200.0,
+       142.857143,
+       111.111111
+      ],
+      [
+       400.0,
+       240.0,
+       171.428571,
+       133.333333
+      ],
+      [
+       466.666667,
+       280.0,
+       200.0,
+       155.555556
+      ],
+      [
+       533.333333,
+       320.0,
+       228.571429,
+       177.777778
+      ]
+     ]
+    },
+    {
+     "id": "mori",
+     "firstCycleAV": 150.0,
+     "cycleAV": 100.0,
+     "tValues": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "cells": [
+      [
+       66.666667,
+       40.0,
+       28.571429,
+       22.222222,
+       18.181818
+      ],
+      [
+       133.333333,
+       80.0,
+       57.142857,
+       44.444444,
+       36.363636
+      ],
+      [
+       200.0,
+       120.0,
+       85.714286,
+       66.666667,
+       54.545455
+      ],
+      [
+       266.666667,
+       160.0,
+       114.285714,
+       88.888889,
+       72.727273
+      ],
+      [
+       333.333333,
+       200.0,
+       142.857143,
+       111.111111,
+       90.909091
+      ],
+      [
+       400.0,
+       240.0,
+       171.428571,
+       133.333333,
+       109.090909
+      ],
+      [
+       466.666667,
+       280.0,
+       200.0,
+       155.555556,
+       127.272727
+      ],
+      [
+       533.333333,
+       320.0,
+       228.571429,
+       177.777778,
+       145.454545
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "label": "卡芙卡·速度鞋",
+   "payload": {
+    "characterId": "1005",
+    "relic": {
+     "speedBoots": true
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 2
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 25.0,
+    "final": 125.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 2,
+    "totalAV": 150.0,
+    "requiredSpeed": 133.333333,
+    "currentSpeed": 125.0,
+    "gap": 8.333333,
+    "achievableActions": 1
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": [],
+   "tables": [
+    {
+     "id": "moc",
+     "firstCycleAV": 150.0,
+     "cycleAV": 100.0,
+     "tValues": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "cells": [
+      [
+       66.666667,
+       40.0,
+       28.571429,
+       22.222222
+      ],
+      [
+       133.333333,
+       80.0,
+       57.142857,
+       44.444444
+      ],
+      [
+       200.0,
+       120.0,
+       85.714286,
+       66.666667
+      ],
+      [
+       266.666667,
+       160.0,
+       114.285714,
+       88.888889
+      ],
+      [
+       333.333333,
+       200.0,
+       142.857143,
+       111.111111
+      ],
+      [
+       400.0,
+       240.0,
+       171.428571,
+       133.333333
+      ],
+      [
+       466.666667,
+       280.0,
+       200.0,
+       155.555556
+      ],
+      [
+       533.333333,
+       320.0,
+       228.571429,
+       177.777778
+      ]
+     ]
+    },
+    {
+     "id": "yixiang",
+     "firstCycleAV": 300.0,
+     "cycleAV": 100.0,
+     "tValues": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "cells": [
+      [
+       33.333333,
+       25.0,
+       20.0,
+       16.666667,
+       14.285714,
+       12.5
+      ],
+      [
+       66.666667,
+       50.0,
+       40.0,
+       33.333333,
+       28.571429,
+       25.0
+      ],
+      [
+       100.0,
+       75.0,
+       60.0,
+       50.0,
+       42.857143,
+       37.5
+      ],
+      [
+       133.333333,
+       100.0,
+       80.0,
+       66.666667,
+       57.142857,
+       50.0
+      ],
+      [
+       166.666667,
+       125.0,
+       100.0,
+       83.333333,
+       71.428571,
+       62.5
+      ],
+      [
+       200.0,
+       150.0,
+       120.0,
+       100.0,
+       85.714286,
+       75.0
+      ],
+      [
+       233.333333,
+       175.0,
+       140.0,
+       116.666667,
+       100.0,
+       87.5
+      ],
+      [
+       266.666667,
+       200.0,
+       160.0,
+       133.333333,
+       114.285714,
+       100.0
+      ]
+     ]
+    },
+    {
+     "id": "yixiang_juejing",
+     "firstCycleAV": 300.0,
+     "cycleAV": 100.0,
+     "tValues": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "cells": [
+      [
+       33.333333,
+       25.0,
+       20.0,
+       16.666667,
+       14.285714,
+       12.5
+      ],
+      [
+       66.666667,
+       50.0,
+       40.0,
+       33.333333,
+       28.571429,
+       25.0
+      ],
+      [
+       100.0,
+       75.0,
+       60.0,
+       50.0,
+       42.857143,
+       37.5
+      ],
+      [
+       133.333333,
+       100.0,
+       80.0,
+       66.666667,
+       57.142857,
+       50.0
+      ],
+      [
+       166.666667,
+       125.0,
+       100.0,
+       83.333333,
+       71.428571,
+       62.5
+      ],
+      [
+       200.0,
+       150.0,
+       120.0,
+       100.0,
+       85.714286,
+       75.0
+      ],
+      [
+       233.333333,
+       175.0,
+       140.0,
+       116.666667,
+       100.0,
+       87.5
+      ],
+      [
+       266.666667,
+       200.0,
+       160.0,
+       133.333333,
+       114.285714,
+       100.0
+      ]
+     ]
+    },
+    {
+     "id": "xugou",
+     "firstCycleAV": 150.0,
+     "cycleAV": 100.0,
+     "tValues": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "cells": [
+      [
+       66.666667,
+       40.0,
+       28.571429,
+       22.222222
+      ],
+      [
+       133.333333,
+       80.0,
+       57.142857,
+       44.444444
+      ],
+      [
+       200.0,
+       120.0,
+       85.714286,
+       66.666667
+      ],
+      [
+       266.666667,
+       160.0,
+       114.285714,
+       88.888889
+      ],
+      [
+       333.333333,
+       200.0,
+       142.857143,
+       111.111111
+      ],
+      [
+       400.0,
+       240.0,
+       171.428571,
+       133.333333
+      ],
+      [
+       466.666667,
+       280.0,
+       200.0,
+       155.555556
+      ],
+      [
+       533.333333,
+       320.0,
+       228.571429,
+       177.777778
+      ]
+     ]
+    },
+    {
+     "id": "mori",
+     "firstCycleAV": 150.0,
+     "cycleAV": 100.0,
+     "tValues": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "cells": [
+      [
+       66.666667,
+       40.0,
+       28.571429,
+       22.222222,
+       18.181818
+      ],
+      [
+       133.333333,
+       80.0,
+       57.142857,
+       44.444444,
+       36.363636
+      ],
+      [
+       200.0,
+       120.0,
+       85.714286,
+       66.666667,
+       54.545455
+      ],
+      [
+       266.666667,
+       160.0,
+       114.285714,
+       88.888889,
+       72.727273
+      ],
+      [
+       333.333333,
+       200.0,
+       142.857143,
+       111.111111,
+       90.909091
+      ],
+      [
+       400.0,
+       240.0,
+       171.428571,
+       133.333333,
+       109.090909
+      ],
+      [
+       466.666667,
+       280.0,
+       200.0,
+       155.555556,
+       127.272727
+      ],
+      [
+       533.333333,
+       320.0,
+       228.571429,
+       177.777778,
+       145.454545
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "label": "卡芙卡·鞋+副词条10",
+   "payload": {
+    "characterId": "1005",
+    "relic": {
+     "speedBoots": true,
+     "substatSpeed": 10
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 1,
+     "actions": 3
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 35.0,
+    "final": 135.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 1,
+    "actions": 3,
+    "totalAV": 250.0,
+    "requiredSpeed": 120.0,
+    "currentSpeed": 135.0,
+    "gap": -15.0,
+    "achievableActions": 3
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": [],
+   "tables": [
+    {
+     "id": "moc",
+     "firstCycleAV": 150.0,
+     "cycleAV": 100.0,
+     "tValues": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "cells": [
+      [
+       66.666667,
+       40.0,
+       28.571429,
+       22.222222
+      ],
+      [
+       133.333333,
+       80.0,
+       57.142857,
+       44.444444
+      ],
+      [
+       200.0,
+       120.0,
+       85.714286,
+       66.666667
+      ],
+      [
+       266.666667,
+       160.0,
+       114.285714,
+       88.888889
+      ],
+      [
+       333.333333,
+       200.0,
+       142.857143,
+       111.111111
+      ],
+      [
+       400.0,
+       240.0,
+       171.428571,
+       133.333333
+      ],
+      [
+       466.666667,
+       280.0,
+       200.0,
+       155.555556
+      ],
+      [
+       533.333333,
+       320.0,
+       228.571429,
+       177.777778
+      ]
+     ]
+    },
+    {
+     "id": "yixiang",
+     "firstCycleAV": 300.0,
+     "cycleAV": 100.0,
+     "tValues": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "cells": [
+      [
+       33.333333,
+       25.0,
+       20.0,
+       16.666667,
+       14.285714,
+       12.5
+      ],
+      [
+       66.666667,
+       50.0,
+       40.0,
+       33.333333,
+       28.571429,
+       25.0
+      ],
+      [
+       100.0,
+       75.0,
+       60.0,
+       50.0,
+       42.857143,
+       37.5
+      ],
+      [
+       133.333333,
+       100.0,
+       80.0,
+       66.666667,
+       57.142857,
+       50.0
+      ],
+      [
+       166.666667,
+       125.0,
+       100.0,
+       83.333333,
+       71.428571,
+       62.5
+      ],
+      [
+       200.0,
+       150.0,
+       120.0,
+       100.0,
+       85.714286,
+       75.0
+      ],
+      [
+       233.333333,
+       175.0,
+       140.0,
+       116.666667,
+       100.0,
+       87.5
+      ],
+      [
+       266.666667,
+       200.0,
+       160.0,
+       133.333333,
+       114.285714,
+       100.0
+      ]
+     ]
+    },
+    {
+     "id": "yixiang_juejing",
+     "firstCycleAV": 300.0,
+     "cycleAV": 100.0,
+     "tValues": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "cells": [
+      [
+       33.333333,
+       25.0,
+       20.0,
+       16.666667,
+       14.285714,
+       12.5
+      ],
+      [
+       66.666667,
+       50.0,
+       40.0,
+       33.333333,
+       28.571429,
+       25.0
+      ],
+      [
+       100.0,
+       75.0,
+       60.0,
+       50.0,
+       42.857143,
+       37.5
+      ],
+      [
+       133.333333,
+       100.0,
+       80.0,
+       66.666667,
+       57.142857,
+       50.0
+      ],
+      [
+       166.666667,
+       125.0,
+       100.0,
+       83.333333,
+       71.428571,
+       62.5
+      ],
+      [
+       200.0,
+       150.0,
+       120.0,
+       100.0,
+       85.714286,
+       75.0
+      ],
+      [
+       233.333333,
+       175.0,
+       140.0,
+       116.666667,
+       100.0,
+       87.5
+      ],
+      [
+       266.666667,
+       200.0,
+       160.0,
+       133.333333,
+       114.285714,
+       100.0
+      ]
+     ]
+    },
+    {
+     "id": "xugou",
+     "firstCycleAV": 150.0,
+     "cycleAV": 100.0,
+     "tValues": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "cells": [
+      [
+       66.666667,
+       40.0,
+       28.571429,
+       22.222222
+      ],
+      [
+       133.333333,
+       80.0,
+       57.142857,
+       44.444444
+      ],
+      [
+       200.0,
+       120.0,
+       85.714286,
+       66.666667
+      ],
+      [
+       266.666667,
+       160.0,
+       114.285714,
+       88.888889
+      ],
+      [
+       333.333333,
+       200.0,
+       142.857143,
+       111.111111
+      ],
+      [
+       400.0,
+       240.0,
+       171.428571,
+       133.333333
+      ],
+      [
+       466.666667,
+       280.0,
+       200.0,
+       155.555556
+      ],
+      [
+       533.333333,
+       320.0,
+       228.571429,
+       177.777778
+      ]
+     ]
+    },
+    {
+     "id": "mori",
+     "firstCycleAV": 150.0,
+     "cycleAV": 100.0,
+     "tValues": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "cells": [
+      [
+       66.666667,
+       40.0,
+       28.571429,
+       22.222222,
+       18.181818
+      ],
+      [
+       133.333333,
+       80.0,
+       57.142857,
+       44.444444,
+       36.363636
+      ],
+      [
+       200.0,
+       120.0,
+       85.714286,
+       66.666667,
+       54.545455
+      ],
+      [
+       266.666667,
+       160.0,
+       114.285714,
+       88.888889,
+       72.727273
+      ],
+      [
+       333.333333,
+       200.0,
+       142.857143,
+       111.111111,
+       90.909091
+      ],
+      [
+       400.0,
+       240.0,
+       171.428571,
+       133.333333,
+       109.090909
+      ],
+      [
+       466.666667,
+       280.0,
+       200.0,
+       155.555556,
+       127.272727
+      ],
+      [
+       533.333333,
+       320.0,
+       228.571429,
+       177.777778,
+       145.454545
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "label": "卡芙卡·手填百分比+固定",
+   "payload": {
+    "characterId": "1005",
+    "relic": {
+     "speedBoots": true,
+     "customPct": 20,
+     "customFlat": 5
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 2
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 20.0,
+    "flat": 30.0,
+    "final": 150.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 2,
+    "totalAV": 150.0,
+    "requiredSpeed": 133.333333,
+    "currentSpeed": 150.0,
+    "gap": -16.666667,
+    "achievableActions": 2
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": []
+  },
+  {
+   "label": "镜流·行迹速度",
+   "payload": {
+    "characterId": "1212",
+    "relic": {},
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 2
+    }
+   },
+   "speed": {
+    "base": 105.0,
+    "baseRaw": 96.0,
+    "traceSpeed": 9.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 0.0,
+    "final": 105.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 2,
+    "totalAV": 150.0,
+    "requiredSpeed": 133.333333,
+    "currentSpeed": 105.0,
+    "gap": 28.333333,
+    "achievableActions": 1
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": []
+  },
+  {
+   "label": "镜流·鞋+风套2次开大",
+   "payload": {
+    "characterId": "1212",
+    "relic": {
+     "speedBoots": true,
+     "fourPieceId": "110",
+     "fourPieceUlts": 2
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 3
+    }
+   },
+   "speed": {
+    "base": 105.0,
+    "baseRaw": 96.0,
+    "traceSpeed": 9.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 25.0,
+    "final": 130.0
+   },
+   "advance": {
+    "total": 50.0,
+    "items": [
+     50.0
+    ],
+    "labels": [
+     "晨昏交界的翔鹰·4件套 × 2 次开大"
+    ]
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 3,
+    "totalAV": 150.0,
+    "requiredSpeed": 166.666667,
+    "currentSpeed": 130.0,
+    "gap": 36.666667,
+    "achievableActions": 2
+   },
+   "relicSetCount": 1,
+   "warningCount": 0,
+   "effects": []
+  },
+  {
+   "label": "镜流·风套+轴底开大",
+   "payload": {
+    "characterId": "1212",
+    "relic": {
+     "speedBoots": true,
+     "fourPieceId": "110",
+     "fourPieceUlts": 2
+    },
+    "advance": {
+     "excludeLastUlt": true
+    },
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 3
+    }
+   },
+   "speed": {
+    "base": 105.0,
+    "baseRaw": 96.0,
+    "traceSpeed": 9.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 25.0,
+    "final": 130.0
+   },
+   "advance": {
+    "total": 25.0,
+    "items": [
+     25.0
+    ],
+    "labels": [
+     "晨昏交界的翔鹰·4件套 × 1 次开大（轴底那次开大不计）"
+    ]
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 3,
+    "totalAV": 150.0,
+    "requiredSpeed": 183.333333,
+    "currentSpeed": 130.0,
+    "gap": 53.333333,
+    "achievableActions": 2
+   },
+   "relicSetCount": 1,
+   "warningCount": 0,
+   "effects": []
+  },
+  {
+   "label": "镜流·翁瓦克进战拉条",
+   "payload": {
+    "characterId": "1212",
+    "relic": {
+     "speedBoots": true,
+     "ornamentIds": [
+      "308"
+     ]
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 2
+    }
+   },
+   "speed": {
+    "base": 105.0,
+    "baseRaw": 96.0,
+    "traceSpeed": 9.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 25.0,
+    "final": 130.0
+   },
+   "advance": {
+    "total": 40.0,
+    "items": [
+     40.0
+    ],
+    "labels": [
+     "生命的翁瓦克·2件套（进战触发）"
+    ]
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 2,
+    "totalAV": 150.0,
+    "requiredSpeed": 106.666667,
+    "currentSpeed": 130.0,
+    "gap": -23.333333,
+    "achievableActions": 2
+   },
+   "relicSetCount": 1,
+   "warningCount": 0,
+   "effects": []
+  },
+  {
+   "label": "镜流·风套+翁瓦克+舞舞舞3次",
+   "payload": {
+    "characterId": "1212",
+    "relic": {
+     "speedBoots": true,
+     "fourPieceId": "110",
+     "fourPieceUlts": 3,
+     "ornamentIds": [
+      "308"
+     ]
+    },
+    "advance": {
+     "danceUlts": 3,
+     "danceSuperimpose": 5
+    },
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 4
+    }
+   },
+   "speed": {
+    "base": 105.0,
+    "baseRaw": 96.0,
+    "traceSpeed": 9.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 25.0,
+    "final": 130.0
+   },
+   "advance": {
+    "total": 187.0,
+    "items": [
+     72.0,
+     75.0,
+     40.0
+    ],
+    "labels": [
+     "舞！舞！舞！叠影5 × 3 次开大（每次 24%）",
+     "晨昏交界的翔鹰·4件套 × 3 次开大",
+     "生命的翁瓦克·2件套（进战触发）"
+    ]
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 4,
+    "totalAV": 150.0,
+    "requiredSpeed": 142.0,
+    "currentSpeed": 130.0,
+    "gap": 12.0,
+    "achievableActions": 3
+   },
+   "relicSetCount": 2,
+   "warningCount": 0,
+   "effects": []
+  },
+  {
+   "label": "真珠·专武叠影5",
+   "payload": {
+    "characterId": "1503",
+    "lightconeId": "23054",
+    "superimpose": 5,
+    "relic": {
+     "speedBoots": true
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 2
+    }
+   },
+   "speed": {
+    "base": 108.0,
+    "baseRaw": 99.0,
+    "traceSpeed": 9.0,
+    "traceSpeedPct": 0.0,
+    "pct": 30.0,
+    "flat": 25.0,
+    "final": 165.4
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 2,
+    "totalAV": 150.0,
+    "requiredSpeed": 133.333333,
+    "currentSpeed": 165.4,
+    "gap": -32.066667,
+    "achievableActions": 2
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": [
+    {
+     "id": "cone1#1",
+     "kind": "pct",
+     "value": 30.0,
+     "apply": "self",
+     "trigger": "passive",
+     "defaultEnabled": true
+    }
+   ]
+  },
+  {
+   "label": "真珠·专武叠影1",
+   "payload": {
+    "characterId": "1503",
+    "lightconeId": "23054",
+    "superimpose": 1,
+    "relic": {
+     "speedBoots": true
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 2
+    }
+   },
+   "speed": {
+    "base": 108.0,
+    "baseRaw": 99.0,
+    "traceSpeed": 9.0,
+    "traceSpeedPct": 0.0,
+    "pct": 18.0,
+    "flat": 25.0,
+    "final": 152.44
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 2,
+    "totalAV": 150.0,
+    "requiredSpeed": 133.333333,
+    "currentSpeed": 152.44,
+    "gap": -19.106667,
+    "achievableActions": 2
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": [
+    {
+     "id": "cone1#1",
+     "kind": "pct",
+     "value": 18.0,
+     "apply": "self",
+     "trigger": "passive",
+     "defaultEnabled": true
+    }
+   ]
+  },
+  {
+   "label": "银狼·虚无专武+6魂",
+   "payload": {
+    "characterId": "1006",
+    "lightconeId": "23043",
+    "superimpose": 5,
+    "eidolon": 6,
+    "relic": {
+     "speedBoots": true
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 2
+    }
+   },
+   "speed": {
+    "base": 107.0,
+    "baseRaw": 107.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 19.5,
+    "flat": 25.0,
+    "final": 152.865
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 2,
+    "totalAV": 150.0,
+    "requiredSpeed": 133.333333,
+    "currentSpeed": 152.865,
+    "gap": -19.531667,
+    "achievableActions": 2
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": [
+    {
+     "id": "char0#0",
+     "kind": "pct",
+     "value": -3.0,
+     "apply": "self",
+     "trigger": "passive",
+     "defaultEnabled": true
+    },
+    {
+     "id": "char2#2",
+     "kind": "pct",
+     "value": -7.5,
+     "apply": "self",
+     "trigger": "passive",
+     "defaultEnabled": true
+    },
+    {
+     "id": "cone3#3",
+     "kind": "pct",
+     "value": 30.0,
+     "apply": "self",
+     "trigger": "passive",
+     "defaultEnabled": true
+    }
+   ]
+  },
+  {
+   "label": "无速度效果的4件套=零贡献",
+   "payload": {
+    "characterId": "1005",
+    "relic": {
+     "speedBoots": true,
+     "fourPieceId": "134"
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 2
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 25.0,
+    "final": 125.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 2,
+    "totalAV": 150.0,
+    "requiredSpeed": 133.333333,
+    "currentSpeed": 125.0,
+    "gap": 8.333333,
+    "achievableActions": 1
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": []
+  },
+  {
+   "label": "异相仲裁 0T",
+   "payload": {
+    "characterId": "1005",
+    "relic": {
+     "speedBoots": true
+    },
+    "advance": {},
+    "target": {
+     "mode": "yixiang",
+     "t": 0,
+     "actions": 6
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 25.0,
+    "final": 125.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 6,
+    "totalAV": 300.0,
+    "requiredSpeed": 200.0,
+    "currentSpeed": 125.0,
+    "gap": 75.0,
+    "achievableActions": 3
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": []
+  },
+  {
+   "label": "异相仲裁 1T",
+   "payload": {
+    "characterId": "1005",
+    "relic": {
+     "speedBoots": true
+    },
+    "advance": {},
+    "target": {
+     "mode": "yixiang",
+     "t": 1,
+     "actions": 6
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 25.0,
+    "final": 125.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 1,
+    "actions": 6,
+    "totalAV": 400.0,
+    "requiredSpeed": 150.0,
+    "currentSpeed": 125.0,
+    "gap": 25.0,
+    "achievableActions": 5
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": []
+  },
+  {
+   "label": "异相仲裁·绝境 2T",
+   "payload": {
+    "characterId": "1005",
+    "relic": {
+     "speedBoots": true
+    },
+    "advance": {},
+    "target": {
+     "mode": "yixiang_juejing",
+     "t": 2,
+     "actions": 6
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 25.0,
+    "final": 125.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 2,
+    "actions": 6,
+    "totalAV": 500.0,
+    "requiredSpeed": 120.0,
+    "currentSpeed": 125.0,
+    "gap": -5.0,
+    "achievableActions": 6
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": []
+  },
+  {
+   "label": "虚构叙事 3T 8动",
+   "payload": {
+    "characterId": "1005",
+    "relic": {
+     "speedBoots": true
+    },
+    "advance": {},
+    "target": {
+     "mode": "xugou",
+     "t": 3,
+     "actions": 8
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 25.0,
+    "final": 125.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 3,
+    "actions": 8,
+    "totalAV": 450.0,
+    "requiredSpeed": 177.777778,
+    "currentSpeed": 125.0,
+    "gap": 52.777778,
+    "achievableActions": 5
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": []
+  },
+  {
+   "label": "末日幻影 4T 9动",
+   "payload": {
+    "characterId": "1005",
+    "relic": {
+     "speedBoots": true
+    },
+    "advance": {},
+    "target": {
+     "mode": "mori",
+     "t": 4,
+     "actions": 9
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 25.0,
+    "final": 125.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 4,
+    "actions": 9,
+    "totalAV": 550.0,
+    "requiredSpeed": 163.636364,
+    "currentSpeed": 125.0,
+    "gap": 38.636364,
+    "achievableActions": 6
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": []
+  },
+  {
+   "label": "自定义行动值 300",
+   "payload": {
+    "characterId": "1005",
+    "relic": {
+     "speedBoots": true
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 2,
+     "customAV": 300
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 25.0,
+    "final": 125.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 2,
+    "totalAV": 300.0,
+    "requiredSpeed": 66.666667,
+    "currentSpeed": 125.0,
+    "gap": -58.333333,
+    "achievableActions": 3
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": []
+  },
+  {
+   "label": "全部速度效果都勾上（含开大/进战/有条件）",
+   "payload": {
+    "characterId": "1212",
+    "eidolon": 6,
+    "enabledEffects": [],
+    "relic": {
+     "speedBoots": true
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 3
+    }
+   },
+   "speed": {
+    "base": 105.0,
+    "baseRaw": 96.0,
+    "traceSpeed": 9.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 25.0,
+    "final": 130.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 3,
+    "totalAV": 150.0,
+    "requiredSpeed": 200.0,
+    "currentSpeed": 130.0,
+    "gap": 70.0,
+    "achievableActions": 1
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": []
+  },
+  {
+   "label": "信使4件套·开大2次",
+   "payload": {
+    "characterId": "1005",
+    "relic": {
+     "speedBoots": true,
+     "fourPieceId": "114",
+     "fourPieceUlts": 2,
+     "ultTargetsAlly": true
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 3
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 6.0,
+    "flat": 25.0,
+    "final": 131.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 3,
+    "totalAV": 150.0,
+    "requiredSpeed": 196.156742,
+    "currentSpeed": 131.0,
+    "gap": 65.156742,
+    "achievableActions": 2
+   },
+   "relicSetCount": 1,
+   "warningCount": 0,
+   "effects": [],
+   "simulation": {
+    "firstUltAction": 1,
+    "windowAV": 150.0,
+    "achievedActions": 2,
+    "completedActions": 2,
+    "notes": [
+     "第 1 次行动后开大，「骇域漫游的信使·4件套（开大触发，按一次计入）」从第 2 次行动起生效，持续 1 次行动（第 3 次行动起失效）"
+    ],
+    "timeline": [
+     {
+      "action": 1,
+      "speed": 131.0,
+      "av": 0.0,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     },
+     {
+      "action": 2,
+      "speed": 143.0,
+      "av": 76.335878,
+      "pct": 18.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套",
+       "骇域漫游的信使·4件套（开大触发，按一次计入）"
+      ]
+     },
+     {
+      "action": 3,
+      "speed": 131.0,
+      "av": 146.265948,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "label": "信使4件套·开大0次（提速不生效）",
+   "payload": {
+    "characterId": "1005",
+    "relic": {
+     "speedBoots": true,
+     "fourPieceId": "114",
+     "fourPieceUlts": 0,
+     "ultTargetsAlly": false
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 3
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 6.0,
+    "flat": 25.0,
+    "final": 131.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 3,
+    "totalAV": 150.0,
+    "requiredSpeed": 200.0,
+    "currentSpeed": 131.0,
+    "gap": 69.0,
+    "achievableActions": 1
+   },
+   "relicSetCount": 1,
+   "warningCount": 0,
+   "effects": []
+  },
+  {
+   "label": "信使4件套·开大2次+轴底开大",
+   "payload": {
+    "characterId": "1005",
+    "relic": {
+     "speedBoots": true,
+     "fourPieceId": "114",
+     "fourPieceUlts": 2,
+     "ultTargetsAlly": true
+    },
+    "advance": {
+     "excludeLastUlt": true
+    },
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 3
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 6.0,
+    "flat": 25.0,
+    "final": 131.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 3,
+    "totalAV": 150.0,
+    "requiredSpeed": 196.156742,
+    "currentSpeed": 131.0,
+    "gap": 65.156742,
+    "achievableActions": 2
+   },
+   "relicSetCount": 1,
+   "warningCount": 0,
+   "effects": [],
+   "simulation": {
+    "firstUltAction": 1,
+    "windowAV": 150.0,
+    "achievedActions": 2,
+    "completedActions": 2,
+    "notes": [
+     "第 1 次行动后开大，「骇域漫游的信使·4件套（开大触发（轴底那次开大不计），按一次计入）」从第 2 次行动起生效，持续 1 次行动（第 3 次行动起失效）"
+    ],
+    "timeline": [
+     {
+      "action": 1,
+      "speed": 131.0,
+      "av": 0.0,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     },
+     {
+      "action": 2,
+      "speed": 143.0,
+      "av": 76.335878,
+      "pct": 18.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套",
+       "骇域漫游的信使·4件套（开大触发（轴底那次开大不计），按一次计入）"
+      ]
+     },
+     {
+      "action": 3,
+      "speed": 131.0,
+      "av": 146.265948,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "label": "镜流·默认勾选的效果全开",
+   "payload": {
+    "characterId": "1212",
+    "eidolon": 6,
+    "enabledEffects": [],
+    "relic": {
+     "speedBoots": true
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 3
+    }
+   },
+   "speed": {
+    "base": 105.0,
+    "baseRaw": 96.0,
+    "traceSpeed": 9.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 25.0,
+    "final": 130.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 3,
+    "totalAV": 150.0,
+    "requiredSpeed": 200.0,
+    "currentSpeed": 130.0,
+    "gap": 70.0,
+    "achievableActions": 1
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": []
+  },
+  {
+   "label": "信使4件套·第1次行动后开大",
+   "payload": {
+    "characterId": "1005",
+    "relic": {
+     "speedBoots": true,
+     "fourPieceId": "114",
+     "fourPieceUlts": 2,
+     "ultTargetsAlly": true
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 4
+    },
+    "simulation": {
+     "firstUltAction": 1
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 6.0,
+    "flat": 25.0,
+    "final": 131.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 4,
+    "totalAV": 150.0,
+    "requiredSpeed": 263.765652,
+    "currentSpeed": 131.0,
+    "gap": 132.765652,
+    "achievableActions": 2
+   },
+   "relicSetCount": 1,
+   "warningCount": 0,
+   "effects": [],
+   "simulation": {
+    "firstUltAction": 1,
+    "windowAV": 150.0,
+    "achievedActions": 2,
+    "completedActions": 2,
+    "notes": [
+     "第 1 次行动后开大，「骇域漫游的信使·4件套（开大触发，按一次计入）」从第 2 次行动起生效，持续 1 次行动（第 3 次行动起失效）"
+    ],
+    "timeline": [
+     {
+      "action": 1,
+      "speed": 131.0,
+      "av": 0.0,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     },
+     {
+      "action": 2,
+      "speed": 143.0,
+      "av": 76.335878,
+      "pct": 18.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套",
+       "骇域漫游的信使·4件套（开大触发，按一次计入）"
+      ]
+     },
+     {
+      "action": 3,
+      "speed": 131.0,
+      "av": 146.265948,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "label": "信使4件套·开局就开大（firstUltAction=0）",
+   "payload": {
+    "characterId": "1005",
+    "relic": {
+     "speedBoots": true,
+     "fourPieceId": "114",
+     "fourPieceUlts": 2,
+     "ultTargetsAlly": true
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 4
+    },
+    "simulation": {
+     "firstUltAction": 0
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 6.0,
+    "flat": 25.0,
+    "final": 131.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 4,
+    "totalAV": 150.0,
+    "requiredSpeed": 263.765652,
+    "currentSpeed": 131.0,
+    "gap": 132.765652,
+    "achievableActions": 2
+   },
+   "relicSetCount": 1,
+   "warningCount": 0,
+   "effects": [],
+   "simulation": {
+    "firstUltAction": 0,
+    "windowAV": 150.0,
+    "achievedActions": 2,
+    "completedActions": 2,
+    "notes": [
+     "第 0 次行动后开大，「骇域漫游的信使·4件套（开大触发，按一次计入）」从第 1 次行动起生效，持续 1 次行动（第 2 次行动起失效）"
+    ],
+    "timeline": [
+     {
+      "action": 1,
+      "speed": 143.0,
+      "av": 0.0,
+      "pct": 18.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套",
+       "骇域漫游的信使·4件套（开大触发，按一次计入）"
+      ]
+     },
+     {
+      "action": 2,
+      "speed": 131.0,
+      "av": 69.93007,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     },
+     {
+      "action": 3,
+      "speed": 131.0,
+      "av": 146.265948,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "label": "信使4件套·第3次行动后才开大",
+   "payload": {
+    "characterId": "1005",
+    "relic": {
+     "speedBoots": true,
+     "fourPieceId": "114",
+     "fourPieceUlts": 2,
+     "ultTargetsAlly": true
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 4
+    },
+    "simulation": {
+     "firstUltAction": 3
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 6.0,
+    "flat": 25.0,
+    "final": 131.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 4,
+    "totalAV": 150.0,
+    "requiredSpeed": 263.765652,
+    "currentSpeed": 131.0,
+    "gap": 132.765652,
+    "achievableActions": 1
+   },
+   "relicSetCount": 1,
+   "warningCount": 0,
+   "effects": [],
+   "simulation": {
+    "firstUltAction": 3,
+    "windowAV": 150.0,
+    "achievedActions": 1,
+    "completedActions": 1,
+    "notes": [
+     "第 3 次行动后开大，「骇域漫游的信使·4件套（开大触发，按一次计入）」从第 4 次行动起生效，持续 1 次行动（第 5 次行动起失效）"
+    ],
+    "timeline": [
+     {
+      "action": 1,
+      "speed": 131.0,
+      "av": 0.0,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     },
+     {
+      "action": 2,
+      "speed": 131.0,
+      "av": 76.335878,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "label": "卡芙卡·只需等待叠层（逐层加速）",
+   "payload": {
+    "characterId": "1005",
+    "lightconeId": "23006",
+    "superimpose": 5,
+    "enabledEffects": [
+     "cone0#0"
+    ],
+    "relic": {
+     "speedBoots": true
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 2,
+     "actions": 6
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 25.0,
+    "final": 125.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 2,
+    "actions": 6,
+    "totalAV": 350.0,
+    "requiredSpeed": 155.943524,
+    "currentSpeed": 125.0,
+    "gap": 30.943524,
+    "achievableActions": 4
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": [
+    {
+     "id": "cone0#0",
+     "kind": "pct",
+     "value": 8.0,
+     "apply": "self",
+     "trigger": "conditional",
+     "defaultEnabled": false
+    }
+   ],
+   "simulation": {
+    "firstUltAction": 1,
+    "windowAV": 350.0,
+    "achievedActions": 4,
+    "completedActions": 4,
+    "notes": [
+     "「光锥·只需等待（有条件）」每次行动叠 1 层，最多 3 层（第 k 次行动前有 min(k−1, 3) 层）"
+    ],
+    "timeline": [
+     {
+      "action": 1,
+      "speed": 125.0,
+      "av": 0.0,
+      "pct": 0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋"
+      ]
+     },
+     {
+      "action": 2,
+      "speed": 133.0,
+      "av": 80.0,
+      "pct": 8.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "层数 1/3"
+      ]
+     },
+     {
+      "action": 3,
+      "speed": 141.0,
+      "av": 155.18797,
+      "pct": 16.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "层数 2/3"
+      ]
+     },
+     {
+      "action": 4,
+      "speed": 149.0,
+      "av": 226.109956,
+      "pct": 24.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "层数 3/3"
+      ]
+     },
+     {
+      "action": 5,
+      "speed": 149.0,
+      "av": 293.22405,
+      "pct": 24.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "层数 3/3"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "label": "卡芙卡·只需等待叠层+自定义行动值 300",
+   "payload": {
+    "characterId": "1005",
+    "lightconeId": "23006",
+    "superimpose": 1,
+    "enabledEffects": [
+     "cone0#0"
+    ],
+    "relic": {
+     "speedBoots": true
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 4,
+     "customAV": 300
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 25.0,
+    "final": 125.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 4,
+    "totalAV": 300.0,
+    "requiredSpeed": 126.349207,
+    "currentSpeed": 125.0,
+    "gap": 1.349207,
+    "achievableActions": 3
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": [
+    {
+     "id": "cone0#0",
+     "kind": "pct",
+     "value": 4.8,
+     "apply": "self",
+     "trigger": "conditional",
+     "defaultEnabled": false
+    }
+   ],
+   "simulation": {
+    "firstUltAction": 1,
+    "windowAV": 300.0,
+    "achievedActions": 3,
+    "completedActions": 3,
+    "notes": [
+     "「光锥·只需等待（有条件）」每次行动叠 1 层，最多 3 层（第 k 次行动前有 min(k−1, 3) 层）"
+    ],
+    "timeline": [
+     {
+      "action": 1,
+      "speed": 125.0,
+      "av": 0.0,
+      "pct": 0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋"
+      ]
+     },
+     {
+      "action": 2,
+      "speed": 129.8,
+      "av": 80.0,
+      "pct": 4.8,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "层数 1/3"
+      ]
+     },
+     {
+      "action": 3,
+      "speed": 134.6,
+      "av": 157.041602,
+      "pct": 9.6,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "层数 2/3"
+      ]
+     },
+     {
+      "action": 4,
+      "speed": 139.4,
+      "av": 231.335808,
+      "pct": 14.4,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "层数 3/3"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "label": "布洛妮娅·全部速度效果都勾上（含仅队友）",
+   "payload": {
+    "characterId": "1101",
+    "eidolon": 6,
+    "enabledEffects": [
+     "char1#1"
+    ],
+    "relic": {
+     "speedBoots": true
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 2
+    }
+   },
+   "speed": {
+    "base": 99.0,
+    "baseRaw": 99.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 25.0,
+    "final": 124.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 2,
+    "totalAV": 150.0,
+    "requiredSpeed": 133.333333,
+    "currentSpeed": 124.0,
+    "gap": 9.333333,
+    "achievableActions": 1
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": [
+    {
+     "id": "char1#1",
+     "kind": "pct",
+     "value": 30.0,
+     "apply": "ally",
+     "trigger": "conditional",
+     "defaultEnabled": true
+    }
+   ]
+  }
+ ],
+ "recommends": [
+  {
+   "label": "卡芙卡 3动",
+   "payload": {
+    "characterId": "1005",
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 3
+    }
+   },
+   "assumptions": {
+    "speedBoots": true,
+    "superimpose": 5,
+    "coneUlts": 1.0,
+    "fourPieceUlts": 1.0,
+    "excludeLastUlt": false
+   },
+   "evaluated": 7105,
+   "results": [
+    {
+     "coneId": "23043",
+     "coneName": "谎言在风中飘扬",
+     "fourPieceId": "110",
+     "fourPieceName": "晨昏交界的翔鹰",
+     "ornamentIds": [
+      "308"
+     ],
+     "speed": 155.0,
+     "advance": 65.0,
+     "required": 156.666667,
+     "neededSubstatSpeed": 1.666667,
+     "ok": false
+    },
+    {
+     "coneId": "23043",
+     "coneName": "谎言在风中飘扬",
+     "fourPieceId": "125",
+     "fourPieceName": "烈阳惊雷的女武神",
+     "ornamentIds": [
+      "308"
+     ],
+     "speed": 167.0,
+     "advance": 40.0,
+     "required": 173.333333,
+     "neededSubstatSpeed": 6.333333,
+     "ok": false
+    },
+    {
+     "coneId": "23043",
+     "coneName": "谎言在风中飘扬",
+     "fourPieceId": "130",
+     "fourPieceName": "应天涉远的卜者",
+     "ornamentIds": [
+      "308"
+     ],
+     "speed": 161.0,
+     "advance": 40.0,
+     "required": 173.333333,
+     "neededSubstatSpeed": 12.333333,
+     "ok": false
+    },
+    {
+     "coneId": "23043",
+     "coneName": "谎言在风中飘扬",
+     "fourPieceId": null,
+     "fourPieceName": "（不指定）",
+     "ornamentIds": [
+      "308"
+     ],
+     "speed": 155.0,
+     "advance": 40.0,
+     "required": 173.333333,
+     "neededSubstatSpeed": 18.333333,
+     "ok": false
+    },
+    {
+     "coneId": "23043",
+     "coneName": "谎言在风中飘扬",
+     "fourPieceId": "110",
+     "fourPieceName": "晨昏交界的翔鹰",
+     "ornamentIds": [
+      "323"
+     ],
+     "speed": 163.0,
+     "advance": 25.0,
+     "required": 183.333333,
+     "neededSubstatSpeed": 20.333333,
+     "ok": false
+    }
+   ]
+  },
+  {
+   "label": "镜流 4动 + 轴底开大",
+   "payload": {
+    "characterId": "1212",
+    "target": {
+     "mode": "yixiang",
+     "t": 1,
+     "actions": 5
+    },
+    "coneUlts": 2,
+    "fourPieceUlts": 2,
+    "excludeLastUlt": true
+   },
+   "assumptions": {
+    "speedBoots": true,
+    "superimpose": 5,
+    "coneUlts": 1.0,
+    "fourPieceUlts": 1.0,
+    "excludeLastUlt": true
+   },
+   "evaluated": 7105,
+   "results": [
+    {
+     "coneId": "23009",
+     "coneName": "到不了的彼岸",
+     "fourPieceId": "110",
+     "fourPieceName": "晨昏交界的翔鹰",
+     "ornamentIds": [
+      "308"
+     ],
+     "speed": 130.0,
+     "advance": 65.0,
+     "required": 108.75,
+     "neededSubstatSpeed": 0.0,
+     "ok": true
+    },
+    {
+     "coneId": "23009",
+     "coneName": "到不了的彼岸",
+     "fourPieceId": null,
+     "fourPieceName": "（不指定）",
+     "ornamentIds": [
+      "308"
+     ],
+     "speed": 130.0,
+     "advance": 40.0,
+     "required": 115.0,
+     "neededSubstatSpeed": 0.0,
+     "ok": true
+    },
+    {
+     "coneId": "23009",
+     "coneName": "到不了的彼岸",
+     "fourPieceId": "124",
+     "fourPieceName": "哀歌覆国的诗人",
+     "ornamentIds": [
+      "308"
+     ],
+     "speed": 121.6,
+     "advance": 40.0,
+     "required": 115.0,
+     "neededSubstatSpeed": 0.0,
+     "ok": true
+    },
+    {
+     "coneId": "23009",
+     "coneName": "到不了的彼岸",
+     "fourPieceId": "130",
+     "fourPieceName": "应天涉远的卜者",
+     "ornamentIds": [
+      "308"
+     ],
+     "speed": 136.3,
+     "advance": 40.0,
+     "required": 115.0,
+     "neededSubstatSpeed": 0.0,
+     "ok": true
+    },
+    {
+     "coneId": "23009",
+     "coneName": "到不了的彼岸",
+     "fourPieceId": "125",
+     "fourPieceName": "烈阳惊雷的女武神",
+     "ornamentIds": [
+      "308"
+     ],
+     "speed": 142.6,
+     "advance": 40.0,
+     "required": 115.0,
+     "neededSubstatSpeed": 0.0,
+     "ok": true
+    }
+   ]
+  }
+ ]
+}

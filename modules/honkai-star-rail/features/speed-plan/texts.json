@@ -1,0 +1,8 @@
+{
+  "speed-plan.card.pick": "🎯 选角色与配装",
+  "speed-plan.card.speed": "⚡ 实际速度",
+  "speed-plan.card.advance": "🌀 拉条来源",
+  "speed-plan.card.targets": "📋 需求速度：各模式 × T 数 × 动数",
+  "speed-plan.card.recommend": "🧠 自动推荐配装",
+  "speed-plan.card.error": "读不到数据"
+}

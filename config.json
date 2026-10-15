@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "host": "127.0.0.1",
+  "port": 8765,
+  "autoPort": true,
+  "shell": "edge",
+  "window": {
+    "width": 1360,
+    "height": 900
+  },
+  "watchdogSeconds": 25,
+  "admin": true
+}
