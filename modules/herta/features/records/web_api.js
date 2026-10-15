@@ -71,26 +71,8 @@
     }
     return { icons, missing };
   }
-  // 只有没给 id 的才按名字找
   const lightconeNames = (data) =>
-    ((data && data.targets) || []).flatMap((t) => (t.records || []).flatMap((r) => (r.lineup || [])
-      .filter((c) => c.lightcone && (c.lightcone_id === undefined || c.lightcone_id === null)).map((c) => c.lightcone)));
-  const lightconeIds = (data) =>
-    ((data && data.targets) || []).flatMap((t) => (t.records || []).flatMap((r) => (r.lineup || [])
-      .filter((c) => c.lightcone_id !== undefined && c.lightcone_id !== null).map((c) => c.lightcone_id)));
-  // 按 StarRailRes 光锥 id 找图标（优先于名字），key 用字符串 id
-  function lightconeIdMap(lightcones, ids) {
-    const by = new Map();
-    for (const lc of lightcones || []) if (lc.icon) by.set(String(lc.id), lc.icon);
-    const icons = {};
-    const missing = [];
-    const sorted = Array.from(new Set(ids.map(String))).sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
-    for (const i of sorted) {
-      if (by.has(i)) icons[i] = by.get(i);
-      else missing.push(i);
-    }
-    return { icons, missing };
-  }
+    ((data && data.targets) || []).flatMap((t) => (t.records || []).flatMap((r) => (r.lineup || []).map((c) => c.lightcone).filter(Boolean)));
   const lineupNames = (data) =>
     ((data && data.targets) || []).flatMap((t) => (t.records || []).flatMap((r) => (r.lineup || []).map((c) => c.name)));
 
@@ -189,9 +171,7 @@
           const result = await load(payload || {});
           const { avatars, missing } = avatarMap(opts.characters || [], lineupNames(result.data));
           const lc = lightconeMap(opts.lightcones || [], lightconeNames(result.data));
-          const byId = lightconeIdMap(opts.lightcones || [], lightconeIds(result.data));
-          return { ...result, avatars, unmapped: missing, lightcone_icons: lc.icons, lightcone_icons_by_id: byId.icons,
-            unmapped_lightcones: lc.missing, unmapped_lightcone_ids: byId.missing };
+          return { ...result, avatars, unmapped: missing, lightcone_icons: lc.icons, unmapped_lightcones: lc.missing };
         }
         if (action === "mirrors") return { mirrors: MIRRORS, timeout: TIMEOUT };
         throw new Error(`未知动作 ${action}`);
@@ -199,5 +179,5 @@
     };
   }
 
-  return { createApi, MIRRORS, validate, avatarMap, lightconeMap, lightconeIdMap, AVATAR_OVERRIDES };
+  return { createApi, MIRRORS, validate, avatarMap, lightconeMap, AVATAR_OVERRIDES };
 });

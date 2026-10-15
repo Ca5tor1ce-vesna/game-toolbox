@@ -18,14 +18,15 @@ function resultText(r) {
   return parts.length ? parts.join(" · ") : String(r.tag ?? "—");
 }
 
-// 光锥：只显示图标 + 叠影（不显示名字）。图标先按 lightcone_id 找，再按名字；都没有就只显示 S
-function lcHTML(c, lc) {
-  const hasId = c.lightcone_id !== undefined && c.lightcone_id !== null;
-  const path = (hasId && lc.byId[String(c.lightcone_id)]) || (c.lightcone && lc.byName[c.lightcone]) || "";
-  const icon = path
-    ? `<img class="hr-lc-img" src="${esc(avatarSrc(path))}" alt="" loading="lazy" onerror="this.remove()">`
+// 光锥：图标（对得上才有）+ 名字 + 叠影；没有光锥数据就只显示 S
+function lcHTML(c, lcIcons) {
+  const lc = c.lightcone ? String(c.lightcone) : "";
+  const icon = lc && lcIcons[lc]
+    ? `<img class="hr-lc-img" src="${esc(avatarSrc(lcIcons[lc]))}" alt="" loading="lazy" onerror="this.remove()">`
     : "";
-  return `<div class="hr-lc">${icon}<span class="hr-lc-s">S${esc(c.superimposition)}</span></div>`;
+  const name = lc ? `<span class="hr-lc-name">${esc(lc)}</span>` : "";
+  return `<div class="hr-lc"${lc ? ` title="${esc(lc)} S${esc(c.superimposition)}"` : ""}>${icon}${name}`
+    + `<span class="hr-lc-s">S${esc(c.superimposition)}</span></div>`;
 }
 
 // 头像：站内路径在单文件网页版里换成内联的 data URI；图片加载失败退回首字圆圈
@@ -33,7 +34,7 @@ function avatarSrc(path) {
   return path && path.startsWith("/") ? (window.GT_ASSETS || {})[path] || path : path;
 }
 
-function cardHTML(r, q, avatars, lc) {
+function cardHTML(r, q, avatars, lcIcons) {
   const lineup = (r.lineup || []).map((c) => {
     const name = String(c.name ?? "");
     const avatar = [...name][0] ?? "";
@@ -45,7 +46,7 @@ function cardHTML(r, q, avatars, lc) {
         : esc(avatar)}</div>`
       + `<div class="hr-name" title="${esc(name)}">${esc(name)}</div>`
       + `<div class="hr-cons${up}">E${esc(c.eidolon)}</div>`
-      + lcHTML(c, lc)
+      + lcHTML(c, lcIcons)
       + `</div>`;
   }).join("");
   return `<div class="hr-card">`
@@ -184,7 +185,7 @@ export default {
         : records;
 
       const body = list.length
-        ? `<div class="hr-grid">${list.map((r) => cardHTML(r, q, res.avatars || {}, { byId: res.lightcone_icons_by_id || {}, byName: res.lightcone_icons || {} })).join("")}</div>`
+        ? `<div class="hr-grid">${list.map((r) => cardHTML(r, q, res.avatars || {}, res.lightcone_icons || {})).join("")}</div>`
         : `<div class="hr-empty">没有符合条件的记录</div>`;
       const old = root.querySelector(".hr-grid") || root.querySelector(".hr-empty");
       if (old) old.outerHTML = body;
