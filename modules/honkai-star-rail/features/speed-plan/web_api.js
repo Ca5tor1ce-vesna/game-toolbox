@@ -360,9 +360,16 @@
     const def = fallback === undefined ? 0.0 : fallback;
     const value = payload ? payload[key] : undefined;
     if (value === undefined || value === null || value === "") return Number(def);
-    const x = pyFloat(value);
-    if (Number.isNaN(x)) {
+    // 只认 ASCII 数字串（与 Python 版一致）
+    if (typeof value === "string" && /[^\x00-\x7f]/.test(value.replace(/^\s+|\s+$/g, ""))) {
       throw new Error("参数 " + key + " 需要是数字，收到 " + pyRepr(value));
+    }
+    const x = pyFloat(value);
+    if (Number.isNaN(x) && !(typeof value === "string" && /^[\s]*[+-]?nan[\s]*$/i.test(value))) {
+      throw new Error("参数 " + key + " 需要是数字，收到 " + pyRepr(value));
+    }
+    if (!Number.isFinite(x) || Math.abs(x) > NUM_LIMIT) {
+      throw new Error("参数 " + key + " 超出范围，收到 " + pyRepr(value));
     }
     return x;
   }
@@ -415,6 +422,19 @@
   //     第 1 次行动 0 层、第 2 次行动 1 层……逐层往上叠。
   // 这两类必须真的把角色的行动一次一次走出来。
   const SIM_TIMELINE_LIMIT = 12; // timeline 最多给界面 12 条
+  const SIM_MAX_STEPS = 100000; // 模拟的硬上限（只防死循环）
+  const SIM_MAX_ACTIONS = 200; // 目标动数上限
+  const MAX_WINDOW_AV = 100000.0; // 行动值节点上限
+  const NUM_LIMIT = 1e9; // 数字参数绝对值上限
+
+  function checkTarget(actions, windowAv) {
+    if (actions > SIM_MAX_ACTIONS) {
+      throw new Error("目标动数最多 " + SIM_MAX_ACTIONS + "，收到 " + actions);
+    }
+    if (windowAv > MAX_WINDOW_AV) {
+      throw new Error("行动值节点最多 " + pyG(MAX_WINDOW_AV) + "，收到 " + pyG(windowAv));
+    }
+  }
 
   /** 把一条速度效果整理成模拟内核认识的形式（semantics 三选一）。 */
   function modifierOf(opts) {
@@ -515,17 +535,20 @@
     const actionCap = o.actionCap === undefined || o.actionCap === null ? null : o.actionCap;
     const base = speed0 === null ? Number(baseSpeed) : speed0;
     let distanceLeft = 0.0;
+    // 拉条 = 总路程减少 advanceDistance（与闭式公式同口径），从最早的行动开始抵扣
+    let advanceLeft = Math.max(0.0, advanceDistance || 0.0);
     let av = 0.0;
     let achieved = 0;
     let completed = 0;
     const timeline = [];
-    const maxSteps = actionCap === null ? 64 : toInt(actionCap);
+    const maxSteps = actionCap === null ? SIM_MAX_STEPS : toInt(actionCap);
     while (achieved < maxSteps) {
       const step = achieved + 1;
       const active = activeModifiers(modifiers, step, firstUltAction);
       const speed = speed0 === null ? stepSpeed(baseSpeed, active) : stepSpeed(base, active, baseSpeed);
       if (!(speed > 0)) break; // 速度非正 → 永远动不了
-      const nextAv = av + distance / speed;
+      const use = Math.min(distance, advanceLeft);
+      const nextAv = av + (distance - use) / speed;
       if (av > windowAv + 1e-9 * Math.max(1.0, Math.abs(av))) break; // 开始时间已出窗口
       // 与旧公式同一个阈值：这一次行动打完还在窗口内
       if (distanceLeft + distance - advanceDistance <= windowAv * speed + 1e-9 * Math.max(1.0, Math.abs(windowAv * speed))) {
@@ -553,6 +576,7 @@
         });
       }
       distanceLeft += distance;
+      advanceLeft -= use;
       av = nextAv;
       if (!Number.isFinite(av)) break;
     }
@@ -575,6 +599,27 @@
     let low = o.low === undefined ? 0.0 : Number(o.low);
     let high = o.high === undefined || o.high === null ? Math.max(1000.0, baseSpeed * 50.0) : Number(o.high);
     const cap = actions + 1;
+    const done = (s0) =>
+      simulate(baseSpeed, modifiers, {
+        speed0: s0,
+        windowAv: avLimit,
+        firstUltAction: firstUltAction,
+        distance: distance,
+        advanceDistance: advanceDistance,
+        timelineLimit: 0,
+        actionCap: cap,
+      }).completed >= actions;
+    // 上界不够就翻倍（旧版直接把上界当答案返回）
+    let grown = false;
+    for (let i = 0; i < 80; i += 1) {
+      if (done(high)) {
+        grown = true;
+        break;
+      }
+      low = high;
+      high = high * 2.0;
+    }
+    if (!grown) return Infinity;
     for (let i = 0; i < 200; i += 1) {
       const mid = (low + high) / 2.0;
       const result = simulate(baseSpeed, modifiers, {
@@ -982,11 +1027,11 @@
       const cones = lightconesData();
       const p = payload || {};
       const path = p.path;
-      const rarity = p.rarity;
+      const rarity = pyInt(num(p, "rarity", 0));
       const out = [];
       for (const cone of cones) {
         if (pyBool(path) && cone.path !== path) continue;
-        if (pyBool(rarity) && toInt(cone.rarity || 0) < toInt(rarity)) continue;
+        if (rarity && toInt(cone.rarity || 0) < rarity) continue;
         out.push({
           id: cone.id,
           name: cone.name,
@@ -1048,9 +1093,15 @@
       // enabledEffects 没给、或者给了一个**空数组**，就走「默认勾选」那一套 ——
       // Python 的 `if not enabled:` 对 None 和 [] 一视同仁，网页版必须照抄，
       // 否则界面上「勾掉所有效果」会得到和 Python 不一样的裸速度。
+      // null/undefined = 默认勾选；[] = 用户全勾掉了，照办
       let enabled = p.enabledEffects === undefined || p.enabledEffects === null ? null : p.enabledEffects;
-      if (enabled === null || !enabled.length) {
+      if (enabled !== null && !Array.isArray(enabled)) {
+        throw new Error("参数 enabledEffects 需要是列表");
+      }
+      if (enabled === null) {
         enabled = speedEffects.filter((effect) => effect.defaultEnabled).map((effect) => effect.id);
+      } else {
+        enabled = Array.from(new Set(enabled.map((id) => pyStrNum(id))));
       }
       const enabledSet = {};
       for (const id of enabled) enabledSet[String(id)] = true;
@@ -1396,7 +1447,10 @@
       const danceUlts = effectiveUlts(num(advanceIn, "danceUlts", 0));
       const danceS = Math.max(1, Math.min(pyInt(num(advanceIn, "danceSuperimpose", 5)), 5));
       const dancePerUlt = { 1: 16, 2: 18, 3: 20, 4: 22, 5: 24 }[danceS];
-      if (danceUlts > 0) {
+      // 已选「舞！舞！舞！」且按 coneUlts 计了拉条时，手填 danceUlts 不再重复计
+      const coneUltsCounted = effectiveUlts(num(advanceIn, "coneUlts", 0));
+      const danceFromCone = !!(cone && cone.name === "舞！舞！舞！" && coneUltsCounted > 0);
+      if (danceUlts > 0 && !danceFromCone) {
         addAdvance(
           "舞！舞！舞！叠影" + danceS + " × " + pyG(danceUlts) + " 次开大（每次 " + dancePerUlt + "%）" + ultNote,
           dancePerUlt * danceUlts,
@@ -1520,7 +1574,7 @@
       /** 当前 S0 在该窗口内能打完几次（没有时间线加速时用旧公式，逐位一致）。 */
       const achievedWith = (speed0, windowAv, actions) => {
         if (!anyTimeline(timelineModifiers)) {
-          return toInt(Math.floor((speed0 * windowAv + advanceDistance) / distance + 1e-9));
+          return Math.max(0, toInt(Math.floor((speed0 * windowAv + advanceDistance) / distance + 1e-9)));
         }
         return animate(speed0, windowAv, Math.max(1, toInt(actions) + 1)).completed;
       };
@@ -1603,6 +1657,7 @@
       // 也可以直接给一个行动值节点，给了就优先用
       const customAv = num(targetIn, "customAV", 0);
       const targetAv = customAv > 0 ? customAv : baseFirst + targetT * baseStep;
+      checkTarget(targetActions, targetAv);
       // 需求速度 / 当前速度都用 S0 口径（「还差多少速」才有意义）
       const required = Math.max(0.0, speedNeeded(targetActions, targetAv));
       const gap = required - finalSpeed;
@@ -1610,7 +1665,7 @@
       // 模拟明细：时间线 + 说明，界面直接展示。
       // 时间线固定走满 12 步（不跟着 target.actions 缩），否则目标只写 2 动时
       // 根本看不出「第 3 次行动加速就过期了」这种回落。
-      const simRun = simulateCurrent(targetAv, SIM_TIMELINE_LIMIT);
+      const simRun = simulateCurrent(targetAv, null);
       // 当前速度在该行动值下能打几次：没有随行动变化的加速 → 与旧公式逐位一致的闭式口径；
       // 有 → 用模拟出来的真实时间线数。
       const achievableActions = anyTimeline(timelineModifiers)
@@ -1783,8 +1838,8 @@
     /** 把当前这套配置存到这个角色名下。 */
     function savePreset(payload) {
       const p = payload || {};
-      const characterId = pyStrip(p.characterId);
-      if (!characterId || characterId === "None") {
+      const characterId = pyStrip(p.characterId || "");
+      if (!characterId) {
         throw new Error("缺少 characterId");
       }
       const config = p.config;
@@ -1805,7 +1860,7 @@
 
     function deletePreset(payload) {
       const p = payload || {};
-      const characterId = pyStrip(p.characterId);
+      const characterId = pyStrip(p.characterId || "");
       const store = loadPresets();
       delete store[characterId];
       presetStore.save(store);
@@ -1901,6 +1956,7 @@
       const modeFirst = Number((targetMode || {}).firstCycleAV || firstAv);
       const modeStep = Number((targetMode || {}).cycleAV || stepAv);
       const targetAv = customAv > 0 ? customAv : modeFirst + targetT * modeStep;
+      checkTarget(actions, targetAv);
 
       const relicIn = p.relic || {};
       const useBoots = pyBool(relicIn.speedBoots === undefined ? true : relicIn.speedBoots);

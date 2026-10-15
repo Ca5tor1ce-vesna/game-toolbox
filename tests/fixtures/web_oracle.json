@@ -2781,6 +2781,570 @@
      "defaultEnabled": true
     }
    ]
+  },
+  {
+   "label": "0.16.7·信使+翁瓦克拉条（拉条进模拟）",
+   "payload": {
+    "characterId": "1005",
+    "relic": {
+     "speedBoots": true,
+     "fourPieceId": "114",
+     "fourPieceUlts": 1,
+     "ultTargetsAlly": true,
+     "ornamentIds": [
+      "308"
+     ]
+    },
+    "advance": {
+     "vonwacq": true
+    },
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 2
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 6.0,
+    "flat": 25.0,
+    "final": 131.0
+   },
+   "advance": {
+    "total": 40.0,
+    "items": [
+     40.0
+    ],
+    "labels": [
+     "生命的翁瓦克·2件套（进战触发）"
+    ]
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 2,
+    "totalAV": 150.0,
+    "requiredSpeed": 99.491213,
+    "currentSpeed": 131.0,
+    "gap": -31.508787,
+    "achievableActions": 2
+   },
+   "relicSetCount": 2,
+   "warningCount": 0,
+   "effects": [],
+   "simulation": {
+    "firstUltAction": 1,
+    "windowAV": 150.0,
+    "achievedActions": 2,
+    "completedActions": 2,
+    "notes": [
+     "第 1 次行动后开大，「骇域漫游的信使·4件套（开大触发，按一次计入）」从第 2 次行动起生效，持续 1 次行动（第 3 次行动起失效）"
+    ],
+    "timeline": [
+     {
+      "action": 1,
+      "speed": 131.0,
+      "av": 0.0,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     },
+     {
+      "action": 2,
+      "speed": 143.0,
+      "av": 45.801527,
+      "pct": 18.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套",
+       "骇域漫游的信使·4件套（开大触发，按一次计入）"
+      ]
+     },
+     {
+      "action": 3,
+      "speed": 131.0,
+      "av": 115.731597,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "label": "0.16.7·信使+风套手填拉条 1T3动",
+   "payload": {
+    "characterId": "1005",
+    "relic": {
+     "speedBoots": true,
+     "fourPieceId": "114",
+     "fourPieceUlts": 1,
+     "ultTargetsAlly": true
+    },
+    "advance": {
+     "windUlts": 2
+    },
+    "target": {
+     "mode": "moc",
+     "t": 1,
+     "actions": 3
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 6.0,
+    "flat": 25.0,
+    "final": 131.0
+   },
+   "advance": {
+    "total": 50.0,
+    "items": [
+     50.0
+    ],
+    "labels": [
+     "风套 4 件套 × 2 次开大（每次 25%）"
+    ]
+   },
+   "verdict": {
+    "t": 1,
+    "actions": 3,
+    "totalAV": 250.0,
+    "requiredSpeed": 95.536395,
+    "currentSpeed": 131.0,
+    "gap": -35.463605,
+    "achievableActions": 3
+   },
+   "relicSetCount": 1,
+   "warningCount": 0,
+   "effects": [],
+   "simulation": {
+    "firstUltAction": 1,
+    "windowAV": 250.0,
+    "achievedActions": 3,
+    "completedActions": 3,
+    "notes": [
+     "第 1 次行动后开大，「骇域漫游的信使·4件套（开大触发，按一次计入）」从第 2 次行动起生效，持续 1 次行动（第 3 次行动起失效）"
+    ],
+    "timeline": [
+     {
+      "action": 1,
+      "speed": 131.0,
+      "av": 0.0,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     },
+     {
+      "action": 2,
+      "speed": 143.0,
+      "av": 38.167939,
+      "pct": 18.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套",
+       "骇域漫游的信使·4件套（开大触发，按一次计入）"
+      ]
+     },
+     {
+      "action": 3,
+      "speed": 131.0,
+      "av": 108.098009,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     },
+     {
+      "action": 4,
+      "speed": 131.0,
+      "av": 184.433887,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "label": "0.16.7·信使 50000AV（时间线不封顶）",
+   "payload": {
+    "characterId": "1005",
+    "relic": {
+     "speedBoots": true,
+     "fourPieceId": "114",
+     "fourPieceUlts": 1,
+     "ultTargetsAlly": true
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 2,
+     "customAV": 50000
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 6.0,
+    "flat": 25.0,
+    "final": 131.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 2,
+    "totalAV": 50000.0,
+    "requiredSpeed": 0.203332,
+    "currentSpeed": 131.0,
+    "gap": -130.796668,
+    "achievableActions": 655
+   },
+   "relicSetCount": 1,
+   "warningCount": 0,
+   "effects": [],
+   "simulation": {
+    "firstUltAction": 1,
+    "windowAV": 50000.0,
+    "achievedActions": 655,
+    "completedActions": 655,
+    "notes": [
+     "第 1 次行动后开大，「骇域漫游的信使·4件套（开大触发，按一次计入）」从第 2 次行动起生效，持续 1 次行动（第 3 次行动起失效）"
+    ],
+    "timeline": [
+     {
+      "action": 1,
+      "speed": 131.0,
+      "av": 0.0,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     },
+     {
+      "action": 2,
+      "speed": 143.0,
+      "av": 76.335878,
+      "pct": 18.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套",
+       "骇域漫游的信使·4件套（开大触发，按一次计入）"
+      ]
+     },
+     {
+      "action": 3,
+      "speed": 131.0,
+      "av": 146.265948,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     },
+     {
+      "action": 4,
+      "speed": 131.0,
+      "av": 222.601826,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     },
+     {
+      "action": 5,
+      "speed": 131.0,
+      "av": 298.937704,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     },
+     {
+      "action": 6,
+      "speed": 131.0,
+      "av": 375.273581,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     },
+     {
+      "action": 7,
+      "speed": 131.0,
+      "av": 451.609459,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     },
+     {
+      "action": 8,
+      "speed": 131.0,
+      "av": 527.945337,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     },
+     {
+      "action": 9,
+      "speed": 131.0,
+      "av": 604.281215,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     },
+     {
+      "action": 10,
+      "speed": 131.0,
+      "av": 680.617093,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     },
+     {
+      "action": 11,
+      "speed": 131.0,
+      "av": 756.952971,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     },
+     {
+      "action": 12,
+      "speed": 131.0,
+      "av": 833.288849,
+      "pct": 6.0,
+      "flat": 25.0,
+      "active": [
+       "常驻 遗器主词条·速度鞋",
+       "常驻 骇域漫游的信使·2件套"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "label": "0.16.7·瓦尔特效果全勾掉（enabledEffects=[]）",
+   "payload": {
+    "characterId": "1004",
+    "enabledEffects": [],
+    "relic": {},
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 2
+    }
+   },
+   "speed": {
+    "base": 102.0,
+    "baseRaw": 102.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 0.0,
+    "final": 102.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 2,
+    "totalAV": 150.0,
+    "requiredSpeed": 133.333333,
+    "currentSpeed": 102.0,
+    "gap": 31.333333,
+    "achievableActions": 1
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": [
+    {
+     "id": "char0#0",
+     "kind": "pct",
+     "value": -10.0,
+     "apply": "self",
+     "trigger": "conditional",
+     "defaultEnabled": false
+    },
+    {
+     "id": "char1#1",
+     "kind": "pct",
+     "value": -10.0,
+     "apply": "self",
+     "trigger": "passive",
+     "defaultEnabled": true
+    },
+    {
+     "id": "char2#2",
+     "kind": "pct",
+     "value": -5.0,
+     "apply": "self",
+     "trigger": "passive",
+     "defaultEnabled": true
+    },
+    {
+     "id": "char3#3",
+     "kind": "pct",
+     "value": -10.0,
+     "apply": "self",
+     "trigger": "passive",
+     "defaultEnabled": true
+    }
+   ]
+  },
+  {
+   "label": "0.16.7·负速度动数不为负",
+   "payload": {
+    "characterId": "1005",
+    "relic": {
+     "customPct": -200
+    },
+    "advance": {},
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 2
+    }
+   },
+   "speed": {
+    "base": 100.0,
+    "baseRaw": 100.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": -200.0,
+    "flat": 0.0,
+    "final": -100.0
+   },
+   "advance": {
+    "total": 0.0,
+    "items": [],
+    "labels": []
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 2,
+    "totalAV": 150.0,
+    "requiredSpeed": 133.333333,
+    "currentSpeed": -100.0,
+    "gap": 233.333333,
+    "achievableActions": 0
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": []
+  },
+  {
+   "label": "0.16.7·舞舞舞 coneUlts+danceUlts 不重复",
+   "payload": {
+    "characterId": "1412",
+    "lightconeId": "21018",
+    "superimpose": 5,
+    "relic": {},
+    "advance": {
+     "danceUlts": 2,
+     "coneUlts": 2
+    },
+    "target": {
+     "mode": "moc",
+     "t": 0,
+     "actions": 2
+    }
+   },
+   "speed": {
+    "base": 99.0,
+    "baseRaw": 99.0,
+    "traceSpeed": 0.0,
+    "traceSpeedPct": 0.0,
+    "pct": 0.0,
+    "flat": 0.0,
+    "final": 99.0
+   },
+   "advance": {
+    "total": 48.0,
+    "items": [
+     48.0
+    ],
+    "labels": [
+     "舞！舞！舞！ 叠影5 × 2 次开大"
+    ]
+   },
+   "verdict": {
+    "t": 0,
+    "actions": 2,
+    "totalAV": 150.0,
+    "requiredSpeed": 101.333333,
+    "currentSpeed": 99.0,
+    "gap": 2.333333,
+    "achievableActions": 1
+   },
+   "relicSetCount": 0,
+   "warningCount": 0,
+   "effects": [
+    {
+     "id": "char0#0",
+     "kind": "flat",
+     "value": 20.0,
+     "apply": "team",
+     "trigger": "conditional",
+     "defaultEnabled": false
+    }
+   ]
   }
  ],
  "recommends": [

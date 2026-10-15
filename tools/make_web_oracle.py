@@ -261,6 +261,21 @@ def round_floats(value, digits: int = 6):
     return value
 
 
+# ---- 0.16.7 修复的路径（拉条进模拟 / 时间线不封顶 / 空勾选 / 舞舞舞去重 / 负速度）----
+_COURIER_RELIC = {"speedBoots": True, "fourPieceId": MESSENGER, "fourPieceUlts": 1, "ultTargetsAlly": True}
+if MESSENGER:
+    CONFIGS.extend([
+        {"label": "0.16.7·信使+翁瓦克拉条（拉条进模拟）", "payload": {"characterId": KAFKA, "relic": dict(_COURIER_RELIC, ornamentIds=[VONWACQ]), "advance": {"vonwacq": True}, "target": {"mode": "moc", "t": 0, "actions": 2}}},
+        {"label": "0.16.7·信使+风套手填拉条 1T3动", "payload": {"characterId": KAFKA, "relic": dict(_COURIER_RELIC), "advance": {"windUlts": 2}, "target": {"mode": "moc", "t": 1, "actions": 3}}},
+        {"label": "0.16.7·信使 50000AV（时间线不封顶）", "payload": {"characterId": KAFKA, "relic": dict(_COURIER_RELIC), "advance": {}, "target": {"mode": "moc", "t": 0, "actions": 2, "customAV": 50000}}},
+    ])
+CONFIGS.extend([
+    {"label": "0.16.7·瓦尔特效果全勾掉（enabledEffects=[]）", "payload": {"characterId": pick("瓦尔特"), "enabledEffects": [], "relic": {}, "advance": {}, "target": {"mode": "moc", "t": 0, "actions": 2}}},
+    {"label": "0.16.7·负速度动数不为负", "payload": {"characterId": KAFKA, "relic": {"customPct": -200}, "advance": {}, "target": {"mode": "moc", "t": 0, "actions": 2}}},
+])
+if DANCE:
+    CONFIGS.append({"label": "0.16.7·舞舞舞 coneUlts+danceUlts 不重复", "payload": {"characterId": pick("刻律德菈"), "lightconeId": DANCE, "superimpose": 5, "relic": {}, "advance": {"danceUlts": 2, "coneUlts": 2}, "target": {"mode": "moc", "t": 0, "actions": 2}}})
+
 oracle: list[dict] = []
 for config in CONFIGS:
     result = call("plan", config["payload"])

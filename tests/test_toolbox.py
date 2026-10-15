@@ -2184,5 +2184,96 @@ class TestMergedV0166(unittest.TestCase):
         self.assertTrue(any(str(c.get("icon") or "").startswith("/modules/") for c in items))
 
 
+class TestFixesV0167SpeedPlan(unittest.TestCase):
+    """0.16.7 配速修复的回归测试（A1/A4/A5/A6/A7/A8/A9/A21/A22）。"""
+
+    KAFKA = "1005"
+    COURIER = {"speedBoots": True, "fourPieceId": "114", "fourPieceUlts": 1, "ultTargetsAlly": True}
+
+    def plan(self, **kwargs):
+        payload = {"characterId": self.KAFKA, "relic": {}, "advance": {}, "target": {"t": 0, "actions": 2}}
+        payload.update(kwargs)
+        return call("speed-plan", "plan", payload)
+
+    def test_a1_advance_counts_with_timeline_buff(self) -> None:
+        no_buff = self.plan(relic={"speedBoots": True}, advance={"vonwacq": True})
+        with_buff = self.plan(relic=dict(self.COURIER), advance={"vonwacq": True})
+        no_adv = self.plan(relic=dict(self.COURIER))
+        self.assertTrue(with_buff["speed"]["hasTimeline"])
+        self.assertAlmostEqual(no_buff["verdict"]["requiredSpeed"], 106.6667, places=3)
+        # 拉条必须让需求速度下降；多一个纯增益不能让需求反而升高
+        self.assertLess(with_buff["verdict"]["requiredSpeed"], no_adv["verdict"]["requiredSpeed"] - 20)
+        self.assertLessEqual(with_buff["verdict"]["requiredSpeed"], no_buff["verdict"]["requiredSpeed"])
+        self.assertAlmostEqual(with_buff["verdict"]["requiredSpeed"], 99.49, places=2)
+
+    def test_a1_constant_speed_simulation_matches_closed_form(self) -> None:
+        """无随行动加速时，模拟（拉条抵扣路程）与闭式公式同一阈值。"""
+        sp = next(m for name, m in sys.modules.items() if name.endswith("speed-plan") or "speed_plan" in name
+                  if hasattr(m, "_simulate"))
+        for speed in (95.0, 106.67, 133.34, 160.0):
+            for adv in (0.0, 4000.0, 12000.0):
+                run = sp._simulate(speed, [], window_av=150.0, advance_distance=adv)
+                closed = max(0, math.floor((speed * 150.0 + adv) / 10000.0 + 1e-9))
+                self.assertEqual(run["completed"], closed, (speed, adv))
+
+    def test_a4_timeline_not_capped_at_12(self) -> None:
+        r = self.plan(relic=dict(self.COURIER), target={"t": 0, "actions": 2, "customAV": 50000})
+        self.assertGreater(r["verdict"]["achievableActions"], 600)
+        self.assertEqual(len(r["simulation"]["timeline"]), 12)  # 时间线展示仍只给 12 条
+
+    def test_a5_impossible_target_not_silently_capped(self) -> None:
+        with self.assertRaisesRegex(ValueError, "目标动数最多"):
+            self.plan(relic=dict(self.COURIER), target={"t": 0, "actions": 100000})
+        # 上界不够时要翻倍找到真解，而不是返回初始上界
+        r = self.plan(relic=dict(self.COURIER), target={"t": 0, "actions": 200, "customAV": 150})
+        self.assertGreater(r["verdict"]["requiredSpeed"], 10000)
+        self.assertTrue(math.isfinite(r["verdict"]["requiredSpeed"]))
+
+    def test_a6_nonfinite_inputs_name_the_field(self) -> None:
+        for relic, field in (({"customFlat": 1e308}, "customFlat"), ({"substatSpeed": "nan"}, "substatSpeed"),
+                             ({"customPct": "inf"}, "customPct")):
+            with self.assertRaisesRegex(ValueError, field):
+                self.plan(relic=relic)
+        with self.assertRaisesRegex(ValueError, "eidolon"):
+            self.plan(eidolon="inf")
+
+    def test_a7_response_is_strict_json(self) -> None:
+        r = self.plan(relic=dict(self.COURIER), target={"t": 0, "actions": 8})
+        json.dumps(r, allow_nan=False)
+
+    def test_a8_empty_enabled_effects_is_honoured(self) -> None:
+        walter = "1004"
+        default = call("speed-plan", "plan", {"characterId": walter, "target": {"t": 0, "actions": 2}})
+        none = call("speed-plan", "plan", {"characterId": walter, "enabledEffects": [], "target": {"t": 0, "actions": 2}})
+        self.assertTrue(default["effects"]["enabled"])
+        self.assertEqual(none["effects"]["enabled"], [])
+        self.assertNotEqual(none["speed"]["final"], default["speed"]["final"])
+        with self.assertRaisesRegex(ValueError, "enabledEffects"):
+            call("speed-plan", "plan", {"characterId": walter, "enabledEffects": "char1#1"})
+
+    def test_a9_dance_not_double_counted(self) -> None:
+        base = {"characterId": "1412", "lightconeId": "21018", "superimpose": 5, "target": {"t": 0, "actions": 2}}
+        both = call("speed-plan", "plan", dict(base, advance={"danceUlts": 2, "coneUlts": 2}))
+        cone = call("speed-plan", "plan", dict(base, advance={"coneUlts": 2}))
+        self.assertEqual(both["advance"]["total"], 48)
+        self.assertEqual(both["advance"]["total"], cone["advance"]["total"])
+        # 没选舞舞舞时手填 danceUlts 照常计
+        manual = call("speed-plan", "plan", {"characterId": "1412", "advance": {"danceUlts": 2}, "target": {"t": 0, "actions": 2}})
+        self.assertEqual(manual["advance"]["total"], 48)
+
+    def test_a21_negative_speed_never_negative_actions(self) -> None:
+        r = self.plan(relic={"customPct": -200})
+        self.assertEqual(r["verdict"]["achievableActions"], 0)
+
+    def test_a22_parity_inputs(self) -> None:
+        self.assertEqual(call("speed-plan", "plan", {"characterId": 1005.0})["character"]["id"], "1005")
+        with self.assertRaisesRegex(ValueError, "rarity"):
+            call("speed-plan", "lightcones", {"rarity": "abc"})
+        with self.assertRaisesRegex(ValueError, "substatSpeed"):
+            self.plan(relic={"substatSpeed": "１２"})
+        r = call("speed-plan", "plan", {"characterId": "1004", "enabledEffects": ["char1#1", "char1#1"]})
+        self.assertEqual(r["effects"]["enabled"], ["char1#1"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

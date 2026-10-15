@@ -107,15 +107,36 @@ def _num(payload: dict[str, Any], key: str, default: float = 0.0) -> float:
     value = payload.get(key, default)
     if value is None or value == "":
         return float(default)
+    # 只认 ASCII 数字串（与网页版 web_api.js 一致：全角「１２」两边都拒绝）
+    if isinstance(value, str) and not value.strip().isascii():
+        raise ValueError(f"参数 {key} 需要是数字，收到 {value!r}")
     try:
-        return float(value)
+        number = float(value)
     except (TypeError, ValueError) as exc:
         raise ValueError(f"参数 {key} 需要是数字，收到 {value!r}") from exc
+    # inf / nan / 天文数字一律拒绝（旧版会在后面 int() / 乘法里 500，且不报字段名）
+    if not math.isfinite(number) or abs(number) > NUM_LIMIT:
+        raise ValueError(f"参数 {key} 超出范围，收到 {value!r}")
+    return number
+
+
+def _check_target(actions: int, window_av: float) -> None:
+    if actions > SIM_MAX_ACTIONS:
+        raise ValueError(f"目标动数最多 {SIM_MAX_ACTIONS}，收到 {actions}")
+    if window_av > MAX_WINDOW_AV:
+        raise ValueError(f"行动值节点最多 {MAX_WINDOW_AV:g}，收到 {window_av:g}")
+
+
+def _id_str(value: Any) -> str:
+    """id 统一成字符串；1005.0 这种整数值浮点当成 "1005"（与网页版一致）。"""
+    if isinstance(value, float) and value.is_integer():
+        return str(int(value))
+    return str(value)
 
 
 def _find(items: list[dict[str, Any]], item_id: str) -> dict[str, Any] | None:
     for item in items:
-        if str(item.get("id")) == str(item_id):
+        if _id_str(item.get("id")) == _id_str(item_id):
             return item
     return None
 
@@ -160,6 +181,10 @@ def trigger_of(text: str) -> str:
 # 结果与旧算法**逐位一致**（见 _simulate / _required_speed 的 fallback）。
 
 SIM_TIMELINE_LIMIT = 12  # timeline 最多给界面 12 条
+SIM_MAX_STEPS = 100000  # 模拟的硬上限（只防死循环，正常窗口远到不了）
+SIM_MAX_ACTIONS = 200
+MAX_WINDOW_AV = 100000.0  # 行动值节点上限
+NUM_LIMIT = 1e9  # 数字参数绝对值上限  # 有随行动变化的加速时，二分求需求速度的目标动数上限
 
 
 def modifier_of(*, label: str, kind: str, value: float, trigger: str,
@@ -304,11 +329,16 @@ def _simulate(base_speed: float, modifiers: list[dict], *, speed0: float | None 
     """
     base = float(speed0) if speed0 is not None else base_speed
     distance_left = 0.0
+    # 拉条按「总路程减少 advance_distance」处理（与闭式公式同一口径），
+    # 从最早的行动开始抵扣：第 k 次行动打完的真实行动值 = (k×距离 − 已用拉条) 按各步速度走完。
+    advance_left = max(0.0, float(advance_distance or 0.0))
     av = 0.0
     achieved = 0
     completed = 0
     timeline: list[dict[str, Any]] = []
-    max_steps = int(action_cap) if action_cap else 64
+    # 不再用时间线条数当上限（旧版 12 条封顶会把 50000 AV 的 625 动数成 12）；
+    # 循环靠「行动开始时间出窗口」自然结束，这里只是防死循环的硬上限。
+    max_steps = int(action_cap) if action_cap else SIM_MAX_STEPS
     while achieved < max_steps:
         step = achieved + 1
         active = _active_modifiers(modifiers, step, first_ult_action)
@@ -318,7 +348,8 @@ def _simulate(base_speed: float, modifiers: list[dict], *, speed0: float | None 
             speed = _step_speed(base, active, percent_base=base_speed)
         if speed <= 0:
             break  # 速度非正 → 永远动不了
-        next_av = av + distance / speed
+        use = min(distance, advance_left)
+        next_av = av + (distance - use) / speed
         if av > window_av + 1e-9 * max(1.0, abs(av)):
             break  # 这次行动的开始时间已经出了窗口：后面的更晚，不用再走了
         # 与旧公式同一个阈值：这一次行动打完还在窗口内
@@ -350,6 +381,7 @@ def _simulate(base_speed: float, modifiers: list[dict], *, speed0: float | None 
         # 注意：这两行必须在 while 里、不能缩进到上面的 if 里面 ——
         # timeline 只记前 12 条，但行动次数要继续数下去。
         distance_left += distance
+        advance_left -= use
         av = next_av
         if not math.isfinite(av):
             break
@@ -371,6 +403,20 @@ def _required_speed(base_speed: float, modifiers: list[dict], *, actions: int, a
     if high is None:
         high = max(1000.0, base_speed * 50.0)
     cap = int(actions) + 1
+
+    def done(s0: float) -> bool:
+        return _simulate(base_speed, modifiers, speed0=s0, window_av=av_limit,
+                         first_ult_action=first_ult_action, distance=distance,
+                         advance_distance=advance_distance,
+                         timeline_limit=0, action_cap=cap)["completed"] >= int(actions)
+
+    # 上界不够就翻倍（旧版直接把上界当答案返回 → 不可能的目标显示 1000）
+    for _ in range(80):
+        if done(high):
+            break
+        low, high = high, high * 2.0
+    else:
+        return math.inf
     for _ in range(200):
         mid = (low + high) / 2.0
         result = _simulate(base_speed, modifiers, speed0=mid, window_av=av_limit,
@@ -634,12 +680,12 @@ def lightcones(payload: dict[str, Any], ctx) -> dict[str, Any]:
     """按命途筛选光锥（角色只能用同命途的光锥）。"""
     cones = _lightcones(ctx)
     path = payload.get("path")
-    rarity = payload.get("rarity")
+    rarity = int(_num(payload, "rarity", 0))
     out = []
     for cone in cones:
         if path and cone.get("path") != path:
             continue
-        if rarity and int(cone.get("rarity") or 0) < int(rarity):
+        if rarity and int(cone.get("rarity") or 0) < rarity:
             continue
         out.append(
             {
@@ -688,8 +734,12 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
     filtered["effects"] = _filter_by_eidolon(character, eidolon)
     speed_effects, advance_effects = _collect_effects(ctx, filtered, cone, superimpose, eidolon)
 
-    enabled = set(payload.get("enabledEffects") or [])
-    if not enabled:
+    # None（没给）= 用默认勾选；[] = 用户把效果全勾掉了，必须照办（旧版把 [] 也当默认）
+    raw_enabled = payload.get("enabledEffects")
+    if raw_enabled is not None and not isinstance(raw_enabled, list):
+        raise ValueError("参数 enabledEffects 需要是列表")
+    enabled = {_id_str(x) for x in raw_enabled} if raw_enabled is not None else set()
+    if raw_enabled is None:
         enabled = {effect["id"] for effect in speed_effects if effect["defaultEnabled"]}
 
     game_base = float(character.get("baseSpeed") or 0)
@@ -1048,7 +1098,11 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
     dance_ults = effective_ults(_num(advance_in, "danceUlts", 0))
     dance_s = max(1, min(int(_num(advance_in, "danceSuperimpose", 5)), 5))
     dance_per_ult = {1: 16, 2: 18, 3: 20, 4: 22, 5: 24}[dance_s]
-    if dance_ults > 0:
+    # 已经选了「舞！舞！舞！」并按 coneUlts 计了拉条时，手填的 danceUlts 不再加一遍
+    # （和风套 / 翁瓦克的去重同一个道理）。
+    cone_ults_counted = effective_ults(_num(advance_in, "coneUlts", 0))
+    dance_from_cone = bool(cone and cone.get("name") == "舞！舞！舞！" and cone_ults_counted > 0)
+    if dance_ults > 0 and not dance_from_cone:
         add_advance(
             f"舞！舞！舞！叠影{dance_s} × {dance_ults:g} 次开大（每次 {dance_per_ult}%）{ult_note}",
             dance_per_ult * dance_ults,
@@ -1151,7 +1205,7 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
             action_cap=cap,
         )
 
-    def simulate_current(window_av: float, cap: int) -> dict[str, Any]:
+    def simulate_current(window_av: float, cap: int | None) -> dict[str, Any]:
         """按**当前配置**把行动模拟出来（界面展示时间线用）。
 
         这里必须走 speed_modifiers 这条路：游戏里百分比只作用在基础速度上，
@@ -1175,7 +1229,7 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
         逐位一致（兼容性红线）。有加速时才靠模拟数。
         """
         if not _any_timeline(timeline_modifiers):
-            return int(math.floor((speed0 * window_av + advance_distance) / distance + 1e-9))
+            return max(0, int(math.floor((speed0 * window_av + advance_distance) / distance + 1e-9)))
         return animate(speed0, window_av, max(1, int(actions) + 1))["completed"]
 
     def speed_needed(actions: int, window_av: float, add_flat: float = 0.0,
@@ -1261,6 +1315,7 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
     # 也可以直接给一个行动值节点，给了就优先用
     custom_av = _num(target_in, "customAV", 0)
     target_av = custom_av if custom_av > 0 else base_first + target_t * base_step
+    _check_target(target_actions, target_av)
     # 需求速度 / 当前速度都用 S0 口径（「还差多少速」才有意义）
     required = max(0.0, speed_needed(target_actions, target_av))
     gap = required - final_speed
@@ -1268,7 +1323,7 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
     # 模拟明细：时间线 + 说明，界面直接展示。
     # 时间线固定走满 12 步（不跟着 target.actions 缩），否则目标只写 2 动时
     # 根本看不出「第 3 次行动加速就过期了」这种回落。
-    sim_run = simulate_current(target_av, SIM_TIMELINE_LIMIT)
+    sim_run = simulate_current(target_av, None)
     # 当前速度在该行动值下能打几次：
     #   没有随行动变化的加速 → 与旧公式逐位一致的闭式口径；
     #   有 → 用模拟出来的真实时间线数（这时才知道开大/叠层到底帮了多少）。
@@ -1563,6 +1618,7 @@ def recommend(payload: dict[str, Any], ctx) -> dict[str, Any]:
     mode_first = float((target_mode or {}).get("firstCycleAV") or first_av)
     mode_step = float((target_mode or {}).get("cycleAV") or step_av)
     target_av = custom_av if custom_av > 0 else mode_first + target_t * mode_step
+    _check_target(actions, target_av)
 
     relic_in = payload.get("relic") or {}
     use_boots = bool(relic_in.get("speedBoots", True))
