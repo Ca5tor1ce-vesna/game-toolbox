@@ -69,6 +69,9 @@
 
   const TALENT_ATTACK_KINDS = ["basic", "skill", "enhanced_basic", "ultimate", "fua"];
 
+  // 档案里写了欢愉技的角色。1505 / 1506 没有欢愉技；自定义角色勾了欢愉标记也不算。
+  const ELATION_SKILL_UIDS = { "1511": true, "1501": true, "1502": true, "1503": true, "1513": true, "8009": true };
+
   // ----------------------------------------------------------------------- //
   // 角色表（内置数据；payload 可逐项覆盖）
   // ----------------------------------------------------------------------- //
@@ -130,7 +133,7 @@
         "天赋：队友每次攻击 +1 热意 +1 笑点；行迹3【旧梦淘金】再 +2 热意（6 次/战技周期）",
         "战技：+4 笑点 +4 热意，【旧梦淘金】充能重置 6（基础回能 30 × ERR）",
         "终结技：+6 笑点 +8 热意，自身速度 +30%（4 回合）",
-        "热意过阈值（10/20/30/40/50）立刻在回合外放欢愉技《举杯！敬炽烈一夏》，并把下一次阿哈时刻欢愉技升级为《All in！》",
+        "热意过阈值（10/20/30/40/50）立刻在回合外放《举杯！敬炽烈一夏》（好活当赏计入 20，不进笑点池），并把下一次阿哈时刻欢愉技升级为《All in！》",
         "行迹2【纵享惊涛】：单欢愉或三赌牌局时队友攻击 → 【阿哈时刻】+25 固定速度",
       ],
     },
@@ -202,7 +205,7 @@
       rotation: "skill",
       mechanics: [
         "天赋：普攻/战技后 +10 固定能量 +3 笑点",
-        "终结技：+5 笑点；指定目标是欢愉则立刻放 1 次欢愉技，否则拉条 50%",
+        "终结技：+5 笑点；指定目标拥有欢愉技则立刻放 1 次（好活当赏计入 20，不进笑点池），否则拉条 50%",
       ],
     },
     "1505": {
@@ -288,7 +291,7 @@
 
   const EQUIPMENT_META = [
     { id: "vonwacq", name: "生命的翁瓦克 (2pc)", text: "ERR +5%；进战时速度 ≥ 120 则开局拉条 40%" },
-    { id: "godJoy", name: "神的瞬息欢愉 (2pc)", text: "速度 +6%；开局拉条 40%" },
+    { id: "godJoy", name: "神的瞬息欢愉 (2pc)", text: "速度 +6%；开局 40% 拉条需要欢愉度 ≥ 40%（本工具不模拟欢愉度，因此不拉条）" },
     { id: "windSet4", name: "晨昏交界的翔鹰 (4pc)", text: "施放终结技后自身拉条 25%（回合内开大则回合结束再扣）" },
     { id: "danceS5", name: "叠5 舞！舞！舞！", text: "施放终结技后我方全体拉条 24%（可调 dancePct）" },
     { id: "hasSigLc", name: "星神★阿哈专武《当第一声「阿哈」响起》", text: "基础速度 +12；战技给笑点（每 2 回合 1 次）" },
@@ -714,6 +717,14 @@
       return this.units.filter((u) => u.elation);
     }
 
+    /** 当前可施放欢愉技的角色。星神★阿哈无视参演编号，始终最后。 */
+    elationCasters() {
+      const casters = this.units.filter((u) => u.elation && ELATION_SKILL_UIDS[u.uid]);
+      const rest = casters.filter((u) => u.uid !== "1511");
+      const last = casters.filter((u) => u.uid === "1511");
+      return rest.concat(last);
+    }
+
     elationCount() {
       return this.elationUnits().length;
     }
@@ -852,7 +863,7 @@
       const a = this.byUid("1511");
       if (a !== null) {
         this.gainWishpower(a, 1.0);
-        this.notes.push("笑点首达 40：星神★阿哈 +1 愿力，全队暴伤 +40%（3 回合，本工具不模拟伤害）");
+        this.notes.push("笑点首达 40：星神★阿哈 +1 愿力，全队暴伤 +24%（3 回合，本工具不模拟伤害）");
       }
     }
 
@@ -1073,11 +1084,11 @@
       }
     }
 
-    /** 热意过阈值：回合外欢愉技《举杯！敬炽烈一夏》，并把下一次阿哈时刻欢愉技升级。 */
+    /** 热意过阈值：回合外欢愉技《举杯！》。好活当赏固定记 20，不进笑点池。 */
     triggerJuban(sp, depth) {
       this.event("elation_skill", sp, "举杯！敬炽烈一夏（回合外欢愉技）",
-        ["固定 +20 笑点", "下一次【阿哈时刻】欢愉技升级为《All in！》"], { extra: true });
-      this.gainPunchline(20.0);
+        ["好活当赏计入 20（不进笑点池）", "下一次【阿哈时刻】欢愉技升级为《All in！》"], { extra: true });
+      this.grantHaohuo(this.elationUnits(), 20.0, "举杯！敬炽烈一夏");
       sp.allIn = true;
       this.elationSkillCommon(sp, "举杯！敬炽烈一夏");
       if (sp.eidolon >= 2) {
@@ -1088,7 +1099,7 @@
 
     // ----------------------------- 欢愉技 ----------------------------- //
 
-    /** 所有欢愉技共用的结算：银狼隐藏分 +15、专武【风口】（笑点由调用方给一次）。 */
+    /** 所有欢愉技共用的结算：银狼隐藏分 +15、专武【风口】。欢愉技本身不进笑点池。 */
     elationSkillCommon(unit, label) {
       const wolf = this.byUid("1506");
       if (wolf !== null) {
@@ -1110,6 +1121,7 @@
         if (unit.uid === "1513") {
           let label;
           let details;
+          let account;
           if (unit.allIn) {
             unit.allIn = false;
             unit.fervor = 0.0;
@@ -1117,13 +1129,15 @@
               unit.fervorArmed[i] = false;
             }
             label = "All in！敬炽烈一夏（欢愉技）";
-            details = ["固定 +20 笑点", "消耗全部热意"];
+            account = "All in！敬炽烈一夏";
+            details = ["好活当赏计入 20（不进笑点池）", "消耗全部热意"];
           } else {
             label = "举杯！敬炽烈一夏（欢愉技）";
-            details = ["固定 +20 笑点"];
+            account = "举杯！敬炽烈一夏";
+            details = ["好活当赏计入 20（不进笑点池）"];
           }
           this.event("elation_skill", unit, label, details);
-          this.gainPunchline(20.0);
+          this.grantHaohuo(this.elationUnits(), 20.0, account);
           this.elationSkillCommon(unit, label);
           if (unit.eidolon >= 2) {
             this.gainFervor(unit, 4.0);
@@ -1132,8 +1146,7 @@
           return;
         }
         const label = "欢愉技";
-        this.event("elation_skill", unit, unit.name + " 的欢愉技", ["固定 +20 笑点"]);
-        this.gainPunchline(20.0);
+        this.event("elation_skill", unit, unit.name + " 的欢愉技", ["不产生笑点"]);
         if (unit.uid === "1511") {
           this.event("note", unit, "自身动作回能", ["愿力 +1"]);
           this.gainWishpower(unit, 1.0);
@@ -1176,6 +1189,14 @@
 
     doBasic(unit, extra) {
       const details = [];
+      if (unit.energyType === "wishpower") {
+        // 星神★阿哈的普攻是 +1 愿力，不是标准能量表上的 +20。
+        details.push("愿力 +1");
+        this.event("basic", unit, unit.name + " 的普攻", details, { extra: extra });
+        this.gainWishpower(unit, 1.0);
+        this.onAttack(unit, "basic");
+        return;
+      }
       const energyBase = unit.uid === "1502" ? 30.0 : 20.0;
       if (unit.uid === "1502") {
         details.push("基础回能 30（普攻）");
@@ -1486,16 +1507,21 @@
     ult8009(u) {
       const target = this.unitAt(this.resolveTargetSlot(u, undefined));
       const details = ["笑点 +5"];
-      if (target !== null && target.elation) {
-        details.push(target.name + " 立刻施放 1 次欢愉技（计入 20 笑点）");
+      const canCast = target !== null && ELATION_SKILL_UIDS[target.uid];
+      if (canCast && target !== null) {
+        details.push(target.name + " 立刻施放 1 次欢愉技（好活当赏计入 20，不进笑点池）");
       } else if (target !== null) {
         details.push(target.name + " 拉条 50%");
       }
       this.event("note", u, "开拓者•欢愉终结技", details);
       this.gainPunchline(5.0);
       if (target !== null) {
-        if (target.elation) {
+        if (canCast) {
           this.castElationSkill(target);
+          // 1513 的举杯 / All in 自己已经记了 20，这里不再叠一次。
+          if (target.uid !== "1513") {
+            this.grantHaohuo(this.elationUnits(), 20.0, "开拓者终结技·计入笑点");
+          }
         } else {
           this.advanceUnit(target, 50.0, false);
         }
@@ -1588,7 +1614,8 @@
       try {
         const a = this.aha;
         a.in_turn = true;
-        const participants = this.elationUnits();
+        const casters = this.elationCasters();
+        const recipients = this.elationUnits();
         if (extra) {
           this.ahaExtraCount += 1;
           this.event("aha_extra", null,
@@ -1598,14 +1625,26 @@
         } else {
           this.ahaNormalCount += 1;
           this.event("aha", null, "【阿哈时刻】触发",
-            ["解除欢愉角色负面", "全体欢愉角色各施放 1 次欢愉技", "结算并消耗全部笑点"],
+            ["解除欢愉角色负面",
+              "可施放欢愉技的角色各施放 1 次（不产笑点）",
+              "无人可施放则 Let There Be Laughter",
+              "回合结束消耗全部笑点"],
             { kind: "aha" });
         }
-        for (let i = 0; i < participants.length; i += 1) {
-          this.castElationSkill(participants[i]);
+        if (casters.length) {
+          for (let i = 0; i < casters.length; i += 1) {
+            this.castElationSkill(casters[i]);
+          }
+        } else {
+          this.event("note", null, "Let There Be Laughter",
+            ["场上没有可施放欢愉技的角色",
+              "保底效果（文档未给数值，不产笑点、不改笑点池）"],
+            { kind: "aha", extra: extra });
         }
         if (extra) {
-          this.grantHaohuo(participants, fx, "阿哈时刻额外回合");
+          if (fx > 0) {
+            this.grantHaohuo(recipients, fx, "阿哈时刻额外回合");
+          }
         } else {
           const consumed = this.punchline;
           this.punchline = 0.0;
@@ -1617,9 +1656,12 @@
             details.push("欢愉万相返还 10%（+" + fmt(refund) + "）");
           }
           this.event("note", null, "【阿哈时刻】笑点结算", details, { kind: "aha" });
-          this.grantHaohuo(participants, consumed, "阿哈时刻");
+          if (consumed > 0) {
+            this.grantHaohuo(recipients, consumed, "阿哈时刻");
+          }
+          // 只在消耗笑点的普通【阿哈时刻】结束时重置。额外回合不扣池。
+          this.punchline40Done = false;
         }
-        this.punchline40Done = false;
         this.ahaFlat = 0.0;
         // 1501 火花 E2：阿哈时刻每次结束立刻额外回合
         const spark = this.byUid("1501");
@@ -1689,8 +1731,9 @@
           }
         }
         if (unit.equip.godJoy) {
-          this.event("note", unit, "神的瞬息欢愉", ["开局拉条 40%"]);
-          this.advanceUnit(unit, 40.0, false);
+          this.event("note", unit, "神的瞬息欢愉",
+            ["速度 +6% 已计入",
+              "开局 40% 拉条需要欢愉度 ≥ 40%（本工具不模拟欢愉度，因此不拉条）"]);
         }
         if (unit.initAdv > 0) {
           this.advanceUnit(unit, unit.initAdv, false);

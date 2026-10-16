@@ -54,7 +54,7 @@ payload（simulate）
       "sanduPunchlineGain": 1,         // 三赌牌局每次队友攻击笑点
       "dancePct": 24,                  // 叠5 舞！舞！舞！全队拉条%
       "summerLcSpdPct": 24,            // 向浪花掷下盛夏【风口】自提速%
-      "sigLcPunchline": 10,            // 阿哈专武战技笑点（S1 10 ~ S5 18）
+      "sigLcPunchline": 10,            // 阿哈专武战技笑点（规则文档只给 S1 = 10）
       "aeonAhaBaseSpd": 94,            // 阿哈时刻底速（1511 在队时默认取 1511）
       "aeonAhaLcBaseSpd": 12,
       "ahaSpdPct": 0,                  // 阿哈时刻额外速度%（乘在加权之后）
@@ -90,15 +90,19 @@ timeline 每条：{av, t, kind, slot, name, type, extra, label, details, res}。
 * 每个角色的默认出招固定（catalog 里有说明），可用 unit.rotation 覆盖：
   1511 战技（令使 + 追击）、1503 有【深度学习】用强化普攻否则战技、1513/1304/1502/
   1501/8009/1505/1506/1313/1309 战技；1506 在【无敌玩家】里用强化普攻。
-* 欢愉技（Elation Skill）：【阿哈时刻】每次行动时全体欢愉角色各放 1 次，
-  固定 +20 笑点；1513 放《举杯！敬炽烈一夏》/《All in！》，1511 +1 愿力。
+* 欢愉技（Elation Skill）：【阿哈时刻】每次行动时，档案里有欢愉技的角色各放
+  1 次（1511 始终最后）；欢愉技不往笑点池加笑点。1511 的欢愉技 +1 愿力。
+  场上没人能放时走保底「Let There Be Laughter」（不产笑点）。
+* 普通【阿哈时刻】回合结束消耗全部笑点，【好活当赏】= 实际消耗数。
 * 额外回合：不重置 rem_dist、不递减常规 Buff 回合数；【阿哈时刻】额外回合
-  不消耗笑点池、按固定 20/40 记账。
+  （秘技 20 / E6 首大 40 / 爻光终结技 20 或 40）不消耗笑点池，好活当赏按
+  计入值发放，不加池、不扣池。砂金《举杯！》《All in！》同样固定记 20。
+* 「笑点首达 40」只在普通【阿哈时刻】回合结束（消耗笑点的那次）重置。
 
 数值假设（规格没写死、这里定死的口径）
 --------------------------------------
 * 《向浪花掷下盛夏》的【风口】提速按**常驻**处理（文案没写持续回合）。
-* 通用欢愉技固定 +20 笑点；1506 强化普攻 +5 笑点（与她的战技同值）。
+* 1506 强化普攻 +5 笑点（与她的战技同值）。欢愉技不再使用「固定 +20 笑点」。
 * 1505 绯英获得【好活当赏】时回能 = 该次好活当赏记账的笑点数
   （feiyingHaohuoEnergyMode="flat" 时改为固定 feiyingHaohuoEnergy）。
 * 真珠的「+N 好活当赏」（秘技/战技/终结技）与砂金•戏浪秘技的 +20 好活当赏
@@ -148,6 +152,10 @@ FERVOR_CAP = 50.0
 
 # 天赋「抛注，听深渊回响」触发面（不含欢愉技——规格原文枚举的是这五类）
 TALENT_ATTACK_KINDS = ("basic", "skill", "enhanced_basic", "ultimate", "fua")
+
+# 档案里写了欢愉技的角色。1505 绯英 / 1506 银狼LV.999 只有特殊能量备案，没有欢愉技；
+# 自定义角色勾了欢愉标记也不视为「可施放欢愉技」。
+ELATION_SKILL_UIDS = frozenset({"1511", "1501", "1502", "1503", "1513", "8009"})
 
 
 # --------------------------------------------------------------------------- #
@@ -211,7 +219,7 @@ ROSTER: dict[str, dict[str, Any]] = {
             "天赋：队友每次攻击 +1 热意 +1 笑点；行迹3【旧梦淘金】再 +2 热意（6 次/战技周期）",
             "战技：+4 笑点 +4 热意，【旧梦淘金】充能重置 6（基础回能 30 × ERR）",
             "终结技：+6 笑点 +8 热意，自身速度 +30%（4 回合）",
-            "热意过阈值（10/20/30/40/50）立刻在回合外放欢愉技《举杯！敬炽烈一夏》，并把下一次阿哈时刻欢愉技升级为《All in！》",
+            "热意过阈值（10/20/30/40/50）立刻在回合外放《举杯！敬炽烈一夏》（好活当赏计入 20，不进笑点池），并把下一次阿哈时刻欢愉技升级为《All in！》",
             "行迹2【纵享惊涛】：单欢愉或三赌牌局时队友攻击 → 【阿哈时刻】+25 固定速度",
         ],
     },
@@ -283,7 +291,7 @@ ROSTER: dict[str, dict[str, Any]] = {
         "rotation": "skill",
         "mechanics": [
             "天赋：普攻/战技后 +10 固定能量 +3 笑点",
-            "终结技：+5 笑点；指定目标是欢愉则立刻放 1 次欢愉技，否则拉条 50%",
+            "终结技：+5 笑点；指定目标拥有欢愉技则立刻放 1 次（好活当赏计入 20，不进笑点池），否则拉条 50%",
         ],
     },
     "1505": {
@@ -364,7 +372,7 @@ for _uid, _spec in ROSTER.items():
 
 EQUIPMENT_META = [
     {"id": "vonwacq", "name": "生命的翁瓦克 (2pc)", "text": "ERR +5%；进战时速度 ≥ 120 则开局拉条 40%"},
-    {"id": "godJoy", "name": "神的瞬息欢愉 (2pc)", "text": "速度 +6%；开局拉条 40%"},
+    {"id": "godJoy", "name": "神的瞬息欢愉 (2pc)", "text": "速度 +6%；开局 40% 拉条需要欢愉度 ≥ 40%（本工具不模拟欢愉度，因此不拉条）"},
     {"id": "windSet4", "name": "晨昏交界的翔鹰 (4pc)", "text": "施放终结技后自身拉条 25%（回合内开大则回合结束再扣）"},
     {"id": "danceS5", "name": "叠5 舞！舞！舞！", "text": "施放终结技后我方全体拉条 24%（可调 dancePct）"},
     {"id": "hasSigLc", "name": "星神★阿哈专武《当第一声「阿哈」响起》", "text": "基础速度 +12；战技给笑点（每 2 回合 1 次）"},
@@ -725,6 +733,13 @@ class Sim:
     def elation_units(self) -> list[Unit]:
         return [u for u in self.units if u.elation]
 
+    def elation_casters(self) -> list[Unit]:
+        """当前可施放欢愉技的角色。星神★阿哈无视参演编号，始终最后。"""
+        casters = [u for u in self.units if u.elation and u.uid in ELATION_SKILL_UIDS]
+        rest = [u for u in casters if u.uid != "1511"]
+        last = [u for u in casters if u.uid == "1511"]
+        return rest + last
+
     def elation_count(self) -> int:
         return len(self.elation_units())
 
@@ -831,7 +846,7 @@ class Sim:
         a = self.by_uid("1511")
         if a is not None:
             self.gain_wishpower(a, 1.0, "笑点首达 40")
-            self.notes.append("笑点首达 40：星神★阿哈 +1 愿力，全队暴伤 +40%（3 回合，本工具不模拟伤害）")
+            self.notes.append("笑点首达 40：星神★阿哈 +1 愿力，全队暴伤 +24%（3 回合，本工具不模拟伤害）")
 
     def gain_wishpower(self, unit: Unit, amount: float, reason: str = "") -> None:
         if amount <= 0:
@@ -1008,10 +1023,11 @@ class Sim:
                     sp.fervor_armed[i] = False
 
     def trigger_juban(self, sp: Unit, depth: int) -> None:
-        """热意过阈值：回合外欢愉技《举杯！敬炽烈一夏》，并把下一次阿哈时刻欢愉技升级。"""
+        """热意过阈值：回合外欢愉技《举杯！》。好活当赏固定记 20，不进笑点池。"""
         self.event("elation_skill", sp, "举杯！敬炽烈一夏（回合外欢愉技）",
-                   ["固定 +20 笑点", "下一次【阿哈时刻】欢愉技升级为《All in！》"], extra=True)
-        self.gain_punchline(20.0, "举杯！敬炽烈一夏")
+                   ["好活当赏计入 20（不进笑点池）", "下一次【阿哈时刻】欢愉技升级为《All in！》"],
+                   extra=True)
+        self.grant_haohuo(self.elation_units(), 20.0, "举杯！敬炽烈一夏")
         sp.all_in = True
         self.elation_skill_common(sp, "举杯！敬炽烈一夏")
         if sp.eidolon >= 2:
@@ -1021,7 +1037,7 @@ class Sim:
     # ----------------------------- 欢愉技 ----------------------------- #
 
     def elation_skill_common(self, unit: Unit, label: str) -> None:
-        """所有欢愉技共用的结算：银狼隐藏分 +15、专武【风口】（笑点由调用方给一次）。"""
+        """所有欢愉技共用的结算：银狼隐藏分 +15、专武【风口】。欢愉技本身不进笑点池。"""
         wolf = self.by_uid("1506")
         if wolf is not None:
             self.event("note", wolf, "隐藏分 +15", [f"{unit.name} 施放欢愉技"])
@@ -1042,21 +1058,21 @@ class Sim:
                     for i in range(5):
                         unit.fervor_armed[i] = False
                     label = "All in！敬炽烈一夏（欢愉技）"
-                    details = ["固定 +20 笑点", "消耗全部热意"]
+                    account = "All in！敬炽烈一夏"
+                    details = ["好活当赏计入 20（不进笑点池）", "消耗全部热意"]
                 else:
                     label = "举杯！敬炽烈一夏（欢愉技）"
-                    details = ["固定 +20 笑点"]
+                    account = "举杯！敬炽烈一夏"
+                    details = ["好活当赏计入 20（不进笑点池）"]
                 self.event("elation_skill", unit, label, details)
-                self.gain_punchline(20.0, label)
+                self.grant_haohuo(self.elation_units(), 20.0, account)
                 self.elation_skill_common(unit, label)
                 if unit.eidolon >= 2:
                     self.gain_fervor(unit, 4.0, "E2 欢愉技")
                 self.on_attack(unit, "elation_skill")
                 return
             label = "欢愉技"
-            details = ["固定 +20 笑点"]
-            self.event("elation_skill", unit, f"{unit.name} 的欢愉技", details)
-            self.gain_punchline(20.0, "欢愉技")
+            self.event("elation_skill", unit, f"{unit.name} 的欢愉技", ["不产生笑点"])
             if unit.uid == "1511":
                 self.event("note", unit, "自身动作回能", ["愿力 +1"])
                 self.gain_wishpower(unit, 1.0, "欢愉技")
@@ -1089,6 +1105,13 @@ class Sim:
 
     def do_basic(self, unit: Unit, extra: bool = False) -> None:
         details: list[str] = []
+        if unit.energy_type == "wishpower":
+            # 星神★阿哈的普攻是 +1 愿力，不是标准能量表上的 +20。
+            details.append("愿力 +1")
+            self.event("basic", unit, f"{unit.name} 的普攻", details, extra=extra)
+            self.gain_wishpower(unit, 1.0, "普攻")
+            self.on_attack(unit, "basic")
+            return
         energy_base = 30.0 if unit.uid == "1502" else 20.0
         if unit.uid == "1502":
             details.append("基础回能 30（普攻）")
@@ -1352,15 +1375,19 @@ class Sim:
     def ult_8009(self, u: Unit) -> None:
         target = self.unit_at(self.resolve_target_slot(u))
         details = ["笑点 +5"]
-        if target is not None and target.elation:
-            details.append(f"{target.name} 立刻施放 1 次欢愉技（计入 20 笑点）")
+        can_cast = target is not None and target.uid in ELATION_SKILL_UIDS
+        if can_cast and target is not None:
+            details.append(f"{target.name} 立刻施放 1 次欢愉技（好活当赏计入 20，不进笑点池）")
         elif target is not None:
             details.append(f"{target.name} 拉条 50%")
         self.event("note", u, "开拓者•欢愉终结技", details)
         self.gain_punchline(5.0, "终结技")
         if target is not None:
-            if target.elation:
+            if can_cast:
                 self.cast_elation_skill(target)
+                # 1513 的举杯 / All in 自己已经记了 20，这里不再叠一次。
+                if target.uid != "1513":
+                    self.grant_haohuo(self.elation_units(), 20.0, "开拓者终结技·计入笑点")
             else:
                 self.advance_unit(target, 50.0, reason="开拓者终结技")
 
@@ -1429,7 +1456,8 @@ class Sim:
         try:
             a = self.aha
             a["in_turn"] = True
-            participants = self.elation_units()
+            casters = self.elation_casters()
+            recipients = self.elation_units()
             if is_extra:
                 self.aha_extra_count += 1
                 self.event("aha_extra", None,
@@ -1439,12 +1467,22 @@ class Sim:
             else:
                 self.aha_normal_count += 1
                 self.event("aha", None, "【阿哈时刻】触发",
-                           ["解除欢愉角色负面", "全体欢愉角色各施放 1 次欢愉技", "结算并消耗全部笑点"],
+                           ["解除欢愉角色负面",
+                            "可施放欢愉技的角色各施放 1 次（不产笑点）",
+                            "无人可施放则 Let There Be Laughter",
+                            "回合结束消耗全部笑点"],
                            kind="aha")
-            for unit in participants:
-                self.cast_elation_skill(unit)
+            if casters:
+                for unit in casters:
+                    self.cast_elation_skill(unit)
+            else:
+                self.event("note", None, "Let There Be Laughter",
+                           ["场上没有可施放欢愉技的角色",
+                            "保底效果（文档未给数值，不产笑点、不改笑点池）"],
+                           kind="aha", extra=is_extra)
             if is_extra:
-                self.grant_haohuo(participants, fixed, "阿哈时刻额外回合")
+                if fixed > 0:
+                    self.grant_haohuo(recipients, fixed, "阿哈时刻额外回合")
             else:
                 consumed = self.punchline
                 self.punchline = 0.0
@@ -1455,8 +1493,11 @@ class Sim:
                     self.punchline += refund
                     details.append(f"欢愉万相返还 10%（+{fmt(refund)}）")
                 self.event("note", None, "【阿哈时刻】笑点结算", details, kind="aha")
-                self.grant_haohuo(participants, consumed, "阿哈时刻")
-            self.punchline40_done = False
+                if consumed > 0:
+                    self.grant_haohuo(recipients, consumed, "阿哈时刻")
+                # 只在消耗笑点的普通【阿哈时刻】结束时重置。额外回合不扣池，
+                # 池子仍 ≥40 时清掉标志会让下一次加笑点再发一次愿力。
+                self.punchline40_done = False
             self.aha_flat = 0.0
             # 1501 火花 E2：阿哈时刻每次结束立刻额外回合
             spark = self.by_uid("1501")
@@ -1513,8 +1554,9 @@ class Sim:
                     self.event("note", unit, "生命的翁瓦克",
                                [f"速度 {fmt(unit.initial_spd, 1)} < 120：开局拉条不触发"])
             if unit.equip["godJoy"]:
-                self.event("note", unit, "神的瞬息欢愉", ["开局拉条 40%"])
-                self.advance_unit(unit, 40.0, reason="神的瞬息欢愉")
+                self.event("note", unit, "神的瞬息欢愉",
+                           ["速度 +6% 已计入",
+                            "开局 40% 拉条需要欢愉度 ≥ 40%（本工具不模拟欢愉度，因此不拉条）"])
             if unit.init_adv > 0:
                 self.advance_unit(unit, unit.init_adv, reason="开局拉条")
 

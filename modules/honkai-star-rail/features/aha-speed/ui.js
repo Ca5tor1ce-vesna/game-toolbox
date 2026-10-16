@@ -360,7 +360,7 @@ export default {
                 <div class="aha-field">
                   <label>阿哈专武基础速度白字</label>
                   <input type="number" class="aha-input" id="cfg-aeonAhaLcBaseSpd" value="${state.config.aeonAhaLcBaseSpd}" step="2">
-                  <small>《当第一声「阿哈」响起》+12~+20</small>
+                  <small>《当第一声「阿哈」响起》S1 +12（S2–S5 规则文档未给，可手填）</small>
                 </div>
                 <div class="aha-field">
                   <label>星神★阿哈大招拉条阿哈 (%)</label>
@@ -668,7 +668,7 @@ export default {
                 </label>
                 <label class="aha-equip-chk">
                   <input type="checkbox" class="unit-eq" data-slot="${idx}" data-eq="godJoy" ${eq.godJoy ? "checked" : ""}>
-                  <span>神的瞬息欢愉(速度+6%、开局拉40%)</span>
+                  <span>神的瞬息欢愉(速度+6%；40%拉条需欢愉度≥40%，未模拟不拉条)</span>
                 </label>
                 <label class="aha-equip-chk">
                   <input type="checkbox" class="unit-eq" data-slot="${idx}" data-eq="windSet4" ${eq.windSet4 ? "checked" : ""}>
@@ -798,7 +798,7 @@ export default {
             <span class="val-big" style="color:#38bdf8;">${fmtNum(res.requiredSpeed, 2)}</span>
           </div>
           <div class="aha-formula-code">${esc(res.formula)}</div>
-          <div style="font-size:11.5px;color:#94a3b8;">${esc(res.text)}（无拉条首轮2动 133.34 速；翁瓦克/神的瞬息欢愉 40% 拉条首轮2动 106.67 速；风套1大首轮3动 183.34 速）</div>
+          <div style="font-size:11.5px;color:#94a3b8;">${esc(res.text)}（无拉条首轮2动 133.34 速；翁瓦克、或欢愉度达标时的神的瞬息欢愉 40% 拉条首轮2动 106.67 速；风套1大首轮3动 183.34 速）</div>
         `;
       } catch (err) {
         box.innerHTML = `<div style="color:#f87171;font-size:12px;">计算失败：${esc(err.message)}</div>`;
