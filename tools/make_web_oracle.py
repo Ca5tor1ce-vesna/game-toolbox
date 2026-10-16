@@ -415,8 +415,22 @@ out = {
     "plans": oracle,
     "recommends": recommend_oracle,
 }
+def target_eol(path: Path) -> str:
+    """基准文件该用哪种行尾 —— 跟原文件保持一致，没有原文件时用 LF。
+
+    Windows 上 `Path.write_text`（文本模式）会把 `\\n` 翻成 CRLF，而这个基准在仓库里
+    是 LF：那样每重生成一次，git 里就凭空多出 3826 行"改动"，内容其实只差行尾
+    （踩过，用 SHA256 对比才发现）。写成独立函数是为了让测试能直接钉住它。
+    """
+    if path.is_file() and b"\r\n" in path.read_bytes():
+        return "\r\n"
+    return "\n"
+
+
 target = ROOT / "tests" / "fixtures" / "web_oracle.json"
 target.parent.mkdir(parents=True, exist_ok=True)
-target.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+eol = target_eol(target)
+text = json.dumps(out, ensure_ascii=False, indent=1).replace("\n", eol)
+target.write_bytes(text.encode("utf-8"))          # 二进制写：绝不让 Python 再翻行尾
 print(f"配置 {len(oracle)} 条、推荐 {len(recommend_oracle)} 条 → {target}")
-print(f"文件大小：{target.stat().st_size / 1024:.1f} KB")
+print(f"文件大小：{target.stat().st_size / 1024:.1f} KB（行尾 {'CRLF' if eol == chr(13) + chr(10) else 'LF'}）")

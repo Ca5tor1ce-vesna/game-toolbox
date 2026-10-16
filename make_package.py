@@ -10,6 +10,11 @@
 产出绿色版 `dist/游戏工具箱-v<版本>-绿色版.zip`（exe 启动器 + 使用说明.html + 空 userdata + _internal）。
 需要在 Windows 上跑（PyInstaller 不能交叉编译），详见 packaging/build_green.py。
 会自动排除缓存、用户数据、构建产物等不该进包的东西。
+
+⚠️ 输出里**别用 GBK 编不出的字符**（`✅ ❌ ⚠ ✓ ✗ 🔄` 这些）：中文 Windows 的控制台
+默认 GBK，一 print 就抛 `UnicodeEncodeError` —— zip 已经写完了，脚本却以 1 退出，
+还会导致后面的「刷新 -latest 包」不执行（踩过，改用 `[OK]` / `[刷新]` 这类）。
+要显示 emoji 就先把控制台切 UTF-8 并设 `PYTHONUTF8=1`。
 """
 
 from __future__ import annotations
@@ -39,6 +44,9 @@ EXCLUDE_DIRS = {
     "__pycache__", ".venv", "venv", "dist", "build", ".git", ".idea", ".vscode",
     "node_modules", "edge-profile", "userdata", ".asset-cache", "BrowserMetrics", ".pytest_cache",
     ".cache",  # tools/.cache 里是导入器的原始抓取数据（好几 MB），不进包
+    # 注意：**不要**在这里排除 "runtime" —— packaging/build_green.py 整理绿色版资源时
+    # 也是调这个 collect_files()，排掉它绿色版就带不上运行时 DLL 了。
+    # 只想让"源码版"瘦身的话去改 tools/make_source_package.py。
 }
 EXCLUDE_SUFFIXES = {".pyc", ".pyo", ".log", ".zip", ".spec"}
 
@@ -296,7 +304,7 @@ def main(argv: list[str] | None = None) -> int:
     print()
     for source, target in latest_pairs:
         shutil.copyfile(source, target)
-        print(f"🔄 已刷新：{target.name}（{target.stat().st_size / 1024:.1f} KB）")
+        print(f"[刷新] 已刷新：{target.name}（{target.stat().st_size / 1024:.1f} KB）")
 
     # 临时网页文件清掉
     for temp in (admin_page, user_page):
@@ -304,11 +312,11 @@ def main(argv: list[str] | None = None) -> int:
             temp.unlink(missing_ok=True)
 
     print()
-    print(f"✅ 用户包（发给别人）：{user_info['path']}")
+    print(f"[OK] 用户包（发给别人）：{user_info['path']}")
     print(f"   大小 {user_info['kb']:.1f} KB · 文件数 {user_info['files']} · SHA256 {user_info['sha256']}")
     print(f"   不含后门模块：{'、'.join(sorted(admin_only_module_dirs())) or '（无）'}；config.json 里 admin=false")
     print()
-    print(f"✅ 作者包（你自己用）：{admin_info['path']}")
+    print(f"[OK] 作者包（你自己用）：{admin_info['path']}")
     print(f"   大小 {admin_info['kb']:.1f} KB · 文件数 {admin_info['files']} · SHA256 {admin_info['sha256']}")
     print(f"   含后门模块，config.json 里 admin=true；网页版内联了你的外观主题")
     return 0

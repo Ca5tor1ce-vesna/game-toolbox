@@ -158,7 +158,10 @@ def main(argv: list[str] | None = None) -> int:
     print(f"② PyInstaller 完成：{app_dir}")
     zip_path = assemble(app_dir)
     size = zip_path.stat().st_size / 1024 / 1024
-    print(f"③ ✅ {zip_path}（{size:.1f} MB）")
+    # 别在这里用 GBK 编不出的字符（✅ ⚠ ✗ 这类）：中文 Windows 控制台默认 GBK，
+    # 一 print 就 UnicodeEncodeError —— 包已经打完、脚本却以 1 退出，本机裸控制台打绿色版必中
+    # （`make_package.py` 踩过同一个坑，改用 [OK]/[X]/[刷新] 这类写法）。
+    print(f"③ [OK] {zip_path}（{size:.1f} MB）")
     if not IS_WINDOWS:
         print("   注意：这是非 Windows 冒烟产物，不是发布用的 exe。正式包请在 Windows 上打（见 .github/workflows/build.yml）。")
     return 0

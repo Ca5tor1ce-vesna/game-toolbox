@@ -23,6 +23,8 @@ ROOT = Path(__file__).resolve().parent.parent
 EXCLUDE_DIRS = {
     "dist", "build", "__pycache__", ".git", ".idea", ".vscode", ".pytest_cache",
     "node_modules", "venv", ".venv", "edge-profile", "nanoka", ".cache", "onefile",
+    # packaging/runtime：打绿色版时附带的运行库 DLL（约 8 MB），构建输入，源码包里不需要
+    "runtime",
     # userdata 里的这些是缓存/浏览器配置，回传时没必要带（体积大且无意义）
     ".asset-cache", "asset-cache", "BrowserMetrics",
 }

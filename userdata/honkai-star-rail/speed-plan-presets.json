@@ -1,0 +1,19 @@
+{
+  "1005": {
+    "name": "卡芙卡",
+    "savedAt": "2026-10-14 12:10",
+    "config": {
+      "lightconeId": "23001",
+      "superimpose": 5,
+      "eidolon": 0,
+      "relic": {
+        "speedBoots": true
+      },
+      "advance": {},
+      "target": {
+        "t": 0,
+        "actions": 2
+      }
+    }
+  }
+}

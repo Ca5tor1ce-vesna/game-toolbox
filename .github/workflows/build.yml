@@ -1,6 +1,7 @@
 # 在 Windows 上打绿色版（PyInstaller 不能在 Linux 上交叉编译 exe）。
 # 触发：推送 v* 标签、手动运行（Actions → build → Run workflow）。
-# 产物：Actions 运行页面的 Artifacts 里下载「游戏工具箱-绿色版」（里面是 游戏工具箱-v<版本>-绿色版.zip）。
+# 产物：推 tag 时自动建 Release 并附上「游戏工具箱-v<版本>-绿色版.zip」；
+#       手动运行时只上传 Artifacts（在运行页面下载）。
 name: build
 
 on:
@@ -11,6 +12,9 @@ on:
 jobs:
   windows-green:
     runs-on: windows-latest
+    # 建 Release 需要写权限：新建仓库的 GITHUB_TOKEN 默认只读，不显式声明会 403。
+    permissions:
+      contents: write
     env:
       PYTHONUTF8: "1"
       PYTHONIOENCODING: utf-8
@@ -67,3 +71,22 @@ jobs:
           name: 游戏工具箱-绿色版
           path: dist/*绿色版.zip
           if-no-files-found: error
+
+      # 推 v* tag 时顺手建 Release 并挂上绿色版 zip（README 让用户去 Releases 下的就是它）。
+      # 只挂绿色版；用户包/源码版按需另外发。手动触发（workflow_dispatch）没有 tag，跳过这步。
+      - name: 建 Release 并上传绿色版
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: pwsh
+        run: |
+          # 先确认 tag 和代码里的版本号一致 —— 不一致就停在这里，别发出一个名字对不上的包。
+          $tag = "${{ github.ref_name }}"
+          $codeVersion = (Select-String -Path core/__init__.py -Pattern '__version__\s*=\s*"([^"]+)"').Matches[0].Groups[1].Value
+          Write-Host "tag=$tag  代码版本=$codeVersion"
+          if ("v$codeVersion" -ne $tag) {
+            throw "tag（$tag）和 core/__init__.py 的版本（v$codeVersion）不一致：先改版本号再打 tag"
+          }
+          $zip = Get-ChildItem dist -Filter "*绿色版.zip" | Select-Object -First 1
+          if (-not $zip) { throw "没有找到绿色版 zip" }
+          gh release create $tag $zip.FullName --title $tag --generate-notes --verify-tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

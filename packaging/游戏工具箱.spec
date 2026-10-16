@@ -47,6 +47,15 @@ datas = [
     (str(STAGE / "config.json"), "."),
 ]
 
+# 运行时 DLL：打包机的 Python 若是精简发行版（缺 ucrtbase / api-ms-win 转发 DLL），
+# 打出来的 exe 会**依赖目标机器自己装好 UCRT** —— 换台机器就可能起不来。
+# 官方 CI 版把这一整套一起打进去（实测比精简版多 45 个 DLL）。
+# 把 DLL 放进 packaging/runtime/（可选），存在就一并打进去；不存在就按裸 PATH 处理。
+RUNTIME_DIR = Path(os.environ.get("GT_RUNTIME") or (Path(SPECPATH) / "runtime"))
+if RUNTIME_DIR.is_dir():
+    datas.append((str(RUNTIME_DIR), "."))
+    print(f"[spec] 附带运行时 DLL {len(list(RUNTIME_DIR.glob('*.dll')))} 个：{RUNTIME_DIR}")
+
 a = Analysis(
     [str(ROOT / "run.py")],
     pathex=[str(ROOT)],

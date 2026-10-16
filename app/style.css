@@ -120,6 +120,29 @@ html, body {
 
 .sidebar-footer { border-top: 1px solid var(--border); padding: var(--s1); display: flex; flex-direction: column; gap: 4px; }
 .sidebar-footer .ghost { border-color: transparent; }
+/* 侧栏左下角的外链：**分行**列出；样式与首页那行链接保持一致（虚线底、悬停高亮） */
+.sidebar-links {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+.sidebar-links a {
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px dotted currentColor;
+  align-self: flex-start;      /* 虚线下划线只跟文字一样长，不撑满整栏 */
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sidebar-links a:hover, .sidebar-links a:focus-visible { color: var(--accent, #8ab4ff); }
+.sidebar-links .sidebar-credits { color: var(--muted); opacity: .85; }
 
 /* ---------------- 主区 ---------------- */
 

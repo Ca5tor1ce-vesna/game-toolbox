@@ -147,7 +147,7 @@ def audit() -> int:
     print(f"\n  审计：nanoka 里带速度/拉条数字的条目 {checked} 条")
     print(f"  本地缺失：{len(missing)} 条")
     for line in missing[:15]:
-        print(f"    ✗ {line}")
+        print(f"    [X] {line}")
     print(f"  故意排除（敌方/召唤物/改上限）：{len(excluded)} 条")
     return 1 if missing else 0
 

@@ -1,1 +1,9 @@
-{}
+{
+  "fonts": {
+    "baseSize": 22,
+    "lineHeight": 1.1
+  },
+  "layout": {
+    "radius": 24
+  }
+}

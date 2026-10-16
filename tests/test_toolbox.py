@@ -56,6 +56,20 @@ def call(feature: str, action: str, payload: dict | None = None):
     return feature_api.call(MODULE_ID, feature, action, payload or {})
 
 
+def _not_gbk(ch: str) -> bool:
+    """这个字符在中文 Windows 的 GBK 控制台上打不出来吗？
+
+    ASCII 一定可以；其余按 GBK 试编码 —— 顺便把无法编码的字符（emoji / 生僻符号）筛出来。
+    """
+    try:
+        ch.encode("gbk")
+    except UnicodeEncodeError:
+        return True
+    except Exception:  # noqa: BLE001 - 编码器异常不该让测试炸
+        return True
+    return False
+
+
 class TestRegistry(unittest.TestCase):
     def test_module_discovered(self) -> None:
         modules, _ = registry.scan()
@@ -2584,6 +2598,102 @@ class TestFixesV0167Packaging(unittest.TestCase):
     def test_a32_no_stale_version_fallback(self) -> None:
         self.assertNotIn('"0.16.2"', (ROOT / "tools/make_source_package.py").read_text(encoding="utf-8"))
 
+    def test_a35_oracle_regeneration_keeps_line_endings(self) -> None:
+        """重生成网页版基准**不能**顺手把行尾改成 CRLF。
+
+        这个基准在仓库里是 LF；Windows 上若用 `write_text` 生成，Python 会把 `\\n` 翻成
+        CRLF → 之后每跑一次重生成，git 里就多出 3826 行"改动"，而实测内容逐行完全相同
+        （只差行尾，文件大小 68813 → 72639 B，特别像真的改了内容）。
+        `make_web_oracle.target_eol()` 就是为这个加的，这里既钉函数、也钉基准文件本身。
+        """
+        # 注意：不能 import make_web_oracle —— 那是**顶层就写文件**的脚本，
+        # 导入一次等于重生成一次基准。这里只把它源码里的 target_eol 取出来执行。
+        import ast
+
+        source = (ROOT / "tools" / "make_web_oracle.py").read_text(encoding="utf-8")
+        tree = ast.parse(source)
+        node = next(
+            (n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "target_eol"),
+            None,
+        )
+        self.assertIsNotNone(node, "make_web_oracle.py 里应该有一个 target_eol() 函数")
+        namespace: dict = {"Path": Path}
+        exec(compile(ast.Module(body=[node], type_ignores=[]), "<target_eol>", "exec"), namespace)
+        target_eol = namespace["target_eol"]
+
+        tmp = Path(tempfile.mkdtemp(prefix="gt-oracle-eol-"))
+        try:
+            self.assertEqual(target_eol(tmp / "none.json"), "\n", "没有原文件时应该用 LF")
+            lf = tmp / "lf.json"
+            lf.write_bytes(b'{\n "a": 1\n}\n')
+            self.assertEqual(target_eol(lf), "\n", "原文件是 LF 时要保持 LF")
+            crlf = tmp / "crlf.json"
+            crlf.write_bytes(b'{\r\n "a": 1\r\n}\r\n')
+            self.assertEqual(target_eol(crlf), "\r\n", "原文件是 CRLF 时要保持 CRLF")
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+        oracle = ROOT / "tests" / "fixtures" / "web_oracle.json"
+        raw = oracle.read_bytes()
+        self.assertGreater(raw.count(b"\n"), 100, "基准文件应该有内容")
+        self.assertNotIn(b"\r\n", raw, "基准文件被写成 CRLF 了（重生成时踩过）")
+
+    def test_a36_console_scripts_are_gbk_printable(self) -> None:
+        """会被直接跑的控制台脚本，print 的文字必须 **GBK 编得出**。
+
+        中文 Windows 控制台默认 GBK：`🔄 ✅ ❌ ⚠ ✓ ✗` 一 print 就 UnicodeEncodeError，
+        而且往往崩在最后几行 —— 包已经打完、脚本却报失败，后面的刷新/收尾全不执行
+        （`make_package.py` 踩过）。这里按 `print(...)` 里的字面量逐个验证。
+
+        只查**会被直接命令行跑**的脚本：这些崩了最难受。其余脚本经 `.bat`（`chcp 65001`）
+        启动，或用 `PYTHONUTF8=1` 跑，不受这条约束。
+
+        ⚠️ 这份名单本身就是当初的漏洞：`packaging/build_green.py` 没在里面，
+        于是它 `print("③ ✅ …")` 一直没被发现 —— 本机裸控制台打绿色版时，包已经打完、
+        脚本却以 1 退出（2026-10-15 实测复现）。`tools/audit_data.py` 同样漏网。
+        加新脚本时**记得把它加进这份名单**。
+        """
+        import ast
+
+        console_scripts = (
+            "make_package.py",              # 打包.bat / 直接命令行
+            "packaging/build_green.py",     # make_package.py --green 会 import 它
+            "tools/audit_package.py",       # 发包前必跑
+            "tools/audit_data.py",          # 数据审计
+            "tools/make_web_standalone.py",  # 单独出单文件网页
+            "tools/make_source_package.py",  # 出源码版
+            "tools/make_web_oracle.py",     # 重生成对拍基准
+        )
+        all_bad: dict[str, list[str]] = {}
+        for name in console_scripts:
+            path = ROOT / name
+            if not path.is_file():
+                continue
+            source = path.read_text(encoding="utf-8")
+            if all(ord(ch) < 128 for ch in source):
+                continue  # 纯 ASCII 一定没问题
+            tree = ast.parse(source)
+            literals: list[str] = []
+            for node in ast.walk(tree):
+                if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Name)):
+                    continue
+                if node.func.id != "print":
+                    continue
+                for arg in node.args:
+                    for sub in ast.walk(arg):
+                        if isinstance(sub, ast.Constant) and isinstance(sub.value, str):
+                            literals.append(sub.value)
+            if not literals:
+                continue  # 这个脚本没有 print，跳过（别让名单变大就报错）
+            bad = sorted({ch for text in literals for ch in text if _not_gbk(ch)})
+            if bad:
+                all_bad[name] = bad
+        self.assertEqual(
+            all_bad, {},
+            "这些脚本的 print 里有 GBK 编不出的字符（中文 Windows 控制台会崩）："
+            + repr(all_bad),
+        )
+
 
 
 class TestEnemyEffects(unittest.TestCase):
@@ -2735,6 +2845,94 @@ class TestGreenPackage(unittest.TestCase):
         self.assertIn("windows-latest", workflow)
         self.assertIn("make_package.py --green", workflow)
         self.assertIn("upload-artifact", workflow)
+
+    def test_workflow_creates_release_on_tag(self) -> None:
+        """推 v* tag 时要自动建 Release 并把绿色版挂上去。
+
+        README 让用户去 Releases 下「游戏工具箱-v版本号-绿色版.zip」，所以这条链路断了
+        就等于发版流程断了。顺带钉住两个容易漏的点：
+          * `permissions: contents: write` —— 新建仓库的 GITHUB_TOKEN 默认只读，少了就 403；
+          * tag 与 `core/__init__.py` 的版本号必须一致，不一致要**报错停下**而不是发出名字对不上的包。
+        """
+        workflow = (ROOT / ".github" / "workflows" / "build.yml").read_text(encoding="utf-8")
+        self.assertIn("contents: write", workflow)
+        self.assertIn("gh release create", workflow)
+        self.assertIn("secrets.GITHUB_TOKEN", workflow)
+        self.assertIn("startsWith(github.ref, 'refs/tags/v')", workflow)
+        self.assertIn("core/__init__.py", workflow)
+        self.assertIn("不一致", workflow)
+
+
+class TestNoPrivateDataInPackages(unittest.TestCase):
+    """发布产物里绝不能有 userdata / 浏览器记录（旧树 `pack_exe.py` 那次事故的回归）。
+
+    0.16.x 的 exe 把浏览器配置写进 `_internal\\userdata`，整目录打包就把 History /
+    Cookies / Login Data 一起发了出去；后来改成「userdata 写在 exe 旁边 + 白名单整理
+    `_internal`」，但排除规则是手写的 —— 这里钉住它：真打一份用户包，
+    用 `tools/audit_package.py` 过一遍。
+    """
+
+    @staticmethod
+    def _audit():
+        sys.path.insert(0, str(ROOT / "tools"))
+        import audit_package
+
+        return audit_package
+
+    def test_user_package_has_no_private_data(self) -> None:
+        import make_package
+
+        audit = self._audit()
+        tmp = Path(tempfile.mkdtemp(prefix="gt-pkg-audit-"))
+        zip_path = tmp / "user.zip"
+        try:
+            files = make_package.collect_files(exclude_admin=True)
+            make_package.write_zip(zip_path, files, None, "审计用，不发布", admin=False)
+            findings = audit.audit_zip(zip_path)
+            violations = [f for f in findings if f[1] == "violation"]
+            self.assertEqual(violations, [], f"用户包里出现了私密条目：{violations[:5]}")
+            # 占位说明是有意放进去的（zip 里那层 userdata/ 要保持存在），不算违规
+            self.assertTrue(
+                all(f[2] == "userdata 目录占位说明" for f in findings),
+                f"用户包里出现了计划外的条目：{findings[:5]}",
+            )
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_return_package_keeps_theme_but_flags_browser_traces(self) -> None:
+        """回传包：主题/预设算有意为之；浏览器记录必须被揪出来。"""
+        import zipfile
+
+        audit = self._audit()
+        tmp = Path(tempfile.mkdtemp(prefix="gt-pkg-audit-"))
+        try:
+            zip_path = tmp / "回传-20261015-1630.zip"
+            with zipfile.ZipFile(zip_path, "w") as zf:
+                zf.writestr("userdata/interface/theme.json", "{}")
+                zf.writestr("userdata/edge-profile/Default/Network/Cookies", "x")
+            findings = dict((name, verdict) for name, verdict, _ in audit.audit_zip(zip_path))
+            self.assertEqual(findings.get("userdata/interface/theme.json"), "expected")
+            self.assertEqual(findings.get("userdata/edge-profile/Default/Network/Cookies"), "violation")
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_classifier_catches_browser_config_shapes(self) -> None:
+        audit = self._audit()
+        for name in (
+            "game-toolbox-v0.18.1/userdata/edge-profile/Default/History",
+            "游戏工具箱-v0.18.1-绿色版/_internal/userdata/edge-profile/Default/Login Data",
+            "src/userdata/BrowserMetrics/a.pma",
+            "pack/User Data/Cookies",
+            "pack/Default/Web Data",
+        ):
+            self.assertEqual(audit.classify(name)[0], "violation", name)
+        for name in (
+            "game-toolbox-v0.18.1/userdata/放你自己的数据在这里.txt",  # 占位说明 = expected
+            "game-toolbox-v0.18.1/modules/herta/features/records/api.py",
+            "game-toolbox-v0.18.1/tools/uninstall.ps1",
+            "Screenshot 2026-10-15 161842.png",
+        ):
+            self.assertNotEqual(audit.classify(name)[0], "violation", name)
 
     def test_stage_is_user_flavour(self) -> None:
         sys.path.insert(0, str(ROOT / "packaging"))
