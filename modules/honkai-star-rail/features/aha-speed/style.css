@@ -1,11 +1,616 @@
-/* 原版工具用 iframe 承载：给它一整块视口，内部自己滚动，尽量还原"单独打开一个页面"的感觉 */
+/* 【阿哈时刻】与欢愉队配速排轴模拟 —— 样式表 */
 
 .aha-original-frame {
   display: block;
   width: 100%;
-  height: calc(100vh - 118px);
-  min-height: 520px;
+  height: calc(100vh - 148px);
+  min-height: 560px;
   border: 0;
   border-radius: 10px;
-  background: #0f172a; /* 原版 body 的底色，加载瞬间不闪白 */
+  background: #0f172a;
+}
+
+.aha-sim-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: var(--text, #e2e8f0);
+}
+
+.aha-topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--panel, #1e293b);
+  border: 1px solid var(--border, #334155);
+  border-radius: var(--radius, 12px);
+}
+
+.aha-title-block h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #f472b6;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.aha-title-block p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--muted, #94a3b8);
+}
+
+.aha-mode-switch {
+  display: flex;
+  gap: 6px;
+  background: var(--panel-2, #0f172a);
+  padding: 4px;
+  border-radius: 10px;
+  border: 1px solid var(--border, #334155);
+}
+
+.aha-mode-btn {
+  border: 0;
+  background: transparent;
+  color: var(--muted, #94a3b8);
+  padding: 6px 12px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.aha-mode-btn.is-active {
+  background: linear-gradient(135deg, #ec4899, #8b5cf6);
+  color: #ffffff;
+}
+
+.aha-preset-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--panel, #1e293b);
+  border: 1px solid var(--border, #334155);
+  border-radius: var(--radius, 12px);
+}
+
+.aha-preset-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted, #94a3b8);
+  margin-right: 4px;
+}
+
+.aha-preset-btn {
+  border: 1px solid rgba(236, 72, 153, 0.35);
+  background: rgba(236, 72, 153, 0.1);
+  color: #f9a8d4;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.aha-preset-btn:hover,
+.aha-preset-btn.is-active {
+  background: linear-gradient(135deg, #db2777, #7c3aed);
+  border-color: transparent;
+  color: #ffffff;
+}
+
+.aha-preset-desc {
+  width: 100%;
+  font-size: 12px;
+  color: #cbd5e1;
+  background: rgba(15, 23, 42, 0.55);
+  padding: 7px 10px;
+  border-radius: 8px;
+  border-left: 3px solid #ec4899;
+  margin-top: 2px;
+}
+
+.aha-main-grid {
+  display: grid;
+  grid-template-columns: 390px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 1180px) {
+  .aha-main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.aha-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.aha-card {
+  background: var(--panel, #1e293b);
+  border: 1px solid var(--border, #334155);
+  border-radius: var(--radius, 12px);
+  padding: 15px 16px;
+}
+
+.aha-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.aha-card-head h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.aha-pill {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #ec4899, #8b5cf6);
+  color: #fff;
+}
+
+.aha-switch-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 12px;
+}
+
+.aha-switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 7px 10px;
+  background: var(--panel-2, #0f172a);
+  border: 1px solid var(--border, #334155);
+  border-radius: 8px;
+  font-size: 12.5px;
+}
+
+.aha-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.aha-form-grid.cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.aha-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.aha-field label {
+  font-size: 11.5px;
+  color: var(--muted, #94a3b8);
+}
+
+.aha-field small {
+  font-size: 10.5px;
+  color: #64748b;
+}
+
+.aha-input,
+.aha-select {
+  background: var(--panel-2, #0f172a);
+  border: 1px solid var(--border, #475569);
+  color: var(--text, #f8fafc);
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 12.5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.aha-input:focus,
+.aha-select:focus {
+  outline: none;
+  border-color: #38bdf8;
+}
+
+.aha-result-box {
+  margin-top: 12px;
+  padding: 12px;
+  background: var(--panel-2, #0f172a);
+  border: 1px solid rgba(236, 72, 153, 0.4);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.aha-kv {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  font-size: 12.5px;
+}
+
+.aha-kv .val-big {
+  font-size: 20px;
+  font-weight: 800;
+  color: #f472b6;
+  font-family: var(--mono, monospace);
+}
+
+.aha-kv .val-mid {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fbbf24;
+  font-family: var(--mono, monospace);
+}
+
+.aha-formula-code {
+  font-family: var(--mono, monospace);
+  font-size: 11.5px;
+  background: rgba(30, 41, 59, 0.85);
+  padding: 7px 9px;
+  border-radius: 6px;
+  color: #e2e8f0;
+  line-height: 1.45;
+  word-break: break-all;
+}
+
+.aha-rank-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 11.5px;
+  color: #cbd5e1;
+}
+
+.aha-node-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.aha-node-cell {
+  background: rgba(30, 41, 59, 0.9);
+  border: 1px solid var(--border, #334155);
+  border-radius: 7px;
+  padding: 6px 4px;
+  text-align: center;
+}
+
+.aha-node-cell .k {
+  font-size: 10.5px;
+  color: var(--muted, #94a3b8);
+}
+
+.aha-node-cell .v {
+  font-size: 14px;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-top: 2px;
+}
+
+/* 队伍表格与卡片 */
+.aha-team-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.aha-unit-card {
+  background: var(--panel-2, #0f172a);
+  border: 1px solid var(--border, #334155);
+  border-radius: 10px;
+  padding: 11px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.aha-unit-card.is-elation {
+  border-left: 3px solid #ec4899;
+}
+
+.aha-unit-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.aha-unit-identity {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.aha-slot-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 5px;
+  background: #334155;
+  color: #e2e8f0;
+}
+
+.aha-unit-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.aha-metric-tag {
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(30, 41, 59, 0.95);
+  border: 1px solid #334155;
+  font-family: var(--mono, monospace);
+}
+
+.aha-metric-tag b {
+  color: #fbbf24;
+}
+
+.aha-unit-inputs {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 7px;
+}
+
+@media (max-width: 900px) {
+  .aha-unit-inputs {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.aha-unit-equips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding-top: 4px;
+  border-top: 1px dashed rgba(71, 85, 105, 0.5);
+  font-size: 11.5px;
+  color: #cbd5e1;
+}
+
+.aha-equip-chk {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* 三大核心机制追踪看板 */
+.aha-mech-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 960px) {
+  .aha-mech-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.aha-mech-box {
+  background: var(--panel-2, #0f172a);
+  border: 1px solid var(--border, #334155);
+  border-radius: 10px;
+  padding: 11px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.aha-mech-box.is-pearl {
+  border-top: 3px solid #38bdf8;
+}
+
+.aha-mech-box.is-aeon {
+  border-top: 3px solid #ec4899;
+}
+
+.aha-mech-box.is-aven {
+  border-top: 3px solid #f59e0b;
+}
+
+.aha-mech-title {
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.aha-mech-logs {
+  max-height: 190px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: #cbd5e1;
+}
+
+.aha-mech-item {
+  padding: 4px 7px;
+  background: rgba(30, 41, 59, 0.65);
+  border-radius: 5px;
+}
+
+.aha-mech-item .av-tag {
+  font-family: var(--mono, monospace);
+  color: #38bdf8;
+  font-weight: 600;
+  margin-right: 5px;
+}
+
+/* 行动值时间轴 */
+.aha-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.aha-filter-btn {
+  border: 1px solid var(--border, #334155);
+  background: var(--panel-2, #0f172a);
+  color: var(--muted, #94a3b8);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+
+.aha-filter-btn.is-active {
+  border-color: #38bdf8;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+}
+
+.aha-count-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.aha-count-card {
+  background: var(--panel-2, #0f172a);
+  border: 1px solid var(--border, #334155);
+  border-radius: 8px;
+  padding: 7px 10px;
+  text-align: center;
+}
+
+.aha-count-card.is-aha {
+  background: rgba(236, 72, 153, 0.12);
+  border-color: rgba(236, 72, 153, 0.45);
+}
+
+.aha-timeline-list {
+  max-height: 540px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-right: 4px;
+}
+
+.aha-cycle-banner {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+  border-left: 4px solid #fbbf24;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin: 6px 0 2px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.aha-ev-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 7px;
+  font-size: 12px;
+  background: var(--panel-2, #0f172a);
+  border: 1px solid rgba(51, 65, 85, 0.75);
+}
+
+.aha-ev-row.ev-aha {
+  background: linear-gradient(90deg, rgba(236, 72, 153, 0.24), rgba(139, 92, 246, 0.24));
+  border-color: rgba(236, 72, 153, 0.55);
+}
+
+.aha-ev-row.ev-ult {
+  background: rgba(245, 158, 11, 0.13);
+  border-color: rgba(245, 158, 11, 0.45);
+}
+
+.aha-ev-row.ev-extra {
+  background: rgba(56, 189, 248, 0.13);
+  border-color: rgba(56, 189, 248, 0.45);
+}
+
+.aha-ev-row.ev-elation {
+  background: rgba(168, 85, 247, 0.14);
+  border-color: rgba(168, 85, 247, 0.45);
+}
+
+.aha-ev-left {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+}
+
+.aha-ev-av {
+  font-family: var(--mono, monospace);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(15, 23, 42, 0.85);
+  color: #38bdf8;
+}
+
+.aha-ev-type {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 1.5px 6px;
+  border-radius: 4px;
+  background: #334155;
+  color: #f8fafc;
+}
+
+.aha-ev-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  font-size: 11px;
+  color: #cbd5e1;
+}
+
+.aha-ev-chip {
+  background: rgba(30, 41, 59, 0.9);
+  border: 1px solid rgba(71, 85, 105, 0.6);
+  padding: 1px 6px;
+  border-radius: 4px;
 }

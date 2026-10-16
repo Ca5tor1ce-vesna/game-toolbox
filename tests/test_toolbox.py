@@ -2862,6 +2862,36 @@ class TestGreenPackage(unittest.TestCase):
         self.assertIn("core/__init__.py", workflow)
         self.assertIn("不一致", workflow)
 
+    def test_version_with_suffix_still_packs(self) -> None:
+        """版本号带后缀（如 0.20.0beta）时，绿色版的 Windows 版本资源也要能生成。
+
+        踩过：`build_green.py` 直接 `int(x)` 拆版本号，`0beta` 崩在 PyInstaller 启动之前
+        —— 资源已整理完、包还没开始打，报 `invalid literal for int() with base 10: '0beta'`。
+        这里用 AST 把函数取出来单独执行（同 `round_of` / `target_eol` 的做法，
+        不在加载器上下文里 import 打包脚本）。
+        """
+        import ast
+        import re
+
+        source = (ROOT / "packaging" / "build_green.py").read_text(encoding="utf-8")
+        tree = ast.parse(source)
+        node = next(
+            (n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "version_parts"),
+            None,
+        )
+        self.assertIsNotNone(node, "build_green.py 里应该有一个 version_parts() 函数")
+
+        cases = {
+            "0.18.3": (0, 18, 3, 0),
+            "0.20.0beta": (0, 20, 0, 0),
+            "0.21.0-rc1": (0, 21, 0, 0),
+            "1.2": (1, 2, 0, 0),
+        }
+        for version, expect in cases.items():
+            namespace = {"__version__": version, "re": re}
+            exec(compile(ast.Module(body=[node], type_ignores=[]), "<version_parts>", "exec"), namespace)
+            self.assertEqual(namespace["version_parts"](), expect, f"{version} 应该解析成 {expect}")
+
 
 class TestNoPrivateDataInPackages(unittest.TestCase):
     """发布产物里绝不能有 userdata / 浏览器记录（旧树 `pack_exe.py` 那次事故的回归）。
@@ -3065,6 +3095,896 @@ class TestHertaRecords(unittest.TestCase):
         import subprocess
         proc = subprocess.run([node, str(ROOT / "tools" / "check_herta_web.mjs")], capture_output=True, text=True)
         self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+
+
+# ---------------- 行动值排轴（action-value/timeline） ----------------
+
+
+class TestActionValueTimeline(unittest.TestCase):
+    """行动值排轴模块：AV 公式、拉条口径、速度合成、回能、爻光机制。
+
+    对照《行动值排轴 · 修改建议》第 6 节的 9 条验收逐条钉住；
+    用爻光（1502，白值 101 + 行迹 9），不用基础速度 100 做合成验收。
+    """
+
+    MODULE = "action-value"
+    FEATURE = "timeline"
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        assert cls.MODULE in [m.id for m in registry.scan()[0]], "新模块没被扫到"
+
+    @classmethod
+    def call(cls, action, payload=None):
+        return feature_api.call(cls.MODULE, cls.FEATURE, action, payload or {})
+
+    @classmethod
+    def mod(cls):
+        """api.py 装载后的模块对象。
+
+        不能直接 import 那个 api.py（顶层 `@api(...)` 在加载器上下文外会 RuntimeError），
+        但 `_load()` 已经把它装进 sys.modules，里面纯函数可以直接调。
+        """
+        return sys.modules[feature_api.HANDLERS[(cls.MODULE, cls.FEATURE)]["plan"].__module__]
+
+    # ---- 行动值 ----
+
+    def test_av_is_10000_over_speed(self) -> None:
+        # 窗口会截掉窗口外的行动：3 轮 = 350 AV，装下 100/200/300 三动
+        res = self.call("plan", {"baseSpeed": 100, "rounds": 3, "maxActions": 3})
+        self.assertEqual(res["actions"][0]["gap"], 100.0)
+        self.assertAlmostEqual(res["actions"][0]["av"], 100.0)
+        self.assertAlmostEqual(res["actions"][2]["av"], 300.0)
+        # 窗口外的行动不会出现在结果里（1 轮 = 150 AV，只剩第 1 动）
+        short = self.call("plan", {"baseSpeed": 100, "rounds": 1, "maxActions": 3})
+        self.assertEqual(short["actionCount"], 1)
+
+    def test_advance_uses_full_distance_not_remaining_av(self) -> None:
+        """拉条 20% 必须抵扣 2000 距离（= 10000 的 20%），不是拿剩余 AV 乘。"""
+        res = self.call("plan", {"baseSpeed": 100, "advancePct": 20, "rounds": 3, "maxActions": 3})
+        self.assertAlmostEqual(res["advance"]["distance"], 2000.0)
+        # 第一动：(10000 − 2000) / 100 = 80，而不是 100 × 0.8 这种顺手写法
+        self.assertAlmostEqual(res["actions"][0]["av"], 80.0)
+        self.assertAlmostEqual(res["actions"][1]["av"], 180.0)
+
+    def test_advance_clamped_per_action_no_overflow(self) -> None:
+        """验收 4：拉条只减**当前这一动**的路程，减到 0 为止，多出来的不进入下一动。
+
+        同一动上拉条 40% + 80%（= 120%）：这一动路程按 0 算，
+        下一动仍是完整 10000（100 速 → gap 100），不剩那 20%。
+        """
+        res = self.call("plan", {"baseSpeed": 100, "advancePct": 120,
+                                 "rounds": 3, "maxActions": 3})
+        self.assertAlmostEqual(res["actions"][0]["gap"], 0.0)
+        self.assertAlmostEqual(res["actions"][0]["av"], 0.0)
+        self.assertAlmostEqual(res["actions"][1]["gap"], 100.0)  # 完整 10000
+        self.assertAlmostEqual(res["actions"][1]["advanceUsed"], 0.0)
+
+        # 同一动上的多次拉条先求和，再按同一个口径算
+        summed = self.call("plan", {"baseSpeed": 100, "adv_percents": [40, 80],
+                                    "rounds": 3, "maxActions": 3})
+        self.assertAlmostEqual(summed["actions"][0]["gap"], 0.0)
+        self.assertAlmostEqual(summed["actions"][1]["gap"], 100.0)
+
+        sim = self.mod().simulate_actions(speed=100.0, adv_percents=[40.0, 80.0],
+                                          max_actions=3)
+        self.assertAlmostEqual(sim["actions"][0]["gap"], 0.0)
+        self.assertAlmostEqual(sim["actions"][1]["gap"], 100.0)
+
+    def test_advance_by_action_targets_only_its_action(self) -> None:
+        """adv_by_action 给逐动拉条明细：只影响那一动，其它动照常 10000。"""
+        sim = self.mod().simulate_actions(speed=100.0, adv_by_action={2: 50.0},
+                                          max_actions=3)
+        self.assertAlmostEqual(sim["actions"][0]["gap"], 100.0)
+        self.assertAlmostEqual(sim["actions"][1]["gap"], 50.0)   # 10000 − 5000
+        self.assertAlmostEqual(sim["actions"][2]["gap"], 100.0)
+
+    def test_delay_adds_distance(self) -> None:
+        """验收 5：延后 20%、速度 100 —— 第一动行动值 120，返回的距离是 **+2000**。
+
+        延后（推条）用正数表示「往时间线后面推」，返回给界面的距离也是正数；
+        写成 −2000 会被界面当拉条用。
+        """
+        res = self.call("plan", {"baseSpeed": 100, "delayPct": 20, "rounds": 1, "maxActions": 1})
+        self.assertAlmostEqual(res["delay"]["distance"], 2000.0)  # 正数，不是 -2000
+        self.assertAlmostEqual(res["delay"]["pct"], 20.0)
+        self.assertAlmostEqual(res["actions"][0]["av"], 120.0)
+        self.assertAlmostEqual(res["actions"][0]["delayUsed"], 2000.0)
+
+    # ---- 速度合成（基础 / 光锥白字 / 百分比 / 固定 / 行迹） ----
+
+    def test_speed_formula_pct_on_base_flat_last(self) -> None:
+        res = self.call("plan", {"baseSpeed": 100, "speedPct": 10, "speedFlat": 50, "rounds": 1})
+        # 100 × 1.10 + 50 = 160（不是 (100+50)×1.10 = 165）
+        self.assertAlmostEqual(res["speed"]["final"], 160.0)
+        self.assertAlmostEqual(res["actions"][0]["gap"], 10000 / 160.0)
+
+    def test_speed_synthesis_trace_outside_pct(self) -> None:
+        """验收 1/2：爻光白值 101、行迹 9 —— 行迹加在百分比**外面**。"""
+        one = self.call("plan", {"characterId": "1502", "speedPct": 6, "speedFlat": 0,
+                                 "rounds": 1, "maxActions": 1})
+        self.assertAlmostEqual(one["speed"]["final"], 116.06)  # 101 × 1.06 + 9
+        self.assertAlmostEqual(one["speed"]["base"], 101.0)    # 白值，不是 110
+        self.assertAlmostEqual(one["speed"]["trace"], 9.0)
+        self.assertFalse(one["speed"]["baseSource"]["useEffective"])
+
+        two = self.call("plan", {"characterId": "1502", "speedPct": 6, "speedFlat": 25,
+                                 "rounds": 1, "maxActions": 1})
+        self.assertAlmostEqual(two["speed"]["final"], 141.06)  # 101 × 1.06 + 25 + 9
+
+        # 只有显式传 useEffectiveBase=true 才走旧口径（行迹并进基础速度一起吃百分比）
+        legacy = self.call("plan", {"characterId": "1502", "speedPct": 6,
+                                    "useEffectiveBase": True, "rounds": 1, "maxActions": 1})
+        self.assertAlmostEqual(legacy["speed"]["final"], 116.6)  # 110 × 1.06
+
+    def test_speed_synthesis_lightcone_white_value(self) -> None:
+        """验收 3：光锥白字进括号吃百分比 —— (101 + 12) × 1.06 + 9 = 128.78。"""
+        res = self.call("plan", {"characterId": "1502", "lightconeBaseSpeed": 12,
+                                 "speedPct": 6, "rounds": 1, "maxActions": 1})
+        self.assertAlmostEqual(res["speed"]["final"], 128.78)
+        self.assertAlmostEqual(res["speed"]["lightconeBase"], 12.0)
+
+        # 没手填光锥白字时默认 0，不悄悄加
+        plain = self.call("plan", {"characterId": "1502", "speedPct": 6,
+                                   "rounds": 1, "maxActions": 1})
+        self.assertAlmostEqual(plain["speed"]["final"], 116.06)
+
+        final_speed = self.mod().final_speed
+        self.assertAlmostEqual(final_speed(101, 6, 0, lightcone_base=12, trace=9), 128.78)
+        self.assertAlmostEqual(final_speed(101, 6, 25, trace=9), 141.06)
+
+    def test_speed_changes_add_to_base_not_final(self) -> None:
+        """手填 speedChanges 是**增量**，只加在白字上：
+
+            这一动 = (base + 光锥白字) × (1 + 常驻% + 这一动%) + 常驻固定 + 这一动固定 + 行迹
+
+        拿已经算完的速度当基数再乘，会把鞋子和行迹再放大一遍。
+        """
+        res = self.call("plan", {
+            "characterId": "1502", "speedPct": 6, "speedFlat": 0,
+            "speedChanges": [{"fromAction": 2, "pct": 12, "flat": 0}],
+            "rounds": 3, "maxActions": 2,
+        })
+        self.assertAlmostEqual(res["speed"]["final"], 116.06)
+        self.assertAlmostEqual(res["speed"]["pct"], 6.0)   # 常驻值不被 speedChanges 覆盖
+        self.assertAlmostEqual(res["actions"][0]["speed"], 116.06)
+        self.assertAlmostEqual(res["actions"][1]["speed"], 128.18)  # 101 × 1.18 + 9
+        # 错误口径是 116.06 × 1.12 = 129.99（把鞋子/行迹又乘了一遍）
+
+    # ---- 中途变速 ----
+
+    def test_mid_turn_speed_change_keeps_run_distance(self) -> None:
+        """验收 6：剩余路程 5000 时速度 100 → 200 —— 已跑的 5000 不动，
+        剩余行动值 50 → 25；这一动共 5000/100 + 5000/200 = 75 AV。
+        """
+        recalc = self.mod().recalc_remaining_av
+        self.assertAlmostEqual(recalc(5000.0, 100.0, 200.0), 25.0)
+
+        res = self.call("plan", {
+            "baseSpeed": 100,
+            "midTurnChanges": {"1": [{"atRemainingDistance": 5000, "speed": 200}]},
+            "rounds": 3, "maxActions": 2,
+        })
+        self.assertAlmostEqual(res["actions"][0]["gap"], 75.0)
+        self.assertAlmostEqual(res["actions"][0]["av"], 75.0)
+        # 变速带「发生时刻」：变完之后按新速度继续跑（不退回 100、也不整段重跑）
+        self.assertAlmostEqual(res["actions"][1]["speed"], 200.0)
+        self.assertAlmostEqual(res["actions"][1]["gap"], 50.0)
+
+    # ---- 轮次 ----
+
+    def test_cycle_window_150_then_100(self) -> None:
+        res = self.call("plan", {"baseSpeed": 100, "rounds": 4})
+        self.assertEqual(res["window"]["av"], 450.0)
+        self.assertEqual(self.call("plan", {"baseSpeed": 100, "rounds": 1})["window"]["av"], 150.0)
+
+    def test_round_boundaries(self) -> None:
+        # 第 1 轮 0–150、之后每轮 100：速度 100 时 AV 100/200/300/400 → 第 1/2/3/4 轮
+        res = self.call("plan", {"baseSpeed": 100, "rounds": 5, "maxActions": 4})
+        rounds = [r["round"] for r in res["actions"]]
+        self.assertEqual(rounds, [1, 2, 3, 4])
+
+    def test_round_of_boundaries(self) -> None:
+        """轮次标签和配速查询对齐：打完时的累计行动值 ≤ 该轮窗口，仍算在这一轮。
+
+        所以 150 是第 1 轮**末尾**、250 是第 2 轮末尾、350 是第 3 轮末尾、
+        450 是第 4 轮末尾 —— 不是把边界当下一轮起点。
+        """
+        round_of = self.mod().round_of
+        cases = {0.0: 1, 149.9: 1, 150.0: 1, 150.1: 2, 249.9: 2, 250.0: 2,
+                 250.1: 3, 350.0: 3, 351.0: 4, 450.0: 4}
+        for av, expect in cases.items():
+            self.assertEqual(round_of(av), expect, f"AV {av} 应该在第 {expect} 轮")
+
+    def test_required_speed_matches_open_formula(self) -> None:
+        res = self.call("compare", {"baseSpeed": 100, "rounds": 4, "advancePct": 0})
+        # 5 动 / 450 AV = 111.111
+        self.assertAlmostEqual(res["requiredForActions"]["5"], 10000 * 5 / 450.0)
+
+    # ---- 速度方案默认三行 ----
+
+    def test_compare_default_plans_use_flat_speed_boots(self) -> None:
+        """验收 9 + 「速度方案」默认三行：速度鞋是**固定 +25**，不是百分比 +25。
+
+        爻光白值 101 + 行迹 9：第一行 101 + 25 + 9 = 135.0（不是 137.5）。
+        副词条那 45 固定单独标来源（shoeFlat/extraFlat），不把 70 叫成速度鞋。
+        """
+        res = self.call("compare", {"characterId": "1502", "rounds": 4})
+        self.assertEqual([r["label"] for r in res["rows"]],
+                         ["速度鞋", "速度鞋 + 18%", "18% + 速度鞋 + 45 副词条"])
+
+        one, two, three = res["rows"]
+        self.assertAlmostEqual(one["pct"], 0.0)
+        self.assertAlmostEqual(one["flat"], 25.0)
+        self.assertAlmostEqual(one["speed"], 135.0)          # 101 + 25 + 9
+
+        self.assertAlmostEqual(two["pct"], 18.0)
+        self.assertAlmostEqual(two["flat"], 25.0)
+        self.assertAlmostEqual(two["speed"], 101 * 1.18 + 25 + 9)
+
+        self.assertAlmostEqual(three["pct"], 18.0)
+        self.assertAlmostEqual(three["flat"], 70.0)          # 25（鞋）+ 45（副词条）
+        self.assertAlmostEqual(three["shoeFlat"], 25.0)
+        self.assertAlmostEqual(three["extraFlat"], 45.0)
+        self.assertAlmostEqual(three["speed"], 101 * 1.18 + 70 + 9)
+
+    # ---- 回能与数据来源 ----
+
+    def test_yaoguang_energy_comes_from_skill_text_not_fallback(self) -> None:
+        """爻光普攻的回能必须标成「文案」（30），不能是通用兜底 20。"""
+        res = self.call("profile", {"characterId": "1502"})
+        self.assertEqual(res["profile"]["name"], "爻光")
+        self.assertEqual(res["profile"]["maxSp"], 180)
+        normal = res["energyTable"]["普攻"]
+        self.assertEqual(normal["value"], 30.0)
+        self.assertEqual(normal["source"], "文案")
+
+    def test_energy_gain_applies_err(self) -> None:
+        base = self.call("energy", {"characterId": "1502", "rotation": ["普攻"],
+                                    "actions": 1, "err": 0})
+        buffed = self.call("energy", {"characterId": "1502", "rotation": ["普攻"],
+                                      "actions": 1, "err": 50})
+        self.assertAlmostEqual(base["rows"][0]["energy"], 30.0)
+        self.assertAlmostEqual(buffed["rows"][0]["energy"], 45.0)
+
+    def test_energy_caps_at_max_sp(self) -> None:
+        res = self.call("energy", {"characterId": "1502", "maxSp": 180,
+                                   "rotation": ["战技"], "actions": 20})
+        self.assertLessEqual(max(r["energy"] for r in res["rows"]), 180.0)
+        self.assertFalse(any(r["energy"] > 180.0 for r in res["rows"]))
+
+    def test_first_full_action_is_6_without_extra_energy(self) -> None:
+        # 180 ÷ 30 = 6 动（爻光普攻回能 30，能量上限 180）
+        res = self.call("energy", {"characterId": "1502", "rotation": ["普攻"], "actions": 10})
+        self.assertEqual(res["firstFullAction"], 6)
+
+    def test_fixed_energy_ignores_err(self) -> None:
+        """验收 8 + 「固定」护栏：标「固定」的回能**不乘 (1 + ERR)**。
+
+        流萤战技是 144 点固定回能（不是通用 30）；停云终结技 50 点固定能量；
+        阿哈愿力 +1 —— ERR 拉多高都不变。
+        """
+        f0 = self.call("energy", {"characterId": "1310", "rotation": ["战技"],
+                                  "actions": 1, "err": 0})
+        f50 = self.call("energy", {"characterId": "1310", "rotation": ["战技"],
+                                   "actions": 1, "err": 50})
+        self.assertAlmostEqual(f0["energyTable"]["战技"]["value"], 144.0)  # 不是 30
+        self.assertEqual(f0["energyTable"]["战技"]["source"], "固定")
+        self.assertTrue(f0["energyTable"]["战技"]["fixed"])
+        self.assertAlmostEqual(f0["rows"][0]["energy"], 144.0)
+        self.assertAlmostEqual(f50["rows"][0]["energy"], 144.0)  # 吃 ERR 就会变 216
+
+        # 停云终结技 50 点固定能量：开大返还也不随 ERR 变（吃 ERR 会变 75）
+        u0 = self.call("energy", {"characterId": "1202", "startEnergy": 130,
+                                  "rotation": ["普攻"], "actions": 1,
+                                  "actionsPerUlt": 1, "err": 0})
+        u50 = self.call("energy", {"characterId": "1202", "startEnergy": 130,
+                                   "rotation": ["普攻"], "actions": 1,
+                                   "actionsPerUlt": 1, "err": 50})
+        self.assertAlmostEqual(u0["energyTable"]["终结技"]["value"], 50.0)
+        self.assertEqual(u0["energyTable"]["终结技"]["source"], "固定")
+        self.assertAlmostEqual(u0["rows"][0]["energy"], 50.0)
+        self.assertAlmostEqual(u50["rows"][0]["energy"], 50.0)
+
+        # 星神★阿哈：愿力 +1 固定，不吃 ERR
+        aha = self.call("energy", {"characterId": "1511", "rotation": ["普攻"],
+                                   "actions": 1, "err": 100})
+        self.assertAlmostEqual(aha["rows"][0]["energy"], 1.0)
+
+    def test_excluded_characters_reject_energy_formula(self) -> None:
+        """特殊能量角色（残梦/飞黄/新蕊/火种/追忆/隐藏分/绯英）不进这张表：
+
+        调回能直接报「这套回能公式不适用」；查档案返回 excluded 标记。
+        """
+        for cid, name in [("1308", "黄泉"), ("1220", "飞霄"), ("1407", "遐蝶"),
+                          ("1408", "白厄"), ("1415", "昔涟"), ("1506", "银狼LV.999"),
+                          ("1505", "绯英")]:
+            with self.assertRaises(ValueError) as err:
+                self.call("energy", {"characterId": cid})
+            msg = str(err.exception)
+            self.assertIn(name, msg)
+            self.assertIn("这套回能公式不适用", msg)
+
+        res = self.call("profile", {"characterId": "1308"})
+        self.assertTrue(res["excluded"])
+        self.assertEqual(res["excludedReason"],
+                         "特殊能量（负面状态叠层激活终结技，这套回能公式不适用）")
+        self.assertEqual(res["message"], "这套回能公式不适用")
+
+    def test_catalog_lists_speed_parts_and_excluded(self) -> None:
+        """目录要把「基础 / 行迹 / 有效基础」拆开给界面，另列特殊能量隔离名单。"""
+        res = self.call("catalog")
+        by_id = {c["id"]: c for c in res["characters"]}
+        yg = by_id["1502"]
+        self.assertEqual(yg["baseSpeed"], 101)                # 白值
+        self.assertAlmostEqual(yg["traceSpeed"], 9.0)          # 行迹单列
+        self.assertAlmostEqual(yg["effectiveBaseSpeed"], 110.0)
+        self.assertEqual(yg["pathName"], "欢愉")
+        self.assertEqual(yg["elementName"], "物理")
+        self.assertEqual(yg["energyType"], "standard")
+        self.assertIn("结界", yg["mechanismNote"])
+
+        excluded = {e["name"] for e in res["excludedCharacters"]}
+        self.assertTrue({"黄泉", "飞霄", "遐蝶", "白厄", "昔涟", "银狼LV.999", "绯英"}
+                        <= excluded)
+
+    # ---- 爻光机制 ----
+
+    def test_yaoguang_kit_numbers_match_starrailres(self) -> None:
+        res = self.call("profile", {"characterId": "1502"})
+        kit = res["kit"]
+        self.assertEqual(kit["maxSp"], 180)
+        self.assertEqual(kit["skill"]["fieldTurns"], 3)
+        self.assertEqual(kit["skill"]["spunkPerAction"], 3)
+        self.assertEqual(kit["ult"]["spunk"], 5)
+        self.assertIn("开屏有礼", kit["extraTraces"])
+        self.assertNotIn("速度强化", kit["extraTraces"])  # 数值升级项不算额外行迹
+
+    def test_yaoguang_spunk_accumulates_3_per_own_action(self) -> None:
+        res = self.call("yaoguang", {"actions": 4, "rotation": ["普攻"], "openingSkill": True})
+        self.assertEqual([r["spunk"] for r in res["rows"]], [3, 6, 9, 12])
+
+    def test_yaoguang_field_decays_per_own_turn(self) -> None:
+        """验收 7：结界覆盖爻光**自己的 3 次正常行动**。
+
+        放战技那一次直接记满 3 回合、当回合**不**立刻减 1；
+        从下一次自己的回合开始递减：fieldLeft [3, 2, 1, 0]，
+        fieldActive [True, True, True, False]（不是旧的 2、1、0、0）。
+        """
+        res = self.call("yaoguang", {"actions": 4, "rotation": ["普攻"], "openingSkill": True})
+        self.assertEqual([r["fieldLeft"] for r in res["rows"]], [3, 2, 1, 0])
+        self.assertEqual([r["fieldActive"] for r in res["rows"]],
+                         [True, True, True, False])
+
+    def test_yaoguang_ult_gives_aha_extra_turn(self) -> None:
+        res = self.call("yaoguang", {"actions": 10, "rotation": ["普攻"], "openingSkill": True,
+                                     "err": 20, "actionsPerUlt": 5})
+        self.assertEqual(res["totals"]["extraTurnsForAha"], res["totals"]["ults"])
+        self.assertGreaterEqual(res["totals"]["extraTurnsForAha"], 1)
+        # 1 魂把额外回合固定计入的笑点从 20 提到 40 —— 只影响说明文字，不改笑点累加
+        e1 = self.call("yaoguang", {"actions": 10, "rotation": ["普攻"], "openingSkill": True,
+                                    "err": 20, "actionsPerUlt": 5, "eidolon": 1})
+        joined = " ".join(n for r in e1["rows"] for n in r["notes"])
+        self.assertIn("40", joined)
+
+    def test_yaoguang_declares_its_assumptions(self) -> None:
+        """不确定的东西必须显式声明，不能悄悄假设。"""
+        res = self.call("yaoguang", {"actions": 5})
+        text = " ".join(res["assumptions"])
+        self.assertIn("笑点", text)
+        self.assertIn("阿哈", text)
+
+    # ---- 模块骨架 ----
+
+    def test_feature_json_matches_directory(self) -> None:
+        feature_dir = ROOT / "modules" / self.MODULE / "features" / self.FEATURE
+        meta = json.loads((feature_dir / "feature.json").read_text(encoding="utf-8"))
+        self.assertEqual(meta["id"], self.FEATURE)
+        manifest = json.loads((ROOT / "modules" / self.MODULE / "manifest.json").read_text(encoding="utf-8"))
+        self.assertEqual(manifest["id"], self.MODULE)
+
+    def test_profile_data_declares_its_sources(self) -> None:
+        data = json.loads((ROOT / "modules" / self.MODULE / "data" / "profiles.json").read_text(encoding="utf-8"))
+        names = " ".join(s["name"] for s in data["sources"])
+        self.assertIn("StarRailRes", names)
+        self.assertIn("通用", names)  # 兜底来源必须写出来
+
+
+class TestActionValuePresetBridge(unittest.TestCase):
+    """配速查询的预设 → 行动值排轴。**真的调 speed-plan**，不造假数据。"""
+
+    # 每次跑都用独立的 userdata，不碰真 userdata
+    MODULE = "action-value"
+    FEATURE = "timeline"
+    CONFIG = {
+        "lightconeId": "23006",          # 卡芙卡的「只需等待」（虚无，能装）
+        "superimpose": 5,
+        "eidolon": 0,
+        "relic": {"speedBoots": True, "customPct": 10, "substatSpeed": 12},
+        "advance": {"custom": 25},
+        "target": {"t": 0, "actions": 2},
+    }
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls._tmp = tempfile.mkdtemp(prefix="gt-av-bridge-")
+        cls._old = os.environ.get("GT_USERDATA")
+        os.environ["GT_USERDATA"] = cls._tmp
+        try:
+            cls._errors = _load()
+        finally:
+            if cls._old is None:
+                os.environ.pop("GT_USERDATA", None)
+            else:
+                os.environ["GT_USERDATA"] = cls._old
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        shutil.rmtree(cls._tmp, ignore_errors=True)
+
+    def _with_temp_userdata(self, fn):
+        """在临时 userdata 下跑一段（feature_api 是读环境变量决定目录的）。"""
+        old = os.environ.get("GT_USERDATA")
+        os.environ["GT_USERDATA"] = self._tmp
+        try:
+            return fn()
+        finally:
+            if old is None:
+                os.environ.pop("GT_USERDATA", None)
+            else:
+                os.environ["GT_USERDATA"] = old
+
+    def _sp(self, action, payload=None):
+        return feature_api.call("honkai-star-rail", "speed-plan", action, payload or {})
+
+    def _av(self, action, payload=None):
+        return feature_api.call(self.MODULE, self.FEATURE, action, payload or {})
+
+    def _save(self):
+        return self._sp("save_preset", {"characterId": "1005", "config": self.CONFIG})
+
+    def test_config_has_no_character_id_but_bridge_still_works(self) -> None:
+        """预设的 config 里没有 characterId（角色 id 是外层键）—— 桥接必须自己补上。
+
+        早期版本直接把 config 丢给 speed-plan，报「找不到角色 None」。
+        """
+        self.assertNotIn("characterId", self.CONFIG)
+        self._with_temp_userdata(self._save)
+        self.assertNotIn("characterId", self.CONFIG)  # 保存过程不该改动我们的字典
+        got = self._with_temp_userdata(lambda: self._av("preset", {"characterId": "1005"}))
+        self.assertEqual(got["characterId"], "1005")
+        self.assertGreater(got["computed"]["speed"]["final"], 0)
+
+    def test_preset_list_contains_saved_character(self) -> None:
+        self._with_temp_userdata(self._save)
+        lst = self._with_temp_userdata(lambda: self._av("preset"))
+        ids = [p["characterId"] for p in lst["presets"]]
+        self.assertIn("1005", ids)
+
+    def test_missing_preset_raises_readable_error(self) -> None:
+        self._with_temp_userdata(self._save)
+        with self.assertRaises(ValueError) as ctx:
+            self._with_temp_userdata(lambda: self._av("preset", {"characterId": "1999"}))
+        self.assertIn("1999", str(ctx.exception))
+
+    def test_timeline_uses_absolute_speed_not_delta(self) -> None:
+        """timeline 每条是**绝对速度**；当增量叠加会把速度算爆（147 → 302）。
+
+        这里对着 speed-plan 自己给的 final 速度钉住：每一动的速度必须等于它，
+        不能是「S0 + 被动加成」那种重复计算。
+        """
+        self._with_temp_userdata(self._save)
+        one = self._with_temp_userdata(lambda: self._av("preset", {"characterId": "1005"}))
+        final = one["computed"]["speed"]["final"]
+        res = self._with_temp_userdata(
+            lambda: self._av("plan", {"presetCharacterId": "1005", "rounds": 4, "maxActions": 8})
+        )
+        for row in res["actions"]:
+            self.assertAlmostEqual(row["speed"], final, places=6,
+                                   msg="每动速度必须等于 speed-plan 的当前速度，不能叠成增量")
+
+    def test_preset_plan_matches_manual_entry(self) -> None:
+        """套预设 与 手填同样数字，必须逐动一致（同一条口径）。"""
+        self._with_temp_userdata(self._save)
+        one = self._with_temp_userdata(lambda: self._av("preset", {"characterId": "1005"}))
+        comp = one["computed"]
+        via_preset = self._with_temp_userdata(
+            lambda: self._av("plan", {"presetCharacterId": "1005", "rounds": 4, "maxActions": 12})
+        )
+        manual = self._with_temp_userdata(lambda: self._av("plan", {
+            "baseSpeed": comp["speed"]["base"],
+            "speedPct": comp["speed"]["pct"],
+            "speedFlat": comp["speed"]["flat"],
+            "advancePct": comp["advance"]["total"],
+            "rounds": 4, "maxActions": 12,
+        }))
+        self.assertAlmostEqual(via_preset["speed"]["final"], manual["speed"]["final"], places=6)
+        self.assertEqual(via_preset["actionCount"], manual["actionCount"])
+        for a, b in zip(via_preset["actions"], manual["actions"]):
+            self.assertAlmostEqual(a["av"], b["av"], places=6)
+            self.assertEqual(a["round"], b["round"])
+
+    def test_preset_carries_speed_breakdown_and_advance_items(self) -> None:
+        self._with_temp_userdata(self._save)
+        res = self._with_temp_userdata(
+            lambda: self._av("plan", {"presetCharacterId": "1005"})
+        )
+        labels = [b["label"] for b in res["appliedPreset"]["speedBreakdown"]]
+        self.assertIn("遗器主词条·速度鞋", labels)
+        self.assertAlmostEqual(res["advance"]["pct"], 25.0)
+        self.assertEqual(res["source"], "preset")
+        # 套用配装时**原样使用**配速查询的结果，并注明速度来自配速查询（排轴不重算）
+        self.assertIn("配速查询", res["speed"]["baseSource"]["source"])
+
+    def test_timeline_limit_does_not_change_action_count(self) -> None:
+        """给 speed-plan 加 timelineLimit 只该多记几条时间线，**不能**改变能打几次。
+
+        早期接错参数（把条数传进 action_cap）会让 completedActions 被截断。
+        """
+        base = {"characterId": "1005", "lightconeId": "23006",
+                "relic": {"speedBoots": True, "customFlat": 200},
+                "target": {"t": 9, "actions": 8}}
+        default = self._sp("plan", dict(base))
+        wide = self._sp("plan", {**base, "timelineLimit": 40})
+        narrow = self._sp("plan", {**base, "timelineLimit": 5})
+        self.assertEqual(default["simulation"]["completedActions"],
+                         wide["simulation"]["completedActions"])
+        self.assertEqual(default["verdict"]["achievableActions"],
+                         narrow["verdict"]["achievableActions"])
+        self.assertGreater(len(wide["simulation"]["timeline"]),
+                           len(default["simulation"]["timeline"]))
+
+
+class TestAhaSpeedSimulation(unittest.TestCase):
+    """【阿哈时刻】配速的模拟引擎：公式与机制全部钉在确定性排轴上。
+
+    只走公开动作（catalog / simulate / threshold），每条机制都从
+    timeline / units / notes 的账面上验证，改坏了立刻知道。
+    """
+
+    # ---- 小工具 ----
+
+    @staticmethod
+    def _sim(payload: dict) -> dict:
+        return call("aha-speed", "simulate", payload)
+
+    @staticmethod
+    def _labels(res: dict, key: str) -> list[dict]:
+        """timeline 里 label 含 key 的事件。"""
+        return [ev for ev in res["timeline"] if key in ev["label"]]
+
+    @staticmethod
+    def _action_avs(res: dict, slot: int) -> list[float]:
+        """某 slot 的常规行动时间点；额外回合不算（它不重置行动条距离）。"""
+        return [ev["av"] for ev in res["timeline"]
+                if ev["slot"] == slot and not ev["extra"]
+                and ev["type"] in ("basic", "skill", "enhanced_basic")]
+
+    @staticmethod
+    def _fervor_steps(res: dict) -> list[float]:
+        """热意快照的正向增量（每次队友攻击给多少热意）。"""
+        vals = [ev["res"]["fervor"] for ev in res["timeline"] if ev["res"]["fervor"] is not None]
+        return [round(b - a, 6) for a, b in zip(vals, vals[1:]) if b > a]
+
+    # ---- 目录 ----
+
+    def test_catalog_contains_core_elation_roster(self) -> None:
+        """目录必须列出核心欢愉阵容（含对照组砂金(存护)）。"""
+        res = call("aha-speed", "catalog")
+        by_id = {row["id"]: row for row in res["roster"]}
+        expect = {
+            "1511": "星神★阿哈", "1503": "真珠", "1513": "砂金•戏浪", "1304": "砂金(存护)",
+            "1502": "爻光", "1501": "火花", "8009": "开拓者•欢愉", "1505": "绯英",
+            "1506": "银狼LV.999",
+        }
+        for cid, name in expect.items():
+            with self.subTest(id=cid):
+                self.assertIn(cid, by_id)
+                self.assertEqual(by_id[cid]["name"], name)
+        # 欢愉标记分对错：砂金(存护) 是对照组，不能算欢愉
+        for cid in ("1511", "1503", "1513", "1502", "1501", "8009", "1505", "1506"):
+            self.assertTrue(by_id[cid]["elation"], cid)
+        self.assertFalse(by_id["1304"]["elation"])
+        # 加权系数 0.2/0.1/0.05/0.025（除数 5/10/20/40）
+        self.assertEqual([(w["weight"], w["divisor"]) for w in res["ahaWeights"]],
+                         [(0.2, 5), (0.1, 10), (0.05, 20), (0.025, 40)])
+
+    # ---- 【阿哈时刻】速度公式 ----
+
+    def test_aha_instant_speed_formula_with_and_without_aeon_aha(self) -> None:
+        """【阿哈时刻】速度 = 底速 + 0.2V1 + 0.1V2 + 0.05V3 + 0.025V4。
+
+        useAeonAha=False 底速 80；True（或 1511 在队）底速 94 + 12（专武白值
+        在百分比乘区内）。窗口压到 1 AV 且不吃秘技：没有任何事件改速度，
+        测的就是纯公式。
+        """
+        base_cfg = {"useTech": False, "maxAV": 1}
+
+        no_aeon = self._sim({"team": [{"id": "1503"}, {"id": "1513"},
+                                      {"id": "1502"}, {"id": "1501"}],
+                             "useAeonAha": False, **base_cfg})
+        vs = sorted((u["initialSpd"] for u in no_aeon["units"] if u["elation"]), reverse=True)
+        self.assertEqual([116.0, 110.0, 108.0, 107.0], vs)  # 砂金戏浪/爻光/真珠/火花
+        self.assertFalse(no_aeon["aha"]["useAeonAha"])
+        self.assertAlmostEqual(no_aeon["aha"]["base"], 80.0)
+        self.assertAlmostEqual(no_aeon["aha"]["speed"],
+                               80 + 0.2 * vs[0] + 0.1 * vs[1] + 0.05 * vs[2] + 0.025 * vs[3])
+        self.assertAlmostEqual(no_aeon["aha"]["speed"], 122.275)
+
+        with_aeon = self._sim({"team": [{"id": "1511"}, {"id": "1513"},
+                                        {"id": "1502"}, {"id": "1503"}],
+                               "useAeonAha": True, **base_cfg})
+        vs = sorted((u["initialSpd"] for u in with_aeon["units"] if u["elation"]), reverse=True)
+        self.assertEqual([116.0, 111.0, 110.0, 108.0], vs)  # 1511 带专武：94+12+5 行迹
+        self.assertTrue(with_aeon["aha"]["useAeonAha"])
+        self.assertAlmostEqual(with_aeon["aha"]["baseSpd"], 94.0)
+        self.assertAlmostEqual(with_aeon["aha"]["lcBaseSpd"], 12.0)
+        self.assertAlmostEqual(with_aeon["aha"]["base"], 106.0)  # 94 + 12（专武）
+        self.assertAlmostEqual(with_aeon["aha"]["speed"],
+                               106 + 0.2 * vs[0] + 0.1 * vs[1] + 0.05 * vs[2] + 0.025 * vs[3])
+        self.assertAlmostEqual(with_aeon["aha"]["speed"], 148.5)
+        for rank, weight, divisor in zip(with_aeon["aha"]["ranks"],
+                                         (0.2, 0.1, 0.05, 0.025), (5, 10, 20, 40)):
+            self.assertAlmostEqual(rank["weight"], weight)
+            self.assertEqual(rank["divisor"], divisor)
+
+    # ---- 真珠 ----
+
+    def test_pearl_pull_scaling_1_2_3_4_elation_and_extra_turn(self) -> None:
+        """真珠终结技：按欢愉人数拉【美学底本】10/15/30%，4 欢愉再给额外回合。
+
+        拉条本身不打日志，但会改【美学底本】下一动的行动值：开局把真珠拉满
+        （initAdv 100）让她在 av 0 开大，目标第一动 = (10000 − 100×拉条%) ÷ 目标速度，
+        逐步对拍。真珠 err 500：战技 30×6 = 180 = 能量上限，第一动必定开大，
+        之后靠【深度学习】强化普攻（20×6）压不满上限，窗口内不会有第二个大。
+        """
+        pearl = {"id": "1503", "initAdv": 100, "err": 500}
+
+        # ---- 1 欢愉：拉 10% ----
+        res = self._sim({"team": [{**pearl, "targetSlot": 1}, {"id": "1304"}],
+                         "useTech": False, "maxAV": 150})
+        details = self._labels(res, "鉴映灵魂的底色")[0]["details"]
+        self.assertIn("欢愉 1 人 → 【美学底本】拉条 10%", details)
+        self.assertAlmostEqual(self._action_avs(res, 1)[0], (10000 - 1000) / 106)
+
+        # ---- 2 欢愉：拉 15% ----
+        res = self._sim({"team": [{**pearl, "targetSlot": 2}, {"id": "1501"}, {"id": "1304"}],
+                         "useTech": False, "maxAV": 150})
+        details = self._labels(res, "鉴映灵魂的底色")[0]["details"]
+        self.assertIn("欢愉 2 人 → 【美学底本】拉条 15%", details)
+        self.assertAlmostEqual(self._action_avs(res, 2)[0], (10000 - 1500) / 106)
+
+        # ---- 3 欢愉：拉 30%；E2 时其他欢愉队友一起拉 ----
+        three = [{**pearl, "targetSlot": 3}, {"id": "1501"}, {"id": "1502"}, {"id": "1304"}]
+        res = self._sim({"team": three, "useTech": False, "maxAV": 150})
+        details = self._labels(res, "鉴映灵魂的底色")[0]["details"]
+        self.assertIn("欢愉 3 人 → 【美学底本】拉条 30%", details)
+        self.assertAlmostEqual(self._action_avs(res, 3)[0], (10000 - 3000) / 106)  # 砂金(存护)
+        self.assertAlmostEqual(self._action_avs(res, 2)[0], 10000 / 110)           # 爻光没被拉
+
+        res = self._sim({"team": [{**three[0], "eidolon": 2}, *three[1:]],
+                         "useTech": False, "maxAV": 150})
+        self.assertAlmostEqual(self._action_avs(res, 3)[0], (10000 - 3000) / 106)  # 美学底本照旧
+        self.assertAlmostEqual(self._action_avs(res, 2)[0], (10000 - 3000) / 110)  # E2：爻光也拉
+        self.assertAlmostEqual(self._action_avs(res, 1)[0], (10000 - 3000) / 107)  # 火花也是
+
+        # ---- 4 欢愉：拉 30% + 【美学底本】1 个额外回合（+60 笑点）----
+        res = self._sim({"team": [{**pearl, "targetSlot": 1}, {"id": "1501"},
+                                  {"id": "1502"}, {"id": "8009"}],
+                         "useTech": False, "maxAV": 80})
+        details = self._labels(res, "鉴映灵魂的底色")[0]["details"]
+        self.assertIn("欢愉 4 人 → 【美学底本】拉条 30%", details)
+        self.assertIn("4 欢愉：【美学底本】额外回合（+60 笑点，E2 +120）", details)
+        extra = self._labels(res, "真珠终结技·【美学底本】额外回合")
+        self.assertEqual(1, len(extra))
+        self.assertTrue(extra[0]["extra"])
+        self.assertIn("笑点 +60（额外回合结束时结算）", extra[0]["details"])
+        self.assertIn("好活当赏 +30", extra[0]["details"])
+        self.assertIn("回收 60 笑点", self._labels(res, "额外回合笑点结算")[0]["details"])
+        spark = next(u for u in res["units"] if u["id"] == "1501")
+        self.assertEqual(1, spark["extraTurnCount"])
+        # 额外回合不重置行动条：常规第一动照样按 30% 拉条后的距离跑
+        self.assertAlmostEqual(self._action_avs(res, 1)[0], (10000 - 3000) / 107)
+
+        # ---- 行迹3【艺术壁垒】：【美学底本】（欢愉）开大 → 真珠 +90 固定能量 ----
+        res = self._sim({"team": [{**pearl, "targetSlot": 1}, {"id": "1501", "err": 500}],
+                         "useTech": False, "maxAV": 90})
+        barrier = self._labels(res, "艺术壁垒触发")
+        self.assertEqual(1, len(barrier))
+        self.assertEqual(["真珠 +90 固定能量（不吃 ERR）"], barrier[0]["details"])
+        pearl_out = next(u for u in res["units"] if u["id"] == "1503")
+        # 真珠 err 500：90 要是吃 ERR 就变 540。开大返还 5×6 = 30，30 + 90 = 120 一个不多
+        self.assertAlmostEqual(pearl_out["finalEnergy"], 120.0)
+        self.assertFalse(pearl_out["mechanics"]["barrierArmed"])  # 触发后解除武装
+
+    # ---- 星神★阿哈 ----
+
+    def test_aeon_aha_wishpower_and_ult_advances_aha_instant(self) -> None:
+        """愿力来源、8 愿力开大、终结技拉条【阿哈时刻】、欢愉万相返还与 E6 首大。
+
+        e1Wishpower 给 7（差 1 点）：第一动战技「愿力 +1」正好满 8 —— 开大必须
+        发生在行动中而不是开局（开局触发的话会被 battle_start 末尾的行动条重置
+        把拉条冲掉，测不到 rem_dist −= 2000）。
+        """
+        team = [
+            {"id": "1511", "eidolon": 1, "initAdv": 30, "targetSlot": 1},
+            {"id": "1503", "targetSlot": 2},
+            {"id": "1513"},
+            {"id": "1501"},
+        ]
+        cfg = {"team": team, "useTech": False, "e1Wishpower": 7, "maxAV": 200}
+        res = self._sim(dict(cfg))
+
+        # 愿力来源逐个对账：E1 开局 +7、自己出招 +1、令使回合开始 +1、
+        # 笑点首达 40 +1、受治疗/护盾（行迹2）+1
+        self.assertEqual(["愿力 +7"], self._labels(res, "E1 开局回能")[0]["details"])
+        own = [ev for ev in res["timeline"]
+               if ev["type"] == "skill" and ev["name"] == "星神★阿哈"]
+        self.assertTrue(any("愿力 +1" in ev["details"] for ev in own))
+        self.assertTrue(any("愿力 +1" in ev["details"]
+                            for ev in self._labels(res, "自身动作回能")))
+        self.assertEqual(["星神★阿哈愿力 +1"],
+                         self._labels(res, "【「欢愉」令使】回合开始")[0]["details"])
+        self.assertTrue(any("笑点首达 40：星神★阿哈 +1 愿力" in n for n in res["notes"]))
+        self.assertEqual(["真珠战技群疗 → 愿力 +1"],
+                         self._labels(res, "戏中人的异想国")[0]["details"])
+        aha_unit = next(u for u in res["units"] if u["id"] == "1511")
+        self.assertGreaterEqual(aha_unit["mechanics"]["wishpowerTotal"], 12.0)
+
+        # 8 愿力开大：消耗 8 愿力、拉条【阿哈时刻】20%、进【欢愉万相】3 回合
+        ults = [ev for ev in res["timeline"]
+                if ev["type"] == "ultimate" and ev["name"] == "星神★阿哈"]
+        self.assertTrue(any("消耗 8 愿力" in ev["details"] for ev in ults))
+        boom = self._labels(res, "啊哈！宇宙笑点大爆炸")[0]
+        self.assertIn("【阿哈时刻】拉条 20%", boom["details"])
+        self.assertTrue(any("星神★阿哈进入【欢愉万相】3 回合" in n for n in res["notes"]))
+        settle = self._labels(res, "【阿哈时刻】笑点结算")[0]["details"]
+        self.assertTrue(any(d.startswith("欢愉万相返还 10%") for d in settle))
+
+        # 拉条 20% = rem_dist −= 2000：下一次【阿哈时刻】正好提前 2000/速度 的行动值
+        def first_aha(r: dict) -> float:
+            return [ev["av"] for ev in r["timeline"] if ev["type"] == "aha"][0]
+
+        pulled = self._sim({**cfg, "ultAdvanceAha": 20})
+        plain = self._sim({**cfg, "ultAdvanceAha": 0})
+        self.assertAlmostEqual(first_aha(plain) - first_aha(pulled),
+                               2000.0 / pulled["aha"]["speed"], places=6)
+
+        # E6 首次终结技 advance100：拉条 100% → 【阿哈时刻】在同一行动值立刻接上
+        e6 = [{**team[0], "eidolon": 6}, *team[1:]]
+        adv = self._sim({"team": e6, "useTech": False, "e1Wishpower": 7, "maxAV": 200,
+                         "e6FirstUltMode": "advance100"})
+        self.assertIn("E6 首次终结技：【阿哈时刻】拉条 100% + 笑点 +100",
+                      self._labels(adv, "啊哈！宇宙笑点大爆炸")[0]["details"])
+        ult_av = [ev["av"] for ev in adv["timeline"]
+                  if ev["type"] == "ultimate" and ev["name"] == "星神★阿哈"][0]
+        self.assertAlmostEqual([ev["av"] for ev in adv["timeline"]
+                                if ev["type"] == "aha"][0], ult_av)
+        self.assertGreaterEqual(adv["summary"]["punchlineGranted"], 100.0)
+
+        # E6 首次终结技 extra40：给【阿哈时刻】1 个计入 40 笑点的额外回合
+        extra = self._sim({"team": e6, "useTech": False, "e1Wishpower": 7, "maxAV": 45,
+                           "e6FirstUltMode": "extra40"})
+        self.assertIn("E6 首次终结技：【阿哈时刻】获得 1 个计入 40 笑点的额外回合",
+                      self._labels(extra, "啊哈！宇宙笑点大爆炸")[0]["details"])
+        turns = self._labels(extra, "【阿哈时刻】额外回合（计入 40 笑点）")
+        self.assertEqual(1, len(turns))
+        self.assertTrue(turns[0]["extra"])
+        self.assertEqual(["不消耗笑点池", "不重置【阿哈时刻】行动条距离"], turns[0]["details"])
+        self.assertEqual(1, extra["aha"]["extraTriggerCount"])
+        # 额外回合给全体欢愉发 40 好活当赏（记账用）
+        hh = next(u for u in extra["units"] if u["id"] == "1501")["mechanics"]["haohuo"]
+        self.assertTrue(any(item["label"] == "阿哈时刻额外回合" and item["count"] == 40.0
+                            for item in hh))
+
+    # ---- 砂金•戏浪 ----
+
+    def test_aventurine_sp_ult_speed_fervor_elation_skill_and_sandu(self) -> None:
+        """终结技自提速 4 回合、热意阈值欢愉技、单欢愉/三赌牌局的速度口径。"""
+        # ---- 终结技 +30% 速度（4 回合），【阿哈时刻】加权跟着变 ----
+        team = [{"id": "1513", "err": 500}, {"id": "1503", "targetSlot": 3},
+                {"id": "1502"}, {"id": "1501"}]
+        res = self._sim({"team": team, "useTech": False, "maxAV": 120})
+        self.assertEqual(["笑点 +6", "热意 +8", "自身速度 +30%（4 回合）",
+                          "基础回能返还 +5 × (1+ERR)"],
+                         self._labels(res, "胜局，凌越飓浪之上")[0]["details"])
+        sp = next(u for u in res["units"] if u["id"] == "1513")
+        self.assertAlmostEqual(sp["finalSpd"], 107 * 1.3 + 9)   # 148.1
+        self.assertAlmostEqual(res["aha"]["speed"], 122.275)     # 开大前的加权
+        # 提速后他是最快的欢愉，【阿哈时刻】速度动态跟着涨
+        self.assertAlmostEqual(res["aha"]["finalSpeed"],
+                               80 + 0.2 * 148.1 + 0.1 * 110 + 0.05 * 108 + 0.025 * 107)
+
+        # 4 回合的落点：第 5 动开大，之后 3 段路程按 148.1 跑，4 回合到期掉回 116
+        long = self._sim({"team": [{"id": "1513"}, {"id": "1503", "targetSlot": 3},
+                                   {"id": "1502"}, {"id": "1501"}],
+                          "useTech": False, "maxAV": 750})
+        avs = self._action_avs(long, 0)
+        self.assertGreaterEqual(len(avs), 9)
+        plain, boosted = 10000 / 116, 10000 / 148.1
+        for i in range(4):
+            self.assertAlmostEqual(avs[i + 1] - avs[i], plain, places=6)    # 开大前
+        for i in range(4, 7):
+            self.assertAlmostEqual(avs[i + 1] - avs[i], boosted, places=6)  # 提速生效
+        self.assertAlmostEqual(avs[8] - avs[7], plain, places=6)            # 到期掉回原速
+
+        # ---- 天赋 +1 / 行迹3【旧梦淘金】+2 热意；满 10 回合外放《举杯！敬炽烈一夏》----
+        # 1513 压到 10 速：只有队友在打人，热意增量干净（1 / 2 / 一次攻击 3）
+        slow = [{"id": "1513", "baseSpd": 1},
+                {"id": "1309", "rotation": "basic"}, {"id": "1313", "rotation": "basic"}]
+        res = self._sim({"team": slow, "useTech": False, "maxAV": 350})
+        steps = self._fervor_steps(res)
+        self.assertIn(1.0, steps)   # 天赋：队友攻击 +1
+        self.assertIn(2.0, steps)   # 行迹3：再 +2
+        self.assertIn(3.0, steps)   # 一次队友攻击同时给 1 + 2
+        juban = self._labels(res, "举杯！敬炽烈一夏（回合外欢愉技）")
+        self.assertEqual(1, len(juban))
+        self.assertTrue(juban[0]["extra"])
+        self.assertEqual(["固定 +20 笑点", "下一次【阿哈时刻】欢愉技升级为《All in！》"],
+                         juban[0]["details"])
+        self.assertAlmostEqual(juban[0]["res"]["fervor"], 10.0)  # 过 10 阈值立刻触发
+        allin = self._labels(res, "All in！敬炽烈一夏（欢愉技）")
+        self.assertEqual(1, len(allin))
+        self.assertIn("消耗全部热意", allin[0]["details"])
+
+        # ---- 单欢愉（只有戏浪）：队友攻击 → 【阿哈时刻】固定速度 +25 ----
+        solo = [{"id": "1513", "baseSpd": 1}, {"id": "1304", "rotation": "basic"}]
+        res = self._sim({"team": solo, "useTech": False, "maxAV": 110})
+        self.assertTrue(any("【纵享惊涛】触发" in n for n in res["notes"]))
+        self.assertAlmostEqual(res["aha"]["flatBonus"], 25.0)
+        self.assertAlmostEqual(res["aha"]["speed"], 82.0)        # 80 + 0.2×10
+        self.assertAlmostEqual(res["aha"]["finalSpeed"], 107.0)  # 就是 +25
+        self.assertFalse(res["resources"]["sanduActive"])
+        self.assertAlmostEqual(next(u for u in res["units"]
+                                    if u["id"] == "1304")["finalSpd"], 106.0)
+
+        # ---- 三赌牌局（1513 + 1511 欢愉万相）：+25 固定速度 + 全队 15% ----
+        duo = [{"id": "1511", "eidolon": 1, "e1Wishpower": 8, "targetSlot": 2},
+               {"id": "1513"}, {"id": "1304", "rotation": "basic"}]
+        res = self._sim({"team": duo, "useTech": False, "maxAV": 120})
+        self.assertTrue(res["resources"]["sanduActive"])
+        self.assertTrue(any("三赌牌局生效：全队速度 +15%" in n for n in res["notes"]))
+        spd = {u["id"]: (u["initialSpd"], u["finalSpd"]) for u in res["units"]}
+        self.assertAlmostEqual(spd["1513"][0], 116.0)                # 开局记账还没生效
+        self.assertAlmostEqual(spd["1513"][1], 107 * 1.15 + 9)       # 132.05
+        self.assertAlmostEqual(spd["1511"][1], (94 + 12) * 1.15 + 5)  # 126.9
+        self.assertAlmostEqual(spd["1304"][1], 106 * 1.15)           # 121.9
+        self.assertAlmostEqual(res["aha"]["flatBonus"], 25.0)
+        self.assertAlmostEqual(res["aha"]["finalSpeed"],
+                               106 + 0.2 * spd["1513"][1] + 0.1 * spd["1511"][1] + 25)
+
+    # ---- 速度阈值反推 ----
+
+    def test_threshold_formula(self) -> None:
+        """需求速度 = 10000 × (动数 − 拉条%/100) ÷ 目标行动值。"""
+        zero = call("aha-speed", "threshold", {"targetAV": 150, "actions": 2, "advancePct": 0})
+        self.assertAlmostEqual(zero["requiredSpeed"], 10000 * 2 / 150, places=9)      # 133.33…
+        self.assertAlmostEqual(zero["requiredSpeed"], 133.33, places=2)
+        pulled = call("aha-speed", "threshold", {"targetAV": 150, "actions": 2, "advancePct": 40})
+        self.assertAlmostEqual(pulled["requiredSpeed"], 10000 * 1.6 / 150, places=9)  # 106.66…
+        self.assertAlmostEqual(pulled["requiredSpeed"], 106.67, places=2)
+        # t 写法与 targetAV 写法同一条口径（150 AV 就是 0T）
+        by_t = call("aha-speed", "threshold", {"t": 0, "actions": 2, "advancePct": 40})
+        self.assertAlmostEqual(by_t["requiredSpeed"], pulled["requiredSpeed"], places=9)
+        self.assertEqual(by_t["t"], 0)
+
+    def test_web_port_matches(self) -> None:
+        """Python（api.py）与 JS（web_api.js）必须逐字段一致 —— 界面预设同一批数字。
+
+        这是「工具箱算的和网页版算的一不一样」的那道闸：speed-plan 有
+        tests/check_web_port.mjs，aha-speed 用 tools/check_aha_port.mjs。
+        没有 node 就跳过（和 herta 的网页版对拍同一条规矩）。
+        """
+        node = shutil.which("node")
+        if not node:
+            self.skipTest("没有 node")
+        import subprocess
+
+        proc = subprocess.run(
+            [node, str(ROOT / "tools" / "check_aha_port.mjs"), sys.executable],
+            capture_output=True, text=True, encoding="utf-8", errors="replace",
+        )
+        self.assertEqual(proc.returncode, 0, (proc.stdout or "") + (proc.stderr or ""))
 
 
 if __name__ == "__main__":

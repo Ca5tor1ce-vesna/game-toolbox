@@ -22,6 +22,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -68,10 +69,23 @@ def stage_resources() -> list[str]:
     return copied
 
 
+def version_parts() -> tuple[int, int, int, int]:
+    """`__version__` → Windows 资源里那四段整数。
+
+    版本号允许带后缀（`0.20.0beta`、`0.21.0-rc1` 这类），但文件属性的四段**必须是整数**，
+    所以每段只取开头的数字：`0.20.0beta` → `(0, 20, 0, 0)`。之前这里直接 `int(x)`，
+    一旦版本号带后缀，绿色版会打到一半才崩（`invalid literal for int(): '0beta'`）。
+    """
+    parts: list[int] = []
+    for chunk in __version__.split("."):
+        match = re.match(r"\d+", chunk.strip())
+        parts.append(int(match.group(0)) if match else 0)
+    return tuple((parts + [0, 0, 0, 0])[:4])  # type: ignore[return-value]
+
+
 def write_version_file() -> Path:
     """Windows 资源里的版本号（文件属性 → 详细信息）。"""
-    parts = [int(x) for x in __version__.split(".")] + [0] * 4
-    v = tuple(parts[:4])
+    v = version_parts()
     text = f"""VSVersionInfo(
   ffi=FixedFileInfo(filevers={v}, prodvers={v}, mask=0x3f, flags=0x0, OS=0x40004, fileType=0x1, subtype=0x0, date=(0, 0)),
   kids=[

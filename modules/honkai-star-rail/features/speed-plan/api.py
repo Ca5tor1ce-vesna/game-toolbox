@@ -1252,11 +1252,16 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
             action_cap=cap,
         )
 
-    def simulate_current(window_av: float, cap: int | None) -> dict[str, Any]:
+    def simulate_current(window_av: float, cap: int | None,
+                        timeline_limit: int = SIM_TIMELINE_LIMIT) -> dict[str, Any]:
         """按**当前配置**把行动模拟出来（界面展示时间线用）。
 
         这里必须走 speed_modifiers 这条路：游戏里百分比只作用在基础速度上，
         用 S0 再乘一遍百分比会多算（S0 × 1.12 ≠ 基础 × (1+6%+12%)）。
+
+        `cap` 是**行动次数上限**（`action_cap`），会连带影响 completed 计数 ——
+        只想多记几条时间线就传 `timeline_limit`，**别**去动 cap（踩过：
+        把条数传进 cap 会让 completedActions 从 34 变成 12）。
         """
         return _simulate(
             base_speed,
@@ -1265,6 +1270,7 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
             first_ult_action=first_ult_action,
             distance=distance,
             advance_distance=advance_distance,
+            timeline_limit=timeline_limit,
             action_cap=cap,
         )
 
@@ -1370,7 +1376,20 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
     # 模拟明细：时间线 + 说明，界面直接展示。
     # 时间线固定走满 12 步（不跟着 target.actions 缩），否则目标只写 2 动时
     # 根本看不出「第 3 次行动加速就过期了」这种回落。
-    sim_run = simulate_current(target_av, None)
+    #
+    # `timelineLimit` 是给别的模块用的（行动值排轴要按每一动的速度展开整条轴，
+    # 12 条不够）：不传 = 默认 12，行为与以前完全一致；传了就按那个条数模拟。
+    # timeline 里每条是**这一动的绝对速度**（不是增量），消费方直接用 speed 字段。
+    raw_limit = payload.get("timelineLimit")
+    timeline_limit = SIM_TIMELINE_LIMIT
+    if raw_limit not in (None, ""):
+        try:
+            timeline_limit = int(round(float(raw_limit)))
+        except (TypeError, ValueError):
+            raise ValueError(f"参数 timelineLimit 需要是数字，收到 {raw_limit!r}") from None
+    timeline_limit = max(1, min(timeline_limit, 400))
+    # 注意：cap 保持 None（不许把条数当行动次数上限传进去 —— 那会把 completed 计数截断）
+    sim_run = simulate_current(target_av, None, timeline_limit)
     # 当前速度在该行动值下能打几次：
     #   没有随行动变化的加速 → 与旧公式逐位一致的闭式口径；
     #   有 → 用模拟出来的真实时间线数（这时才知道开大/叠层到底帮了多少）。

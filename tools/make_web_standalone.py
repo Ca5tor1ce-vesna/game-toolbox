@@ -294,6 +294,18 @@ def build(with_theme: bool = True, out_name: str | None = None) -> Path:
         + "\n})();"
     )
 
+    AHA = MODULE / "features" / "aha-speed"
+    aha_api = read(AHA / "web_api.js")
+    aha_css = read(AHA / "style.css")
+    aha_ui_raw = read(AHA / "ui.js")
+    if "export default {" not in aha_ui_raw:
+        raise SystemExit("aha-speed ui.js 结构变了")
+    aha_ui = (
+        "const GT_AHA_FEATURE = (() => {\n"
+        + aha_ui_raw.replace("export default {", "return {", 1)
+        + "\n})();"
+    )
+
     bundle = {
         "characters": characters,
         "lightcones": lightcones,
@@ -383,16 +395,20 @@ html, body {{ height: auto; overflow: visible; }}
 <style>
 {herta_css}
 </style>
+<style>
+{aha_css}
+</style>
 </head>
 <body>
 <header class="gt-standalone-head">
   <h1>🚄 崩铁工具 · 网页版</h1>
-  <nav class="gt-tabs"><button class="gt-tab is-active" data-view="view">🎯 配速查询</button><button class="gt-tab" data-view="view-herta">📜 角色顶分</button></nav>
+  <nav class="gt-tabs"><button class="gt-tab is-active" data-view="view">🎯 配速查询</button><button class="gt-tab" data-view="view-aha">🎭 欢愉队配速</button><button class="gt-tab" data-view="view-herta">📜 角色顶分</button></nav>
   <span class="gt-sub" id="gt-sub">单文件 · 双击即用 · 不需要服务</span>
   <span class="gt-selftest" id="gt-selftest">自检中…</span>
 </header>
 <div class="gt-standalone-body">
   <div id="view"></div>
+  <div id="view-aha" hidden></div>
   <div id="view-herta" hidden></div>
   <div id="gt-failures"></div>
 </div>
@@ -422,6 +438,12 @@ html, body {{ height: auto; overflow: visible; }}
 </script>
 <script>
 {herta_ui}
+</script>
+<script>
+{aha_api}
+</script>
+<script>
+{aha_ui}
 </script>
 <script>
 (async function () {{
@@ -475,20 +497,31 @@ html, body {{ height: auto; overflow: visible; }}
   }};
   const hertaApi = window.GT_HERTA_API.createApi({{ storage: hertaStorage, characters: window.GT_DATA.characters, lightcones: window.GT_DATA.lightcones }});
   const hertaCtx = {{ moduleId: "herta", featureId: "records", call: (action, payload) => hertaApi.call(action, payload) }};
+  const ahaApi = window.GT_AHA_SPEED_API.createApi();
+  const ahaCtx = {{ moduleId: "honkai-star-rail", featureId: "aha-speed", feature: {{ baseUrl: "/modules/honkai-star-rail/features/aha-speed" }}, call: (action, payload) => Promise.resolve(ahaApi.call(action, payload)), fmt: gtFmt, ui: {{ escapeHtml: gtEscapeHtml, fmt: gtFmt }} }};
   let hertaMounted = false;
+  let ahaMounted = false;
   async function showView(id) {{
     document.querySelectorAll(".gt-tab").forEach((b) => b.classList.toggle("is-active", b.dataset.view === id));
     document.getElementById("view").hidden = id !== "view";
+    document.getElementById("view-aha").hidden = id !== "view-aha";
     document.getElementById("view-herta").hidden = id !== "view-herta";
+    if (id === "view-aha" && !ahaMounted) {{
+      ahaMounted = true;
+      try {{ await GT_AHA_FEATURE.mount(document.getElementById("view-aha"), ahaCtx); window.GT_AHA_MOUNTED = true; }}
+      catch (error) {{ document.getElementById("view-aha").innerHTML = `<p class="error-text">界面挂载失败：${{error.message}}</p>`; window.GT_AHA_MOUNTED = false; }}
+    }}
     if (id === "view-herta" && !hertaMounted) {{
       hertaMounted = true;
       try {{ await GT_HERTA_FEATURE.mount(document.getElementById("view-herta"), hertaCtx); window.GT_HERTA_MOUNTED = true; }}
       catch (error) {{ document.getElementById("view-herta").innerHTML = `<p class="error-text">界面挂载失败：${{error.message}}</p>`; window.GT_HERTA_MOUNTED = false; }}
     }}
-    if (location.hash !== (id === "view-herta" ? "#herta" : "")) history.replaceState(null, "", id === "view-herta" ? "#herta" : location.pathname + location.search);
+    const hash = id === "view-herta" ? "#herta" : (id === "view-aha" ? "#aha" : "");
+    if (location.hash !== hash) history.replaceState(null, "", hash || (location.pathname + location.search));
   }}
   document.querySelectorAll(".gt-tab").forEach((b) => b.addEventListener("click", () => showView(b.dataset.view)));
   if (location.hash === "#herta") showView("view-herta");
+  if (location.hash === "#aha") showView("view-aha");
 }})();
 </script>
 </body>
