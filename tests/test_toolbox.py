@@ -3441,8 +3441,16 @@ class TestActionValueTimeline(unittest.TestCase):
         self.assertNotIn("速度强化", kit["extraTraces"])  # 数值升级项不算额外行迹
 
     def test_yaoguang_spunk_accumulates_3_per_own_action(self) -> None:
+        """结界覆盖爻光自己的 3 次行动，只有这 3 动 +3；结界外不再加。"""
         res = self.call("yaoguang", {"actions": 4, "rotation": ["普攻"], "openingSkill": True})
-        self.assertEqual([r["spunk"] for r in res["rows"]], [3, 6, 9, 12])
+        self.assertEqual([r["spunk"] for r in res["rows"]], [3, 6, 9, 9])
+        self.assertEqual([r["fieldActive"] for r in res["rows"]],
+                         [True, True, True, False])
+        five = self.call("yaoguang", {"actions": 5, "rotation": ["普攻"], "openingSkill": True})
+        self.assertEqual([r["spunk"] for r in five["rows"]], [3, 6, 9, 9, 9])
+        self.assertEqual(five["totals"]["spunk"], 9)
+        self.assertIn("结界外：不加笑点", five["rows"][3]["notes"])
+        self.assertIn("结界外：不加笑点", five["rows"][4]["notes"])
 
     def test_yaoguang_field_decays_per_own_turn(self) -> None:
         """验收 7：结界覆盖爻光**自己的 3 次正常行动**。

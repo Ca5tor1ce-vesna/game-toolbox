@@ -941,7 +941,7 @@ def yaoguang(payload: dict[str, Any], ctx) -> dict[str, Any]:
     """爻光机制推演：笑点 / 结界覆盖 / 阿哈额外回合 / 回能节奏。
 
     只建模**能确定**的部分，其余全部明确列成「假设」返回给界面：
-      * 笑点：战技展开结界后，爻光自己每次普攻/战技 +3；开大 +5（1 魂时额外回合的固定计入 20→40）
+      * 笑点：结界持续期间，爻光自己每次普攻/战技 +3（结界外不加）；开大 +5（1 魂时额外回合的固定计入 20→40）
       * 结界：3 回合，且**随爻光自己的回合递减** —— 所以「覆盖爻光 3 次行动」
       * 阿哈额外回合：每次开大给 1 个，不消耗笑点
       * 终结技的施放时机、阿哈自己的行动轴、笑点是否有上限：**数据里没有，不做假设**
@@ -1017,8 +1017,12 @@ def yaoguang(payload: dict[str, Any], ctx) -> dict[str, Any]:
         base = float(BASE_ENERGY[acted_with] if value is None else value)
         gain = (base if _energy_is_fixed(info) else base * mult) + hit_e
         energy = min(max_sp, energy + gain)
-        spunk += int(spunk_per)
-        notes.append(f"笑点 +{spunk_per} → {spunk}")
+        # 战技文案：结界持续期间，爻光施放普攻、战技后才 +3。展开当动算在结界内。
+        if field_left > 0:
+            spunk += int(spunk_per)
+            notes.append(f"结界内笑点 +{spunk_per} → {spunk}")
+        else:
+            notes.append("结界外：不加笑点")
 
         # 满能判定要在「开大清空」之前做，否则永远记不到"第一次满能"（踩过）
         if energy >= max_sp - 1e-9 and first_full is None:
@@ -1066,6 +1070,7 @@ def yaoguang(payload: dict[str, Any], ctx) -> dict[str, Any]:
             "阿哈自己的行动轴（它的速度、额外回合落在哪个行动值）：不在本模块范围",
             "终结技的实际施放时机：用 actionsPerUlt 近似（每 N 次自己的行动夹一次），不是真实轴",
             "受击/击杀回能：默认 0，参数里给了才计入",
+            "结界内爻光自己的普攻/战技才 +3 笑点；结界外不加。展开当动算在结界内",
             "结界「随爻光自己的回合开始递减」：施放战技那一次直接记满回合、当回合不减，"
             "3 回合结界覆盖她自己的 3 次正常行动",
         ],
