@@ -43,6 +43,7 @@ export default {
       actionsPerUlt: 5,
       eidolon: 0,
       skillLevel: 10,
+      pathAscension: false,
       presets: [],
       presetId: "",
     };
@@ -233,6 +234,7 @@ export default {
             actionsPerUlt: state.actionsPerUlt,
             eidolon: state.eidolon,
             skillLevel: state.skillLevel,
+            pathAscension: state.pathAscension,
           });
           out.innerHTML = viewKit(last);
         } else {
@@ -265,6 +267,8 @@ export default {
       if (apu) apu.addEventListener("change", () => { state.actionsPerUlt = Number(apu.value) || 0; draw(); });
       const eid = root.querySelector("#av-eid");
       if (eid) eid.addEventListener("change", () => { state.eidolon = Number(eid.value) || 0; draw(); });
+      const asc = root.querySelector("#av-ascend");
+      if (asc) asc.addEventListener("change", () => { state.pathAscension = asc.checked; draw(); });
     }
 
     function viewTimeline(res) {
@@ -485,6 +489,9 @@ export default {
                 .map((e) => `<option value="${e}"${e === state.eidolon ? " selected" : ""}>E${e}</option>`)
                 .join("")}
             </select></label>
+          <label class="field"><span>欢愉命途升格</span>
+            <input id="av-ascend" type="checkbox" ${state.pathAscension ? "checked" : ""}>
+          </label>
         </div>
         <div class="card">
           <div class="av-summary">
@@ -506,8 +513,19 @@ export default {
                  持续 <b>${esc(ult.resPenTurns)}</b> 回合。</p></div>
             <div class="av-kitcard"><h4>天赋 · ${esc(talent.name || "")}</h4>
               <p>持有【好活当赏】时，我方目标施放攻击后触发【大吉大利】，额外造成
-                 <b>${talent.elationDamage != null ? num(talent.elationDamage * 100, 2) + "%" : "—"}</b> 欢愉伤害；
-                 该次攻击若消耗战技点则额外触发 1 次；触发不视为 1 次攻击。</p></div>
+                 <b>${talent.elationDamage != null ? num(talent.elationDamage * 100, 2) + "%" : "—"}</b> 欢愉伤害
+                 ${talent.ascensionBonus ? `（原倍率 ${num((talent.elationDamageBase || 0) * 100, 2)}%，固有行迹提高原倍率的 ${num(talent.ascensionBonus * 100, 0)}%）` : ""}；
+                 该次攻击若消耗战技点则额外触发 1 次（本推演不模拟战技点）；触发不视为 1 次攻击。</p></div>
+            <div class="av-kitcard"><h4>固有行迹 · ${esc((kit.inherentTrace || {}).name || "—")}</h4>
+              <p>${kit.inherentTrace
+                ? (kit.inherentTrace.active
+                  ? "命途升格已计入：【大吉大利】按上面的提高后倍率，开大固定回能 +"
+                    + esc(kit.inherentTrace.ultEnergy) + "、笑点 +" + esc(kit.inherentTrace.ultSpunk) + "。"
+                  : "未开启。勾选「欢愉命途升格」后，【大吉大利】倍率提高原倍率的 "
+                    + num((kit.inherentTrace.dajiBonus || 0) * 100, 0)
+                    + "%，开大固定回能 +" + esc(kit.inherentTrace.ultEnergy)
+                    + "、笑点 +" + esc(kit.inherentTrace.ultSpunk) + "。")
+                : "—"}</p></div>
             <div class="av-kitcard"><h4>额外行迹</h4>
               <p>${(kit.extraTraces || []).map(esc).join(" · ") || "—"}</p></div>
           </div>

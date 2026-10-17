@@ -94,7 +94,7 @@
         "专属被动【阿哈时刻在】：【阿哈时刻】底速 = 本体基础速度（含专武）",
         "行迹3【盒中蕴藏的世界】：进战自身拉条 30%（速度 ≥125/150 时欢愉度 +120%/+150%）",
         "战技：指定【「欢愉」令使】并发动量子欢愉追击（净耗 0 战技点）",
-        "终结技：拉条【阿哈时刻】20%，进入【欢愉万相】3 回合",
+        "终结技：拉条【阿哈时刻】20%，进入【欢愉万相】3 回合；E6 首次改为拉条 100% 并获得 100 笑点",
       ],
     },
     "1503": {
@@ -170,7 +170,7 @@
         "普攻基础回能 30（战技 30，终结技返还 5）",
         "秘技/战技：展开 3 回合结界；结界内自己普攻/战技 +3 笑点，E2 全队速度 +12%",
         "终结技：+5 笑点并给【阿哈时刻】1 个额外回合（20 笑点，E1 为 40）",
-        "欢愉万相★心灵感应：阿哈【欢愉万相】期间终结技额外 +12 固定能量 +10 笑点",
+        "欢愉万相★心灵感应（命途升格）：【大吉大利】倍率提高原倍率的 20%（10 级 20%→24%）；终结技 +12 固定能量 +10 笑点",
       ],
     },
     "1501": {
@@ -305,7 +305,6 @@
     { key: "trace3Advance", label: "阿哈行迹3 进战自身拉条 30%", default: true, type: "bool" },
     { key: "ultAdvanceAha", label: "阿哈终结技拉条【阿哈时刻】%", default: 20.0, type: "number", min: 0, max: 100 },
     { key: "e1Wishpower", label: "阿哈 E1 开局愿力", default: 5.0, type: "number", min: 0, max: 10 },
-    { key: "e6FirstUltMode", label: "阿哈 E6 首次终结技", default: "extra40", type: "choice", choices: ["extra40", "advance100"] },
     { key: "ultSpdPct", label: "砂金•戏浪终结技自提速%", default: 30.0, type: "number", min: 0, max: 200 },
     { key: "sanduTeamSpdPct", label: "三赌牌局全队提速%", default: 15.0, type: "number", min: 0, max: 200 },
     { key: "sanduFervorGain", label: "三赌牌局每次队友攻击热意", default: 1.0, type: "number", min: 0, max: 10 },
@@ -599,10 +598,7 @@
     // ----------------------------- 配置与队伍 ----------------------------- #
 
     parseConfig(payload) {
-      const e6Mode = String(payload.e6FirstUltMode || "extra40");
-      if (e6Mode !== "extra40" && e6Mode !== "advance100") {
-        throw new Error("参数 e6FirstUltMode 需要是 extra40/advance100，收到 " + pyRepr(e6Mode));
-      }
+      // e6FirstUltMode 是旧开关。nanoka 只有一种 E6 首大，传来就忽略。
       const feiMode = String(payload.feiyingHaohuoEnergyMode || "punchline");
       if (feiMode !== "punchline" && feiMode !== "flat") {
         throw new Error("参数 feiyingHaohuoEnergyMode 需要是 punchline/flat，收到 " + pyRepr(feiMode));
@@ -617,7 +613,6 @@
         trace3_advance: boolOf(payload, "trace3Advance", true),
         ult_advance_aha: num(payload, "ultAdvanceAha", 20.0, 0.0, 100.0),
         e1_wishpower: num(payload, "e1Wishpower", 5.0, 0.0, 10.0),
-        e6_mode: e6Mode,
         ult_spd_pct: num(payload, "ultSpdPct", 30.0, -100.0, 1000.0),
         sandu_team_spd_pct: num(payload, "sanduTeamSpdPct", 15.0, -100.0, 1000.0),
         sandu_fervor_gain: num(payload, "sanduFervorGain", 1.0, 0.0, 10.0),
@@ -846,24 +841,26 @@
       if (amount === 0) {
         return;
       }
+      const before = this.punchline;
       this.punchline += amount;
       this.punchlineGranted += amount;
       const wolf = this.byUid("1506");
       if (wolf !== null && amount > 0) {
         this.gainEnergy(wolf, amount, true);
       }
-      this.checkPunchline40();
+      this.checkPunchline40(before);
     }
 
-    checkPunchline40() {
-      if (this.punchline40Done || this.punchline < 40.0) {
+    checkPunchline40(before) {
+      // 这一次添加之前低于 40，添加之后不低于 40，才算首次达到。
+      if (this.punchline40Done || before >= 40.0 || this.punchline < 40.0) {
         return;
       }
       this.punchline40Done = true;
       const a = this.byUid("1511");
       if (a !== null) {
         this.gainWishpower(a, 1.0);
-        this.notes.push("笑点首达 40：星神★阿哈 +1 愿力，全队暴伤 +24%（3 回合，本工具不模拟伤害）");
+        this.notes.push("笑点首达 40：星神★阿哈 +1 愿力，全队暴伤 +40%（3 回合，本工具不模拟伤害）");
       }
     }
 
@@ -1035,6 +1032,17 @@
           this.ahaFlat = 25.0;
           this.notes.push("【纵享惊涛】触发：【阿哈时刻】固定速度 +25（到下一次阿哈时刻结束）");
         }
+      }
+
+      // 爻光天赋【大吉大利】。命途升格后固有行迹把 10 级倍率 20% 提高为 24%。
+      const yao = this.byUid("1502");
+      const attack = TALENT_ATTACK_KINDS.indexOf(kind) >= 0 || kind === "elation_skill";
+      if (yao !== null && yao.haohuo.length && this.huanyuActive() && attack) {
+        this.event("note", yao, "大吉大利", [
+          "【大吉大利】欢愉伤害 24%（原倍率 20% × 1.20）",
+          "固有行迹【欢愉万相★心灵感应】：倍率提高原倍率的 20%",
+          "不视为 1 次攻击",
+        ]);
       }
     }
 
@@ -1408,25 +1416,20 @@
     ult1511(u) {
       u.trace2Used = false;
       const details = [];
-      if (u.eidolon >= 6 && u.ultCount === 1 && this.cfg.e6_mode === "advance100") {
+      // nanoka E6：首次终结技拉条 100% 并获得 100 笑点（进池）。
+      if (u.eidolon >= 6 && u.ultCount === 1) {
         this.aha.rem_dist = 0.0;
         this.gainPunchline(100.0);
         details.push("E6 首次终结技：【阿哈时刻】拉条 100% + 笑点 +100");
       } else {
         this.advanceAha(this.cfg.ult_advance_aha);
         details.push("【阿哈时刻】拉条 " + fmt(this.cfg.ult_advance_aha, 0) + "%");
-        if (u.eidolon >= 6 && u.ultCount === 1 && this.cfg.e6_mode === "extra40") {
-          details.push("E6 首次终结技：【阿哈时刻】获得 1 个计入 40 笑点的额外回合");
-        }
       }
       this.event("note", u, "啊哈！宇宙笑点大爆炸", details);
       u.huanyu = 3;
       this.notes.push("星神★阿哈进入【欢愉万相】3 回合（笑点升格爽点，阿哈时刻结束返还 10%）");
       if (this.sanduActive()) {
         this.notes.push("三赌牌局生效：全队速度 +" + fmt(this.cfg.sandu_team_spd_pct, 0) + "%");
-      }
-      if (u.eidolon >= 6 && u.ultCount === 1 && this.cfg.e6_mode === "extra40") {
-        this.doAha(true, 40.0);
       }
     }
 
@@ -1480,7 +1483,7 @@
       const fixed = u.eidolon >= 1 ? 40.0 : 20.0;
       const details = ["笑点 +5", "【阿哈时刻】额外回合（计入 " + fmt(fixed, 0) + " 笑点，不消耗笑点池）"];
       if (this.huanyuActive()) {
-        details.push("欢愉万相★心灵感应：+12 固定能量 +10 笑点");
+        details.push("欢愉万相★心灵感应：【大吉大利】倍率提高原倍率的 20%；+12 固定能量 +10 笑点");
       }
       this.event("note", u, "爻光终结技", details);
       this.gainPunchline(5.0);
@@ -1659,9 +1662,9 @@
           if (consumed > 0) {
             this.grantHaohuo(recipients, consumed, "阿哈时刻");
           }
-          // 只在消耗笑点的普通【阿哈时刻】结束时重置。额外回合不扣池。
-          this.punchline40Done = false;
         }
+        // 阿哈回合（含额外回合）结束后可再次触发。仍要笑点从低于 40 再升上去。
+        this.punchline40Done = false;
         this.ahaFlat = 0.0;
         // 1501 火花 E2：阿哈时刻每次结束立刻额外回合
         const spark = this.byUid("1501");
@@ -2100,7 +2103,12 @@
       } else if (unit.uid === "1304") {
         out = { blindStacks: unit.blind };
       } else if (unit.uid === "1502") {
-        out = { fieldTurns: unit.field };
+        const bonus = this.huanyuActive() ? 0.20 : 0.0;
+        out = {
+          fieldTurns: unit.field,
+          dajiElationDamage: 0.20 * (1.0 + bonus),
+          mindLinkActive: this.huanyuActive(),
+        };
       } else if (unit.uid === "1505") {
         out = { energySinceFuA: unit.feiyTotal };
       } else if (unit.uid === "1506") {

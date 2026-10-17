@@ -3,7 +3,7 @@
  * 同时支持两种视图模式：
  *   1. 「🎭 欢愉队完整机制排轴模拟」（默认）：调用后端 `simulate` / `threshold` 引擎，
  *      完整模拟真珠【美学底本】拉人（10%/15%/30% + 4欢愉额外回合）与【艺术壁垒】90点固定回能、
- *      星神★阿哈【愿力】5大来源与终结技拉条【阿哈时刻】20%（及E6首大100%/额外回合）与【欢愉万相】升格、
+ *      星神★阿哈【愿力】5大来源与终结技拉条【阿哈时刻】20%（E6 首次改为 100% 并 +100 笑点）与【欢愉万相】升格、
  *      砂金•戏浪终结技4回合提速（+30%/39%）、队友攻击叠【热意】满10点回合外施放欢愉技、
  *      行迹【纵享惊涛】/升格【三赌牌局】使阿哈速度+25与全队提速，以及存护砂金、爻光、火花、欢愉主等联动。
  *   2. 「📄 原版静态工具（original.html）」：逐字节原样嵌入 `original.html`（磁盘文件完全不动）。
@@ -41,7 +41,6 @@ const TEAM_PRESETS = {
       trace3Advance: true,
       ultAdvanceAha: 20,
       e1Wishpower: 5,
-      e6FirstUltMode: "extra40",
       ultSpdPct: 30,
       sanduTeamSpdPct: 15,
       aeonAhaBaseSpd: 94,
@@ -82,7 +81,6 @@ const TEAM_PRESETS = {
       trace3Advance: true,
       ultAdvanceAha: 20,
       e1Wishpower: 5,
-      e6FirstUltMode: "extra40",
       ultSpdPct: 30,
       sanduTeamSpdPct: 15,
       aeonAhaBaseSpd: 94,
@@ -123,7 +121,6 @@ const TEAM_PRESETS = {
       trace3Advance: true,
       ultAdvanceAha: 20,
       e1Wishpower: 5,
-      e6FirstUltMode: "extra40",
       ultSpdPct: 30,
       sanduTeamSpdPct: 15,
       aeonAhaBaseSpd: 94,
@@ -164,7 +161,6 @@ const TEAM_PRESETS = {
       trace3Advance: false,
       ultAdvanceAha: 20,
       e1Wishpower: 5,
-      e6FirstUltMode: "extra40",
       ultSpdPct: 30,
       sanduTeamSpdPct: 15,
       aeonAhaBaseSpd: 80,
@@ -368,12 +364,8 @@ export default {
                   <small>施放终结技使【阿哈时刻】行动提前%</small>
                 </div>
                 <div class="aha-field">
-                  <label>星神★阿哈 6魂首大模式</label>
-                  <select class="aha-select" id="cfg-e6FirstUltMode">
-                    <option value="extra40" ${state.config.e6FirstUltMode === "extra40" ? "selected" : ""}>额外回合(计40笑点)+后续拉20%</option>
-                    <option value="advance100" ${state.config.e6FirstUltMode === "advance100" ? "selected" : ""}>首大拉条100%并+100笑点</option>
-                  </select>
-                  <small>仅在星神★阿哈星魂 = E6 时生效</small>
+                  <label>星神★阿哈 6魂首大</label>
+                  <small>E6 首次终结技使【阿哈时刻】行动提前 100%，并获得 100 笑点。之后每次仍按上面的拉条%。</small>
                 </div>
                 <div class="aha-field">
                   <label>砂金•戏浪大招自提速 (%)</label>
@@ -515,14 +507,6 @@ export default {
       bindNum("cfg-ahaSpdPct", "ahaSpdPct");
       bindNum("cfg-ahaAdvancePct", "ahaAdvancePct");
       bindNum("cfg-maxAV", "maxAV");
-
-      const e6Sel = container.querySelector("#cfg-e6FirstUltMode");
-      if (e6Sel) {
-        e6Sel.addEventListener("change", () => {
-          state.config.e6FirstUltMode = e6Sel.value;
-          runSimulation();
-        });
-      }
 
       // 绑定阈值反推
       ["thr-targetAV", "thr-actions", "thr-advancePct"].forEach((id) => {
@@ -992,7 +976,7 @@ export default {
             <span style="font-size:11px;color:#94a3b8;">令使：${esc(aeonUnit ? lingshiTarget : "未编入")}</span>
           </div>
           <div style="font-size:11px;color:#94a3b8;">
-            满8点【愿力】开大：使【阿哈时刻】行动提前 ${fmtNum(state.config.ultAdvanceAha, 0)}%，开启3回合【欢愉万相】升格（阿哈时刻返还10%笑点）。
+            满8点【愿力】开大：使【阿哈时刻】行动提前 ${fmtNum(state.config.ultAdvanceAha, 0)}%（E6 首次为 100% 并 +100 笑点），开启3回合【欢愉万相】升格（阿哈时刻返还10%笑点）。笑点首达 40 时全队暴伤 +40%（3 回合，不模拟伤害）。
           </div>
           <div class="aha-mech-logs">
             ${formatLogs(aeonEvents, "当前编队未编入星神★阿哈，可在上方槽位选择「星神★阿哈」体验拉条阿哈。")}

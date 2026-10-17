@@ -3475,6 +3475,27 @@ class TestActionValueTimeline(unittest.TestCase):
         joined = " ".join(n for r in e1["rows"] for n in r["notes"])
         self.assertIn("40", joined)
 
+    def test_yaoguang_ascension_trace_boosts_talent(self) -> None:
+        """命途升格后固有行迹把 10 级【大吉大利】20% 提高到 24%，开大再 +12 能量 +10 笑点。"""
+        base = {"actions": 1, "rotation": ["普攻"], "openingSkill": True,
+                "startEnergy": 180, "actionsPerUlt": 1, "err": 0, "skillLevel": 10}
+        off = self.call("yaoguang", base)
+        on = self.call("yaoguang", {**base, "pathAscension": True})
+        self.assertAlmostEqual(off["kit"]["talent"]["elationDamage"], 0.2)
+        self.assertEqual(off["kit"]["inherentTrace"]["name"], "欢愉万相★心灵感应")
+        self.assertFalse(off["kit"]["inherentTrace"]["active"])
+        self.assertAlmostEqual(on["kit"]["talent"]["elationDamage"], 0.24)
+        self.assertAlmostEqual(on["kit"]["talent"]["elationDamageBase"], 0.2)
+        self.assertAlmostEqual(on["kit"]["talent"]["ascensionBonus"], 0.2)
+        self.assertTrue(on["kit"]["inherentTrace"]["active"])
+        self.assertEqual(on["totals"]["spunk"], off["totals"]["spunk"] + 10)
+        self.assertEqual(on["rows"][0]["energy"], off["rows"][0]["energy"] + 12)
+        joined = " ".join(on["rows"][0]["notes"])
+        self.assertIn("【大吉大利】倍率提高原倍率的 20%", joined)
+        self.assertIn("固定能量 +12", joined)
+        self.assertIn("笑点 +10", joined)
+        self.assertNotIn("心灵感应", " ".join(n for r in off["rows"] for n in r["notes"]))
+
     def test_yaoguang_declares_its_assumptions(self) -> None:
         """不确定的东西必须显式声明，不能悄悄假设。"""
         res = self.call("yaoguang", {"actions": 5})
@@ -3859,32 +3880,20 @@ class TestAhaSpeedSimulation(unittest.TestCase):
         self.assertAlmostEqual(first_aha(plain) - first_aha(pulled),
                                2000.0 / pulled["aha"]["speed"], places=6)
 
-        # E6 首次终结技 advance100：拉条 100% → 【阿哈时刻】在同一行动值立刻接上
+        # E6 首次终结技：拉条 100% → 【阿哈时刻】在同一行动值立刻接上，并 +100 笑点进池。
+        # 旧参数 extra40 不再改行为。
         e6 = [{**team[0], "eidolon": 6}, *team[1:]]
         adv = self._sim({"team": e6, "useTech": False, "e1Wishpower": 7, "maxAV": 200,
-                         "e6FirstUltMode": "advance100"})
+                         "e6FirstUltMode": "extra40"})
         self.assertIn("E6 首次终结技：【阿哈时刻】拉条 100% + 笑点 +100",
                       self._labels(adv, "啊哈！宇宙笑点大爆炸")[0]["details"])
+        self.assertNotIn("计入 40 笑点的额外回合",
+                         " ".join(self._labels(adv, "啊哈！宇宙笑点大爆炸")[0]["details"]))
         ult_av = [ev["av"] for ev in adv["timeline"]
                   if ev["type"] == "ultimate" and ev["name"] == "星神★阿哈"][0]
         self.assertAlmostEqual([ev["av"] for ev in adv["timeline"]
                                 if ev["type"] == "aha"][0], ult_av)
         self.assertGreaterEqual(adv["summary"]["punchlineGranted"], 100.0)
-
-        # E6 首次终结技 extra40：给【阿哈时刻】1 个计入 40 笑点的额外回合
-        extra = self._sim({"team": e6, "useTech": False, "e1Wishpower": 7, "maxAV": 45,
-                           "e6FirstUltMode": "extra40"})
-        self.assertIn("E6 首次终结技：【阿哈时刻】获得 1 个计入 40 笑点的额外回合",
-                      self._labels(extra, "啊哈！宇宙笑点大爆炸")[0]["details"])
-        turns = self._labels(extra, "【阿哈时刻】额外回合（计入 40 笑点）")
-        self.assertEqual(1, len(turns))
-        self.assertTrue(turns[0]["extra"])
-        self.assertEqual(["不消耗笑点池", "不重置【阿哈时刻】行动条距离"], turns[0]["details"])
-        self.assertEqual(1, extra["aha"]["extraTriggerCount"])
-        # 额外回合给全体欢愉发 40 好活当赏（记账用）
-        hh = next(u for u in extra["units"] if u["id"] == "1501")["mechanics"]["haohuo"]
-        self.assertTrue(any(item["label"] == "阿哈时刻额外回合" and item["count"] == 40.0
-                            for item in hh))
 
     # ---- 砂金•戏浪 ----
 
@@ -4011,7 +4020,7 @@ class TestAhaSpeedSimulation(unittest.TestCase):
         self.assertAlmostEqual(skills[0]["av"], 10000 / 80.2, places=4)
 
     def test_tech_and_e6_extra_aha_record_fixed_haohuo_without_pool(self) -> None:
-        """秘技 20、E6 首大 40：好活当赏按计入值发，不加池、不扣池、不触发首达 40。"""
+        """秘技额外回合仍按 20 记账、不进池。E6 首大改为进池的 100 笑点，不再是额外回合 40。"""
         tech = self._sim({
             "maxAV": 1, "useTech": True, "useAeonAha": True,
             "team": [
@@ -4042,17 +4051,14 @@ class TestAhaSpeedSimulation(unittest.TestCase):
                 "rotation": "basic", "lcBaseSpd": 0, "equipment": {"hasSigLc": False},
             }],
         })
-        self.assertEqual(0.0, extra["summary"]["punchlineGranted"])
-        self.assertEqual(0.0, extra["summary"]["punchlineConsumed"])
-        self.assertEqual(0.0, extra["resources"]["punchline"])
-        self.assertEqual(1, extra["aha"]["extraTriggerCount"])
-        self.assertFalse(any("笑点首达 40" in n for n in extra["notes"]))
-        self.assertEqual(
-            ["不消耗笑点池", "不重置【阿哈时刻】行动条距离"],
-            self._labels(extra, "【阿哈时刻】额外回合（计入 40 笑点）")[0]["details"],
-        )
-        hh = extra["units"][0]["mechanics"]["haohuo"]
-        self.assertEqual([{"turns": 2, "count": 40.0, "label": "阿哈时刻额外回合"}], hh)
+        self.assertGreaterEqual(extra["summary"]["punchlineGranted"], 100.0)
+        self.assertEqual(0, extra["aha"]["extraTriggerCount"])
+        self.assertIn("E6 首次终结技：【阿哈时刻】拉条 100% + 笑点 +100",
+                      self._labels(extra, "啊哈！宇宙笑点大爆炸")[0]["details"])
+        self.assertNotIn("计入 40", str(extra["timeline"]))
+        hits = [n for n in extra["notes"] if n.startswith("笑点首达 40")]
+        self.assertEqual(1, len(hits))
+        self.assertIn("全队暴伤 +40%", hits[0])
 
     def test_wolf_feiying_tech_extra_does_not_inflate_punchline(self) -> None:
         """银狼/绯英没有欢愉技：秘技额外回合不再灌 80 笑点，也不连触发两次首达 40。"""
@@ -4074,7 +4080,7 @@ class TestAhaSpeedSimulation(unittest.TestCase):
         self.assertNotIn("固定 +20 笑点", str(res["timeline"]))
 
     def test_punchline40_crit_note_and_reset_only_after_consuming_aha(self) -> None:
-        """首达 40 的暴伤文案是 24%。额外回合不重置；普通【阿哈时刻】扣池后才允许再触发。"""
+        """首达 40 的暴伤文案是 40%。额外回合也清标志，但池子仍 ≥40 时继续加笑点不会再触发。"""
         frozen = self._sim({
             "maxAV": 120, "useTech": False, "trace3Advance": False, "e1Wishpower": 0,
             "ahaSpdPct": -99, "sigLcPunchline": 100,
@@ -4087,8 +4093,8 @@ class TestAhaSpeedSimulation(unittest.TestCase):
         })
         hits = [n for n in frozen["notes"] if n.startswith("笑点首达 40")]
         self.assertEqual(1, len(hits))
-        self.assertIn("全队暴伤 +24%", hits[0])
-        self.assertNotIn("40%", hits[0].split("暴伤", 1)[1])
+        self.assertIn("全队暴伤 +40%", hits[0])
+        self.assertNotIn("24%", hits[0])
         self.assertEqual(0.0, frozen["summary"]["punchlineConsumed"])
         self.assertGreaterEqual(frozen["aha"]["extraTriggerCount"], 1)
         self.assertGreaterEqual(frozen["resources"]["punchline"], 40.0)
@@ -4102,9 +4108,44 @@ class TestAhaSpeedSimulation(unittest.TestCase):
         })
         hits = [n for n in reset["notes"] if n.startswith("笑点首达 40")]
         self.assertEqual(2, len(hits))
-        self.assertTrue(all("全队暴伤 +24%" in n for n in hits))
+        self.assertTrue(all("全队暴伤 +40%" in n for n in hits))
         self.assertGreaterEqual(reset["summary"]["punchlineConsumed"], 100.0)
         self.assertGreaterEqual(reset["aha"]["triggerCount"], 1)
+
+    def test_yaoguang_mind_link_boosts_daji_only_while_ascended(self) -> None:
+        """升格期间，持有好活当赏的攻击按 24% 记【大吉大利】；终结技带 +12 能量 +10 笑点。"""
+        res = self._sim({
+            "maxAV": 90, "useTech": False, "trace3Advance": False,
+            "e1Wishpower": 8, "ahaAdvancePct": 100,
+            "team": [
+                {"id": "1511", "eidolon": 1, "baseSpd": 1, "traceSpd": 0, "lcBaseSpd": 0,
+                 "rotation": "basic", "equipment": {"hasSigLc": False}},
+                {"id": "1502", "baseSpd": 200, "traceSpd": 0, "err": 500,
+                 "initAdv": 100, "rotation": "skill"},
+            ],
+        })
+        ults = self._labels(res, "爻光终结技")
+        self.assertTrue(ults)
+        self.assertTrue(any("【大吉大利】倍率提高原倍率的 20%" in d
+                            for ev in ults for d in ev["details"]))
+        self.assertTrue(any("+12 固定能量 +10 笑点" in d
+                            for ev in ults for d in ev["details"]))
+        daji = self._labels(res, "大吉大利")
+        self.assertTrue(daji)
+        self.assertEqual(
+            ["【大吉大利】欢愉伤害 24%（原倍率 20% × 1.20）",
+             "固有行迹【欢愉万相★心灵感应】：倍率提高原倍率的 20%",
+             "不视为 1 次攻击"],
+            daji[0]["details"],
+        )
+        plain = self._sim({
+            "maxAV": 40, "useTech": False, "useAeonAha": False,
+            "team": [{"id": "1502", "baseSpd": 200, "traceSpd": 0, "err": 500,
+                      "initAdv": 100, "rotation": "skill"}],
+        })
+        self.assertFalse(any("心灵感应" in d
+                             for ev in plain["timeline"] for d in ev["details"]))
+        self.assertFalse(self._labels(plain, "大吉大利"))
 
     def test_aha_basic_gains_one_wishpower(self) -> None:
         """星神★阿哈普攻是 +1 愿力，不是把标准能量 +20 灌进愿力。"""

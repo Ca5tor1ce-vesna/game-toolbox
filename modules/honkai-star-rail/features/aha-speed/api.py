@@ -46,8 +46,7 @@ payload（simulate）
       "useTech": true,                 // 秘技进战
       "trace3Advance": true,           // 星神★阿哈行迹3：进战自身拉条 30%
       "ultAdvanceAha": 20,             // 阿哈终结技拉条【阿哈时刻】%
-      "e1Wishpower": 5,                // 阿哈 E1 开局愿力（默认 5）
-      "e6FirstUltMode": "extra40",     // 或 "advance100"
+      "e1Wishpower": 5,                // 阿哈 E1 开局愿力（默认 5；nanoka E1 参数就是 5）
       "ultSpdPct": 30,                 // 砂金•戏浪终结技自提速%（4回合）
       "sanduTeamSpdPct": 15,           // 三赌牌局全队提速%
       "sanduFervorGain": 1,            // 三赌牌局每次队友攻击热意
@@ -95,9 +94,11 @@ timeline 每条：{av, t, kind, slot, name, type, extra, label, details, res}。
   场上没人能放时走保底「Let There Be Laughter」（不产笑点）。
 * 普通【阿哈时刻】回合结束消耗全部笑点，【好活当赏】= 实际消耗数。
 * 额外回合：不重置 rem_dist、不递减常规 Buff 回合数；【阿哈时刻】额外回合
-  （秘技 20 / E6 首大 40 / 爻光终结技 20 或 40）不消耗笑点池，好活当赏按
-  计入值发放，不加池、不扣池。砂金《举杯！》《All in！》同样固定记 20。
-* 「笑点首达 40」只在普通【阿哈时刻】回合结束（消耗笑点的那次）重置。
+  （秘技 20 / 爻光终结技 20 或 40）不消耗笑点池，好活当赏按计入值发放，
+  不加池、不扣池。砂金《举杯！》《All in！》同样固定记 20。
+  E6 首次终结技不再走额外回合：拉条【阿哈时刻】100%，并获得 100 笑点（进池）。
+* 「笑点首达 40」在每次阿哈回合结束（含额外回合）后可再次触发，但只在笑点
+  从低于 40 升到 ≥40 时结算。池子一直 ≥40 时，继续加笑点不会再发愿力。
 
 数值假设（规格没写死、这里定死的口径）
 --------------------------------------
@@ -180,7 +181,7 @@ ROSTER: dict[str, dict[str, Any]] = {
             "专属被动【阿哈时刻在】：【阿哈时刻】底速 = 本体基础速度（含专武）",
             "行迹3【盒中蕴藏的世界】：进战自身拉条 30%（速度 ≥125/150 时欢愉度 +120%/+150%）",
             "战技：指定【「欢愉」令使】并发动量子欢愉追击（净耗 0 战技点）",
-            "终结技：拉条【阿哈时刻】20%，进入【欢愉万相】3 回合",
+            "终结技：拉条【阿哈时刻】20%，进入【欢愉万相】3 回合；E6 首次改为拉条 100% 并获得 100 笑点",
         ],
     },
     "1503": {
@@ -256,7 +257,7 @@ ROSTER: dict[str, dict[str, Any]] = {
             "普攻基础回能 30（战技 30，终结技返还 5）",
             "秘技/战技：展开 3 回合结界；结界内自己普攻/战技 +3 笑点，E2 全队速度 +12%",
             "终结技：+5 笑点并给【阿哈时刻】1 个额外回合（20 笑点，E1 为 40）",
-            "欢愉万相★心灵感应：阿哈【欢愉万相】期间终结技额外 +12 固定能量 +10 笑点",
+            "欢愉万相★心灵感应（命途升格）：【大吉大利】倍率提高原倍率的 20%（10 级 20%→24%）；终结技 +12 固定能量 +10 笑点",
         ],
     },
     "1501": {
@@ -386,7 +387,6 @@ CONFIG_META = [
     {"key": "trace3Advance", "label": "阿哈行迹3 进战自身拉条 30%", "default": True, "type": "bool"},
     {"key": "ultAdvanceAha", "label": "阿哈终结技拉条【阿哈时刻】%", "default": 20.0, "type": "number", "min": 0, "max": 100},
     {"key": "e1Wishpower", "label": "阿哈 E1 开局愿力", "default": 5.0, "type": "number", "min": 0, "max": 10},
-    {"key": "e6FirstUltMode", "label": "阿哈 E6 首次终结技", "default": "extra40", "type": "choice", "choices": ["extra40", "advance100"]},
     {"key": "ultSpdPct", "label": "砂金•戏浪终结技自提速%", "default": 30.0, "type": "number", "min": 0, "max": 200},
     {"key": "sanduTeamSpdPct", "label": "三赌牌局全队提速%", "default": 15.0, "type": "number", "min": 0, "max": 200},
     {"key": "sanduFervorGain", "label": "三赌牌局每次队友攻击热意", "default": 1.0, "type": "number", "min": 0, "max": 10},
@@ -646,9 +646,8 @@ class Sim:
     # ----------------------------- 配置与队伍 ----------------------------- #
 
     def parse_config(self, payload: dict[str, Any]) -> dict[str, Any]:
-        e6_mode = str(payload.get("e6FirstUltMode") or "extra40")
-        if e6_mode not in ("extra40", "advance100"):
-            raise ValueError(f"参数 e6FirstUltMode 需要是 extra40/advance100，收到 {e6_mode!r}")
+        # e6FirstUltMode 是旧开关（extra40 / advance100）。nanoka 只有一种 E6 首大，
+        # 参数若还传来就忽略，不再因此报错。
         fei_mode = str(payload.get("feiyingHaohuoEnergyMode") or "punchline")
         if fei_mode not in ("punchline", "flat"):
             raise ValueError(
@@ -664,7 +663,6 @@ class Sim:
             "trace3_advance": _bool(payload, "trace3Advance", True),
             "ult_advance_aha": _num(payload, "ultAdvanceAha", 20.0, 0.0, 100.0),
             "e1_wishpower": _num(payload, "e1Wishpower", 5.0, 0.0, 10.0),
-            "e6_mode": e6_mode,
             "ult_spd_pct": _num(payload, "ultSpdPct", 30.0, -100.0, 1000.0),
             "sandu_team_spd_pct": _num(payload, "sanduTeamSpdPct", 15.0, -100.0, 1000.0),
             "sandu_fervor_gain": _num(payload, "sanduFervorGain", 1.0, 0.0, 10.0),
@@ -832,21 +830,25 @@ class Sim:
     def gain_punchline(self, amount: float, reason: str = "") -> None:
         if amount == 0:
             return
+        before = self.punchline
         self.punchline += amount
         self.punchline_granted += amount
         wolf = self.by_uid("1506")
         if wolf is not None and amount > 0:
             self.gain_energy(wolf, amount, fixed=True, reason="隐藏分·笑点同步")
-        self.check_punchline40()
+        self.check_punchline40(before)
 
-    def check_punchline40(self) -> None:
-        if self.punchline40_done or self.punchline < 40.0:
+    def check_punchline40(self, before: float) -> None:
+        # 「首次达到」：这一次添加之前低于 40，添加之后不低于 40。
+        # 已经在 40 以上时再加，不算再次达到。
+        if self.punchline40_done or before >= 40.0 or self.punchline < 40.0:
             return
         self.punchline40_done = True
         a = self.by_uid("1511")
         if a is not None:
             self.gain_wishpower(a, 1.0, "笑点首达 40")
-            self.notes.append("笑点首达 40：星神★阿哈 +1 愿力，全队暴伤 +24%（3 回合，本工具不模拟伤害）")
+            # 天赋 10 级 #9 = 0.4。15 级是 50%，这里按用户指定的 40%。
+            self.notes.append("笑点首达 40：星神★阿哈 +1 愿力，全队暴伤 +40%（3 回合，本工具不模拟伤害）")
 
     def gain_wishpower(self, unit: Unit, amount: float, reason: str = "") -> None:
         if amount <= 0:
@@ -986,6 +988,17 @@ class Sim:
             if self.aha_flat < 25.0:
                 self.aha_flat = 25.0
                 self.notes.append("【纵享惊涛】触发：【阿哈时刻】固定速度 +25（到下一次阿哈时刻结束）")
+
+        # 爻光天赋【大吉大利】。命途升格后固有行迹把 10 级倍率 20% 提高为 24%。
+        # 伤害不结算；战技点是否再触发一次也不模拟。欢愉技同样算「施放攻击」。
+        yao = self.by_uid("1502")
+        attack = kind in TALENT_ATTACK_KINDS or kind == "elation_skill"
+        if yao is not None and yao.haohuo and self.huanyu_active() and attack:
+            self.event("note", yao, "大吉大利", [
+                "【大吉大利】欢愉伤害 24%（原倍率 20% × 1.20）",
+                "固有行迹【欢愉万相★心灵感应】：倍率提高原倍率的 20%",
+                "不视为 1 次攻击",
+            ])
 
     def on_heal_or_shield(self, source: Unit, label: str) -> None:
         """阿哈行迹2【戏中人的异想国】：受队友治疗/护盾 +1 愿力（每个终结技周期 1 次）。"""
@@ -1298,22 +1311,20 @@ class Sim:
     def ult_1511(self, u: Unit) -> None:
         u.trace2_used = False
         details: list[str] = []
-        if u.eidolon >= 6 and u.ult_count == 1 and self.cfg["e6_mode"] == "advance100":
+        # nanoka E6：首次终结技使阿哈行动提前 100%（参数 1 → 100%）并获得 100 笑点。
+        # 笑点进池，不是「计入 40、不进池」的额外回合。之后每次仍按 ultAdvanceAha。
+        if u.eidolon >= 6 and u.ult_count == 1:
             self.aha["rem_dist"] = 0.0
             self.gain_punchline(100.0, "E6 首次终结技")
             details.append("E6 首次终结技：【阿哈时刻】拉条 100% + 笑点 +100")
         else:
             self.advance_aha(self.cfg["ult_advance_aha"], reason="阿哈终结技")
             details.append(f"【阿哈时刻】拉条 {fmt(self.cfg['ult_advance_aha'], 0)}%")
-            if u.eidolon >= 6 and u.ult_count == 1 and self.cfg["e6_mode"] == "extra40":
-                details.append("E6 首次终结技：【阿哈时刻】获得 1 个计入 40 笑点的额外回合")
         self.event("note", u, "啊哈！宇宙笑点大爆炸", details)
         u.huanyu = 3
         self.notes.append("星神★阿哈进入【欢愉万相】3 回合（笑点升格爽点，阿哈时刻结束返还 10%）")
         if self.sandu_active():
             self.notes.append("三赌牌局生效：全队速度 +%s%%" % fmt(self.cfg["sandu_team_spd_pct"], 0))
-        if u.eidolon >= 6 and u.ult_count == 1 and self.cfg["e6_mode"] == "extra40":
-            self.do_aha(is_extra=True, fixed=40.0)
 
     def ult_1503(self, u: Unit) -> None:
         self.grant_haohuo(list(self.units), 20.0, "真珠终结技")
@@ -1355,8 +1366,9 @@ class Sim:
     def ult_1502(self, u: Unit) -> None:
         fixed = 40.0 if u.eidolon >= 1 else 20.0
         details = ["笑点 +5", f"【阿哈时刻】额外回合（计入 {fmt(fixed, 0)} 笑点，不消耗笑点池）"]
+        # 固有行迹 150229 的 1 级。2 级（+40% / +30 能量）的解锁条件文案没写到爻光，不用。
         if self.huanyu_active():
-            details.append("欢愉万相★心灵感应：+12 固定能量 +10 笑点")
+            details.append("欢愉万相★心灵感应：【大吉大利】倍率提高原倍率的 20%；+12 固定能量 +10 笑点")
         self.event("note", u, "爻光终结技", details)
         self.gain_punchline(5.0, "终结技")
         self.do_aha(is_extra=True, fixed=fixed)
@@ -1495,9 +1507,9 @@ class Sim:
                 self.event("note", None, "【阿哈时刻】笑点结算", details, kind="aha")
                 if consumed > 0:
                     self.grant_haohuo(recipients, consumed, "阿哈时刻")
-                # 只在消耗笑点的普通【阿哈时刻】结束时重置。额外回合不扣池，
-                # 池子仍 ≥40 时清掉标志会让下一次加笑点再发一次愿力。
-                self.punchline40_done = False
+            # 天赋：阿哈回合结束后可再次触发。额外回合也是阿哈的回合。
+            # 触发仍要求笑点从低于 40 再升上去，所以这里清标志不会在池子仍 ≥40 时连发。
+            self.punchline40_done = False
             self.aha_flat = 0.0
             # 1501 火花 E2：阿哈时刻每次结束立刻额外回合
             spark = self.by_uid("1501")
@@ -1867,7 +1879,13 @@ class Sim:
         elif unit.uid == "1304":
             out = {"blindStacks": unit.blind}
         elif unit.uid == "1502":
-            out = {"fieldTurns": unit.field}
+            # 10 级天赋 20%。命途升格中再乘 1.20。窗口结束时若万相已掉，倍率回到 20%。
+            bonus = 0.20 if self.huanyu_active() else 0.0
+            out = {
+                "fieldTurns": unit.field,
+                "dajiElationDamage": 0.20 * (1.0 + bonus),
+                "mindLinkActive": self.huanyu_active(),
+            }
         elif unit.uid == "1505":
             out = {"energySinceFuA": unit.feiy_total}
         elif unit.uid == "1506":
