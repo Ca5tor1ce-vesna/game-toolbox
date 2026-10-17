@@ -95,6 +95,7 @@
         "行迹3【盒中蕴藏的世界】：进战自身拉条 30%（速度 ≥125/150 时欢愉度 +120%/+150%）",
         "战技：指定【「欢愉」令使】并发动量子欢愉追击（净耗 0 战技点）",
         "终结技：拉条【阿哈时刻】20%，进入【欢愉万相】3 回合；E6 首次改为拉条 100% 并获得 100 笑点",
+        "固有行迹【欢愉万相★无中生有】：开大后的【欢愉万相】使欢愉命途升格，返还消耗笑点的 10%（E2 只加强暴击与无视防御）",
       ],
     },
     "1503": {
@@ -115,6 +116,7 @@
         "有【深度学习】时自动打强化普攻（群攻群疗，基础回能 20 × ERR）",
         "终结技：真珠全体拉条 10%/15%/30%（按欢愉人数）；4 欢愉时给【美学底本】额外回合",
         "行迹3【艺术壁垒】：【美学底本】（欢愉）下一次开大时真珠 +90 固定能量",
+        "固有行迹【欢愉万相★跃然纸上】：升格后好活当赏上限 75；终结技额外回合结束保留该次好活当赏与笑点的 10%",
       ],
     },
     "1513": {
@@ -135,6 +137,7 @@
         "终结技：+6 笑点 +8 热意，自身速度 +30%（4 回合）",
         "热意过阈值（10/20/30/40/50）立刻在回合外放《举杯！敬炽烈一夏》（好活当赏计入 20，不进笑点池），并把下一次阿哈时刻欢愉技升级为《All in！》",
         "行迹2【纵享惊涛】：单欢愉或三赌牌局时队友攻击 → 【阿哈时刻】+25 固定速度",
+        "固有行迹【欢愉万相★三赌牌局】：升格且另一名欢愉只有星神★阿哈时，纵享惊涛加强为全队速度 +15%、攻击热意 +1、笑点 +1",
       ],
     },
     "1304": {
@@ -189,6 +192,7 @@
         "战技/普攻 +4 笑点（基础回能 30）",
         "终结技：2 + (2/4/8 按其他欢愉人数) 笑点，E4 再 +5",
         "E2：【阿哈时刻】每次结束立刻获得 1 个额外回合",
+        "固有行迹【欢愉万相★兔子戏法】：升格后欢愉技倍率提高原倍率的 50%，我方伤害无视 15% 防御；红红火火的额外笑点不模拟",
       ],
     },
     "8009": {
@@ -206,6 +210,7 @@
       mechanics: [
         "天赋：普攻/战技后 +10 固定能量 +3 笑点",
         "终结技：+5 笑点；指定目标拥有欢愉技则立刻放 1 次（好活当赏计入 20，不进笑点池），否则拉条 50%",
+        "固有行迹【欢愉万相★主角光环】：升格后若终结技目标是星神★阿哈，先放一次开拓者欢愉技，再放阿哈欢愉技",
       ],
     },
     "1505": {
@@ -225,6 +230,7 @@
         "获得【好活当赏】时额外回能（默认 = 记账笑点数）",
         "累计每 240 能量触发【狐狸老师】追击（+10 能量，算队友攻击）",
         "480 能量开大；若她是【美学底本】会触发真珠【艺术壁垒】+90",
+        "固有行迹【欢愉万相★书中折花】：升格后溢出能量最多 60，开大后恢复且不触发天赋好活当赏",
       ],
     },
     "1506": {
@@ -242,6 +248,7 @@
       mechanics: [
         "战技 +5 笑点；隐藏分 = 全队获得的笑点（欢愉技再 +15）",
         "隐藏分 ≥ 60 开大：自身拉条 100%，进入【无敌玩家】打 3 次强化普攻",
+        "固有行迹【欢愉万相★全息幻象】：升格后隐藏分可溢出至 360；获得好活当赏时隐藏分 +该次的 20%",
       ],
     },
     "1313": {
@@ -282,6 +289,27 @@
   const ALIASES = {};
   // JS 对象的整数型键（"1511" 这种）会按数值升序枚举，不是插入顺序 ——
   // catalog 的 roster 顺序要和 Python 的字典插入顺序一致，只能自己记一份。
+  // 升格开始时写进 notes 的说明。和 api.py 的 ASCENSION_ALLY_NOTES 逐字相同。
+  const ASCENSION_ALLY_NOTES = {
+    "1501": "火花固有行迹【欢愉万相★兔子戏法】生效：欢愉技倍率提高原倍率的 50%，我方伤害无视 15% 防御；每 10 点好活当赏使【红红火火】额外 +1 笑点，最多 +8。本工具不掷互动陷阱，因此不加这份笑点",
+    "1502": "爻光固有行迹【欢愉万相★心灵感应】生效：【大吉大利】倍率提高原倍率的 20%（20%→24%），终结技固定能量 +12、笑点 +10",
+    "1503": "真珠固有行迹【欢愉万相★跃然纸上】生效：好活当赏持有上限 75；终结技额外回合结束时保留该次好活当赏与笑点的 10%",
+    "1505": "绯英固有行迹【欢愉万相★书中折花】生效：溢出能量最多 60，开大后恢复且不触发天赋好活当赏；伤害无视 10% 防御；每累计 480 点好活当赏，下次终结技倍率提高原倍率的 75%",
+    "1506": "银狼固有行迹【欢愉万相★全息幻象】生效：隐藏分可溢出至 360，暴击伤害 +40%；获得好活当赏时隐藏分 +该次的 20%",
+    "1513": "砂金•戏浪固有行迹【欢愉万相★三赌牌局】：仅当队伍里另一名欢愉只有星神★阿哈时，纵享惊涛加强为全队速度 +15%、队友攻击热意 +1、笑点 +1",
+    "8009": "开拓者•欢愉固有行迹【欢愉万相★主角光环】生效：终结技暴伤额外 +20% 且全队；触发阿哈欢愉技前先放一次开拓者欢愉技（倍率提高原倍率的 200%）；阿哈真实伤害改为该次的 20%",
+  };
+  const ASCENSION_TRACE_NAME = {
+    "1501": "欢愉万相★兔子戏法",
+    "1502": "欢愉万相★心灵感应",
+    "1503": "欢愉万相★跃然纸上",
+    "1505": "欢愉万相★书中折花",
+    "1506": "欢愉万相★全息幻象",
+    "1511": "欢愉万相★无中生有",
+    "1513": "欢愉万相★三赌牌局",
+    "8009": "欢愉万相★主角光环",
+  };
+
   const ROSTER_ORDER = ["1511", "1503", "1513", "1304", "1502", "1501", "8009", "1505", "1506", "1313", "1309"];
   ROSTER_ORDER.forEach((uid) => {
     (ROSTER[uid].aliases || []).forEach((alias) => {
@@ -529,7 +557,10 @@
       this.blind = 0;
       this.field = 0;
       this.feiyTotal = 0.0;
+      this.feiyBanger = 0.0;
+      this.feiyUltBonus = 0;
       this.invincible = 0;
+      this.hiddenOverflow = 0.0;
 
       this.initialSpd = 0.0;
     }
@@ -895,13 +926,50 @@
       } else {
         gain = fixed ? amount : amount * (1.0 + unit.err / 100.0);
       }
-      unit.energy = Math.min(Number(unit.maxSp), unit.energy + gain);
+      // 银狼升格：隐藏分溢出至 360，开大只清 60 点计量，溢出留下来且不再次开大。
+      if (unit.uid === "1506" && this.huanyuActive()) {
+        this.gainWolfOverflow(unit, gain);
+        return;
+      }
+      let cap = Number(unit.maxSp);
+      if (unit.uid === "1505" && this.huanyuActive()) {
+        cap += 60.0;
+      }
+      unit.energy = Math.min(cap, unit.energy + gain);
       unit.energyTotal += gain;
       if (unit.uid === "1505") {
         unit.feiyTotal += gain;
         this.checkFeiyingMilestone(unit);
       }
       this.maybeUlt(unit);
+    }
+
+    /** 【欢愉万相★全息幻象】1 级：隐藏分合计不超过 360。超出 60 的部分不触发终结技。 */
+    gainWolfOverflow(unit, gain) {
+      const room = Math.max(0.0, 360.0 - (unit.energy + unit.hiddenOverflow));
+      const applied = Math.min(gain, room);
+      const intoMeter = Math.min(Math.max(0.0, Number(unit.maxSp) - unit.energy), applied);
+      const spill = applied - intoMeter;
+      unit.energy += intoMeter;
+      unit.hiddenOverflow += spill;
+      unit.energyTotal += applied;
+      if (spill > EPS) {
+        this.event("note", unit, "欢愉万相★全息幻象",
+          ["隐藏分溢出 +" + fmt(spill) + "（合计上限 360）"]);
+      }
+      if (gain - applied > EPS) {
+        this.event("note", unit, "欢愉万相★全息幻象",
+          ["超出 360 的隐藏分不再计入"]);
+      }
+      this.maybeUlt(unit);
+    }
+
+    haohuoSum(unit) {
+      let total = 0.0;
+      for (let i = 0; i < unit.haohuo.length; i += 1) {
+        total += Number(unit.haohuo[i].count);
+      }
+      return total;
     }
 
     /** 绯英累计每 240 能量触发一次【狐狸老师】追击。 */
@@ -948,8 +1016,31 @@
     grantHaohuo(targets, count, label) {
       for (let i = 0; i < targets.length; i += 1) {
         const unit = targets[i];
-        unit.haohuo.push({ turns: 2, count: Number(count), label: label });
+        let applied = Number(count);
+        // 真珠自己的持有上限。只在升格后夹到 75，且只夹新获得的那一份。
+        if (unit.uid === "1503" && this.huanyuActive()) {
+          const room = Math.max(0.0, 75.0 - this.haohuoSum(unit));
+          applied = Math.min(applied, room);
+          if (applied <= EPS) {
+            continue;
+          }
+        }
+        unit.haohuo.push({ turns: 2, count: applied, label: label });
+        if (unit.uid === "1506" && this.huanyuActive() && applied > EPS) {
+          const bonus = applied * 0.2;
+          this.event("note", unit, "欢愉万相★全息幻象", [
+            "好活当赏 " + fmt(applied, 0) + " 的 20% → 隐藏分 +" + fmt(bonus),
+          ]);
+          this.gainEnergy(unit, bonus, true);
+        }
         if (unit.uid === "1505") {
+          if (this.huanyuActive() && applied > EPS) {
+            unit.feiyBanger += applied;
+            while (unit.feiyBanger >= 480.0 - EPS) {
+              unit.feiyBanger -= 480.0;
+              unit.feiyUltBonus += 1;
+            }
+          }
           const gain =
             this.cfg.feiying_haohuo_mode === "flat" ? this.cfg.feiying_haohuo_energy : Number(count);
           if (gain > 0) {
@@ -1154,7 +1245,12 @@
           return;
         }
         const label = "欢愉技";
-        this.event("elation_skill", unit, unit.name + " 的欢愉技", ["不产生笑点"]);
+        const plain = ["不产生笑点"];
+        if (unit.uid === "1501" && this.huanyuActive()) {
+          plain.push("欢愉万相★兔子戏法：欢愉技倍率提高原倍率的 50%（伤害不模拟）");
+          plain.push("我方伤害无视 15% 防御（伤害不模拟）");
+        }
+        this.event("elation_skill", unit, unit.name + " 的欢愉技", plain);
         if (unit.uid === "1511") {
           this.event("note", unit, "自身动作回能", ["愿力 +1"]);
           this.gainWishpower(unit, 1.0);
@@ -1363,6 +1459,13 @@
         // 先扣资源再结算效果：嵌套事件（艺术壁垒回能、额外回合出招）里如果
         // 资源还没扣，会被满能量再次触发一次终结技（踩过：同一次行动连开两个大）。
         const details = [];
+        let feiyRestore = 0.0;
+        let feiyStacks = 0;
+        if (unit.uid === "1505" && this.huanyuActive()) {
+          feiyRestore = Math.max(0.0, unit.energy - Number(unit.maxSp));
+          feiyStacks = unit.feiyUltBonus;
+          unit.feiyUltBonus = 0;
+        }
         if (unit.energyType === "wishpower") {
           unit.energy = Math.max(0.0, unit.energy - 8.0);
           details.push("消耗 8 愿力");
@@ -1386,6 +1489,8 @@
           this.ult8009(unit);
         } else if (unit.uid === "1506") {
           this.ult1506(unit);
+        } else if (unit.uid === "1505") {
+          this.ult1505(unit, feiyRestore, feiyStacks);
         } else if (unit.uid === "1313") {
           this.ult1313(unit);
         } else if (unit.uid === "1309") {
@@ -1428,9 +1533,51 @@
       this.event("note", u, "啊哈！宇宙笑点大爆炸", details);
       u.huanyu = 3;
       this.notes.push("星神★阿哈进入【欢愉万相】3 回合（笑点升格爽点，阿哈时刻结束返还 10%）");
+      this.noteAscensionTraces(u);
       if (this.sanduActive()) {
-        this.notes.push("三赌牌局生效：全队速度 +" + fmt(this.cfg.sandu_team_spd_pct, 0) + "%");
+        this.notes.push(
+          "三赌牌局生效：全队速度 +" + fmt(this.cfg.sandu_team_spd_pct, 0) + "%（固有行迹【欢愉万相★三赌牌局】1级）"
+        );
       }
+    }
+
+    /** 各欢愉角色的固有行迹在【欢愉万相】开始时记一笔。数值效果在对应结算里。 */
+    noteAscensionTraces(aha) {
+      const level = aha.eidolon >= 2 ? 2 : 1;
+      const crit = level === 2 ? 20 : 12;
+      const defn = level === 2 ? 60 : 30;
+      this.notes.push(
+        "固有行迹【欢愉万相★无中生有】" + level + "级：返还消耗笑点的 10%，暴击率 +"
+        + crit + "%，无视防御 " + defn + "%（伤害不模拟；笑点与好活当赏改称爽点与绝活共赏，不另做强化）"
+      );
+      for (let i = 0; i < this.units.length; i += 1) {
+        const text = ASCENSION_ALLY_NOTES[this.units[i].uid];
+        if (text) {
+          this.notes.push(text);
+        }
+      }
+    }
+
+    ult1505(u, restore, stacks) {
+      if (!this.huanyuActive() && restore <= EPS && stacks <= 0) {
+        return;
+      }
+      const details = [];
+      if (restore > EPS) {
+        // 直接写回，不走 gainEnergy：不触发天赋好活当赏，也不再计入狐狸老师。
+        u.energy = restore;
+        details.push("书中折花：溢出能量 " + fmt(restore) + " 在开大后恢复（不触发天赋好活当赏）");
+      }
+      if (stacks > 0) {
+        details.push(
+          "书中折花：本次终结技倍率提高原倍率的 " + fmt(stacks * 75, 0) + "%（" + stacks + " 层，伤害不模拟）"
+        );
+      }
+      if (restore <= EPS && stacks <= 0) {
+        details.push("书中折花：本次没有可恢复的溢出能量");
+      }
+      details.push("伤害无视 10% 防御（伤害不模拟）");
+      this.event("note", u, "欢愉万相★书中折花", details);
     }
 
     ult1503(u) {
@@ -1511,8 +1658,12 @@
       const target = this.unitAt(this.resolveTargetSlot(u, undefined));
       const details = ["笑点 +5"];
       const canCast = target !== null && ELATION_SKILL_UIDS[target.uid];
+      const halo = Boolean(canCast && target !== null && this.huanyuActive() && target.uid === "1511");
       if (canCast && target !== null) {
         details.push(target.name + " 立刻施放 1 次欢愉技（好活当赏计入 20，不进笑点池）");
+        if (halo) {
+          details.push("欢愉万相★主角光环：先施放开拓者欢愉技，再触发阿哈欢愉技");
+        }
       } else if (target !== null) {
         details.push(target.name + " 拉条 50%");
       }
@@ -1520,6 +1671,14 @@
       this.gainPunchline(5.0);
       if (target !== null) {
         if (canCast) {
+          if (halo) {
+            this.event("note", u, "欢愉万相★主角光环", [
+              "开拓者欢愉技倍率提高原倍率的 200%（按最高好活当赏计算，伤害不模拟）",
+              "阿哈欢愉技真实伤害改为该次的 20%，由敌方全体均分（伤害不模拟）",
+              "终结技暴伤额外 +20% 且对全队生效（伤害不模拟）",
+            ]);
+            this.castElationSkill(u);
+          }
           this.castElationSkill(target);
           // 1513 的举杯 / All in 自己已经记了 20，这里不再叠一次。
           if (target.uid !== "1513") {
@@ -1599,6 +1758,21 @@
           }
           this.event("note", unit, "额外回合笑点结算",
             ["回收 " + fmt(removed, 0) + " 笑点" + tail], { extra: true });
+        }
+        // 笑点的 10% 就是上面的欢愉万相返还，不再加一次。这里只把该次好活当赏收到 10%。
+        if (gh > 0 && this.huanyuActive() && label.indexOf("真珠终结技") >= 0 && this.byUid("1503") !== null) {
+          let kept = 0.0;
+          for (let i = unit.haohuo.length - 1; i >= 0; i -= 1) {
+            if (unit.haohuo[i].label === label) {
+              kept = Number(unit.haohuo[i].count) * 0.1;
+              unit.haohuo[i].count = kept;
+              break;
+            }
+          }
+          this.event("note", unit, "欢愉万相★跃然纸上", [
+            "额外回合结束保留该次好活当赏的 10%（" + fmt(kept) + "）",
+            "笑点的 10% 已记在欢愉万相返还里，不再另加",
+          ], { extra: true });
         }
       } finally {
         this.depth -= 1;
@@ -2110,10 +2284,19 @@
           mindLinkActive: this.huanyuActive(),
         };
       } else if (unit.uid === "1505") {
-        out = { energySinceFuA: unit.feiyTotal };
+        out = {
+          energySinceFuA: unit.feiyTotal,
+          energyOverflow: Math.max(0.0, unit.energy - Number(unit.maxSp)),
+          feiyUltBonus: unit.feiyUltBonus,
+        };
       } else if (unit.uid === "1506") {
-        out = { invincibleTurns: unit.invincible };
+        out = {
+          invincibleTurns: unit.invincible,
+          hiddenOverflow: unit.hiddenOverflow,
+        };
       }
+      out.ascensionTrace = ASCENSION_TRACE_NAME[unit.uid] || null;
+      out.ascensionActive = Boolean(out.ascensionTrace) && this.huanyuActive();
       out.haohuo = unit.haohuo.map((item) => ({
         turns: item.turns,
         count: item.count,

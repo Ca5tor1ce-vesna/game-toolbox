@@ -182,6 +182,7 @@ ROSTER: dict[str, dict[str, Any]] = {
             "行迹3【盒中蕴藏的世界】：进战自身拉条 30%（速度 ≥125/150 时欢愉度 +120%/+150%）",
             "战技：指定【「欢愉」令使】并发动量子欢愉追击（净耗 0 战技点）",
             "终结技：拉条【阿哈时刻】20%，进入【欢愉万相】3 回合；E6 首次改为拉条 100% 并获得 100 笑点",
+            "固有行迹【欢愉万相★无中生有】：开大后的【欢愉万相】使欢愉命途升格，返还消耗笑点的 10%（E2 只加强暴击与无视防御）",
         ],
     },
     "1503": {
@@ -202,6 +203,7 @@ ROSTER: dict[str, dict[str, Any]] = {
             "有【深度学习】时自动打强化普攻（群攻群疗，基础回能 20 × ERR）",
             "终结技：真珠全体拉条 10%/15%/30%（按欢愉人数）；4 欢愉时给【美学底本】额外回合",
             "行迹3【艺术壁垒】：【美学底本】（欢愉）下一次开大时真珠 +90 固定能量",
+            "固有行迹【欢愉万相★跃然纸上】：升格后好活当赏上限 75；终结技额外回合结束保留该次好活当赏与笑点的 10%",
         ],
     },
     "1513": {
@@ -222,6 +224,7 @@ ROSTER: dict[str, dict[str, Any]] = {
             "终结技：+6 笑点 +8 热意，自身速度 +30%（4 回合）",
             "热意过阈值（10/20/30/40/50）立刻在回合外放《举杯！敬炽烈一夏》（好活当赏计入 20，不进笑点池），并把下一次阿哈时刻欢愉技升级为《All in！》",
             "行迹2【纵享惊涛】：单欢愉或三赌牌局时队友攻击 → 【阿哈时刻】+25 固定速度",
+            "固有行迹【欢愉万相★三赌牌局】：升格且另一名欢愉只有星神★阿哈时，纵享惊涛加强为全队速度 +15%、攻击热意 +1、笑点 +1",
         ],
     },
     "1304": {
@@ -276,6 +279,7 @@ ROSTER: dict[str, dict[str, Any]] = {
             "战技/普攻 +4 笑点（基础回能 30）",
             "终结技：2 + (2/4/8 按其他欢愉人数) 笑点，E4 再 +5",
             "E2：【阿哈时刻】每次结束立刻获得 1 个额外回合",
+            "固有行迹【欢愉万相★兔子戏法】：升格后欢愉技倍率提高原倍率的 50%，我方伤害无视 15% 防御；红红火火的额外笑点不模拟",
         ],
     },
     "8009": {
@@ -293,6 +297,7 @@ ROSTER: dict[str, dict[str, Any]] = {
         "mechanics": [
             "天赋：普攻/战技后 +10 固定能量 +3 笑点",
             "终结技：+5 笑点；指定目标拥有欢愉技则立刻放 1 次（好活当赏计入 20，不进笑点池），否则拉条 50%",
+            "固有行迹【欢愉万相★主角光环】：升格后若终结技目标是星神★阿哈，先放一次开拓者欢愉技，再放阿哈欢愉技",
         ],
     },
     "1505": {
@@ -312,6 +317,7 @@ ROSTER: dict[str, dict[str, Any]] = {
             "获得【好活当赏】时额外回能（默认 = 记账笑点数）",
             "累计每 240 能量触发【狐狸老师】追击（+10 能量，算队友攻击）",
             "480 能量开大；若她是【美学底本】会触发真珠【艺术壁垒】+90",
+            "固有行迹【欢愉万相★书中折花】：升格后溢出能量最多 60，开大后恢复且不触发天赋好活当赏",
         ],
     },
     "1506": {
@@ -329,6 +335,7 @@ ROSTER: dict[str, dict[str, Any]] = {
         "mechanics": [
             "战技 +5 笑点；隐藏分 = 全队获得的笑点（欢愉技再 +15）",
             "隐藏分 ≥ 60 开大：自身拉条 100%，进入【无敌玩家】打 3 次强化普攻",
+            "固有行迹【欢愉万相★全息幻象】：升格后隐藏分可溢出至 360；获得好活当赏时隐藏分 +该次的 20%",
         ],
     },
     "1313": {
@@ -370,6 +377,28 @@ ALIASES: dict[str, str] = {}
 for _uid, _spec in ROSTER.items():
     for _alias in _spec.get("aliases") or ():
         ALIASES[_alias.lower()] = _uid
+
+# 升格开始时写进 notes 的说明。和 web_api.js 的 ASCENSION_ALLY_NOTES 逐字相同。
+# 1511 自己的行迹另按星魂选 1/2 级，不放在这里。
+ASCENSION_ALLY_NOTES: dict[str, str] = {
+    "1501": "火花固有行迹【欢愉万相★兔子戏法】生效：欢愉技倍率提高原倍率的 50%，我方伤害无视 15% 防御；每 10 点好活当赏使【红红火火】额外 +1 笑点，最多 +8。本工具不掷互动陷阱，因此不加这份笑点",
+    "1502": "爻光固有行迹【欢愉万相★心灵感应】生效：【大吉大利】倍率提高原倍率的 20%（20%→24%），终结技固定能量 +12、笑点 +10",
+    "1503": "真珠固有行迹【欢愉万相★跃然纸上】生效：好活当赏持有上限 75；终结技额外回合结束时保留该次好活当赏与笑点的 10%",
+    "1505": "绯英固有行迹【欢愉万相★书中折花】生效：溢出能量最多 60，开大后恢复且不触发天赋好活当赏；伤害无视 10% 防御；每累计 480 点好活当赏，下次终结技倍率提高原倍率的 75%",
+    "1506": "银狼固有行迹【欢愉万相★全息幻象】生效：隐藏分可溢出至 360，暴击伤害 +40%；获得好活当赏时隐藏分 +该次的 20%",
+    "1513": "砂金•戏浪固有行迹【欢愉万相★三赌牌局】：仅当队伍里另一名欢愉只有星神★阿哈时，纵享惊涛加强为全队速度 +15%、队友攻击热意 +1、笑点 +1",
+    "8009": "开拓者•欢愉固有行迹【欢愉万相★主角光环】生效：终结技暴伤额外 +20% 且全队；触发阿哈欢愉技前先放一次开拓者欢愉技（倍率提高原倍率的 200%）；阿哈真实伤害改为该次的 20%",
+}
+ASCENSION_TRACE_NAME: dict[str, str] = {
+    "1501": "欢愉万相★兔子戏法",
+    "1502": "欢愉万相★心灵感应",
+    "1503": "欢愉万相★跃然纸上",
+    "1505": "欢愉万相★书中折花",
+    "1506": "欢愉万相★全息幻象",
+    "1511": "欢愉万相★无中生有",
+    "1513": "欢愉万相★三赌牌局",
+    "8009": "欢愉万相★主角光环",
+}
 
 EQUIPMENT_META = [
     {"id": "vonwacq", "name": "生命的翁瓦克 (2pc)", "text": "ERR +5%；进战时速度 ≥ 120 则开局拉条 40%"},
@@ -584,7 +613,10 @@ class Unit:
         self.blind = 0             # 1304：盲注层数
         self.field = 0             # 1502：结界剩余回合
         self.feiy_total = 0.0      # 1505：累计能量
+        self.feiy_banger = 0.0     # 1505：升格后累计好活当赏，每 480 给一层终结技增伤
+        self.feiy_ult_bonus = 0    # 1505：待消耗的终结技增伤层数
         self.invincible = 0        # 1506：【无敌玩家】剩余强化普攻次数
+        self.hidden_overflow = 0.0  # 1506：升格后超出 60 的隐藏分（合计不超过 360）
 
         self.initial_spd = 0.0
 
@@ -874,12 +906,39 @@ class Sim:
             gain = amount
         else:
             gain = amount if fixed else amount * (1.0 + unit.err / 100.0)
-        unit.energy = min(float(unit.max_sp), unit.energy + gain)
+        # 银狼升格：隐藏分溢出至 360，开大只清 60 点计量，溢出留下来且不再次开大。
+        if unit.uid == "1506" and self.huanyu_active():
+            self.gain_wolf_overflow(unit, gain)
+            return
+        cap = float(unit.max_sp)
+        if unit.uid == "1505" and self.huanyu_active():
+            cap += 60.0
+        unit.energy = min(cap, unit.energy + gain)
         unit.energy_total += gain
         if unit.uid == "1505":
             unit.feiy_total += gain
             self.check_feiying_milestone(unit)
         self.maybe_ult(unit)
+
+    def gain_wolf_overflow(self, unit: Unit, gain: float) -> None:
+        """【欢愉万相★全息幻象】1 级：隐藏分合计不超过 360。超出 60 的部分不触发终结技。"""
+        room = max(0.0, 360.0 - (unit.energy + unit.hidden_overflow))
+        applied = min(gain, room)
+        into_meter = min(max(0.0, float(unit.max_sp) - unit.energy), applied)
+        spill = applied - into_meter
+        unit.energy += into_meter
+        unit.hidden_overflow += spill
+        unit.energy_total += applied
+        if spill > EPS:
+            self.event("note", unit, "欢愉万相★全息幻象",
+                       [f"隐藏分溢出 +{fmt(spill)}（合计上限 360）"])
+        if gain - applied > EPS:
+            self.event("note", unit, "欢愉万相★全息幻象",
+                       ["超出 360 的隐藏分不再计入"])
+        self.maybe_ult(unit)
+
+    def haohuo_sum(self, unit: Unit) -> float:
+        return sum(float(item["count"]) for item in unit.haohuo)
 
     def check_feiying_milestone(self, unit: Unit) -> None:
         """绯英累计每 240 能量触发一次【狐狸老师】追击。"""
@@ -915,8 +974,26 @@ class Sim:
 
     def grant_haohuo(self, targets: list[Unit], count: float, label: str) -> None:
         for unit in targets:
-            unit.haohuo.append({"turns": 2, "count": float(count), "label": label})
+            applied = float(count)
+            # 真珠自己的持有上限。只在升格后夹到 75，且只夹新获得的那一份。
+            if unit.uid == "1503" and self.huanyu_active():
+                room = max(0.0, 75.0 - self.haohuo_sum(unit))
+                applied = min(applied, room)
+                if applied <= EPS:
+                    continue
+            unit.haohuo.append({"turns": 2, "count": applied, "label": label})
+            if unit.uid == "1506" and self.huanyu_active() and applied > EPS:
+                bonus = applied * 0.2
+                self.event("note", unit, "欢愉万相★全息幻象", [
+                    f"好活当赏 {fmt(applied, 0)} 的 20% → 隐藏分 +{fmt(bonus)}",
+                ])
+                self.gain_energy(unit, bonus, fixed=True, reason="全息幻象")
             if unit.uid == "1505":
+                if self.huanyu_active() and applied > EPS:
+                    unit.feiy_banger += applied
+                    while unit.feiy_banger >= 480.0 - EPS:
+                        unit.feiy_banger -= 480.0
+                        unit.feiy_ult_bonus += 1
                 if self.cfg["feiying_haohuo_mode"] == "flat":
                     gain = self.cfg["feiying_haohuo_energy"]
                 else:
@@ -1085,7 +1162,11 @@ class Sim:
                 self.on_attack(unit, "elation_skill")
                 return
             label = "欢愉技"
-            self.event("elation_skill", unit, f"{unit.name} 的欢愉技", ["不产生笑点"])
+            details = ["不产生笑点"]
+            if unit.uid == "1501" and self.huanyu_active():
+                details.append("欢愉万相★兔子戏法：欢愉技倍率提高原倍率的 50%（伤害不模拟）")
+                details.append("我方伤害无视 15% 防御（伤害不模拟）")
+            self.event("elation_skill", unit, f"{unit.name} 的欢愉技", details)
             if unit.uid == "1511":
                 self.event("note", unit, "自身动作回能", ["愿力 +1"])
                 self.gain_wishpower(unit, 1.0, "欢愉技")
@@ -1265,6 +1346,12 @@ class Sim:
             # 先扣资源再结算效果：嵌套事件（艺术壁垒回能、额外回合出招）里如果
             # 资源还没扣，会被满能量再次触发一次终结技（踩过：同一次行动连开两个大）。
             details: list[str] = []
+            feiy_restore = 0.0
+            feiy_stacks = 0
+            if unit.uid == "1505" and self.huanyu_active():
+                feiy_restore = max(0.0, unit.energy - float(unit.max_sp))
+                feiy_stacks = int(unit.feiy_ult_bonus)
+                unit.feiy_ult_bonus = 0
             if unit.energy_type == "wishpower":
                 unit.energy = max(0.0, unit.energy - 8.0)
                 details.append("消耗 8 愿力")
@@ -1287,6 +1374,8 @@ class Sim:
                 self.ult_8009(unit)
             elif unit.uid == "1506":
                 self.ult_1506(unit)
+            elif unit.uid == "1505":
+                self.ult_1505(unit, feiy_restore, feiy_stacks)
             elif unit.uid == "1313":
                 self.ult_1313(unit)
             elif unit.uid == "1309":
@@ -1323,8 +1412,45 @@ class Sim:
         self.event("note", u, "啊哈！宇宙笑点大爆炸", details)
         u.huanyu = 3
         self.notes.append("星神★阿哈进入【欢愉万相】3 回合（笑点升格爽点，阿哈时刻结束返还 10%）")
+        self.note_ascension_traces(u)
         if self.sandu_active():
-            self.notes.append("三赌牌局生效：全队速度 +%s%%" % fmt(self.cfg["sandu_team_spd_pct"], 0))
+            self.notes.append(
+                "三赌牌局生效：全队速度 +%s%%（固有行迹【欢愉万相★三赌牌局】1级）"
+                % fmt(self.cfg["sandu_team_spd_pct"], 0)
+            )
+
+    def note_ascension_traces(self, aha: Unit) -> None:
+        """各欢愉角色的固有行迹在【欢愉万相】开始时记一笔。数值效果在对应结算里。"""
+        level = 2 if aha.eidolon >= 2 else 1
+        crit = 20 if level == 2 else 12
+        defn = 60 if level == 2 else 30
+        self.notes.append(
+            f"固有行迹【欢愉万相★无中生有】{level}级：返还消耗笑点的 10%，"
+            f"暴击率 +{crit}%，无视防御 {defn}%"
+            "（伤害不模拟；笑点与好活当赏改称爽点与绝活共赏，不另做强化）"
+        )
+        for unit in self.units:
+            text = ASCENSION_ALLY_NOTES.get(unit.uid)
+            if text:
+                self.notes.append(text)
+
+    def ult_1505(self, u: Unit, restore: float, stacks: int) -> None:
+        if not self.huanyu_active() and restore <= EPS and stacks <= 0:
+            return
+        details: list[str] = []
+        if restore > EPS:
+            # 直接写回，不走 gain_energy：不触发天赋好活当赏，也不再计入狐狸老师。
+            u.energy = restore
+            details.append(f"书中折花：溢出能量 {fmt(restore)} 在开大后恢复（不触发天赋好活当赏）")
+        if stacks > 0:
+            details.append(
+                f"书中折花：本次终结技倍率提高原倍率的 {fmt(stacks * 75, 0)}%"
+                f"（{stacks} 层，伤害不模拟）"
+            )
+        if restore <= EPS and stacks <= 0:
+            details.append("书中折花：本次没有可恢复的溢出能量")
+        details.append("伤害无视 10% 防御（伤害不模拟）")
+        self.event("note", u, "欢愉万相★书中折花", details)
 
     def ult_1503(self, u: Unit) -> None:
         self.grant_haohuo(list(self.units), 20.0, "真珠终结技")
@@ -1388,14 +1514,25 @@ class Sim:
         target = self.unit_at(self.resolve_target_slot(u))
         details = ["笑点 +5"]
         can_cast = target is not None and target.uid in ELATION_SKILL_UIDS
+        halo = bool(can_cast and target is not None and self.huanyu_active() and target.uid == "1511")
         if can_cast and target is not None:
             details.append(f"{target.name} 立刻施放 1 次欢愉技（好活当赏计入 20，不进笑点池）")
+            if halo:
+                details.append("欢愉万相★主角光环：先施放开拓者欢愉技，再触发阿哈欢愉技")
         elif target is not None:
             details.append(f"{target.name} 拉条 50%")
         self.event("note", u, "开拓者•欢愉终结技", details)
         self.gain_punchline(5.0, "终结技")
         if target is not None:
             if can_cast:
+                # 主角光环：升格且目标是星神★阿哈时，先放开拓者自己的欢愉技。
+                if halo:
+                    self.event("note", u, "欢愉万相★主角光环", [
+                        "开拓者欢愉技倍率提高原倍率的 200%（按最高好活当赏计算，伤害不模拟）",
+                        "阿哈欢愉技真实伤害改为该次的 20%，由敌方全体均分（伤害不模拟）",
+                        "终结技暴伤额外 +20% 且对全队生效（伤害不模拟）",
+                    ])
+                    self.cast_elation_skill(u)
                 self.cast_elation_skill(target)
                 # 1513 的举杯 / All in 自己已经记了 20，这里不再叠一次。
                 if target.uid != "1513":
@@ -1456,6 +1593,19 @@ class Sim:
                     tail = "（欢愉万相返还 10%）"
                 self.event("note", unit, "额外回合笑点结算",
                            [f"回收 {fmt(removed, 0)} 笑点{tail}"], extra=True)
+            # 笑点的 10% 就是上面的欢愉万相返还，不再加一次。这里只把该次好活当赏收到 10%。
+            if (grant_haohuo > 0 and self.huanyu_active() and "真珠终结技" in label
+                    and self.by_uid("1503") is not None):
+                kept = 0.0
+                for item in reversed(unit.haohuo):
+                    if item["label"] == label:
+                        kept = float(item["count"]) * 0.1
+                        item["count"] = kept
+                        break
+                self.event("note", unit, "欢愉万相★跃然纸上", [
+                    f"额外回合结束保留该次好活当赏的 10%（{fmt(kept)}）",
+                    "笑点的 10% 已记在欢愉万相返还里，不再另加",
+                ], extra=True)
         finally:
             self.depth -= 1
 
@@ -1887,9 +2037,18 @@ class Sim:
                 "mindLinkActive": self.huanyu_active(),
             }
         elif unit.uid == "1505":
-            out = {"energySinceFuA": unit.feiy_total}
+            out = {
+                "energySinceFuA": unit.feiy_total,
+                "energyOverflow": max(0.0, unit.energy - float(unit.max_sp)),
+                "feiyUltBonus": unit.feiy_ult_bonus,
+            }
         elif unit.uid == "1506":
-            out = {"invincibleTurns": unit.invincible}
+            out = {
+                "invincibleTurns": unit.invincible,
+                "hiddenOverflow": unit.hidden_overflow,
+            }
+        out["ascensionTrace"] = ASCENSION_TRACE_NAME.get(unit.uid)
+        out["ascensionActive"] = bool(out["ascensionTrace"]) and self.huanyu_active()
         out["haohuo"] = [
             {"turns": item["turns"], "count": item["count"], "label": item["label"]}
             for item in unit.haohuo

@@ -383,6 +383,111 @@ def load_rail_catalog() -> dict[str, dict]:
     return out
 
 
+# 欢愉万相★固有行迹。nanoka 4.6.53，角色页 https://hsr.nanoka.cc/character/{id}/
+# JSON：https://static.nanoka.cc/hsr/4.6.53/zh/character/{id}.json
+# 文案里的 #n[i] 按原样留着。模拟用 1 级；星神★阿哈 2 魂只用他自己这一条的 2 级。
+_ASCENSION_ACTIVE_WHEN = (
+    "星神★阿哈终结技获得【欢愉万相】后生效。持续 3 回合，星神★阿哈每回合开始时持续时间 -1。"
+    "来源：终结技「啊哈！宇宙笑点大爆炸」参数第 6 项为 3；"
+    "固有行迹「欢愉万相★无中生有」写明持有【欢愉万相】时命途升格。"
+)
+
+
+def _ascension_trace(cid: str, sid: str, name: str, desc: str, simple: str,
+                     params: list, **extra: object) -> dict:
+    row = {
+        "id": sid,
+        "name": name,
+        "desc": desc,
+        "simpleDesc": simple,
+        "params": params,
+        "kind": "固有行迹",
+        "levelUpSkills": [],
+        "activeWhen": _ASCENSION_ACTIVE_WHEN,
+        "sourceUrl": f"https://hsr.nanoka.cc/character/{cid}/",
+        "dataUrl": f"https://static.nanoka.cc/hsr/4.6.53/zh/character/{cid}.json",
+    }
+    row.update(extra)
+    return row
+
+
+ASCENSION_TRACES: dict[str, dict] = {
+    "1501": _ascension_trace(
+        "1501", "150129", "欢愉万相★兔子戏法",
+        "当「欢愉」命途升格时，欢愉技的伤害倍率提高原倍率的#5[i]%，我方目标造成伤害时无视敌方目标#1[i]%防御力，每持有#2[i]点【绝活共赏】，【红红火火】触发时额外提供#3[i]点爽点，最多额外提高#4[i]点。",
+        "当「欢愉」命途升格时，欢愉技的伤害倍率提高，我方目标造成伤害时无视敌方目标部分防御力，【红红火火】触发时基于持有的【绝活共赏】点数额外提供爽点。",
+        [[0.15, 10, 1, 8, 0.5], [0.2, 10, 1, 12, 1.2]],
+    ),
+    "1502": _ascension_trace(
+        "1502", "150229", "欢愉万相★心灵感应",
+        "当「欢愉」命途升格时，【大吉大利】效果的伤害倍率提高，提高数值等同于原伤害倍率的#1[i]%。爻光施放终结技后固定恢复#2[i]点能量并获得#4[i]笑点。",
+        "当「欢愉」命途升格时，【大吉大利】效果的伤害倍率提高，爻光施放终结技后固定恢复能量并获得笑点。",
+        [[0.2, 12, 0, 10], [0.4, 30, 0, 10]],
+    ),
+    "1503": _ascension_trace(
+        "1503", "150329", "欢愉万相★跃然纸上",
+        "当「欢愉」命途升格时，真珠的【绝活共赏】持有上限提高至#1[i]点。终结技提供的额外回合开始时获得的【好活当赏】和笑点提高效果，在额外回合结束时会保留#2[i]%和#3[i]%。",
+        "当「欢愉」命途升格时，真珠的【绝活共赏】持有上限提高。终结技提供的额外回合开始时获得的【好活当赏】和笑点提高效果，在额外回合结束时会保留部分。",
+        [[75, 0.1, 0.1], [75, 0.2, 0.2]],
+    ),
+    "1505": _ascension_trace(
+        "1505", "150529", "欢愉万相★书中折花",
+        "当「欢愉」命途升格时，可积攒最多#3[i]点溢出能量，施放终结技后清空并恢复相应的能量值，本次恢复不会触发天赋的获得好活当赏效果。造成的伤害无视敌方目标#2[i]%的防御力，每累计获得#4[i]点【绝活共赏】，使下一次终结技的伤害倍率提高原倍率的#1[i]%。",
+        "当「欢愉」命途升格时，可积攒溢出能量，施放终结技后清空并恢复相应的能量值。本次恢复不会触发天赋的获得好活当赏效果。造成的伤害无视敌方目标部分防御力，累计获得一定【绝活共赏】时，使下一次终结技的伤害倍率提高。",
+        [[0.75, 0.1, 60, 480], [1.5, 0.24, 240, 480]],
+    ),
+    "1506": _ascension_trace(
+        "1506", "150629", "欢愉万相★全息幻象",
+        "当「欢愉」命途升格时，【隐藏分】达到上限后可溢出至#1[i]，暴击伤害提高#3[i]%，获得【绝活共赏】时为「银狼LV.999」提供#2[i]%的【隐藏分】。",
+        "当「欢愉」命途升格时，【隐藏分】达到上限后可额外溢出，暴击伤害提高，获得【绝活共赏】时为「银狼LV.999」提供【隐藏分】。",
+        [[360, 0.2, 0.4], [999, 0.4, 0.4]],
+    ),
+    "1511": _ascension_trace(
+        "1511", "151129", "欢愉万相★无中生有",
+        "持有【欢愉万相】状态时，星神★阿哈使我方「欢愉」命途升格，笑点与【好活当赏】状态强化为爽点和【绝活共赏】状态。爽点会在阿哈时刻回合结束时，重新获得消耗笑点的#1[i]%。【欢愉万相】期间，星神★阿哈暴击率提高#3[i]%，造成的伤害无视敌方目标#2[i]%的防御力。",
+        "持有【欢愉万相】状态时，将使我方「欢愉」命途升格，笑点与【好活当赏】状态强化为爽点和【绝活共赏】状态。爽点会在阿哈时刻回合结束时，重新获得消耗笑点的一部分。【欢愉万相】期间，星神★阿哈暴击率提高，造成的伤害无视敌方目标部分防御力。",
+        [[0.1, 0.3, 0.12], [0.1, 0.6, 0.2]],
+    ),
+    "1513": _ascension_trace(
+        "1513", "151329", "欢愉万相★三赌牌局",
+        "当「欢愉」命途升格时，若只有星神★阿哈1位「欢愉」命途的队友，则行迹【纵享惊涛】中只存在砂金•戏浪1名「欢愉」命途角色时的效果也会生效，且该效果获得加强：我方全体速度提高#2[i]%，队友施放攻击后，砂金•戏浪额外获得#3[i]点【热意】以及#4[i]个爽点。",
+        "当「欢愉」命途升格时，若只有星神★阿哈1位「欢愉」命途的队友，则行迹【纵享惊涛】中只存在砂金•戏浪1名「欢愉」命途角色时的效果也会生效，且该效果获得加强：我方全体速度提高，队友施放攻击后，砂金•戏浪获得额外的【热意】以及爽点。",
+        [[0, 0.15, 1, 1], [0, 0.25, 2, 2]],
+    ),
+    "8009": _ascension_trace(
+        "8009", "800929", "欢愉万相★主角光环",
+        "当「欢愉」命途升格时，终结技的暴击伤害提高效果额外提高#1[i]%，并对我方全体生效。终结技触发星神★阿哈的欢愉技前，额外触发一次开拓者的欢愉技，本次欢愉技的伤害倍率提高原倍率的#2[i]%，并基于我方角色持有的【绝活共赏】最高值进行计算。随后触发的星神★阿哈欢愉技，其真实伤害改为按上述开拓者欢愉技造成伤害的#3[i]%计算，由敌方全体均分。",
+        "当「欢愉」命途升格时，终结技提供的暴击伤害提高效果额外提高，并对我方全体生效。终结技触发星神★阿哈的欢愉技前，额外触发一次开拓者的欢愉技，本次欢愉技的伤害倍率提高，并基于我方角色持有的【绝活共赏】最高值进行计算。随后触发的星神★阿哈欢愉技，其真实伤害改为基于上述开拓者欢愉技造成的伤害计算，由敌方全体均分。",
+        [[0.2, 2, 0.2], [0.3, 3, 0.2]],
+        alsoRecordedAs={
+            "id": "8010",
+            "skillId": "801029",
+            "name": "开拓者•欢愉",
+            "note": "女性开拓者•欢愉（8010）与 8009 是同一条固有行迹，档案不另开角色。",
+            "sourceUrl": "https://hsr.nanoka.cc/character/8010/",
+            "dataUrl": "https://static.nanoka.cc/hsr/4.6.53/zh/character/8010.json",
+        },
+    ),
+}
+
+
+def attach_ascension_trace(profile: dict) -> dict:
+    """把欢愉万相★固有行迹挂进角色自己的 traces。已有同 id 则不重复加。
+
+    1511 的档案是手写的，重导时也要挂上。1505 / 1506 在隔离名单里，同样挂。
+    """
+    cid = str(profile.get("id") or "")
+    spec = ASCENSION_TRACES.get(cid)
+    if spec is None:
+        return profile
+    out = dict(profile)
+    traces = [dict(t) for t in (profile.get("traces") or [])]
+    if not any(str(t.get("id")) == spec["id"] for t in traces):
+        traces.append(dict(spec))
+    out["traces"] = traces
+    return out
+
+
 def build_profile(cid: str, chars: dict, skills: dict, trees: dict, ranks: dict,
                   rail_map: dict[str, dict]) -> dict:
     if cid == "1511":
@@ -523,7 +628,9 @@ def main(argv: list[str] | None = None) -> int:
 
     profiles = {}
     for cid in target_ids:
-        profiles[cid] = build_profile(cid, chars, skills, trees, ranks, rail_map)
+        profiles[cid] = attach_ascension_trace(
+            build_profile(cid, chars, skills, trees, ranks, rail_map)
+        )
 
     print(f"[OK] 已生成适用角色档案 {len(profiles)} 名（含 1511 星神·啊哈 + 86 名标准能量角色），"
           f"隔离特殊角色 {len(EXCLUDED_SPECIAL_CHARACTERS)} 名")
@@ -544,7 +651,9 @@ def main(argv: list[str] | None = None) -> int:
         ],
         "note": "每技能基础回能按「文案 > 固定 > 通用」三级标注；86 名标准能量角色 + 唯一特殊计入角色「星神·啊哈（#1511）」，其余 7 名特殊能量角色列入 excludedProfiles。",
         "profiles": profiles,
-        "excludedProfiles": EXCLUDED_SPECIAL_CHARACTERS,
+        "excludedProfiles": {
+            k: attach_ascension_trace(v) for k, v in EXCLUDED_SPECIAL_CHARACTERS.items()
+        },
     }
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)

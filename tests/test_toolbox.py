@@ -3475,26 +3475,62 @@ class TestActionValueTimeline(unittest.TestCase):
         joined = " ".join(n for r in e1["rows"] for n in r["notes"])
         self.assertIn("40", joined)
 
-    def test_yaoguang_ascension_trace_boosts_talent(self) -> None:
-        """命途升格后固有行迹把 10 级【大吉大利】20% 提高到 24%，开大再 +12 能量 +10 笑点。"""
+    def test_yaoguang_ascension_trace_is_on_her_profile_not_a_switch(self) -> None:
+        """升格不是排轴开关。笑点表不含 +12/+10；行迹写在爻光自己的档案里。"""
         base = {"actions": 1, "rotation": ["普攻"], "openingSkill": True,
                 "startEnergy": 180, "actionsPerUlt": 1, "err": 0, "skillLevel": 10}
         off = self.call("yaoguang", base)
-        on = self.call("yaoguang", {**base, "pathAscension": True})
+        sent = self.call("yaoguang", {**base, "pathAscension": True})
+        self.assertEqual(off["rows"], sent["rows"])
+        self.assertEqual(off["totals"], sent["totals"])
+        self.assertNotIn("pathAscension", off["params"])
         self.assertAlmostEqual(off["kit"]["talent"]["elationDamage"], 0.2)
-        self.assertEqual(off["kit"]["inherentTrace"]["name"], "欢愉万相★心灵感应")
-        self.assertFalse(off["kit"]["inherentTrace"]["active"])
-        self.assertAlmostEqual(on["kit"]["talent"]["elationDamage"], 0.24)
-        self.assertAlmostEqual(on["kit"]["talent"]["elationDamageBase"], 0.2)
-        self.assertAlmostEqual(on["kit"]["talent"]["ascensionBonus"], 0.2)
-        self.assertTrue(on["kit"]["inherentTrace"]["active"])
-        self.assertEqual(on["totals"]["spunk"], off["totals"]["spunk"] + 10)
-        self.assertEqual(on["rows"][0]["energy"], off["rows"][0]["energy"] + 12)
-        joined = " ".join(on["rows"][0]["notes"])
-        self.assertIn("【大吉大利】倍率提高原倍率的 20%", joined)
-        self.assertIn("固定能量 +12", joined)
-        self.assertIn("笑点 +10", joined)
+        self.assertAlmostEqual(off["kit"]["talent"]["ascensionBonus"], 0.0)
+        trace = off["kit"]["inherentTrace"]
+        self.assertEqual(trace["name"], "欢愉万相★心灵感应")
+        self.assertEqual(trace["id"], "150229")
+        self.assertFalse(trace["active"])
+        self.assertAlmostEqual(trace["dajiBonus"], 0.2)
+        self.assertEqual(trace["ultEnergy"], 12)
+        self.assertEqual(trace["ultSpunk"], 10)
         self.assertNotIn("心灵感应", " ".join(n for r in off["rows"] for n in r["notes"]))
+        text = " ".join(off["assumptions"])
+        self.assertIn("欢愉万相", text)
+        self.assertIn("阿哈", text)
+        prof = self.call("profile", {"characterId": "1502"})["profile"]
+        stored = next(t for t in prof["traces"] if t.get("name") == "欢愉万相★心灵感应")
+        self.assertEqual(stored["kind"], "固有行迹")
+        self.assertEqual(stored["params"][0], [0.2, 12, 0, 10])
+        self.assertIn("hsr.nanoka.cc/character/1502", stored["sourceUrl"])
+
+    def test_every_elation_character_keeps_its_ascension_trace(self) -> None:
+        """每个欢愉角色的欢愉万相★行迹在自己的档案里，不在全局开关上。"""
+        cat = self.call("catalog")
+        by_id = {c["id"]: c for c in cat["characters"]}
+        expect = {
+            "1501": "欢愉万相★兔子戏法",
+            "1502": "欢愉万相★心灵感应",
+            "1503": "欢愉万相★跃然纸上",
+            "1511": "欢愉万相★无中生有",
+            "1513": "欢愉万相★三赌牌局",
+            "8009": "欢愉万相★主角光环",
+        }
+        for cid, name in expect.items():
+            with self.subTest(id=cid):
+                got = by_id[cid]["ascensionTrace"]
+                self.assertEqual(got["name"], name)
+                self.assertEqual(got["kind"], "固有行迹")
+                self.assertEqual(len(got["params"]), 2)
+                self.assertIn(f"character/{cid}", got["sourceUrl"])
+                self.assertIn("欢愉万相", got["activeWhen"])
+        self.assertIsNone(by_id["1001"]["ascensionTrace"])
+        self.assertEqual(by_id["8009"]["ascensionTrace"]["alsoRecordedAs"]["id"], "8010")
+        excluded = {c["id"]: c for c in cat["excludedCharacters"]}
+        self.assertEqual(excluded["1505"]["ascensionTrace"]["name"], "欢愉万相★书中折花")
+        self.assertEqual(excluded["1505"]["ascensionTrace"]["params"][0], [0.75, 0.1, 60, 480])
+        self.assertEqual(excluded["1506"]["ascensionTrace"]["name"], "欢愉万相★全息幻象")
+        self.assertEqual(excluded["1506"]["ascensionTrace"]["params"][0], [360, 0.2, 0.4])
+        self.assertIn("character/1506", excluded["1506"]["ascensionTrace"]["sourceUrl"])
 
     def test_yaoguang_declares_its_assumptions(self) -> None:
         """不确定的东西必须显式声明，不能悄悄假设。"""
@@ -4146,6 +4182,162 @@ class TestAhaSpeedSimulation(unittest.TestCase):
         self.assertFalse(any("心灵感应" in d
                              for ev in plain["timeline"] for d in ev["details"]))
         self.assertFalse(self._labels(plain, "大吉大利"))
+
+    def test_ascension_starts_when_aha_ults_and_lasts_three_of_his_turns(self) -> None:
+        """升格跟着【欢愉万相】：开大置 3，阿哈自己每回合开始 -1，第三次行动开始时结束。"""
+        slow = {
+            "id": "1511", "eidolon": 1, "baseSpd": 100, "traceSpd": 0, "lcBaseSpd": 0,
+            "rotation": "basic", "equipment": {"hasSigLc": False},
+        }
+        res = self._sim({
+            "maxAV": 350, "useTech": False, "trace3Advance": False, "e1Wishpower": 8,
+            "team": [slow],
+        })
+        self.assertTrue(any("星神★阿哈进入【欢愉万相】3 回合" in n for n in res["notes"]))
+        self.assertTrue(any("固有行迹【欢愉万相★无中生有】1级" in n and "暴击率 +12%" in n
+                            and "无视防御 30%" in n for n in res["notes"]))
+        self.assertTrue(any("不另做强化" in n for n in res["notes"]))
+        end = self._labels(res, "【欢愉万相】结束")
+        self.assertEqual(1, len(end))
+        self.assertAlmostEqual(end[0]["av"], self._action_avs(res, 0)[2])
+        e2 = self._sim({
+            "maxAV": 5, "useTech": False, "trace3Advance": False, "e1Wishpower": 8,
+            "team": [{**slow, "eidolon": 2, "baseSpd": 1}],
+        })
+        self.assertTrue(any("固有行迹【欢愉万相★无中生有】2级" in n and "暴击率 +20%" in n
+                            and "无视防御 60%" in n and "返还消耗笑点的 10%" in n
+                            for n in e2["notes"]))
+
+    def test_spark_rabbit_trick_is_a_note_only_after_aha_ults(self) -> None:
+        """兔子戏法只在升格后写在欢愉技上，不额外加笑点。"""
+        plain = self._sim({
+            "maxAV": 130, "useTech": False, "useAeonAha": False,
+            "team": [{"id": "1501", "baseSpd": 1, "traceSpd": 0}],
+        })
+        self.assertEqual(["不产生笑点"],
+                         [ev for ev in plain["timeline"] if ev["type"] == "elation_skill"][0]["details"])
+        res = self._sim({
+            "maxAV": 80, "useTech": False, "trace3Advance": False, "e1Wishpower": 8,
+            "aeonAhaBaseSpd": 200, "aeonAhaLcBaseSpd": 0,
+            "team": [
+                {"id": "1511", "eidolon": 1, "baseSpd": 1, "traceSpd": 0, "lcBaseSpd": 0,
+                 "rotation": "basic", "equipment": {"hasSigLc": False}},
+                {"id": "1501", "baseSpd": 1, "traceSpd": 0},
+            ],
+        })
+        skills = [ev for ev in res["timeline"] if ev["type"] == "elation_skill" and ev["name"] == "火花"]
+        self.assertTrue(skills)
+        self.assertEqual("不产生笑点", skills[0]["details"][0])
+        self.assertTrue(any("兔子戏法" in d and "50%" in d for d in skills[0]["details"]))
+        self.assertTrue(any("不加这份笑点" in n for n in res["notes"]))
+        self.assertEqual(0.0, res["summary"]["punchlineGranted"])
+
+    def test_trailblazer_halo_casts_own_skill_before_aha(self) -> None:
+        """升格后，开拓者终结技打中阿哈时先放自己的欢愉技。"""
+        res = self._sim({
+            "maxAV": 20, "useTech": False, "trace3Advance": False, "e1Wishpower": 8,
+            "team": [
+                {"id": "1511", "eidolon": 1, "baseSpd": 1, "traceSpd": 0, "lcBaseSpd": 0,
+                 "rotation": "basic", "equipment": {"hasSigLc": False}},
+                {"id": "8009", "err": 500, "initAdv": 100, "baseSpd": 200, "traceSpd": 0,
+                 "targetSlot": 0},
+            ],
+        })
+        skills = [ev for ev in res["timeline"] if ev["type"] == "elation_skill"]
+        self.assertGreaterEqual(len(skills), 2)
+        self.assertEqual(["开拓者•欢愉", "星神★阿哈"], [ev["name"] for ev in skills[:2]])
+        self.assertTrue(any("主角光环" in d for ev in res["timeline"] for d in ev["details"]))
+        self.assertEqual(8.0, res["summary"]["punchlineGranted"])
+
+    def test_pearl_keeps_ten_percent_of_extra_turn_haohuo_only_while_ascended(self) -> None:
+        """跃然纸上：升格后额外回合结束，该次好活当赏收到 10%。笑点 10% 不重复加。"""
+        pearl = {"id": "1503", "initAdv": 100, "err": 500, "targetSlot": 2}
+        res = self._sim({
+            "maxAV": 20, "useTech": False, "trace3Advance": False, "e1Wishpower": 8,
+            "team": [
+                {"id": "1511", "eidolon": 1, "baseSpd": 1, "traceSpd": 0, "lcBaseSpd": 0,
+                 "rotation": "basic", "equipment": {"hasSigLc": False}},
+                pearl,
+                {"id": "1501", "baseSpd": 1, "traceSpd": 0},
+                {"id": "1502", "baseSpd": 1, "traceSpd": 0},
+            ],
+        })
+        spark = next(u for u in res["units"] if u["id"] == "1501")
+        extra = [item for item in spark["mechanics"]["haohuo"]
+                 if item["label"] == "真珠终结技·【美学底本】额外回合"]
+        self.assertEqual([3.0], [item["count"] for item in extra])
+        self.assertTrue(any(item["label"] == "真珠终结技" and item["count"] == 20.0
+                            for item in spark["mechanics"]["haohuo"]))
+        note = self._labels(res, "欢愉万相★跃然纸上")[0]
+        self.assertIn("额外回合结束保留该次好活当赏的 10%（3.00）", note["details"])
+        self.assertIn("回收 60 笑点（欢愉万相返还 10%）",
+                      self._labels(res, "额外回合笑点结算")[0]["details"])
+
+    def test_pearl_haohuo_cap_is_75_only_after_ascension(self) -> None:
+        """升格后新获得的好活当赏把真珠自己夹到 75，队友不夹。"""
+        res = self._sim({
+            "maxAV": 80, "useTech": False, "trace3Advance": False, "e1Wishpower": 8,
+            "aeonAhaBaseSpd": 200, "aeonAhaLcBaseSpd": 0,
+            "team": [
+                {"id": "1511", "eidolon": 6, "baseSpd": 1, "traceSpd": 0, "lcBaseSpd": 0,
+                 "rotation": "basic", "equipment": {"hasSigLc": False}},
+                {"id": "1503", "baseSpd": 1, "traceSpd": 0, "targetSlot": 2},
+                {"id": "1501", "baseSpd": 1, "traceSpd": 0},
+            ],
+        })
+        pearl = next(u for u in res["units"] if u["id"] == "1503")
+        spark = next(u for u in res["units"] if u["id"] == "1501")
+        self.assertAlmostEqual(sum(item["count"] for item in pearl["mechanics"]["haohuo"]), 75.0)
+        self.assertAlmostEqual(sum(item["count"] for item in spark["mechanics"]["haohuo"]), 100.0)
+
+    def test_wolf_hidden_score_gains_twenty_percent_of_haohuo_while_ascended(self) -> None:
+        """全息幻象：升格后好活当赏的 20% 进隐藏分。没升格时不加。"""
+        wolf_team = [
+            {"id": "1511", "eidolon": 1, "baseSpd": 1, "traceSpd": 0, "lcBaseSpd": 0,
+             "rotation": "basic", "equipment": {"hasSigLc": False}},
+            {"id": "1503", "initAdv": 100, "err": 0, "baseSpd": 200, "traceSpd": 0,
+             "targetSlot": 0},
+            {"id": "1506", "baseSpd": 1, "traceSpd": 0},
+        ]
+        res = self._sim({
+            "maxAV": 5, "useTech": False, "trace3Advance": False, "e1Wishpower": 8,
+            "team": wolf_team,
+        })
+        wolf = next(u for u in res["units"] if u["id"] == "1506")
+        self.assertAlmostEqual(wolf["finalEnergy"], 3.0)
+        self.assertAlmostEqual(wolf["mechanics"]["hiddenOverflow"], 0.0)
+        self.assertEqual(0, wolf["ultCount"])
+        self.assertTrue(any("好活当赏 15 的 20% → 隐藏分 +3.00" in d
+                            for ev in res["timeline"] for d in ev["details"]))
+        plain = self._sim({
+            "maxAV": 5, "useTech": False, "useAeonAha": False,
+            "team": wolf_team[1:],
+        })
+        wolf = next(u for u in plain["units"] if u["id"] == "1506")
+        self.assertEqual(0.0, wolf["finalEnergy"])
+        self.assertFalse(any("全息幻象" in ev["label"] for ev in plain["timeline"]))
+
+    def test_feiying_restores_overflow_energy_without_retriggering_talent(self) -> None:
+        """书中折花：升格后能量可溢出最多 60，开大后把溢出写回来，不走好活当赏回能。"""
+        team = [
+            {"id": "1511", "eidolon": 1, "baseSpd": 1, "traceSpd": 0, "lcBaseSpd": 0,
+             "rotation": "basic", "equipment": {"hasSigLc": False}},
+            {"id": "1503", "initAdv": 100, "err": 0, "baseSpd": 200, "traceSpd": 0,
+             "targetSlot": 0},
+            {"id": "1505", "baseSpd": 1, "traceSpd": 0},
+        ]
+        res = self._sim({
+            "maxAV": 5, "useTech": False, "trace3Advance": False, "e1Wishpower": 8,
+            "feiyingHaohuoEnergyMode": "flat", "feiyingHaohuoEnergy": 500,
+            "team": team,
+        })
+        fei = next(u for u in res["units"] if u["id"] == "1505")
+        note = self._labels(res, "欢愉万相★书中折花")
+        self.assertTrue(note)
+        self.assertTrue(any("溢出能量 40.00" in d for ev in note for d in ev["details"]))
+        self.assertTrue(any("不触发天赋好活当赏" in d for ev in note for d in ev["details"]))
+        self.assertAlmostEqual(fei["finalEnergy"], 40.0)
+        self.assertGreaterEqual(fei["ultCount"], 1)
 
     def test_aha_basic_gains_one_wishpower(self) -> None:
         """星神★阿哈普攻是 +1 愿力，不是把标准能量 +20 灌进愿力。"""

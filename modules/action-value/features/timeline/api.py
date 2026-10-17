@@ -178,6 +178,34 @@ def _excluded_message(exc_prof: dict[str, Any]) -> str:
     return f"{exc_prof.get('name')}：{exc_prof.get('reason')}（这套回能公式不适用）"
 
 
+def _ascension_trace(profile: dict[str, Any] | None) -> dict[str, Any] | None:
+    """角色自己的 traces 里，名称带「欢愉万相★」的固有行迹。没有则是 None。"""
+    if not profile:
+        return None
+    found: dict[str, Any] | None = None
+    for trace in profile.get("traces") or []:
+        if not isinstance(trace, dict):
+            continue
+        name = str(trace.get("name") or "")
+        if trace.get("kind") == "固有行迹" or "欢愉万相★" in name:
+            found = trace
+            break
+    if found is None:
+        return None
+    return {
+        "id": found.get("id"),
+        "name": found.get("name"),
+        "desc": found.get("desc") or "",
+        "simpleDesc": found.get("simpleDesc") or "",
+        "params": found.get("params") or [],
+        "kind": found.get("kind") or "固有行迹",
+        "sourceUrl": found.get("sourceUrl") or "",
+        "dataUrl": found.get("dataUrl") or "",
+        "activeWhen": found.get("activeWhen") or "",
+        "alsoRecordedAs": found.get("alsoRecordedAs"),
+    }
+
+
 def _profile(ctx, char_id: str) -> dict[str, Any]:
     profiles, excluded = _profiles(ctx)
     key = str(char_id)
@@ -478,10 +506,11 @@ def yaoguang_kit(profile: dict[str, Any], *, skill_level: int = 10, eidolon: int
                  path_ascension: bool = False) -> dict[str, Any]:
     """从档案里把爻光的机制数值取出来（按等级与星魂取值）。
 
-    `path_ascension` 打开时套用固有行迹「欢愉万相★心灵感应」的 1 级：
-    【大吉大利】倍率提高原倍率的 20%，终结技固定回能 +12、笑点 +10。
-    该行迹还有 2 级（+40% / +30 能量），nanoka 没有写爻光何时升到 2 级，不用。
+    升格不是本页的开关。`path_ascension` 留着是为了旧请求不报错，这里一律忽略。
+    固有行迹从爻光自己的 traces 读出，天赋倍率仍是未升格的原值。
+    升格后的 20%→24%、+12 能量、+10 笑点在欢愉配速里、阿哈开大之后才计入。
     """
+    del path_ascension
     by_type: dict[str, dict[str, Any]] = {}
     for s in profile.get("skills") or []:
         by_type.setdefault(s.get("type") or "", s)
@@ -503,14 +532,23 @@ def yaoguang_kit(profile: dict[str, Any], *, skill_level: int = 10, eidolon: int
     skill_p = params_of("BPSkill")          # [结界回合, 欢愉度转化比, 笑点数]
     ult_p = params_of("Ultra")              # [笑点, 抗穿, 持续, 计入笑点, 额外回合]
     talent_p = params_of("Talent")          # [大吉大利倍率]
+    trace = _ascension_trace(profile)
     inherent = next((s for s in (profile.get("skills") or [])
                      if str(s.get("id")) == "150229"), None)
-    # 固有行迹只有 1/2 两档，不跟战技等级走。默认用 1 级。
-    inh_rows = (inherent or {}).get("params") or []
+    # 行迹数据优先。技能表里的 150229 只是旧入口，数值同一套。
+    if trace is not None:
+        inh_rows = trace.get("params") or []
+        inh_name = trace.get("name")
+        inh_id = trace.get("id")
+    else:
+        inh_rows = (inherent or {}).get("params") or []
+        inh_name = (inherent or {}).get("name")
+        inh_id = "150229" if inherent is not None else None
+    # 固有行迹只有 1/2 两档，不跟战技等级走。展示用 1 级，本页不乘进天赋。
     inh_p = inh_rows[0] if inh_rows else []
     daji_base = talent_p[0] if talent_p else None
-    daji_bonus = float(inh_p[0]) if path_ascension and len(inh_p) > 0 else 0.0
-    daji = (daji_base * (1.0 + daji_bonus)) if daji_base is not None else None
+    daji_bonus = 0.0
+    daji = daji_base
 
     out = {
         "maxSp": profile.get("maxSp"),
@@ -534,14 +572,19 @@ def yaoguang_kit(profile: dict[str, Any], *, skill_level: int = 10, eidolon: int
         },
         "eidolonNotes": {},
     }
-    if inherent is not None:
+    if inh_id is not None:
         out["inherentTrace"] = {
-            "id": "150229",
-            "name": inherent.get("name"),
-            "active": bool(path_ascension),
+            "id": inh_id,
+            "name": inh_name,
+            "active": False,
             "dajiBonus": float(inh_p[0]) if len(inh_p) > 0 else None,
             "ultEnergy": float(inh_p[1]) if len(inh_p) > 1 else None,
             "ultSpunk": int(inh_p[3]) if len(inh_p) > 3 else None,
+            "desc": (trace or {}).get("desc") or (inherent or {}).get("desc") or "",
+            "params": inh_rows,
+            "sourceUrl": (trace or {}).get("sourceUrl") or "",
+            "dataUrl": (trace or {}).get("dataUrl") or "",
+            "activeWhen": (trace or {}).get("activeWhen") or "",
         }
     if eidolon >= 1:
         out["eidolonNotes"]["E1"] = rank_desc(1)
@@ -627,9 +670,15 @@ def catalog(payload: dict[str, Any], ctx) -> dict[str, Any]:
             "effectiveBaseSpeed": spd.get("effectiveBaseSpeed"),
             "mechanismNote": p.get("mechanismNote"),
             "skillCount": len(p.get("skills") or []),
+            "ascensionTrace": _ascension_trace(p),
         })
+    excluded_items = []
+    for _, v in sorted(excluded.items()):
+        item = dict(v)
+        item["ascensionTrace"] = _ascension_trace(v)
+        excluded_items.append(item)
     return {"characters": items,
-            "excludedCharacters": [dict(v) for _, v in sorted(excluded.items())],
+            "excludedCharacters": excluded_items,
             "distancePerAction": DISTANCE_PER_ACTION,
             "firstCycleAV": FIRST_CYCLE_AV,
             "cycleAV": CYCLE_AV}
@@ -974,9 +1023,9 @@ def yaoguang(payload: dict[str, Any], ctx) -> dict[str, Any]:
     prof = _profile(ctx, "1502")
     skill_level = _int(payload, "skillLevel", 10)
     eidolon = _int(payload, "eidolon", 0)
-    path_ascension = _bool(payload, "pathAscension", False)
-    kit = yaoguang_kit(prof, skill_level=skill_level, eidolon=eidolon,
-                       path_ascension=path_ascension)
+    # 旧载荷里的 pathAscension 不再改变结果。读一下，避免以后有人把它当成必填。
+    _bool(payload, "pathAscension", False)
+    kit = yaoguang_kit(prof, skill_level=skill_level, eidolon=eidolon)
     table = resolve_energy_table(prof, payload.get("energyOverrides") or {})
 
     actions = max(1, _int(payload, "actions", 12))
@@ -989,11 +1038,6 @@ def yaoguang(payload: dict[str, Any], ctx) -> dict[str, Any]:
     field_turns = (kit.get("skill") or {}).get("fieldTurns") or 3
     e1 = eidolon >= 1
     fixed_per_ult = 40 if e1 else 20
-    mind = kit.get("inherentTrace") or {}
-    mind_on = bool(mind.get("active"))
-    mind_energy = float(mind.get("ultEnergy") or 0.0) if mind_on else 0.0
-    mind_spunk = int(mind.get("ultSpunk") or 0) if mind_on else 0
-    mind_bonus = mind.get("dajiBonus") if mind_on else None
 
     sim = simulate_energy(
         max_sp=float(prof.get("maxSp") or 0),
@@ -1070,14 +1114,6 @@ def yaoguang(payload: dict[str, Any], ctx) -> dict[str, Any]:
                          else f"{ult_base:g}×{mult:.3f}")
             notes.append(f"开大：清空并回 {back_desc}；笑点 +{ult_spunk} → {spunk}；"
                          f"阿哈额外回合 +1（固定计入 {fixed_per_ult} 笑点）")
-            if mind_on and mind_energy:
-                energy = min(max_sp, energy + mind_energy)
-                spunk += mind_spunk
-                bonus_pct = float(mind_bonus or 0.0) * 100.0
-                notes.append(
-                    f"欢愉万相★心灵感应：【大吉大利】倍率提高原倍率的 {bonus_pct:g}%；"
-                    f"固定能量 +{mind_energy:g}；笑点 +{mind_spunk} → {spunk}"
-                )
 
         rows.append({
             "index": i,
@@ -1101,7 +1137,6 @@ def yaoguang(payload: dict[str, Any], ctx) -> dict[str, Any]:
             "skillLevel": skill_level, "eidolon": eidolon, "actions": actions,
             "rotation": rotation, "openingSkill": opening_skill,
             "actionsPerUlt": _num(payload, "actionsPerUlt", 0.0),
-            "pathAscension": path_ascension,
         },
         "rows": rows,
         "totals": {"spunk": spunk, "ults": ults, "extraTurnsForAha": extra_turns},
@@ -1114,8 +1149,10 @@ def yaoguang(payload: dict[str, Any], ctx) -> dict[str, Any]:
             "结界内爻光自己的普攻/战技才 +3 笑点；结界外不加。展开当动算在结界内",
             "结界「随爻光自己的回合开始递减」：施放战技那一次直接记满回合、当回合不减，"
             "3 回合结界覆盖她自己的 3 次正常行动",
-            "固有行迹【欢愉万相★心灵感应】只在 pathAscension 打开时计入："
-            "【大吉大利】倍率提高原倍率的 20%（10 级 20%→24%），开大固定回能 +12、笑点 +10。"
+            "固有行迹【欢愉万相★心灵感应】写在爻光自己的行迹里。"
+            "星神★阿哈开大获得【欢愉万相】后生效，持续 3 回合（阿哈每回合开始 −1）。"
+            "生效时【大吉大利】倍率提高原倍率的 20%（10 级 20%→24%），开大固定回能 +12、笑点 +10。"
+            "本页不排阿哈的行动轴，所以下面的笑点表不含这项；欢愉配速里，阿哈开大后的【欢愉万相】期间会计入。"
             "2 级（+40% / +30 能量）的解锁条件 nanoka 没写到爻光，不用",
         ],
     }

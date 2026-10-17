@@ -43,7 +43,6 @@ export default {
       actionsPerUlt: 5,
       eidolon: 0,
       skillLevel: 10,
-      pathAscension: false,
       presets: [],
       presetId: "",
     };
@@ -195,6 +194,13 @@ export default {
       const out = root.querySelector("#av-out");
       out.innerHTML = `<div class="av-note">计算中…</div>`;
       try {
+        if (state.tab === "timeline" && state.excluded.some((c) => c.id === state.charId)) {
+          const item = currentCatalogItem();
+          out.innerHTML = viewExcluded(item);
+          bindExtra();
+          busy = false;
+          return;
+        }
         if (state.tab === "timeline") {
           last = state.presetId
             ? await ctx.call("plan", {
@@ -234,7 +240,6 @@ export default {
             actionsPerUlt: state.actionsPerUlt,
             eidolon: state.eidolon,
             skillLevel: state.skillLevel,
-            pathAscension: state.pathAscension,
           });
           out.innerHTML = viewKit(last);
         } else {
@@ -267,8 +272,36 @@ export default {
       if (apu) apu.addEventListener("change", () => { state.actionsPerUlt = Number(apu.value) || 0; draw(); });
       const eid = root.querySelector("#av-eid");
       if (eid) eid.addEventListener("change", () => { state.eidolon = Number(eid.value) || 0; draw(); });
-      const asc = root.querySelector("#av-ascend");
-      if (asc) asc.addEventListener("change", () => { state.pathAscension = asc.checked; draw(); });
+    }
+
+    function ascensionCard(trace) {
+      if (!trace || !trace.name) return "";
+      const params = (trace.params || [])
+        .map((row, i) => `L${i + 1} [${(row || []).join(", ")}]`)
+        .join("；");
+      const also = trace.alsoRecordedAs
+        ? `<div class="hint">同一条行迹也记在 ${esc(trace.alsoRecordedAs.id)}（${esc(trace.alsoRecordedAs.note || "")}）${trace.alsoRecordedAs.sourceUrl ? " · " + esc(trace.alsoRecordedAs.sourceUrl) : ""}。档案不另开一名角色。</div>`
+        : "";
+      return `
+        <div class="card">
+          <h3>固有行迹 · ${esc(trace.name)}</h3>
+          <p>${esc(trace.desc || trace.simpleDesc || "")}</p>
+          <div class="hint">参数：${esc(params || "—")}</div>
+          <div class="hint">${esc(trace.activeWhen || "")}</div>
+          ${trace.sourceUrl ? `<div class="hint">来源：${esc(trace.sourceUrl)}</div>` : ""}
+          ${also}
+          <div class="hint">本页不排星神★阿哈的行动轴，速度轴本身不加这份升格。欢愉配速里，阿哈开大进入【欢愉万相】后按 1 级生效（阿哈自己的行迹在 2 魂时用 2 级的暴击和无视防御）。笑点改称爽点、好活当赏改称绝活共赏，只是改名。</div>
+        </div>`;
+    }
+
+    function viewExcluded(item) {
+      const who = item || {};
+      return `
+        ${ascensionCard(who.ascensionTrace)}
+        <div class="card">
+          <div class="av-warn">${esc(who.name || "这个角色")}：${esc(who.reason || "这套回能公式不适用")}</div>
+          <div class="hint">特殊能量不走这条行动轴的回能公式。固有行迹仍写在角色自己的档案里，升格后的资源结算在欢愉配速。</div>
+        </div>`;
     }
 
     function viewTimeline(res) {
@@ -339,6 +372,7 @@ export default {
       const spd = res.speed || {};
       return `
         ${presetBlock}
+        ${ascensionCard(catItem && catItem.ascensionTrace)}
         <div class="card">
           <div class="av-summary">
             <span class="av-chip">基础白值 <b>${num(spd.base, 0)}</b>${preset ? "（速度来自配速查询）" : ""}</span>
@@ -489,9 +523,6 @@ export default {
                 .map((e) => `<option value="${e}"${e === state.eidolon ? " selected" : ""}>E${e}</option>`)
                 .join("")}
             </select></label>
-          <label class="field"><span>欢愉命途升格</span>
-            <input id="av-ascend" type="checkbox" ${state.pathAscension ? "checked" : ""}>
-          </label>
         </div>
         <div class="card">
           <div class="av-summary">
@@ -517,15 +548,7 @@ export default {
                  ${talent.ascensionBonus ? `（原倍率 ${num((talent.elationDamageBase || 0) * 100, 2)}%，固有行迹提高原倍率的 ${num(talent.ascensionBonus * 100, 0)}%）` : ""}；
                  该次攻击若消耗战技点则额外触发 1 次（本推演不模拟战技点）；触发不视为 1 次攻击。</p></div>
             <div class="av-kitcard"><h4>固有行迹 · ${esc((kit.inherentTrace || {}).name || "—")}</h4>
-              <p>${kit.inherentTrace
-                ? (kit.inherentTrace.active
-                  ? "命途升格已计入：【大吉大利】按上面的提高后倍率，开大固定回能 +"
-                    + esc(kit.inherentTrace.ultEnergy) + "、笑点 +" + esc(kit.inherentTrace.ultSpunk) + "。"
-                  : "未开启。勾选「欢愉命途升格」后，【大吉大利】倍率提高原倍率的 "
-                    + num((kit.inherentTrace.dajiBonus || 0) * 100, 0)
-                    + "%，开大固定回能 +" + esc(kit.inherentTrace.ultEnergy)
-                    + "、笑点 +" + esc(kit.inherentTrace.ultSpunk) + "。")
-                : "—"}</p></div>
+              <p>固有行迹写在爻光自己的行迹里。星神★阿哈开大获得【欢愉万相】后自动生效，持续 3 回合（阿哈每回合开始 −1）。生效时【大吉大利】倍率提高原倍率的 ${num(((kit.inherentTrace || {}).dajiBonus || 0) * 100, 0)}%（10 级 20%→24%），开大固定回能 +${esc((kit.inherentTrace || {}).ultEnergy)}、笑点 +${esc((kit.inherentTrace || {}).ultSpunk)}。本页不排阿哈的行动轴，所以下面的笑点表不含这项；欢愉配速里，阿哈开大后的【欢愉万相】期间会计入。</p></div>
             <div class="av-kitcard"><h4>额外行迹</h4>
               <p>${(kit.extraTraces || []).map(esc).join(" · ") || "—"}</p></div>
           </div>
