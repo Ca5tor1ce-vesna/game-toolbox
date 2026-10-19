@@ -65,12 +65,19 @@
     [10.0, 20.0, 30.0],
     [10.0, 20.0, 30.0, 40.0, 50.0],
   ];
-  const FERVOR_CAP = 50.0;
 
   const TALENT_ATTACK_KINDS = ["basic", "skill", "enhanced_basic", "ultimate", "fua"];
 
-  // 档案里写了欢愉技的角色。1505 / 1506 没有欢愉技；自定义角色勾了欢愉标记也不算。
-  const ELATION_SKILL_UIDS = { "1511": true, "1501": true, "1502": true, "1503": true, "1513": true, "8009": true };
+  // 档案里写了欢愉技的角色（官方 sp_base=5，阿哈只 +1 愿力）。
+  const ELATION_SKILL_UIDS = { "1511": true, "1501": true, "1502": true, "1503": true, "1505": true, "1506": true, "1513": true, "8009": true };
+
+  const PEARL_LC_ENERGY = 10.0;
+  const YAO_LC_ERR = 12.0;
+  const YAO_LC_WAVE_ENERGY = 15.0;
+  const SUNDAY_LC_ENERGY = 6.0;
+  const ROBIN_LC_ERR_PER_STACK = 3.0;
+  const ROBIN_LC_MAX_STACKS = 5;
+  const WOLF_LC_PUNCHLINE = 20.0;
 
   // ----------------------------------------------------------------------- //
   // 角色表（内置数据；payload 可逐项覆盖）
@@ -113,7 +120,7 @@
       mechanics: [
         "指定【美学底本】（不能是自己）",
         "战技：群疗 + 全队好活当赏 +15（基础回能 30 × ERR）",
-        "有【深度学习】时自动打强化普攻（群攻群疗，基础回能 20 × ERR）",
+        "有【深度学习】时自动打强化普攻（群攻群疗，基础回能 30 × ERR）",
         "终结技：真珠全体拉条 10%/15%/30%（按欢愉人数）；4 欢愉时给【美学底本】额外回合",
         "行迹3【艺术壁垒】：【美学底本】（欢愉）下一次开大时真珠 +90 固定能量",
         "固有行迹【欢愉万相★跃然纸上】：升格后好活当赏上限 75；终结技额外回合结束保留该次好活当赏与笑点的 10%",
@@ -135,7 +142,7 @@
         "天赋：队友每次攻击 +1 热意 +1 笑点；行迹3【旧梦淘金】再 +2 热意（6 次/战技周期）",
         "战技：+4 笑点 +4 热意，【旧梦淘金】充能重置 6（基础回能 30 × ERR）",
         "终结技：+6 笑点 +8 热意，自身速度 +30%（4 回合）",
-        "热意过阈值（10/20/30/40/50）立刻在回合外放《举杯！敬炽烈一夏》（好活当赏计入 20，不进笑点池），并把下一次阿哈时刻欢愉技升级为《All in！》",
+        "热意过阈值（E0 10，上限 30；E1 10/20/30；E2 10/20/30/40/50）立刻在回合外放《举杯！敬炽烈一夏》（好活当赏计入 20，不进笑点池），并把下一次阿哈时刻欢愉技升级为《All in！》",
         "行迹2【纵享惊涛】：单欢愉或三赌牌局时队友攻击 → 【阿哈时刻】+25 固定速度",
         "固有行迹【欢愉万相★三赌牌局】：升格且另一名欢愉只有星神★阿哈时，纵享惊涛加强为全队速度 +15%、攻击热意 +1、笑点 +1",
       ],
@@ -222,14 +229,15 @@
       traceSpd: 5.0,
       lcBaseSpd: 0.0,
       maxSp: 480.0,
-      energy: "special",
-      energyName: "特殊能量",
+      energy: "standard",
+      energyName: "能量",
       rotation: "skill",
       mechanics: [
-        "战技：+10 笑点 +60 特殊能量（固定）",
-        "获得【好活当赏】时额外回能（默认 = 记账笑点数）",
+        "战技：+10 笑点、基础回能 30 × ERR",
+        "获得【好活当赏】时额外回能（默认 = 记账笑点数，单次最多 100）",
         "累计每 240 能量触发【狐狸老师】追击（+10 能量，算队友攻击）",
-        "480 能量开大；若她是【美学底本】会触发真珠【艺术壁垒】+90",
+        "480 能量开大，终结技返还 5 × ERR；若她是【美学底本】会触发真珠【艺术壁垒】+90",
+        "E6：首次终结技固定 +120 能量，之后每 4 次终结技再触发",
         "固有行迹【欢愉万相★书中折花】：升格后溢出能量最多 60，开大后恢复且不触发天赋好活当赏",
       ],
     },
@@ -246,9 +254,10 @@
       energyName: "隐藏分",
       rotation: "skill",
       mechanics: [
-        "战技 +5 笑点；隐藏分 = 全队获得的笑点（欢愉技再 +15）",
-        "隐藏分 ≥ 60 开大：自身拉条 100%，进入【无敌玩家】打 3 次强化普攻",
-        "固有行迹【欢愉万相★全息幻象】：升格后隐藏分可溢出至 360；获得好活当赏时隐藏分 +该次的 20%",
+        "战技 +5 笑点；隐藏分 = 全队获得的笑点（只有自己的欢愉技再 +15）",
+        "隐藏分 ≥ 60 开大：自身拉条 100%，进入【无敌玩家】打 3 次强化普攻；无敌期间不能再开大，退出时清空隐藏分（E1 保留 20%）",
+        "行迹【真结局】：欢愉技计入笑点 ≥20 / ≥40 各 +20 隐藏分；【隐藏关卡】：进入无敌玩家 +20",
+        "基础天赋隐藏分可溢出 240；升格【全息幻象】溢出至 360，获得好活当赏时隐藏分 +该次的 20%",
       ],
     },
     "1313": {
@@ -266,6 +275,7 @@
       mechanics: [
         "战技：指定目标拉条 100%",
         "终结技：给指定目标回能 max(40, 20% 能量上限)（固定回能）",
+        "行迹【崇高拂尘】：战斗开始 +25 能量；E4：回合开始 +8 能量",
       ],
     },
     "1309": {
@@ -281,7 +291,10 @@
       energyName: "能量",
       rotation: "skill",
       mechanics: [
-        "终结技：其他队友全体拉条 100%，并召唤 90 速【协奏】倒计时",
+        "天赋：我方每次攻击后恢复 2 点能量（E2 为 3）",
+        "战技基础回能 35（30 + 行迹【模进乐段】5）",
+        "秘技：每波次开始 +5 能量（本工具=战斗开始一次）",
+        "终结技：其他队友全体拉条 100%，并召唤 90 速【协奏】倒计时；协奏期间本体不行动",
       ],
     },
   };
@@ -324,6 +337,12 @@
     { id: "danceS5", name: "叠5 舞！舞！舞！", text: "施放终结技后我方全体拉条 24%（可调 dancePct）" },
     { id: "hasSigLc", name: "星神★阿哈专武《当第一声「阿哈」响起》", text: "基础速度 +12；战技给笑点（每 2 回合 1 次）" },
     { id: "hasSummerLc", name: "《向浪花掷下盛夏》", text: "施放欢愉技获【风口】：自身速度 +24%~40%（按常驻处理）" },
+    { id: "hasPearlLc", name: "真珠专武《献给明日的色彩》", text: "装备者对我方全体施放欢愉技时固定恢复 10 点能量（S1）" },
+    { id: "hasYaoLc", name: "爻光/开拓者专武《当她决定看见》", text: "ERR +12%；每波次开始固定恢复 15 点能量（本工具=战斗开始一次）" },
+    { id: "hasFeiyLc", name: "绯英专武《邂逅于下一个花季》", text: "ERR +10%，能量上限超过 120 时每 10 点再 +0.3%，最多计 360 点（480 上限时共 +20.8%）" },
+    { id: "hasSundayLc", name: "星期日专武《回到大地的飞行》", text: "对我方单体施放战技/终结技后，自身恢复 6 点能量（S1）" },
+    { id: "hasRobinLc", name: "知更鸟专武《夜色流光溢彩》", text: "我方每次攻击叠 1 层【歌咏】，每层 ERR +3%，最多 5 层；开大时清空" },
+    { id: "hasWolfLc", name: "银狼专武《欢迎来到银河城》", text: "对自身施放终结技时获得 20 点笑点（S1），并同步为隐藏分" },
   ];
 
   const CONFIG_META = [
@@ -519,12 +538,25 @@
         danceS5: boolOf(equip, "danceS5", false),
         hasSigLc: hasSigLc,
         hasSummerLc: boolOf(equip, "hasSummerLc", false),
+        hasPearlLc: boolOf(equip, "hasPearlLc", false),
+        hasYaoLc: boolOf(equip, "hasYaoLc", false),
+        hasFeiyLc: boolOf(equip, "hasFeiyLc", false),
+        hasSundayLc: boolOf(equip, "hasSundayLc", false),
+        hasRobinLc: boolOf(equip, "hasRobinLc", false),
+        hasWolfLc: boolOf(equip, "hasWolfLc", false),
       };
       if (this.equip.vonwacq) {
         this.err += 5.0;
       }
       if (this.equip.godJoy) {
         this.permPct += 6.0;
+      }
+      if (this.equip.hasYaoLc) {
+        this.err += YAO_LC_ERR;
+      }
+      if (this.equip.hasFeiyLc) {
+        const extraCap = Math.min(Math.max(0.0, this.maxSp - 120.0), 360.0);
+        this.err += 10.0 + (extraCap / 10.0) * 0.3;
       }
 
       // 行动条状态
@@ -535,8 +567,8 @@
       this.haohuo = []; // {"turns","count","label"}
       this.notes = [];
 
-      // 资源
-      this.energy = 0.0;
+      // 资源。标准能量角色进战 = 上限 50%；愿力/隐藏分等特殊资源仍从 0 开始。
+      this.energy = this.energyType === "standard" ? this.maxSp * 0.5 : 0.0;
       this.energyTotal = 0.0;
       this.actionCount = 0;
       this.turnCount = 0;
@@ -561,6 +593,9 @@
       this.feiyUltBonus = 0;
       this.invincible = 0;
       this.hiddenOverflow = 0.0;
+      this.concerto = false;
+      this.lcErStacks = 0;
+      this.lcEr = 0.0;
 
       this.initialSpd = 0.0;
     }
@@ -904,11 +939,16 @@
       this.maybeUlt(unit);
     }
 
+    /** 【热意】上限：E0 30，E2 起 50（E1 只改阈值不改上限）。 */
+    fervorCap(unit) {
+      return unit.eidolon >= 2 ? 50.0 : 30.0;
+    }
+
     gainFervor(unit, amount) {
       if (amount <= 0 || unit.uid !== "1513") {
         return;
       }
-      unit.fervor = Math.min(FERVOR_CAP, unit.fervor + amount);
+      unit.fervor = Math.min(this.fervorCap(unit), unit.fervor + amount);
       this.checkFervor(unit);
     }
 
@@ -924,10 +964,11 @@
       if (unit.energyType === "hidden" || unit.energyType === "special") {
         gain = amount;
       } else {
-        gain = fixed ? amount : amount * (1.0 + unit.err / 100.0);
+        const err = unit.err + (unit.uid === "1309" ? unit.lcEr : 0.0);
+        gain = fixed ? amount : amount * (1.0 + err / 100.0);
       }
-      // 银狼升格：隐藏分溢出至 360，开大只清 60 点计量，溢出留下来且不再次开大。
-      if (unit.uid === "1506" && this.huanyuActive()) {
+      // 银狼：基础天赋可溢出 240（合计 300），升格后溢出至 360。
+      if (unit.uid === "1506") {
         this.gainWolfOverflow(unit, gain);
         return;
       }
@@ -944,9 +985,10 @@
       this.maybeUlt(unit);
     }
 
-    /** 【欢愉万相★全息幻象】1 级：隐藏分合计不超过 360。超出 60 的部分不触发终结技。 */
+    /** 隐藏分溢出：基础合计上限 300（60 + 240），升格后 360。超出 60 的部分不触发终结技。 */
     gainWolfOverflow(unit, gain) {
-      const room = Math.max(0.0, 360.0 - (unit.energy + unit.hiddenOverflow));
+      const totalCap = this.huanyuActive() ? 360.0 : Number(unit.maxSp) + 240.0;
+      const room = Math.max(0.0, totalCap - (unit.energy + unit.hiddenOverflow));
       const applied = Math.min(gain, room);
       const intoMeter = Math.min(Math.max(0.0, Number(unit.maxSp) - unit.energy), applied);
       const spill = applied - intoMeter;
@@ -954,12 +996,12 @@
       unit.hiddenOverflow += spill;
       unit.energyTotal += applied;
       if (spill > EPS) {
-        this.event("note", unit, "欢愉万相★全息幻象",
-          ["隐藏分溢出 +" + fmt(spill) + "（合计上限 360）"]);
+        this.event("note", unit, "隐藏分溢出",
+          ["隐藏分溢出 +" + fmt(spill) + "（合计上限 " + fmt(totalCap, 0) + "）"]);
       }
       if (gain - applied > EPS) {
-        this.event("note", unit, "欢愉万相★全息幻象",
-          ["超出 360 的隐藏分不再计入"]);
+        this.event("note", unit, "隐藏分溢出",
+          ["超出 " + fmt(totalCap, 0) + " 的隐藏分不再计入"]);
       }
       this.maybeUlt(unit);
     }
@@ -990,11 +1032,19 @@
       if (this.depth > MAX_NEST) {
         return;
       }
+      // 【无敌玩家】期间无法施放终结技。
+      if (unit.uid === "1506" && unit.invincible > 0) {
+        return;
+      }
       const threshold = unit.energyType === "wishpower" ? 8.0 : Number(unit.maxSp);
       let guard = 0;
       while (unit.energy >= threshold - EPS && guard < 4) {
         guard += 1;
         this.castUlt(unit);
+        // 银狼开大后进入【无敌玩家】，隐藏分不清空；这里必须停手，否则会连开。
+        if (unit.uid === "1506" && unit.invincible > 0) {
+          break;
+        }
       }
     }
 
@@ -1041,10 +1091,14 @@
               unit.feiyUltBonus += 1;
             }
           }
-          const gain =
+          let gain =
             this.cfg.feiying_haohuo_mode === "flat" ? this.cfg.feiying_haohuo_energy : Number(count);
+          if (this.cfg.feiying_haohuo_mode !== "flat") {
+            // 天赋：单次通过好活当赏计算的能量不超过 100 点。
+            gain = Math.min(gain, 100.0);
+          }
           if (gain > 0) {
-            this.event("note", unit, "绯英·好活当赏回能", ["+" + fmt(gain) + " 特殊能量"]);
+            this.event("note", unit, "绯英·好活当赏回能", ["+" + fmt(gain) + " 能量"]);
             this.gainEnergy(unit, gain, true);
           }
         }
@@ -1090,6 +1144,17 @@
       if (unit.uid === "8009" && (kind === "basic" || kind === "skill")) {
         this.gainEnergy(unit, 10.0, true);
         this.gainPunchline(3.0);
+      }
+
+      // 知更鸟天赋：我方目标每次攻击后知更鸟恢复 2 点能量（E2 为 3，吃 ERR）。
+      const robin = this.byUid("1309");
+      if (robin !== null && TALENT_ATTACK_KINDS.indexOf(kind) >= 0) {
+        if (robin.equip.hasRobinLc && robin.lcErStacks < ROBIN_LC_MAX_STACKS) {
+          robin.lcErStacks += 1;
+          robin.lcEr = robin.lcErStacks * ROBIN_LC_ERR_PER_STACK;
+        }
+        const roger = robin.eidolon >= 2 ? 3.0 : 2.0;
+        this.gainEnergy(robin, roger, false);
       }
 
       // 砂金（存护）【盲注】：每次攻击 +1 层（自己的追击不再叠层）
@@ -1186,9 +1251,11 @@
     /** 热意过阈值：回合外欢愉技《举杯！》。好活当赏固定记 20，不进笑点池。 */
     triggerJuban(sp, depth) {
       this.event("elation_skill", sp, "举杯！敬炽烈一夏（回合外欢愉技）",
-        ["好活当赏计入 20（不进笑点池）", "下一次【阿哈时刻】欢愉技升级为《All in！》"], { extra: true });
+        ["好活当赏计入 20（不进笑点池）", "下一次【阿哈时刻】欢愉技升级为《All in！》",
+          "基础回能 5 × (1+ERR)"], { extra: true });
       this.grantHaohuo(this.elationUnits(), 20.0, "举杯！敬炽烈一夏");
       sp.allIn = true;
+      this.gainEnergy(sp, 5.0, false);
       this.elationSkillCommon(sp, "举杯！敬炽烈一夏");
       if (sp.eidolon >= 2) {
         this.gainFervor(sp, 4.0);
@@ -1198,16 +1265,27 @@
 
     // ----------------------------- 欢愉技 ----------------------------- //
 
-    /** 所有欢愉技共用的结算：银狼隐藏分 +15、专武【风口】。欢愉技本身不进笑点池。 */
+    /** 所有欢愉技共用的结算：银狼本人 +15 隐藏分、专武【风口】、真珠专武。 */
     elationSkillCommon(unit, label) {
-      const wolf = this.byUid("1506");
-      if (wolf !== null) {
-        this.event("note", wolf, "隐藏分 +15", [unit.name + " 施放欢愉技"]);
-        this.gainEnergy(wolf, 15.0, true);
+      if (unit.uid === "1506") {
+        this.event("note", unit, "隐藏分 +15", [unit.name + " 施放欢愉技"]);
+        this.gainEnergy(unit, 15.0, true);
+        // 行迹【真结局】：欢愉技计入笑点 ≥20 / ≥40 各 +20。
+        const counted = Math.max(0.0, this.punchline);
+        if (counted >= 20.0 - EPS) {
+          this.gainEnergy(unit, 20.0, true);
+        }
+        if (counted >= 40.0 - EPS) {
+          this.gainEnergy(unit, 20.0, true);
+        }
       }
       if (unit.equip.hasSummerLc) {
         this.addTimedBuff(unit, "pct", this.cfg.summer_lc_spd_pct, null, "【风口】");
         this.notes.push(unit.name + " 施放欢愉技触发【风口】：速度 +" + fmt(this.cfg.summer_lc_spd_pct, 0) + "%");
+      }
+      if (unit.uid === "1503" && unit.equip.hasPearlLc) {
+        this.event("note", unit, "献给明日的色彩", ["施放欢愉技：固定能量 +10"]);
+        this.gainEnergy(unit, PEARL_LC_ENERGY, true);
       }
     }
 
@@ -1229,14 +1307,16 @@
             }
             label = "All in！敬炽烈一夏（欢愉技）";
             account = "All in！敬炽烈一夏";
-            details = ["好活当赏计入 20（不进笑点池）", "消耗全部热意"];
+            details = ["好活当赏计入 20（不进笑点池）", "消耗全部热意",
+              "基础回能 5 × (1+ERR)"];
           } else {
             label = "举杯！敬炽烈一夏（欢愉技）";
             account = "举杯！敬炽烈一夏";
-            details = ["好活当赏计入 20（不进笑点池）"];
+            details = ["好活当赏计入 20（不进笑点池）", "基础回能 5 × (1+ERR)"];
           }
           this.event("elation_skill", unit, label, details);
           this.grantHaohuo(this.elationUnits(), 20.0, account);
+          this.gainEnergy(unit, 5.0, false);
           this.elationSkillCommon(unit, label);
           if (unit.eidolon >= 2) {
             this.gainFervor(unit, 4.0);
@@ -1250,10 +1330,15 @@
           plain.push("欢愉万相★兔子戏法：欢愉技倍率提高原倍率的 50%（伤害不模拟）");
           plain.push("我方伤害无视 15% 防御（伤害不模拟）");
         }
+        if (unit.uid !== "1511" && unit.uid !== "1506") {
+          plain.push("基础回能 5 × (1+ERR)");
+        }
         this.event("elation_skill", unit, unit.name + " 的欢愉技", plain);
         if (unit.uid === "1511") {
           this.event("note", unit, "自身动作回能", ["愿力 +1"]);
           this.gainWishpower(unit, 1.0);
+        } else if (unit.uid !== "1506") {
+          this.gainEnergy(unit, 5.0, false);
         }
         this.elationSkillCommon(unit, label);
         this.onAttack(unit, "elation_skill");
@@ -1272,8 +1357,12 @@
       const isExtra = Boolean(extra);
       unit.actionCount += 1;
       if (unit.uid === "1506" && unit.invincible > 0) {
-        unit.invincible -= 1;
+        // 先打强化普攻（此时仍在【无敌玩家】中，不能开大），再递减、退出后清隐藏分。
         this.doEnhancedBasic(unit, isExtra);
+        unit.invincible -= 1;
+        if (unit.invincible === 0) {
+          this.exitInvincible(unit);
+        }
         return;
       }
       if (unit.uid === "1503") {
@@ -1306,10 +1395,6 @@
         details.push("基础回能 30（普攻）");
       } else {
         details.push("基础回能 20（普攻）");
-      }
-      if (unit.uid === "1501") {
-        this.gainPunchline(4.0);
-        details.push("笑点 +4");
       }
       if (unit.uid === "1502" && unit.field > 0) {
         this.gainPunchline(3.0);
@@ -1379,10 +1464,13 @@
         return;
       }
       if (unit.uid === "1501") {
-        this.event("skill", unit, label, ["笑点 +4", "基础回能 30 × (1+ERR)"], { extra: extra });
+        this.event("skill", unit, label,
+          ["笑点 +4", "战技本身 0 能量", "同回合接强化普攻《百花齐放》"], { extra: extra });
         this.gainPunchline(4.0);
-        this.gainEnergy(unit, 30.0, false);
-        this.onAttack(unit, "skill");
+        this.event("enhanced_basic", unit, "百花齐放，胜者独享！",
+          ["基础回能 40 × (1+ERR)"], { extra: extra });
+        this.gainEnergy(unit, 40.0, false);
+        this.onAttack(unit, "enhanced_basic");
         return;
       }
       if (unit.uid === "8009") {
@@ -1393,9 +1481,9 @@
         return;
       }
       if (unit.uid === "1505") {
-        this.event("skill", unit, label, ["笑点 +10", "特殊能量 +60（固定）"], { extra: extra });
+        this.event("skill", unit, label, ["笑点 +10", "基础回能 30 × (1+ERR)"], { extra: extra });
         this.gainPunchline(10.0);
-        this.gainEnergy(unit, 60.0, true);
+        this.gainEnergy(unit, 30.0, false);
         this.onAttack(unit, "skill");
         return;
       }
@@ -1405,11 +1493,22 @@
         this.onAttack(unit, "skill");
         return;
       }
+      if (unit.uid === "1309") {
+        this.event("skill", unit, label,
+          ["基础回能 35（战技 30 + 行迹【模进乐段】5）× (1+ERR)"], { extra: extra });
+        this.gainEnergy(unit, 35.0, false);
+        this.onAttack(unit, "skill");
+        return;
+      }
       if (unit.uid === "1313") {
         const target = this.unitAt(this.resolveTargetSlot(unit, undefined));
         if (target !== null) {
           this.advanceUnit(target, 100.0, false);
           details.push(target.name + " 拉条 100%");
+        }
+        if (unit.equip.hasSundayLc && target !== null) {
+          this.gainEnergy(unit, SUNDAY_LC_ENERGY, false);
+          details.push("专武：能量 +" + fmt(SUNDAY_LC_ENERGY) + " × (1+ERR)");
         }
         this.event("skill", unit, label, details.concat(["基础回能 30 × (1+ERR)"]), { extra: extra });
         this.gainEnergy(unit, 30.0, false);
@@ -1432,17 +1531,21 @@
     doPearlEnhancedBasic(unit, extra) {
       unit.depth -= 1;
       this.event("enhanced_basic", unit, "真珠的强化普攻《行笔，幻造星月》",
-        ["消耗 1 层【深度学习】", "群攻群疗", "基础回能 20 × (1+ERR)"], { extra: extra });
-      this.gainEnergy(unit, 20.0, false);
+        ["消耗 1 层【深度学习】", "群攻群疗", "基础回能 30 × (1+ERR)"], { extra: extra });
+      this.gainEnergy(unit, 30.0, false);
       this.onHealOrShield(unit, "真珠强化普攻群疗");
       this.onAttack(unit, "enhanced_basic");
     }
 
     doAventurineFua(unit) {
       unit.fuaCount += 1;
-      this.event("fua", unit, "砂金的 7 段追加攻击（盲注满层）",
-        ["基础回能 7 × (1+ERR)", "全队护盾"]);
-      this.gainEnergy(unit, 7.0, false);
+      const segments = unit.eidolon >= 4 ? 10.0 : 7.0;
+      const label = unit.eidolon >= 4
+        ? "砂金的 10 段追加攻击（盲注满层，E4 +3 段）"
+        : "砂金的 7 段追加攻击（盲注满层）";
+      this.event("fua", unit, label,
+        ["基础回能 " + fmt(segments, 0) + " × (1+ERR)", "全队护盾"]);
+      this.gainEnergy(unit, segments, false);
       this.onHealOrShield(unit, "砂金追击护盾");
       this.onAttack(unit, "fua");
     }
@@ -1469,6 +1572,9 @@
         if (unit.energyType === "wishpower") {
           unit.energy = Math.max(0.0, unit.energy - 8.0);
           details.push("消耗 8 愿力");
+        } else if (unit.uid === "1506") {
+          // 官方：无敌玩家期间无法开大，隐藏分在退出【无敌玩家】时才清空。
+          details.push("【无敌玩家】期间隐藏分不清空");
         } else {
           unit.energy = 0.0;
         }
@@ -1489,6 +1595,8 @@
           this.ult8009(unit);
         } else if (unit.uid === "1506") {
           this.ult1506(unit);
+        } else if (unit.uid === "1304") {
+          this.ult1304(unit);
         } else if (unit.uid === "1505") {
           this.ult1505(unit, feiyRestore, feiyStacks);
         } else if (unit.uid === "1313") {
@@ -1559,25 +1667,29 @@
     }
 
     ult1505(u, restore, stacks) {
-      if (!this.huanyuActive() && restore <= EPS && stacks <= 0) {
-        return;
+      if (this.huanyuActive() || restore > EPS || stacks > 0) {
+        const details = [];
+        if (restore > EPS) {
+          // 直接写回，不走 gainEnergy：不触发天赋好活当赏，也不再计入狐狸老师。
+          u.energy = restore;
+          details.push("书中折花：溢出能量 " + fmt(restore) + " 在开大后恢复（不触发天赋好活当赏）");
+        }
+        if (stacks > 0) {
+          details.push(
+            "书中折花：本次终结技倍率提高原倍率的 " + fmt(stacks * 75, 0) + "%（" + stacks + " 层，伤害不模拟）"
+          );
+        }
+        if (restore <= EPS && stacks <= 0) {
+          details.push("书中折花：本次没有可恢复的溢出能量");
+        }
+        details.push("伤害无视 10% 防御（伤害不模拟）");
+        this.event("note", u, "欢愉万相★书中折花", details);
       }
-      const details = [];
-      if (restore > EPS) {
-        // 直接写回，不走 gainEnergy：不触发天赋好活当赏，也不再计入狐狸老师。
-        u.energy = restore;
-        details.push("书中折花：溢出能量 " + fmt(restore) + " 在开大后恢复（不触发天赋好活当赏）");
+      // E6：首次终结技固定 +120，之后每再施放 4 次终结技触发 1 次。
+      if (u.eidolon >= 6 && (u.ultCount - 1) % 4 === 0) {
+        this.event("note", u, "E6 少女，见浮生入梦", ["固定能量 +120"]);
+        this.gainEnergy(u, 120.0, true);
       }
-      if (stacks > 0) {
-        details.push(
-          "书中折花：本次终结技倍率提高原倍率的 " + fmt(stacks * 75, 0) + "%（" + stacks + " 层，伤害不模拟）"
-        );
-      }
-      if (restore <= EPS && stacks <= 0) {
-        details.push("书中折花：本次没有可恢复的溢出能量");
-      }
-      details.push("伤害无视 10% 防御（伤害不模拟）");
-      this.event("note", u, "欢愉万相★书中折花", details);
     }
 
     ult1503(u) {
@@ -1695,6 +1807,32 @@
         ["自身拉条 100%", "【无敌玩家】：接下来 3 次强化普攻"]);
       u.invincible = 3;
       this.advanceUnit(u, 100.0, true);
+      // 行迹【隐藏关卡】：进入【无敌玩家】+20 隐藏分。
+      this.event("note", u, "隐藏关卡", ["进入【无敌玩家】：隐藏分 +20"]);
+      this.gainEnergy(u, 20.0, true);
+      // 专武《欢迎来到银河城》：对自身开大获得 20 笑点（同步转换为隐藏分）。
+      if (u.equip.hasWolfLc) {
+        this.event("note", u, "欢迎来到银河城", ["对自身开大：笑点 +20 → 隐藏分同步"]);
+        this.gainPunchline(WOLF_LC_PUNCHLINE);
+      }
+    }
+
+    /** 退出【无敌玩家】：清空隐藏分（E1 保留 20%）。 */
+    exitInvincible(u) {
+      const total = u.energy + u.hiddenOverflow;
+      const kept = u.eidolon >= 1 ? total * 0.2 : 0.0;
+      u.energy = Math.min(Number(u.maxSp), kept);
+      u.hiddenOverflow = this.huanyuActive() ? Math.max(0.0, kept - Number(u.maxSp)) : 0.0;
+      this.event("note", u, "退出【无敌玩家】",
+        ["隐藏分清空" + (u.eidolon < 1 ? "" : "（E1 保留 20%）")]);
+    }
+
+    /** 存护砂金 E1：开大后为全队提供护盾 → 触发阿哈行迹2。 */
+    ult1304(u) {
+      if (u.eidolon >= 1) {
+        this.event("note", u, "E1 囚徒博弈", ["终结技全队护盾"]);
+        this.onHealOrShield(u, "砂金 E1 终结技护盾");
+      }
     }
 
     ult1313(u) {
@@ -1703,22 +1841,35 @@
       if (target !== null) {
         gain = Math.max(40.0, 0.2 * Number(target.maxSp));
       }
-      this.event("note", u, "星期日终结技",
-        [target !== null ? "指定目标回复 " + fmt(gain) + " 固定能量（不吃 ERR）" : "没有合法目标"]);
+      const details = [target !== null ? "指定目标回复 " + fmt(gain) + " 固定能量（不吃 ERR）" : "没有合法目标"];
+      if (target !== null && u.equip.hasSundayLc) {
+        details.push("专武：自身能量 +" + fmt(SUNDAY_LC_ENERGY) + " × (1+ERR)");
+      }
+      this.event("note", u, "星期日终结技", details);
       if (target !== null) {
         this.gainEnergy(target, gain, true);
+        if (u.equip.hasSundayLc) {
+          this.gainEnergy(u, SUNDAY_LC_ENERGY, false);
+        }
       }
     }
 
     ult1309(u) {
       this.event("note", u, "知更鸟终结技",
-        ["其他队友全体拉条 100%", "召唤 90 速【协奏】倒计时"]);
+        ["其他队友全体拉条 100%", "召唤 90 速【协奏】倒计时",
+          "【协奏】期间本体不行动，倒计时归零时立即行动"]);
       for (let i = 0; i < this.units.length; i += 1) {
         const x = this.units[i];
         if (x !== u) {
           this.advanceUnit(x, 100.0, false);
         }
       }
+      // 专武：开大时移除【歌咏】。
+      if (u.equip.hasRobinLc) {
+        u.lcErStacks = 0;
+        u.lcEr = 0.0;
+      }
+      u.concerto = true;
       this.summons = [{ name: "【协奏】倒计时", spd: 90.0, rem_dist: DIST_BASE }];
     }
 
@@ -1883,11 +2034,32 @@
           } else if (unit.uid === "1502") {
             this.event("tech", unit, "爻光秘技：自动施放战技", ["结界 3 回合（不吃战技点）"]);
             this.doSkill(unit, false);
+          } else if (unit.uid === "1309") {
+            this.event("tech", unit, "知更鸟秘技：酣醉序曲",
+              ["每波次开始 +5 能量（本工具=战斗开始一次）"]);
+            this.gainEnergy(unit, 5.0, false);
           }
         }
         // 秘技给的额外回合等全部秘技结算完再走（口径更接近进战顺序）
         if (ahaExtraFromTech) {
           this.doAha(true, 20.0);
+        }
+      }
+
+      // 战斗开始触发的行迹/专武回能（与秘技无关）
+      for (let i = 0; i < this.units.length; i += 1) {
+        const unit = this.units[i];
+        if (unit.uid === "1304") {
+          this.event("note", unit, "行迹【热手】", ["战斗开始全队护盾"]);
+          this.onHealOrShield(unit, "砂金【热手】开局护盾");
+        }
+        if (unit.uid === "1313") {
+          this.event("note", unit, "行迹【崇高拂尘】", ["战斗开始能量 +25"]);
+          this.gainEnergy(unit, 25.0, false);
+        }
+        if (unit.equip.hasYaoLc) {
+          this.event("note", unit, "当她决定看见", ["每波次开始：固定能量 +15"]);
+          this.gainEnergy(unit, YAO_LC_WAVE_ENERGY, true);
         }
       }
 
@@ -1947,6 +2119,9 @@
       let bestAv = 0.0;
       for (let i = 0; i < this.units.length; i += 1) {
         const unit = this.units[i];
+        if (unit.concerto) {
+          continue;
+        }
         const av = this.av + unit.remDist / this.unitSpd(unit);
         if (best === null || av < bestAv) {
           best = ["unit", unit];
@@ -1976,6 +2151,9 @@
       if (dt > 0) {
         for (let i = 0; i < this.units.length; i += 1) {
           const unit = this.units[i];
+          if (unit.concerto) {
+            continue;
+          }
           unit.remDist = Math.max(0.0, unit.remDist - dt * this.unitSpd(unit));
         }
         const a = this.aha;
@@ -2020,6 +2198,10 @@
         unit.inTurn = true;
         unit.turnCount += 1;
         // 回合开始
+        if (unit.uid === "1313" && unit.eidolon >= 4) {
+          this.event("note", unit, "E4 雕塑的卷首语", ["回合开始能量 +8"]);
+          this.gainEnergy(unit, 8.0, false);
+        }
         if (unit.uid === "1511") {
           if (unit.huanyu > 0) {
             unit.huanyu -= 1;
@@ -2092,6 +2274,13 @@
     doSummon(summon) {
       this.event("summon", null, summon.name + " 归零", ["【协奏】状态结束"], { kind: "summon", name: summon.name });
       this.summons = this.summons.filter((s) => s !== summon);
+      const robin = this.byUid("1309");
+      if (robin !== null && robin.concerto) {
+        robin.concerto = false;
+        robin.remDist = 0.0;
+        this.event("note", robin, "退出【协奏】", ["立即行动"]);
+        this.doTurn(robin);
+      }
     }
 
     // ----------------------------- 输出 ----------------------------- //
@@ -2294,6 +2483,13 @@
           invincibleTurns: unit.invincible,
           hiddenOverflow: unit.hiddenOverflow,
         };
+      } else if (unit.uid === "1309") {
+        out = {
+          concerto: unit.concerto,
+          lcErStacks: unit.lcErStacks,
+        };
+      } else if (unit.uid === "1313") {
+        out = { emblem: false };
       }
       out.ascensionTrace = ASCENSION_TRACE_NAME[unit.uid] || null;
       out.ascensionActive = Boolean(out.ascensionTrace) && this.huanyuActive();
