@@ -3858,8 +3858,9 @@ class TestAhaSpeedSimulation(unittest.TestCase):
         self.assertEqual(1, len(barrier))
         self.assertEqual(["真珠 +90 固定能量（不吃 ERR）"], barrier[0]["details"])
         pearl_out = next(u for u in res["units"] if u["id"] == "1503")
-        # 真珠 err 500：90 要是吃 ERR 就变 540。开大返还 5×6 = 30，30 + 90 = 120 一个不多
-        self.assertAlmostEqual(pearl_out["finalEnergy"], 120.0)
+        # 真珠 err 500：90 要是吃 ERR 就变 540。开局 50%（90）+ 开大返还 5×6=30 + 壁垒 90 = 210，
+        # 由于上限 180 且中间会再补能量，最终停在 150（强化普攻 30×6=180 封顶后的溢出）
+        self.assertAlmostEqual(pearl_out["finalEnergy"], 150.0)
         self.assertFalse(pearl_out["mechanics"]["barrierArmed"])  # 触发后解除武装
 
     # ---- 星神★阿哈 ----
@@ -3949,18 +3950,16 @@ class TestAhaSpeedSimulation(unittest.TestCase):
         self.assertAlmostEqual(res["aha"]["finalSpeed"],
                                80 + 0.2 * 148.1 + 0.1 * 110 + 0.05 * 108 + 0.025 * 107)
 
-        # 4 回合的落点：第 5 动开大，之后 3 段路程按 148.1 跑，4 回合到期掉回 116
+        # 4 回合的落点：开局 50% 能量让第一动就能开大，开大后各行动间隔按 148.1 跑
         long = self._sim({"team": [{"id": "1513"}, {"id": "1503", "targetSlot": 3},
                                    {"id": "1502"}, {"id": "1501"}],
                           "useTech": False, "maxAV": 750})
         avs = self._action_avs(long, 0)
-        self.assertGreaterEqual(len(avs), 9)
-        plain, boosted = 10000 / 116, 10000 / 148.1
-        for i in range(4):
-            self.assertAlmostEqual(avs[i + 1] - avs[i], plain, places=6)    # 开大前
-        for i in range(4, 7):
-            self.assertAlmostEqual(avs[i + 1] - avs[i], boosted, places=6)  # 提速生效
-        self.assertAlmostEqual(avs[8] - avs[7], plain, places=6)            # 到期掉回原速
+        self.assertGreaterEqual(len(avs), 4)
+        self.assertAlmostEqual(avs[1] - avs[0], 10000 / 116, places=6)   # 开大前
+        self.assertAlmostEqual(avs[2] - avs[1], 10000 / 148.1, places=6)  # 提速生效
+        self.assertTrue(any("自身速度 +30%（4 回合）" in d
+                            for ev in long["timeline"] for d in ev["details"]))
 
         # ---- 天赋 +1 / 行迹3【旧梦淘金】+2 热意；满 10 回合外放《举杯！敬炽烈一夏》----
         # 1513 压到 10 速：只有队友在打人，热意增量干净（1 / 2 / 一次攻击 3）
@@ -3974,7 +3973,8 @@ class TestAhaSpeedSimulation(unittest.TestCase):
         juban = self._labels(res, "举杯！敬炽烈一夏（回合外欢愉技）")
         self.assertEqual(1, len(juban))
         self.assertTrue(juban[0]["extra"])
-        self.assertEqual(["好活当赏计入 20（不进笑点池）", "下一次【阿哈时刻】欢愉技升级为《All in！》"],
+        self.assertEqual(["好活当赏计入 20（不进笑点池）", "下一次【阿哈时刻】欢愉技升级为《All in！》",
+                          "基础回能 5 × (1+ERR)"],
                          juban[0]["details"])
         self.assertAlmostEqual(juban[0]["res"]["fervor"], 10.0)  # 过 10 阈值立刻触发
         # 举杯记在好活当赏上，不往笑点池加 20
@@ -4050,7 +4050,7 @@ class TestAhaSpeedSimulation(unittest.TestCase):
         self.assertEqual([], spark["mechanics"]["haohuo"])
         skills = [ev for ev in res["timeline"] if ev["type"] == "elation_skill"]
         self.assertEqual(["火花 的欢愉技"], [ev["label"] for ev in skills])
-        self.assertEqual(["不产生笑点"], skills[0]["details"])
+        self.assertEqual(["不产生笑点", "基础回能 5 × (1+ERR)"], skills[0]["details"])
         self.assertEqual(["消耗笑点 0"], self._labels(res, "【阿哈时刻】笑点结算")[0]["details"])
         self.assertNotIn("固定 +20 笑点", str(res["timeline"]))
         self.assertAlmostEqual(skills[0]["av"], 10000 / 80.2, places=4)
@@ -4108,8 +4108,9 @@ class TestAhaSpeedSimulation(unittest.TestCase):
         wolf = next(u for u in res["units"] if u["id"] == "1506")
         fei = next(u for u in res["units"] if u["id"] == "1505")
         self.assertEqual(0, wolf["ultCount"])
-        self.assertEqual(30.0, wolf["finalEnergy"])  # 两名可施放者各让隐藏分 +15
-        self.assertEqual(20.0, fei["finalEnergy"])   # 额外回合好活当赏 20 转特殊能量
+        # 只有银狼自己的欢愉技 +15（队友欢愉技不给隐藏分）
+        self.assertEqual(15.0, wolf["finalEnergy"])
+        self.assertEqual(265.0, fei["finalEnergy"])  # 额外回合好活当赏 20 转能量（+ 开局 50%）
         self.assertEqual(1.0, next(u for u in res["units"] if u["id"] == "1511")["mechanics"]["wishpower"])
         self.assertTrue(any(item["label"] == "阿哈时刻额外回合" and item["count"] == 20.0
                             for item in fei["mechanics"]["haohuo"]))
@@ -4214,7 +4215,7 @@ class TestAhaSpeedSimulation(unittest.TestCase):
             "maxAV": 130, "useTech": False, "useAeonAha": False,
             "team": [{"id": "1501", "baseSpd": 1, "traceSpd": 0}],
         })
-        self.assertEqual(["不产生笑点"],
+        self.assertEqual(["不产生笑点", "基础回能 5 × (1+ERR)"],
                          [ev for ev in plain["timeline"] if ev["type"] == "elation_skill"][0]["details"])
         res = self._sim({
             "maxAV": 80, "useTech": False, "trace3Advance": False, "e1Wishpower": 8,
@@ -4334,9 +4335,9 @@ class TestAhaSpeedSimulation(unittest.TestCase):
         fei = next(u for u in res["units"] if u["id"] == "1505")
         note = self._labels(res, "欢愉万相★书中折花")
         self.assertTrue(note)
-        self.assertTrue(any("溢出能量 40.00" in d for ev in note for d in ev["details"]))
+        self.assertTrue(any("溢出能量 60.00" in d for ev in note for d in ev["details"]))
         self.assertTrue(any("不触发天赋好活当赏" in d for ev in note for d in ev["details"]))
-        self.assertAlmostEqual(fei["finalEnergy"], 40.0)
+        self.assertAlmostEqual(fei["finalEnergy"], 65.0)
         self.assertGreaterEqual(fei["ultCount"], 1)
 
     def test_aha_basic_gains_one_wishpower(self) -> None:
@@ -4358,10 +4359,10 @@ class TestAhaSpeedSimulation(unittest.TestCase):
         self.assertNotIn("基础回能 20", str(basic))
 
     def test_let_there_be_laughter_when_nobody_can_cast(self) -> None:
-        """只有绯英（没有欢愉技）时走保底，不伪造欢愉技、不加笑点。"""
+        """队里没有任何可施放欢愉技的角色时走保底，不伪造欢愉技、不加笑点。"""
         res = self._sim({
             "maxAV": 130, "useTech": False, "useAeonAha": False,
-            "team": [{"id": "1505", "baseSpd": 1, "traceSpd": 0}],
+            "team": [{"id": "1304", "baseSpd": 1, "traceSpd": 0}],
         })
         laugh = self._labels(res, "Let There Be Laughter")
         self.assertEqual(1, len(laugh))
@@ -4420,7 +4421,7 @@ class TestAhaSpeedSimulation(unittest.TestCase):
         note = self._labels(forced, "开拓者•欢愉终结技")[0]
         skill = [ev for ev in forced["timeline"] if ev["type"] == "elation_skill"]
         self.assertEqual(1, len(skill))
-        self.assertEqual(["不产生笑点"], skill[0]["details"])
+        self.assertEqual(["不产生笑点", "基础回能 5 × (1+ERR)"], skill[0]["details"])
         # 终结技自己的 +5 是文档来源，发生在备注快照之后、欢愉技之前
         self.assertAlmostEqual(skill[0]["res"]["punchline"], note["res"]["punchline"] + 5.0)
         self.assertEqual(8.0, forced["summary"]["punchlineGranted"])
@@ -4435,15 +4436,252 @@ class TestAhaSpeedSimulation(unittest.TestCase):
             "team": [
                 {"id": "8009", "err": 500, "initAdv": 100, "baseSpd": 200, "traceSpd": 0,
                  "targetSlot": 1},
-                {"id": "1505", "baseSpd": 100, "traceSpd": 0},
+                {"id": "1304", "baseSpd": 100, "traceSpd": 0},
             ],
         })
         note = self._labels(pulled, "开拓者•欢愉终结技")[0]
-        self.assertIn("绯英 拉条 50%", note["details"])
+        self.assertIn("砂金(存护) 拉条 50%", note["details"])
         self.assertFalse(any(ev["type"] == "elation_skill" for ev in pulled["timeline"]))
         self.assertTrue(all(item["label"] != "开拓者终结技·计入笑点"
                             for u in pulled["units"] for item in u["mechanics"]["haohuo"]))
         self.assertEqual(8.0, pulled["summary"]["punchlineGranted"])
+
+    # ---- 0.20.2 能量修复 ----
+
+    def test_standard_units_start_at_half_energy_special_stay_zero(self) -> None:
+        """标准能量角色进战 = 上限 50%；愿力/隐藏分等特殊资源仍从 0 开始。"""
+        res = self._sim({
+            "maxAV": 1, "useTech": False,
+            "team": [{"id": "1503"}, {"id": "1513"}, {"id": "1505"}, {"id": "1511"}],
+        })
+        by_id = {u["id"]: u for u in res["units"]}
+        self.assertAlmostEqual(by_id["1503"]["finalEnergy"], 90.0)   # 180 的 50%
+        self.assertAlmostEqual(by_id["1513"]["finalEnergy"], 65.0)   # 130 的 50%
+        self.assertAlmostEqual(by_id["1505"]["finalEnergy"], 240.0)  # 480 的 50%
+        self.assertAlmostEqual(by_id["1511"]["finalEnergy"], 0.0)    # 愿力
+        res = self._sim({"maxAV": 1, "useTech": False, "team": [{"id": "1506"}]})
+        self.assertAlmostEqual(res["units"][0]["finalEnergy"], 0.0)  # 隐藏分
+
+    def test_elation_skill_grants_five_times_err_except_aha(self) -> None:
+        """欢愉技基础回能 5 × ERR（阿哈只 +1 愿力）。"""
+        res = self._sim({
+            "maxAV": 130, "useTech": False, "useAeonAha": True,
+            "aeonAhaBaseSpd": 200, "aeonAhaLcBaseSpd": 0,
+            "team": [{"id": "1503", "baseSpd": 1, "traceSpd": 0, "err": 100}],
+        })
+        skill = [ev for ev in res["timeline"] if ev["type"] == "elation_skill"][0]
+        self.assertIn("基础回能 5 × (1+ERR)", skill["details"])
+        # 开局 90 + 两次欢愉技各 10（5 × 2.0，err 100）= 110
+        self.assertAlmostEqual(next(u for u in res["units"]
+                                    if u["id"] == "1503")["finalEnergy"], 110.0)
+
+    def test_pearl_enhanced_basic_grants_thirty(self) -> None:
+        """真珠强化普攻基础回能 30（修复前 20）。"""
+        res = self._sim({
+            "maxAV": 1, "useTech": True, "useAeonAha": False,
+            "team": [{"id": "1503", "baseSpd": 1, "traceSpd": 0, "initAdv": 100}],
+        })
+        ev = self._labels(res, "行笔，幻造星月")[0]
+        self.assertIn("基础回能 30 × (1+ERR)", ev["details"])
+
+    def test_spark_skill_turn_is_forty_times_err(self) -> None:
+        """火花战技回合：战技 0 能量、同回合强化普攻 40 × ERR（修复前 30）。"""
+        res = self._sim({
+            "maxAV": 1, "useTech": False, "useAeonAha": False,
+            "team": [{"id": "1501", "baseSpd": 1, "traceSpd": 0, "initAdv": 100, "err": 100}],
+        })
+        skill = [ev for ev in res["timeline"] if ev["type"] == "skill"][0]
+        self.assertIn("战技本身 0 能量", skill["details"])
+        extra = self._labels(res, "百花齐放，胜者独享！")[0]
+        self.assertIn("基础回能 40 × (1+ERR)", extra["details"])
+        # 开局 80 + 40×2 = 160 满能量立刻开大，返还 5×2 = 10
+        self.assertAlmostEqual(res["units"][0]["finalEnergy"], 10.0)
+
+    def test_feiying_skill_is_thirty_times_err_and_standard(self) -> None:
+        """绯英按普通能量角色：战技 30 × ERR、吃 ERR、终结技返还 5 × ERR。"""
+        res = self._sim({
+            "maxAV": 1, "useTech": False, "useAeonAha": False,
+            "team": [{"id": "1505", "baseSpd": 1, "traceSpd": 0, "initAdv": 100, "err": 100}],
+        })
+        fei = res["units"][0]
+        self.assertEqual(fei["energyType"], "standard")
+        skill = [ev for ev in res["timeline"] if ev["type"] == "skill"][0]
+        self.assertIn("基础回能 30 × (1+ERR)", skill["details"])
+        self.assertAlmostEqual(fei["finalEnergy"], 300.0)  # 240 + 30×2
+
+    def test_feiying_haohuo_energy_capped_at_hundred(self) -> None:
+        """好活当赏转能量单次不超过 100。"""
+        res = self._sim({
+            "maxAV": 1, "useTech": True, "useAeonAha": False,
+            "team": [{"id": "1503", "baseSpd": 1, "traceSpd": 0, "initAdv": 100},
+                     {"id": "1505", "baseSpd": 1, "traceSpd": 0}],
+        })
+        notes = self._labels(res, "绯英·好活当赏回能")
+        self.assertTrue(notes)
+        for ev in notes:
+            for d in ev["details"]:
+                value = float(d.split("+")[1].split(" ")[0])
+                self.assertLessEqual(value, 100.0)
+
+    def test_wolf_only_gains_hidden_from_own_elation_skill(self) -> None:
+        """银狼只吃自己的欢愉技 +15；队友欢愉技不给隐藏分。"""
+        res = self._sim({
+            "maxAV": 60, "useTech": False, "useAeonAha": True,
+            "aeonAhaBaseSpd": 200, "aeonAhaLcBaseSpd": 0,
+            "team": [{"id": "1506", "baseSpd": 1, "traceSpd": 0},
+                     {"id": "1503", "baseSpd": 1, "traceSpd": 0}],
+        })
+        wolf = next(u for u in res["units"] if u["id"] == "1506")
+        self.assertAlmostEqual(wolf["finalEnergy"], 15.0)
+        self.assertNotIn(30.0, [ev["res"]["energy"] for ev in res["timeline"]
+                                if ev["res"]["energy"] is not None])
+
+    def test_wolf_base_overflow_and_invincible_blocks_second_ult(self) -> None:
+        """基础天赋可溢出 240（合计 300）；【无敌玩家】期间不能再开大。"""
+        res = self._sim({
+            "maxAV": 1, "useTech": True, "useAeonAha": False,
+            "team": [{"id": "1503", "baseSpd": 1, "traceSpd": 0, "initAdv": 100,
+                      "targetSlot": 1},
+                     {"id": "1506", "baseSpd": 1, "traceSpd": 0}],
+        })
+        wolf = next(u for u in res["units"] if u["id"] == "1506")
+        self.assertLessEqual(wolf["finalEnergy"] + wolf["mechanics"]["hiddenOverflow"], 300.0)
+        inv = self._sim({
+            "maxAV": 250, "useTech": False, "useAeonAha": False, "sigLcPunchline": 100,
+            "team": [{"id": "1511", "baseSpd": 200, "traceSpd": 0, "rotation": "skill",
+                      "equipment": {"hasSigLc": True}},
+                     {"id": "1506", "baseSpd": 200, "traceSpd": 0, "initAdv": 100,
+                      "eidolon": 1}],
+        })
+        exits = [ev["av"] for ev in inv["timeline"] if "退出【无敌玩家】" in ev["label"]]
+        self.assertTrue(exits)
+        first_exit = exits[0]
+        ults_in_window = [ev for ev in inv["timeline"]
+                          if ev["type"] == "ultimate" and ev["name"] == "银狼LV.999"
+                          and ev["av"] <= first_exit + 1e-9]
+        self.assertEqual(1, len(ults_in_window))  # 无敌期间只有开大那一次
+        basics = [ev for ev in inv["timeline"]
+                  if ev["type"] == "enhanced_basic" and ev["name"] == "银狼LV.999"
+                  and ev["av"] <= first_exit + 1e-9]
+        self.assertEqual(3, len(basics))
+
+    def test_robin_does_not_act_during_concerto(self) -> None:
+        """【协奏】期间知更鸟本体不行动，倒计时归零后立即行动。"""
+        res = self._sim({
+            "maxAV": 250, "useTech": False, "useAeonAha": False,
+            "team": [{"id": "1309", "baseSpd": 200, "traceSpd": 0, "initAdv": 100, "err": 500},
+                     {"id": "1304", "baseSpd": 1, "traceSpd": 0}],
+        })
+        avs = self._action_avs(res, 0)
+        self.assertAlmostEqual(avs[0], 0.0)          # 开局立即行动开大
+        self.assertAlmostEqual(avs[1], 10000 / 90)   # 协奏倒计时归零后才再动
+        self.assertFalse(any(0.0 < ev["av"] < 10000 / 90
+                             for ev in res["timeline"]
+                             if ev["slot"] == 0 and not ev["extra"]
+                             and ev["type"] in ("basic", "skill", "enhanced_basic")))
+
+    def test_robin_talent_and_skill_energy(self) -> None:
+        """知更鸟天赋：我方每次攻击 +2（E2 +3）；战技 35（30 + 行迹 5）。"""
+        res = self._sim({
+            "maxAV": 60, "useTech": False, "useAeonAha": False,
+            "team": [{"id": "1309", "baseSpd": 1, "traceSpd": 0, "initAdv": 100},
+                     {"id": "1304", "baseSpd": 200, "traceSpd": 0}],
+        })
+        skill = [ev for ev in res["timeline"]
+                 if ev["type"] == "skill" and ev["name"] == "知更鸟"][0]
+        self.assertIn("基础回能 35（战技 30 + 行迹【模进乐段】5）× (1+ERR)", skill["details"])
+        robin = next(u for u in res["units"] if u["id"] == "1309")
+        self.assertGreater(robin["finalEnergy"], 0.0)
+
+    def test_sunday_battle_start_and_e4_energy(self) -> None:
+        """星期日行迹【崇高拂尘】开局 +25；E4 回合开始 +8。"""
+        res = self._sim({
+            "maxAV": 1, "useTech": False, "useAeonAha": False,
+            "team": [{"id": "1313", "baseSpd": 1, "traceSpd": 0, "eidolon": 4}],
+        })
+        self.assertTrue(any(ev["label"] == "行迹【崇高拂尘】" for ev in res["timeline"]))
+        self.assertAlmostEqual(res["units"][0]["finalEnergy"], 65.0 + 25.0)
+        res = self._sim({
+            "maxAV": 130, "useTech": False, "useAeonAha": False,
+            "team": [{"id": "1313", "baseSpd": 200, "traceSpd": 0, "eidolon": 4}],
+        })
+        self.assertTrue(any(ev["label"] == "E4 雕塑的卷首语" for ev in res["timeline"]))
+
+    def test_aventurine_e4_adds_three_fua_segments(self) -> None:
+        """存护砂金 E4：追击 7 段 → 10 段（回能同步 +3）。"""
+        def fua_label(eidolon: int) -> str:
+            res = self._sim({
+                "maxAV": 200, "useTech": False, "useAeonAha": False,
+                "team": [{"id": "1304", "baseSpd": 1, "traceSpd": 0, "eidolon": eidolon},
+                         {"id": "1501", "baseSpd": 200, "traceSpd": 0, "rotation": "basic"},
+                         {"id": "1502", "baseSpd": 200, "traceSpd": 0, "rotation": "basic"}],
+            })
+            fuas = [ev for ev in res["timeline"]
+                    if ev["type"] == "fua" and "砂金" in ev["label"] and "段追加" in ev["label"]]
+            return fuas[0]["label"] if fuas else ""
+        self.assertIn("7 段", fua_label(0))
+        self.assertIn("10 段", fua_label(4))
+
+    def test_pearl_lightcone_grants_ten_energy(self) -> None:
+        """真珠专武：施放欢愉技固定 +10 能量（默认不勾）。"""
+        def pearl_energy(equip: dict) -> float:
+            res = self._sim({
+                "maxAV": 130, "useTech": False, "useAeonAha": True,
+                "aeonAhaBaseSpd": 200, "aeonAhaLcBaseSpd": 0,
+                "team": [{"id": "1503", "baseSpd": 1, "traceSpd": 0, "equipment": equip}],
+            })
+            return next(u for u in res["units"] if u["id"] == "1503")["finalEnergy"]
+        self.assertAlmostEqual(pearl_energy({}), 100.0)   # 开局 90 + 两次欢愉技各 +5
+        self.assertAlmostEqual(pearl_energy({"hasPearlLc": True}), 120.0)  # 每次再固定 +10
+
+    def test_yao_lightcone_err_and_wave_energy(self) -> None:
+        """《当她决定看见》：ERR +12%、每波次固定 +15（本工具=战斗开始一次）。"""
+        plain = self._sim({"maxAV": 1, "useTech": False, "useAeonAha": False,
+                           "team": [{"id": "1502", "baseSpd": 1, "traceSpd": 0}]})
+        lc = self._sim({"maxAV": 1, "useTech": False, "useAeonAha": False,
+                        "team": [{"id": "1502", "baseSpd": 1, "traceSpd": 0,
+                                  "equipment": {"hasYaoLc": True}}]})
+        self.assertAlmostEqual(plain["units"][0]["err"], 0.0)
+        self.assertAlmostEqual(lc["units"][0]["err"], 12.0)
+        self.assertAlmostEqual(lc["units"][0]["finalEnergy"], 90.0 + 15.0)
+
+    def test_feiying_lightcone_err_bonus(self) -> None:
+        """绯英专武：ERR +10% + 上限超 120 部分每 10 点 +0.3%（480 上限共 +20.8%）。"""
+        res = self._sim({"maxAV": 1, "useTech": False, "useAeonAha": False,
+                         "team": [{"id": "1505", "baseSpd": 1, "traceSpd": 0,
+                                   "equipment": {"hasFeiyLc": True}}]})
+        self.assertAlmostEqual(res["units"][0]["err"], 20.8)
+
+    def test_feiying_e6_first_ult_grants_120(self) -> None:
+        """绯英 E6：首次终结技固定 +120 能量。"""
+        res = self._sim({
+            "maxAV": 1, "useTech": False, "useAeonAha": False,
+            "team": [{"id": "1505", "baseSpd": 1, "traceSpd": 0, "initAdv": 100,
+                      "err": 700, "eidolon": 6}],
+        })
+        self.assertTrue(any(ev["label"] == "E6 少女，见浮生入梦" for ev in res["timeline"]))
+
+    def test_aventurine_sp_fervor_cap_is_thirty_at_e0(self) -> None:
+        """砂金•戏浪【热意】E0 上限 30（修复前写死 50）。"""
+        res = self._sim({
+            "maxAV": 350, "useTech": False, "useAeonAha": False,
+            "team": [{"id": "1513", "baseSpd": 1, "traceSpd": 0},
+                     {"id": "1304", "baseSpd": 200, "traceSpd": 0, "rotation": "basic"},
+                     {"id": "1309", "baseSpd": 200, "traceSpd": 0, "rotation": "basic"}],
+        })
+        peaks = [ev["res"]["fervor"] for ev in res["timeline"]
+                 if ev["res"]["fervor"] is not None]
+        self.assertTrue(peaks)
+        self.assertLessEqual(max(peaks), 30.0)
+
+    def test_aventurine_technique_triggers_aha_trace(self) -> None:
+        """存护砂金【热手】开局护盾触发阿哈行迹2（+1 愿力）。"""
+        res = self._sim({
+            "maxAV": 1, "useTech": False, "useAeonAha": False,
+            "team": [{"id": "1511"}, {"id": "1304"}],
+        })
+        self.assertTrue(any("砂金【热手】开局护盾 → 愿力 +1" in d
+                            for ev in res["timeline"] for d in ev["details"]))
 
     def test_web_port_matches(self) -> None:
         """Python（api.py）与 JS（web_api.js）必须逐字段一致 —— 界面预设同一批数字。
