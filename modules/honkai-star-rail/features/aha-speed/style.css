@@ -121,7 +121,7 @@
 
 .aha-main-grid {
   display: grid;
-  grid-template-columns: 390px minmax(0, 1fr);
+  grid-template-columns: 310px minmax(0, 1fr);
   gap: 16px;
   align-items: start;
 }
@@ -613,4 +613,214 @@
   border: 1px solid rgba(71, 85, 105, 0.6);
   padding: 1px 6px;
   border-radius: 4px;
+}
+
+/* 精简界面：预设说明、顶部结果栏、角色卡折叠与底部工具 */
+.aha-preset-details {
+  background: var(--panel, #1e293b);
+  border: 1px solid var(--border, #334155);
+  border-radius: var(--radius, 12px);
+  padding: 8px 14px;
+}
+
+.aha-preset-details summary,
+.aha-advanced summary,
+.aha-tools > summary,
+.aha-formula-details summary {
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted, #94a3b8);
+  user-select: none;
+}
+
+.aha-preset-details .aha-preset-desc {
+  margin-top: 8px;
+}
+
+.aha-result-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  background: var(--panel, #1e293b);
+  border: 1px solid rgba(236, 72, 153, 0.45);
+  border-radius: var(--radius, 12px);
+}
+
+.aha-result-main {
+  display: grid;
+  grid-template-columns: 210px 210px minmax(0, 1fr);
+  gap: 12px;
+  align-items: stretch;
+}
+
+@media (max-width: 900px) {
+  .aha-result-main {
+    grid-template-columns: 1fr;
+  }
+}
+
+.aha-result-stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  padding: 8px 12px;
+  background: var(--panel-2, #0f172a);
+  border: 1px solid var(--border, #334155);
+  border-radius: 9px;
+}
+
+.aha-result-stat.is-primary {
+  border-color: rgba(236, 72, 153, 0.5);
+}
+
+.aha-result-stat .k {
+  font-size: 11px;
+  color: var(--muted, #94a3b8);
+}
+
+.aha-result-stat .v {
+  font-family: var(--mono, monospace);
+  font-size: 24px;
+  font-weight: 800;
+  color: #f472b6;
+  line-height: 1.1;
+}
+
+.aha-result-stat .v.mid {
+  font-size: 18px;
+  color: #fbbf24;
+}
+
+.aha-result-stat .sub {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.aha-result-bar .aha-node-grid {
+  margin-top: 0;
+  align-self: stretch;
+}
+
+.aha-result-bar .aha-node-cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.aha-result-units {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.aha-result-chip {
+  font-size: 11.5px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(30, 41, 59, 0.9);
+  border: 1px solid var(--border, #334155);
+  color: #cbd5e1;
+}
+
+.aha-result-chip.is-aha {
+  border-color: rgba(236, 72, 153, 0.55);
+  background: rgba(236, 72, 153, 0.12);
+  color: #f9a8d4;
+}
+
+.aha-result-chip b {
+  color: #f8fafc;
+}
+
+.aha-formula-details {
+  border-top: 1px dashed rgba(71, 85, 105, 0.45);
+  padding-top: 7px;
+}
+
+.aha-formula-details .aha-rank-list {
+  margin-top: 6px;
+}
+
+.aha-advanced {
+  margin-top: 8px;
+  padding-top: 7px;
+  border-top: 1px dashed rgba(71, 85, 105, 0.45);
+}
+
+.aha-advanced .aha-form-grid {
+  margin-top: 8px;
+}
+
+.aha-advanced-note {
+  grid-column: 1 / -1;
+  font-size: 11px;
+  color: #64748b;
+  margin: 4px 0;
+}
+
+.aha-unit-loadout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(71, 85, 105, 0.45);
+  font-size: 11.5px;
+  color: #cbd5e1;
+}
+
+.aha-loadout-title {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #64748b;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: rgba(51, 65, 85, 0.65);
+}
+
+.aha-muted {
+  color: #64748b;
+}
+
+.aha-tools {
+  background: var(--panel, #1e293b);
+  border: 1px solid var(--border, #334155);
+  border-radius: var(--radius, 12px);
+  padding: 12px 16px;
+}
+
+.aha-tool-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0;
+}
+
+.aha-tool-tab {
+  border: 1px solid var(--border, #334155);
+  background: var(--panel-2, #0f172a);
+  color: var(--muted, #94a3b8);
+  padding: 5px 12px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.aha-tool-tab.is-active {
+  border-color: #38bdf8;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+}
+
+.aha-tool-panel .aha-result-box {
+  margin-top: 10px;
+}
+
+.aha-tool-panel .aha-original-frame {
+  height: calc(100vh - 260px);
+  min-height: 480px;
 }

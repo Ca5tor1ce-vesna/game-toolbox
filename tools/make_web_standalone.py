@@ -305,6 +305,13 @@ def build(with_theme: bool = True, out_name: str | None = None) -> Path:
         + aha_ui_raw.replace("export default {", "return {", 1)
         + "\n})();"
     )
+    # 单文件网页版不会再向服务器取 original.html / vendor，直接把源码内联成全局变量。
+    aha_original_js = json.dumps(
+        read(AHA / "original.html"), ensure_ascii=False
+    ).replace("</", "<\\/")
+    aha_vendor_js = json.dumps(
+        read(AHA / "vendor" / "tailwind.js"), ensure_ascii=False
+    ).replace("</", "<\\/")
 
     bundle = {
         "characters": characters,
@@ -441,6 +448,10 @@ html, body {{ height: auto; overflow: visible; }}
 </script>
 <script>
 {aha_api}
+</script>
+<script>
+window.GT_AHA_ORIGINAL_HTML = {aha_original_js};
+window.GT_AHA_VENDOR_JS = {aha_vendor_js};
 </script>
 <script>
 {aha_ui}
