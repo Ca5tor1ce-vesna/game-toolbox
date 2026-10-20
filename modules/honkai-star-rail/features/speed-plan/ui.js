@@ -213,6 +213,16 @@ export default {
           <button type="button" id="delete-preset" class="ghost small" data-text="speed-plan.preset.delete">删除</button>
         </div>
         <p class="hint sp-preset-note" id="preset-note"></p>
+        <details class="sp-sim-save">
+          <summary>队伍模拟补充参数（随角色配装保存）</summary>
+          <div class="row">
+            <label class="field">额外充能效率 (%)<input id="preset-err" class="input narrow" type="number" min="0" step="0.1" value="0"></label>
+            <label class="field">开局资源（留空用默认）<input id="preset-energy" class="input narrow" type="number" min="0" step="any"></label>
+            <label class="field">出招<select id="preset-rotation" class="input"><option value="auto">智能出招</option><option value="skill">全程战技</option><option value="basic">全程普攻</option></select></label>
+          </div>
+          <p class="hint">充能填写遗器和光锥特效以外的加成；愿力、隐藏分角色不使用充能效率。开局资源单位为角色的能量、愿力或隐藏分。</p>
+        </details>
+        <a class="ghost small" id="open-team-simulator" href="#/honkai-star-rail/aha-speed">前往队伍与行动模拟 →</a>
 
         <div class="sp-hero" id="hero">
           <div class="sp-hero-nums">
@@ -284,6 +294,12 @@ export default {
     </div>`;
 
     const $ = (selector) => root.querySelector(selector);
+    if (window.GT_STANDALONE) {
+      $("#open-team-simulator").onclick = event => {
+        event.preventDefault();
+        document.querySelector('[data-view="view-aha"]')?.click();
+      };
+    }
 
     /* ---------------- 步骤卡片折叠 ---------------- */
 
@@ -414,6 +430,9 @@ export default {
 
     async function pickCharacter(id) {
       state.characterId = id;
+      $("#preset-err").value = 0;
+      $("#preset-energy").value = "";
+      $("#preset-rotation").value = "auto";
       state.enabled = null;
       renderCharGrid();
       await loadCones();
@@ -1123,6 +1142,12 @@ export default {
 
     function currentConfig() {
       const config = {
+        simulation: state.simulation,
+        aha: {
+          err: Number($("#preset-err").value),
+          initialEnergy: $("#preset-energy").value,
+          rotation: $("#preset-rotation").value,
+        },
         lightconeId: state.lightconeId,
         superimpose: state.superimpose,
         eidolon: state.eidolon,
@@ -1162,6 +1187,9 @@ export default {
       const button = $("#save-preset");
       button.disabled = true;
       try {
+        if (!$("#preset-err").checkValidity() || !$("#preset-energy").checkValidity()) {
+          throw new Error("充能效率与开局资源需要填写非负数，开局资源也可以留空。");
+        }
         const result = await ctx.call("save_preset", { characterId: state.characterId, config: currentConfig() });
         await loadPresets();
         $("#preset-note").textContent = `已保存（共 ${result.count} 个角色的配装）。`;
@@ -1185,6 +1213,10 @@ export default {
       const saved = presets[String(state.characterId)];
       if (!saved?.config) return;
       const config = saved.config;
+      $("#preset-err").value = config.aha?.err ?? 0;
+      $("#preset-energy").value = config.aha?.initialEnergy ?? "";
+      $("#preset-rotation").value = config.aha?.rotation ?? "auto";
+      state.simulation = { ...state.simulation, ...(config.simulation || {}) };
       state.lightconeId = config.lightconeId || "";
       state.superimpose = config.superimpose ?? 1;
       state.eidolon = config.eidolon ?? 0;

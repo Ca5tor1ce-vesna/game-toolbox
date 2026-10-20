@@ -509,7 +509,36 @@ window.GT_AHA_VENDOR_JS = {aha_vendor_js};
   const hertaApi = window.GT_HERTA_API.createApi({{ storage: hertaStorage, characters: window.GT_DATA.characters, lightcones: window.GT_DATA.lightcones }});
   const hertaCtx = {{ moduleId: "herta", featureId: "records", call: (action, payload) => hertaApi.call(action, payload) }};
   const ahaApi = window.GT_AHA_SPEED_API.createApi();
-  const ahaCtx = {{ moduleId: "honkai-star-rail", featureId: "aha-speed", feature: {{ baseUrl: "/modules/honkai-star-rail/features/aha-speed" }}, call: (action, payload) => Promise.resolve(ahaApi.call(action, payload)), fmt: gtFmt, ui: {{ escapeHtml: gtEscapeHtml, fmt: gtFmt }} }};
+    const readTeams = () => JSON.parse(localStorage.getItem("gt-aha-teams") || "{{}}");
+    async function ahaCall(action, payload = {{}}) {{
+      if (action === "library") return {{ presets: api.call("presets").presets, teams: readTeams(), characters: window.GT_DATA.characters, lightcones: window.GT_DATA.lightcones, relicSets: window.GT_DATA.relic_sets }};
+      if (action === "resolve_build") {{
+        const entry = api.call("presets").presets[payload.characterId];
+        if (!entry) throw new Error("该角色尚未保存配装，请先到配速查询保存。");
+        if (!ahaApi.call("catalog").roster.some(r => r.id === payload.characterId)) throw new Error("模拟器尚未支持该角色机制。");
+        return {{ entry, result: api.call("plan", {{ ...entry.config, characterId: payload.characterId }}) }};
+      }}
+      if (action === "save_team") {{
+        const name = String(payload.name || "").trim();
+        if (!name || name.length > 80) throw new Error("队伍名称需要 1 到 80 个字符。");
+        if (!Array.isArray(payload.team) || payload.team.length < 1 || payload.team.length > 4 || !payload.config || typeof payload.config !== "object") throw new Error("缺少有效的队伍模拟配置。");
+        if (payload.team.some(u => !ahaApi.call("catalog").roster.some(r => r.id === u.id))) throw new Error("队伍包含模拟器尚未支持的角色。");
+        ahaApi.call("simulate", {{ ...payload.config, team: payload.team }});
+        const teams = readTeams();
+        if (payload.id && !teams[payload.id]) throw new Error("该队伍存档已不存在，请另存队伍。");
+        const id = payload.id || crypto.randomUUID();
+        teams[id] = {{ name, team: payload.team, config: payload.config, savedAt: new Date().toISOString() }};
+        localStorage.setItem("gt-aha-teams", JSON.stringify(teams));
+        return {{ id, teams }};
+      }}
+      if (action === "delete_team") {{
+        const teams = readTeams();
+        if (!teams[payload.id]) throw new Error("请选择已有的队伍存档。");
+        delete teams[payload.id]; localStorage.setItem("gt-aha-teams", JSON.stringify(teams)); return {{ teams }};
+      }}
+      return ahaApi.call(action, payload);
+    }}
+    const ahaCtx = {{ moduleId: "honkai-star-rail", featureId: "aha-speed", feature: {{ baseUrl: "/modules/honkai-star-rail/features/aha-speed" }}, call: ahaCall, fmt: gtFmt, ui: {{ escapeHtml: gtEscapeHtml, fmt: gtFmt }} }};
   let hertaMounted = false;
   let ahaMounted = false;
   async function showView(id) {{

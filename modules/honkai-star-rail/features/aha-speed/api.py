@@ -126,6 +126,72 @@ import re
 from typing import Any
 
 from core.feature_api import api
+from core import feature_api
+from datetime import datetime
+from uuid import uuid4
+
+
+@api("library")
+def library(payload, ctx):
+    """复用配速查询的角色存档；队伍单独保存，避免覆盖角色配装。"""
+    return {
+        "presets": feature_api.call("honkai-star-rail", "speed-plan", "presets")["presets"],
+        "teams": ctx.user_data("aha-team-presets", {}) or {},
+        "characters": ctx.data("characters", []),
+        "lightcones": ctx.data("lightcones", []),
+        "relicSets": ctx.data("relic_sets", []),
+    }
+
+
+@api("resolve_build")
+def resolve_build(payload, ctx):
+    cid = str(payload.get("characterId") or "")
+    entry = feature_api.call("honkai-star-rail", "speed-plan", "presets")["presets"].get(cid)
+    if not entry:
+        raise ValueError("该角色尚未保存配装，请先到配速查询保存。")
+    if cid not in ROSTER:
+        raise ValueError("当前欢愉队模拟器尚未支持该角色的完整机制。")
+    result = feature_api.call("honkai-star-rail", "speed-plan", "plan",
+                              {**entry["config"], "characterId": cid})
+    return {"entry": entry, "result": result}
+
+
+@api("save_team")
+def save_team(payload, ctx):
+    name = str(payload.get("name") or "").strip()
+    team, cfg = payload.get("team"), payload.get("config")
+    if not name or len(name) > 80:
+        raise ValueError("队伍名称需要 1 到 80 个字符。")
+    if not isinstance(team, list) or not 1 <= len(team) <= 4 or not all(isinstance(u, dict) for u in team):
+        raise ValueError("队伍需要 1 到 4 名角色。")
+    if not isinstance(cfg, dict):
+        raise ValueError("缺少队伍模拟配置。")
+    if any(str(u.get("id")) not in ROSTER for u in team):
+        raise ValueError("队伍包含模拟器尚未支持的角色。")
+    # 使用原有参数校验，不产生或保存模拟结果。
+    Sim({**cfg, "team": team})
+    with ctx.lock:
+        store = ctx.user_data("aha-team-presets", {}) or {}
+        key = str(payload.get("id") or "")
+        if key and key not in store:
+            raise ValueError("该队伍存档已不存在，请另存队伍。")
+        key = key or uuid4().hex
+        store[key] = {"name": name, "team": team, "config": cfg,
+                      "savedAt": datetime.now().isoformat(timespec="seconds")}
+        ctx.save_user_data("aha-team-presets", store)
+    return {"id": key, "teams": store}
+
+
+@api("delete_team")
+def delete_team(payload, ctx):
+    with ctx.lock:
+        store = ctx.user_data("aha-team-presets", {}) or {}
+        key = str(payload.get("id") or "")
+        if key not in store:
+            raise ValueError("请选择已有的队伍存档。")
+        del store[key]
+        ctx.save_user_data("aha-team-presets", store)
+    return {"teams": store}
 
 # --------------------------------------------------------------------------- #
 # 常量
