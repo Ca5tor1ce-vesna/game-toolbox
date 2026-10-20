@@ -67,6 +67,7 @@ payload（simulate）
           "baseSpd": 94, "lcBaseSpd": 12, "traceSpd": 5,
           "permPct": 0, "permFlat": 0, "buffPct": 0, "buffFlat": 0,
           "err": 0, "eidolon": 0, "elation": true,
+          "initialEnergy": 8,          // 可选：开局资源，默认标准能量 50%、特殊资源 0
           "initAdv": 0,                // 开局额外拉条%
           "targetSlot": 0,             // 指定目标（令使/美学底本/星期日战技等）
           "maxSp": 8, "rotation": "skill",   // auto | basic | skill
@@ -104,8 +105,9 @@ timeline 每条：{av, t, kind, slot, name, type, extra, label, details, res}。
 --------------------------------------
 * 《向浪花掷下盛夏》的【风口】提速按**常驻**处理（文案没写持续回合）。
 * 1506 强化普攻 +5 笑点（与她的战技同值）。欢愉技不再使用「固定 +20 笑点」。
-* 1505 绯英获得【好活当赏】时回能 = 该次好活当赏记账的笑点数
-  （feiyingHaohuoEnergyMode="flat" 时改为固定 feiyingHaohuoEnergy）。
+* 1505 绯英能量与好活当赏双向同步但不递归互触发，单次同步好活当赏最多 100；
+  狐狸老师累计单次最多计入 240。flat 回能模式仅供显式自定义试算。
+  欢愉技按 4.6.53 资料的参演编号排序，1511 无视编号、始终最后。
 * 真珠的「+N 好活当赏」（秘技/战技/终结技）与砂金•戏浪秘技的 +20 好活当赏
   发给**全队**（持续 2 回合，记账数 = N）。
 * 额外回合照常产生该角色的出招资源（能量/笑点），但不推进回合数相关的结算。
@@ -155,7 +157,12 @@ TALENT_ATTACK_KINDS = ("basic", "skill", "enhanced_basic", "ultimate", "fua")
 
 # 档案里写了欢愉技的角色（官方 sp_base=5，阿哈只 +1 愿力）。
 # 自定义角色勾了欢愉标记也不视为「可施放欢愉技」。
-ELATION_SKILL_UIDS = frozenset({"1511", "1501", "1502", "1503", "1505", "1506", "1513", "8009"})
+# nanoka 4.6.53：elation_priority_value；编号越小越先施放，1511 特例最后。
+ELATION_NUMBERS = {
+    "1511": 0, "1501": 144, "1502": 116, "1503": 104,
+    "1505": 146, "1506": 999, "1513": 156, "8009": 120,
+}
+ELATION_SKILL_UIDS = frozenset(ELATION_NUMBERS)
 
 # 能量上限类专武：银色、爻光/开拓者、绯英、星期日、知更鸟、银狼
 PEARL_LC_ENERGY = 10.0
@@ -322,9 +329,11 @@ ROSTER: dict[str, dict[str, Any]] = {
         "rotation": "skill",
         "mechanics": [
             "战技：+10 笑点、基础回能 30 × ERR",
-            "获得【好活当赏】时额外回能（默认 = 记账笑点数，单次最多 100）",
-            "累计每 240 能量触发【狐狸老师】追击（+10 能量，算队友攻击）",
-            "480 能量开大，终结技返还 5 × ERR；若她是【美学底本】会触发真珠【艺术壁垒】+90",
+            "能量与好活当赏双向同步（不循环互触发），单次同步好活当赏最多 100",
+            "累计每 240 能量触发【狐狸老师】追击（基础回能 10 × ERR，单次累计最多 240）；E1 追击后施放欢愉技",
+            "秘技自身好活当赏 +20；欢愉技额外 +5（E1 +15）；E6 好活当赏延长 1 回合",
+            "瞰众乐/开不败：参演编号更小队友获得/任意队友到期的好活当赏转移 50%；E2 分别为 75%/100%",
+            "能量上限 480，终结技每次消耗 240，能开即开且保留剩余能量；返还 5 × ERR",
             "E6：首次终结技固定 +120 能量，之后每 4 次终结技再触发",
             "固有行迹【欢愉万相★书中折花】：升格后溢出能量最多 60，开大后恢复且不触发天赋好活当赏",
         ],
@@ -398,7 +407,7 @@ ASCENSION_ALLY_NOTES: dict[str, str] = {
     "1501": "火花固有行迹【欢愉万相★兔子戏法】生效：欢愉技倍率提高原倍率的 50%，我方伤害无视 15% 防御；每 10 点好活当赏使【红红火火】额外 +1 笑点，最多 +8。本工具不掷互动陷阱，因此不加这份笑点",
     "1502": "爻光固有行迹【欢愉万相★心灵感应】生效：【大吉大利】倍率提高原倍率的 20%（20%→24%），终结技固定能量 +12、笑点 +10",
     "1503": "真珠固有行迹【欢愉万相★跃然纸上】生效：好活当赏持有上限 75；终结技额外回合结束时保留该次好活当赏与笑点的 10%",
-    "1505": "绯英固有行迹【欢愉万相★书中折花】生效：溢出能量最多 60，开大后恢复且不触发天赋好活当赏；伤害无视 10% 防御；每累计 480 点好活当赏，下次终结技倍率提高原倍率的 75%",
+    "1505": "绯英固有行迹【欢愉万相★书中折花】生效：1/2级溢出能量最多 60/240，开大后恢复且不触发天赋好活当赏；伤害无视 10%/24% 防御；每累计 480 点好活当赏，下次终结技倍率提高原倍率的 75%/150%",
     "1506": "银狼固有行迹【欢愉万相★全息幻象】生效：隐藏分可溢出至 360，暴击伤害 +40%；获得好活当赏时隐藏分 +该次的 20%",
     "1513": "砂金•戏浪固有行迹【欢愉万相★三赌牌局】：仅当队伍里另一名欢愉只有星神★阿哈时，纵享惊涛加强为全队速度 +15%、队友攻击热意 +1、笑点 +1",
     "8009": "开拓者•欢愉固有行迹【欢愉万相★主角光环】生效：终结技暴伤额外 +20% 且全队；触发阿哈欢愉技前先放一次开拓者欢愉技（倍率提高原倍率的 200%）；阿哈真实伤害改为该次的 20%",
@@ -618,12 +627,16 @@ class Unit:
         self.rem_dist = DIST_BASE
         self.pending_aa = 0.0
         self.in_turn = False
+        self.casting_ult = False
         self.timed: list[dict[str, Any]] = []  # {"kind","value","turns"(None=常驻),"label"}
         self.haohuo: list[dict[str, Any]] = []  # {"turns","count","label"}
         self.notes: list[str] = []
 
         # 资源。标准能量角色进战 = 上限 50%；愿力/隐藏分等特殊资源仍从 0 开始。
         self.energy = self.max_sp * 0.5 if self.energy_type == "standard" else 0.0
+        self.initial_energy = _num(raw, "initialEnergy", self.energy, 0.0,
+                                   10.0 if self.energy_type == "wishpower" else self.max_sp)
+        self.energy = self.initial_energy
         self.energy_total = 0.0
         self.action_count = 0
         self.turn_count = 0
@@ -681,6 +694,9 @@ class Sim:
         self.truncated = False
         self.aha_normal_count = 0
         self.aha_extra_count = 0
+        self.extra_depth = 0
+        self.opening = False
+        self.resource_depth = 0
 
         # 指定目标
         pearl_char = self.by_uid("1503")
@@ -800,7 +816,8 @@ class Sim:
     def elation_casters(self) -> list[Unit]:
         """当前可施放欢愉技的角色。星神★阿哈无视参演编号，始终最后。"""
         casters = [u for u in self.units if u.elation and u.uid in ELATION_SKILL_UIDS]
-        rest = [u for u in casters if u.uid != "1511"]
+        rest = sorted((u for u in casters if u.uid != "1511"),
+                      key=lambda u: ELATION_NUMBERS[u.uid])
         last = [u for u in casters if u.uid == "1511"]
         return rest + last
 
@@ -934,7 +951,7 @@ class Sim:
         self.check_fervor(unit)
 
     def gain_energy(self, unit: Unit, amount: float, fixed: bool = False,
-                    reason: str = "") -> None:
+                    reason: str = "", *, from_haohuo: bool = False) -> None:
         if amount == 0:
             return
         if unit.energy_type == "wishpower":
@@ -951,12 +968,26 @@ class Sim:
             return
         cap = float(unit.max_sp)
         if unit.uid == "1505" and self.huanyu_active():
-            cap += 60.0
+            aha = self.by_uid("1511")
+            cap += 240.0 if aha is not None and aha.eidolon >= 2 else 60.0
+        before = unit.energy
         unit.energy = min(cap, unit.energy + gain)
-        unit.energy_total += gain
         if unit.uid == "1505":
-            unit.feiy_total += gain
+            requested = gain
+            gain = max(0.0, unit.energy - before)
+            details = [f"能量 {fmt(before)} → {fmt(unit.energy)} / {fmt(cap, 0)}",
+                       f"实际 +{fmt(gain)}"]
+            if requested - gain > EPS:
+                details.append(f"上限截掉 {fmt(requested - gain)}（不计入天赋累计）")
+            self.event("energy_gain", unit, f"绯英回能·{reason or '回能'}", details,
+                       resource_change={"energyBefore": before, "energyGain": gain,
+                                        "energyRequested": requested, "energyCap": cap})
+            if gain > 0 and not from_haohuo:
+                self.grant_haohuo([unit], min(gain, 100.0), "绯英·能量转好活当赏",
+                                  from_energy=True)
+            unit.feiy_total += min(gain, 240.0)
             self.check_feiying_milestone(unit)
+        unit.energy_total += gain
         self.maybe_ult(unit)
 
     def gain_wolf_overflow(self, unit: Unit, gain: float) -> None:
@@ -984,20 +1015,34 @@ class Sim:
         """绯英累计每 240 能量触发一次【狐狸老师】追击。"""
         if unit.uid != "1505":
             return
-        while unit.feiy_total >= 240.0 and self.depth <= MAX_NEST:
-            unit.feiy_total -= 240.0
-            unit.fua_count += 1
-            self.event("fua", unit, "【狐狸老师】追加攻击", ["+10 特殊能量（固定）"])
-            self.gain_energy(unit, 10.0, fixed=True, reason="狐狸老师")
-            self.on_attack(unit, "fua")
+        if self.depth > MAX_NEST:
+            if unit.feiy_total >= 240.0:
+                self.truncated = True
+                self.warnings.append("狐狸老师回能连锁超过嵌套上限，结果已截断，请检查自定义充能效率")
+            return
+        self.depth += 1
+        self.resource_depth += 1
+        try:
+            while unit.feiy_total >= 240.0 and not self.truncated:
+                unit.feiy_total -= 240.0
+                unit.fua_count += 1
+                self.event("fua", unit, "【狐狸老师】追加攻击", ["基础回能 10 × (1+ERR)"])
+                self.gain_energy(unit, 10.0, reason="狐狸老师")
+                self.on_attack(unit, "fua")
+                if unit.eidolon >= 1:
+                    self.cast_elation_skill(unit)
+        finally:
+            self.resource_depth -= 1
+            self.depth -= 1
 
     def maybe_ult(self, unit: Unit) -> None:
-        if self.depth > MAX_NEST:
+        if (self.depth > MAX_NEST or self.extra_depth > 0 or self.resource_depth > 0
+                or self.opening or unit.casting_ult):
             return
         # 【无敌玩家】期间无法施放终结技。
         if unit.uid == "1506" and unit.invincible > 0:
             return
-        threshold = 8.0 if unit.energy_type == "wishpower" else float(unit.max_sp)
+        threshold = self.ult_cost(unit)
         guard = 0
         while unit.energy >= threshold - EPS and guard < 4:
             guard += 1
@@ -1018,7 +1063,8 @@ class Sim:
                 return
         unit.timed.append({"kind": kind, "value": float(value), "turns": turns, "label": label})
 
-    def grant_haohuo(self, targets: list[Unit], count: float, label: str) -> None:
+    def grant_haohuo(self, targets: list[Unit], count: float, label: str, *,
+                     from_energy: bool = False) -> None:
         for unit in targets:
             applied = float(count)
             # 真珠自己的持有上限。只在升格后夹到 75，且只夹新获得的那一份。
@@ -1027,7 +1073,15 @@ class Sim:
                 applied = min(applied, room)
                 if applied <= EPS:
                     continue
-            unit.haohuo.append({"turns": 2, "count": applied, "label": label})
+            turns = 3 if unit.uid == "1505" and unit.eidolon >= 6 else 2
+            unit.haohuo.append({"turns": turns, "count": applied, "label": label})
+            fei = self.by_uid("1505")
+            if (fei is not None and fei is not unit and unit.uid in ELATION_NUMBERS
+                    and ELATION_NUMBERS[unit.uid] < ELATION_NUMBERS[fei.uid]):
+                copied = applied * (0.75 if fei.eidolon >= 2 else 0.5)
+                self.event("note", fei, "瞰众乐·好活当赏转移",
+                           [f"{unit.name}（编号 {ELATION_NUMBERS[unit.uid]}）→ 好活当赏 +{fmt(copied)}"])
+                self.grant_haohuo([fei], copied, "瞰众乐")
             if unit.uid == "1506" and self.huanyu_active() and applied > EPS:
                 bonus = applied * 0.2
                 self.event("note", unit, "欢愉万相★全息幻象", [
@@ -1040,21 +1094,23 @@ class Sim:
                     while unit.feiy_banger >= 480.0 - EPS:
                         unit.feiy_banger -= 480.0
                         unit.feiy_ult_bonus += 1
+                if from_energy:
+                    continue
                 if self.cfg["feiying_haohuo_mode"] == "flat":
                     gain = self.cfg["feiying_haohuo_energy"]
                 else:
                     # 天赋：单次通过好活当赏计算的能量不超过 100 点。
                     gain = min(float(count), 100.0)
                 if gain > 0:
-                    self.event("note", unit, "绯英·好活当赏回能",
-                               [f"+{fmt(gain)} 能量"])
-                    self.gain_energy(unit, gain, fixed=True, reason="好活当赏")
+                    self.gain_energy(unit, gain, fixed=True, reason=f"好活当赏·{label}",
+                                     from_haohuo=True)
 
     # ----------------------------- 事件 ----------------------------- #
 
     def event(self, ev_type: str, unit: Unit | None, label: str,
               details: list[str] | None = None, *, kind: str = "unit",
-              extra: bool = False, name: str | None = None) -> None:
+              extra: bool = False, name: str | None = None,
+              resource_change: dict[str, Any] | None = None) -> None:
         if len(self.timeline) >= MAX_TIMELINE:
             self.truncated = True
             return
@@ -1066,6 +1122,8 @@ class Sim:
             "fervor": sp.fervor if sp is not None else None,
             "energy": unit.energy if unit is not None and unit.energy_type != "wishpower" else None,
         }
+        if resource_change is not None:
+            res.update(resource_change)
         self.timeline.append({
             "av": self.av,
             "t": cycle_of(self.av),
@@ -1242,6 +1300,9 @@ class Sim:
                 self.gain_wishpower(unit, 1.0, "欢愉技")
             elif unit.uid != "1506":
                 self.gain_energy(unit, 5.0, reason="欢愉技")
+            if unit.uid == "1505":
+                count = 15.0 if unit.eidolon >= 1 else 5.0
+                self.grant_haohuo([unit], count, "绯英欢愉技")
             self.elation_skill_common(unit, label)
             self.on_attack(unit, "elation_skill")
         finally:
@@ -1424,15 +1485,22 @@ class Sim:
 
     # ----------------------------- 终结技 ----------------------------- #
 
+    def ult_cost(self, unit: Unit) -> float:
+        if unit.energy_type == "wishpower":
+            return 8.0
+        return min(240.0, float(unit.max_sp)) if unit.uid == "1505" else float(unit.max_sp)
+
     def cast_ult(self, unit: Unit) -> None:
         if self.depth > MAX_NEST:
             self.warnings.append("嵌套层数超过上限，跳过一次终结技结算")
             return
         self.depth += 1
+        unit.casting_ult = True
         try:
             # 先扣资源再结算效果：嵌套事件（艺术壁垒回能、额外回合出招）里如果
             # 资源还没扣，会被满能量再次触发一次终结技（踩过：同一次行动连开两个大）。
             details: list[str] = []
+            energy_before = unit.energy
             feiy_restore = 0.0
             feiy_stacks = 0
             if unit.uid == "1505" and self.huanyu_active():
@@ -1445,10 +1513,17 @@ class Sim:
             elif unit.uid == "1506":
                 # 官方：无敌玩家期间无法开大，隐藏分在退出【无敌玩家】时才清空。
                 details.append("【无敌玩家】期间隐藏分不清空")
+            elif unit.uid == "1505":
+                unit.energy = max(0.0, unit.energy - feiy_restore - self.ult_cost(unit))
             else:
                 unit.energy = 0.0
+            resources = None
+            if unit.uid == "1505":
+                details.append(f"释放前能量 {fmt(energy_before)}，消耗 {fmt(self.ult_cost(unit), 0)}")
+                resources = {"energyBefore": energy_before, "energyCost": self.ult_cost(unit)}
             unit.ult_count += 1
-            self.event("ultimate", unit, f"{unit.name} 的终结技", details)
+            self.event("ultimate", unit, f"{unit.name} 的终结技", details,
+                       resource_change=resources)
 
             if unit.uid == "1511":
                 self.ult_1511(unit)
@@ -1485,8 +1560,8 @@ class Sim:
             # 标准能量开大返还 +5（吃 ERR）
             if unit.energy_type == "standard":
                 self.gain_energy(unit, 5.0, reason="终结技返还")
-            self.maybe_ult(unit)
         finally:
+            unit.casting_ult = False
             self.depth -= 1
 
     def ult_1511(self, u: Unit) -> None:
@@ -1495,7 +1570,7 @@ class Sim:
         # nanoka E6：首次终结技使阿哈行动提前 100%（参数 1 → 100%）并获得 100 笑点。
         # 笑点进池，不是「计入 40、不进池」的额外回合。之后每次仍按 ultAdvanceAha。
         if u.eidolon >= 6 and u.ult_count == 1:
-            self.aha["rem_dist"] = 0.0
+            self.advance_aha(100.0, reason="E6 首次终结技")
             self.gain_punchline(100.0, "E6 首次终结技")
             details.append("E6 首次终结技：【阿哈时刻】拉条 100% + 笑点 +100")
         else:
@@ -1510,6 +1585,7 @@ class Sim:
                 "三赌牌局生效：全队速度 +%s%%（固有行迹【欢愉万相★三赌牌局】1级）"
                 % fmt(self.cfg["sandu_team_spd_pct"], 0)
             )
+        self.on_attack(u, "ultimate")
 
     def note_ascension_traces(self, aha: Unit) -> None:
         """各欢愉角色的固有行迹在【欢愉万相】开始时记一笔。数值效果在对应结算里。"""
@@ -1527,25 +1603,28 @@ class Sim:
                 self.notes.append(text)
 
     def ult_1505(self, u: Unit, restore: float, stacks: int) -> None:
+        aha = self.by_uid("1511")
+        level2 = aha is not None and aha.eidolon >= 2
         if self.huanyu_active() or restore > EPS or stacks > 0:
             details: list[str] = []
             if restore > EPS:
-                # 直接写回，不走 gain_energy：不触发天赋好活当赏，也不再计入狐狸老师。
-                u.energy = restore
+                self.gain_energy(u, restore, fixed=True, reason="书中折花·溢出恢复",
+                                 from_haohuo=True)
                 details.append(f"书中折花：溢出能量 {fmt(restore)} 在开大后恢复（不触发天赋好活当赏）")
             if stacks > 0:
                 details.append(
-                    f"书中折花：本次终结技倍率提高原倍率的 {fmt(stacks * 75, 0)}%"
+                    f"书中折花：本次终结技倍率提高原倍率的 {fmt(stacks * (150 if level2 else 75), 0)}%"
                     f"（{stacks} 层，伤害不模拟）"
                 )
             if restore <= EPS and stacks <= 0:
                 details.append("书中折花：本次没有可恢复的溢出能量")
-            details.append("伤害无视 10% 防御（伤害不模拟）")
+            details.append(f"伤害无视 {24 if level2 else 10}% 防御（伤害不模拟）")
             self.event("note", u, "欢愉万相★书中折花", details)
         # E6：首次终结技固定 +120，之后每再施放 4 次终结技触发 1 次。
         if u.eidolon >= 6 and (u.ult_count - 1) % 4 == 0:
             self.event("note", u, "E6 少女，见浮生入梦", ["固定能量 +120"])
             self.gain_energy(u, 120.0, fixed=True, reason="E6")
+        self.on_attack(u, "ultimate")
 
     def ult_1503(self, u: Unit) -> None:
         self.grant_haohuo(list(self.units), 20.0, "真珠终结技")
@@ -1698,6 +1777,7 @@ class Sim:
         if self.depth > MAX_NEST:
             return
         self.depth += 1
+        self.extra_depth += 1
         try:
             unit.extra_count += 1
             details: list[str] = ["不重置行动条距离、不递减常规 Buff 回合数"]
@@ -1734,7 +1814,10 @@ class Sim:
                     "笑点的 10% 已记在欢愉万相返还里，不再另加",
                 ], extra=True)
         finally:
+            self.extra_depth -= 1
             self.depth -= 1
+        for ally in self.units:
+            self.maybe_ult(ally)
 
     # ----------------------------- 【阿哈时刻】 ----------------------------- #
 
@@ -1742,6 +1825,8 @@ class Sim:
         if self.depth > MAX_NEST:
             return
         self.depth += 1
+        if is_extra:
+            self.extra_depth += 1
         try:
             a = self.aha
             a["in_turn"] = True
@@ -1793,18 +1878,30 @@ class Sim:
             has_e2 = spark is not None and spark.eidolon >= 2
             if not is_extra:
                 a["rem_dist"] = max(0.0, DIST_BASE - DIST_BASE * a["pending"] / 100.0)
-                a["pending"] = 0.0
+            else:
+                a["rem_dist"] = max(0.0, a["rem_dist"] - DIST_BASE * a["pending"] / 100.0)
+            a["pending"] = 0.0
             a["in_turn"] = False
             if has_e2:
                 self.do_extra_turn(spark, "火花 E2·【阿哈时刻】结束额外回合")
         finally:
+            if is_extra:
+                self.extra_depth -= 1
             self.depth -= 1
+        if is_extra:
+            for ally in self.units:
+                self.maybe_ult(ally)
 
     # ----------------------------- 战斗开始 ----------------------------- #
 
     def battle_start(self) -> None:
+        self.opening = True
         self.event("battle", None, "进入战斗", [f"模拟窗口 [0, {fmt(self.cfg['max_av'], 0)}] AV"],
                    kind="system", name="战斗")
+        self.notes.append("不模拟敌方行动、受击/击杀回能；欢愉技按参演编号排序（阿哈最后），绯英按编号判断转移。")
+        self.aha["rem_dist"] = max(
+            0.0, DIST_BASE - DIST_BASE * self.cfg["aha_advance_pct"] / 100.0
+        )
         aha_extra_from_tech = False
         if self.cfg["use_tech"]:
             for unit in self.units:
@@ -1826,6 +1923,9 @@ class Sim:
                     self.event("tech", unit, "爻光秘技：自动施放战技",
                                ["结界 3 回合（不吃战技点）"])
                     self.do_skill(unit)
+                elif unit.uid == "1505":
+                    self.event("tech", unit, "绯英秘技", ["自身好活当赏 +20"])
+                    self.grant_haohuo([unit], 20.0, "绯英秘技")
                 elif unit.uid == "1309":
                     self.event("tech", unit, "知更鸟秘技：酣醉序曲",
                                ["每波次开始 +5 能量（本工具=战斗开始一次）"])
@@ -1881,9 +1981,9 @@ class Sim:
             if aha.notes:
                 self.event("note", aha, "行迹3 速度阈值", list(aha.notes))
 
-        self.aha["rem_dist"] = max(
-            0.0, DIST_BASE - DIST_BASE * self.cfg["aha_advance_pct"] / 100.0
-        )
+        self.opening = False
+        for unit in self.units:
+            self.maybe_ult(unit)
 
     # ----------------------------- 主循环 ----------------------------- #
 
@@ -1993,11 +2093,21 @@ class Sim:
             self.notes.append(f"{unit.name} 的速度加成到期，【阿哈时刻】速度已重算")
         # 好活当赏递减
         kept = []
+        expired = []
         for item in unit.haohuo:
             item["turns"] = int(item["turns"]) - 1
             if item["turns"] > 0:
                 kept.append(item)
+            else:
+                expired.append(item)
         unit.haohuo = kept
+        fei = self.by_uid("1505")
+        if fei is not None and fei is not unit:
+            for item in expired:
+                copied = float(item["count"]) * (1.0 if fei.eidolon >= 2 else 0.5)
+                self.event("note", fei, "开不败·好活当赏转移",
+                           [f"{unit.name} 状态结束 → 好活当赏 +{fmt(copied)}"])
+                self.grant_haohuo([fei], copied, "开不败")
         # 1502 结界递减
         if unit.uid == "1502" and unit.field > 0:
             unit.field -= 1
@@ -2097,6 +2207,7 @@ class Sim:
                 "eidolon": unit.eidolon,
                 "maxSp": unit.max_sp,
                 "initAdv": unit.init_adv,
+                "initialEnergy": unit.initial_energy,
                 "targetSlot": unit.target_slot,
                 "rotation": unit.rotation,
                 "equipment": dict(unit.equip),

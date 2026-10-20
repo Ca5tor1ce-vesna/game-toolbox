@@ -3700,6 +3700,312 @@ class TestActionValuePresetBridge(unittest.TestCase):
                            len(default["simulation"]["timeline"]))
 
 
+class TestAhaEventRegressions(unittest.TestCase):
+    """nanoka 4.6.53：资源转换与行动条时序的独立预期。"""
+
+    @staticmethod
+    def _engine(team: list[dict], **config):
+        module = sys.modules[
+            feature_api.HANDLERS[("honkai-star-rail", "aha-speed")]["simulate"].__module__
+        ]
+        return module.Sim({"maxAV": 1, "useTech": False, "trace3Advance": False,
+                           "team": team, **config})
+
+    def test_opening_ult_advance_is_not_overwritten(self) -> None:
+        sim = self._engine([{"id": "1511", "baseSpd": 1, "traceSpd": 0,
+                             "lcBaseSpd": 0, "eidolon": 1}],
+                           e1Wishpower=8, maxAV=100, aeonAhaBaseSpd=100)
+        res = sim.run()
+        first = next(ev for ev in res["timeline"] if ev["type"] == "aha")
+        self.assertAlmostEqual(first["av"], 8000 / 100.2)
+
+    def test_opening_e6_advance_runs_at_zero(self) -> None:
+        sim = self._engine([{"id": "1511", "eidolon": 6}], e1Wishpower=8)
+        res = sim.run()
+        first = next(ev for ev in res["timeline"] if ev["type"] == "aha")
+        self.assertEqual(first["av"], 0)
+
+    def test_advance_during_extra_aha_turn_applies_to_existing_distance(self) -> None:
+        sim = self._engine([{"id": "1511"}])
+        unit = sim.units[0]
+        unit.energy = 7
+        sim.aha["rem_dist"] = 6000
+        sim.do_aha(is_extra=True, fixed=20)
+        self.assertEqual(unit.ult_count, 1)
+        self.assertEqual(sim.aha["rem_dist"], 4000)
+        self.assertEqual(sim.aha["pending"], 0)
+
+    def test_full_initial_energy_casts_before_first_action(self) -> None:
+        sim = self._engine([{"id": "1505", "initialEnergy": 480}])
+        res = sim.run()
+        ults = [ev for ev in res["timeline"] if ev["type"] == "ultimate"]
+        self.assertEqual(len(ults), 2)
+        self.assertEqual([ev["av"] for ev in ults], [0, 0])
+        self.assertEqual([ev["res"]["energyBefore"] for ev in ults], [480, 245])
+        self.assertEqual(res["units"][0]["initialEnergy"], 480)
+        self.assertEqual(res["units"][0]["finalEnergy"], 10)
+        self.assertFalse(any(ev["type"] == "skill" for ev in res["timeline"]))
+
+    def test_aha_moment_does_not_activate_ascension(self) -> None:
+        for extra in (False, True):
+            with self.subTest(extra=extra):
+                sim = self._engine([{"id": "1505", "initialEnergy": 470},
+                                     {"id": "1511"}])
+                sim.do_aha(is_extra=extra, fixed=20 if extra else 0)
+                self.assertFalse(sim.huanyu_active())
+                self.assertEqual(sim.units[1].ult_count, 0)
+                gains = [ev for ev in sim.timeline if ev["type"] == "energy_gain"]
+                self.assertTrue(gains)
+                self.assertTrue(all(ev["res"]["energyCap"] == 480 for ev in gains))
+
+    def test_ascension_starts_at_aha_ult_and_ends_with_state(self) -> None:
+        sim = self._engine([{"id": "1511", "initialEnergy": 8},
+                             {"id": "1505", "initialEnergy": 0}])
+        aha, fei = sim.units
+        self.assertFalse(sim.huanyu_active())
+        sim.maybe_ult(aha)
+        self.assertTrue(sim.huanyu_active())
+        sim.gain_energy(fei, 1, fixed=True)
+        self.assertEqual(sim.timeline[-1]["res"]["energyCap"], 540)
+        for _ in range(3):
+            sim.do_turn(aha)
+        self.assertFalse(sim.huanyu_active())
+        sim.gain_energy(fei, 1, fixed=True)
+        self.assertEqual(sim.timeline[-1]["res"]["energyCap"], 480)
+
+    def test_feiying_casts_at_first_legal_gain_crossing_threshold(self) -> None:
+        for ascended in (False, True):
+            with self.subTest(ascended=ascended):
+                sim = self._engine([{"id": "1511", "initialEnergy": 8},
+                                     {"id": "1505", "initialEnergy": 230}])
+                if ascended:
+                    sim.maybe_ult(sim.units[0])
+                sim.av = 12.5
+                start = len(sim.timeline)
+                sim.gain_energy(sim.units[1], 30, fixed=True, reason="test")
+                events = sim.timeline[start:]
+                self.assertEqual([ev["type"] for ev in events[:2]],
+                                 ["energy_gain", "ultimate"])
+                self.assertEqual(events[1]["av"], 12.5)
+                self.assertEqual(events[1]["res"]["energyBefore"], 260)
+                self.assertEqual(events[1]["res"]["energyCost"], 240)
+                self.assertEqual(sim.units[1].ult_count, 1)
+
+    def test_opening_aha_extra_finishes_before_any_ult(self) -> None:
+        for team in (
+            [{"id": "1505", "initialEnergy": 480}, {"id": "1511"}],
+            [{"id": "1511"}, {"id": "1505", "initialEnergy": 480}],
+            [{"id": "1502", "initialEnergy": 180}, {"id": "1505", "initialEnergy": 480},
+             {"id": "1511"}],
+        ):
+            with self.subTest(team=team):
+                res = self._engine(team, useTech=True).run()
+                events = res["timeline"]
+                extra = next(i for i, ev in enumerate(events) if ev["type"] == "aha_extra")
+                ults = [i for i, ev in enumerate(events) if ev["type"] == "ultimate"]
+                self.assertTrue(ults)
+                self.assertGreater(min(ults), extra)
+                first_ult = min(ults)
+                skills = [i for i, ev in enumerate(events)
+                          if i > extra and ev["type"] == "elation_skill"][:len(team)]
+                self.assertEqual(len(skills), len(team))
+                self.assertLess(max(skills), first_ult)
+                settlement = [i for i, ev in enumerate(events)
+                              if ev["label"] == "绯英回能·好活当赏·阿哈时刻额外回合"]
+                self.assertTrue(settlement)
+                self.assertLess(settlement[0], first_ult)  # 爻光开大后可另触发新的 0 AV 额外回合
+                self.assertEqual(events[first_ult]["av"], 0)
+
+    def test_full_energy_does_not_accumulate_phantom_gains(self) -> None:
+        sim = self._engine([{"id": "1505", "initialEnergy": 480}])
+        unit = sim.units[0]
+        sim.extra_depth = 1
+        sim.gain_energy(unit, 30)
+        self.assertEqual(unit.energy, 480)
+        self.assertEqual(unit.energy_total, 0)
+        self.assertEqual(unit.feiy_total, 0)
+        self.assertEqual(sim.haohuo_sum(unit), 0)
+        sim.extra_depth = 0
+
+    def test_partial_gain_only_credits_available_energy(self) -> None:
+        sim = self._engine([{"id": "1505", "initialEnergy": 470}])
+        unit = sim.units[0]
+        sim.extra_depth = 1
+        sim.gain_energy(unit, 30)
+        self.assertEqual(unit.energy, 480)
+        self.assertEqual(unit.energy_total, 10)
+        self.assertEqual(unit.feiy_total, 10)
+        self.assertEqual(sim.haohuo_sum(unit), 10)
+
+    def test_feiying_ult_times_follow_real_energy_gains(self) -> None:
+        # 100 速绯英与 100 速阿哈：每 100 AV 战技 +30，
+        # 欢愉技基础 +5 / 附加好活当赏 +5 / 笑点结算 +10。
+        # 240 即可开大；每 100 AV 共回 50，第 5 轮首次再达门槛。
+        for initial, expected in ((240, [0, 500, 1000]),
+                                  (480, [0, 0, 500, 1000]), (0, [500, 1000])):
+            with self.subTest(initial=initial):
+                sim = self._engine([{"id": "1505", "initialEnergy": initial,
+                                     "baseSpd": 100, "traceSpd": 0}],
+                                   useAeonAha=False, maxAV=1000)
+                res = sim.run()
+                ults = [ev for ev in res["timeline"] if ev["type"] == "ultimate"]
+                self.assertEqual([ev["av"] for ev in ults], expected)
+                for event in ults:
+                    self.assertGreaterEqual(event["res"]["energyBefore"], 240)
+                    self.assertEqual(event["res"]["energyCost"], 240)
+                meter = initial
+                for event in res["timeline"]:
+                    if event["type"] == "energy_gain":
+                        self.assertEqual(event["res"]["energyBefore"], meter)
+                        meter += event["res"]["energyGain"]
+                        self.assertEqual(event["res"]["energy"], meter)
+                    elif event["type"] == "ultimate":
+                        self.assertEqual(event["res"]["energyBefore"], meter)
+                        meter -= 240
+                self.assertEqual(res["units"][0]["finalEnergy"], meter)
+
+    def test_initial_energy_is_validated(self) -> None:
+        for value in (-1, 481, "invalid"):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                self._engine([{"id": "1505", "initialEnergy": value}])
+
+    def test_feiying_energy_to_haohuo_does_not_feed_back(self) -> None:
+        sim = self._engine([{"id": "1505", "initialEnergy": 0}])
+        unit = sim.units[0]
+        sim.gain_energy(unit, 30)
+        self.assertEqual(unit.energy, 30)
+        self.assertEqual(sim.haohuo_sum(unit), 30)
+        self.assertEqual(unit.feiy_total, 30)
+        self.assertEqual(unit.fua_count, 0)
+
+    def test_feiying_haohuo_to_energy_does_not_duplicate_haohuo(self) -> None:
+        sim = self._engine([{"id": "1505", "initialEnergy": 0}])
+        unit = sim.units[0]
+        sim.grant_haohuo([unit], 20, "test")
+        self.assertEqual(unit.energy, 20)
+        self.assertEqual(sim.haohuo_sum(unit), 20)
+        self.assertEqual(unit.feiy_total, 20)
+
+    def test_feiying_single_gain_milestone_cap(self) -> None:
+        sim = self._engine([{"id": "1505", "initialEnergy": 0}])
+        unit = sim.units[0]
+        sim.gain_energy(unit, 1000, fixed=True)
+        self.assertEqual(unit.fua_count, 1)
+        self.assertAlmostEqual(unit.feiy_total, 10)  # 满能狐狸回能截掉，两次大招各返还 +5
+
+    def test_feiying_copies_smaller_participation_number_not_team_slot(self) -> None:
+        for eidolon, copied in ((0, 10), (2, 15)):
+            with self.subTest(eidolon=eidolon):
+                sim = self._engine([{"id": "1503"}, {"id": "1505", "eidolon": eidolon,
+                                                     "initialEnergy": 0}])
+                pearl, fei = sim.units
+                sim.grant_haohuo([pearl], 20, "test")
+                self.assertEqual(sim.haohuo_sum(fei), copied)
+                self.assertEqual(fei.energy, copied)
+        sim = self._engine([{"id": "1505", "initialEnergy": 0}, {"id": "1503"}])
+        sim.grant_haohuo([sim.units[1]], 20, "test")
+        self.assertEqual(sim.haohuo_sum(sim.units[0]), 10)
+        sim = self._engine([{"id": "1513"}, {"id": "1505"}])
+        sim.grant_haohuo([sim.units[0]], 20, "test")
+        self.assertEqual(sim.haohuo_sum(sim.units[1]), 0)
+
+    def test_elation_skills_follow_source_numbers_and_aha_is_last(self) -> None:
+        sim = self._engine([{"id": "1505"}, {"id": "1511"}, {"id": "1502"},
+                             {"id": "1503"}])
+        self.assertEqual([unit.uid for unit in sim.elation_casters()],
+                         ["1503", "1502", "1505", "1511"])
+
+    def test_ascended_feiying_overflow_uses_aha_eidolon_level(self) -> None:
+        for eidolon, cap in ((0, 540), (2, 720)):
+            with self.subTest(eidolon=eidolon):
+                sim = self._engine([{"id": "1511", "eidolon": eidolon},
+                                     {"id": "1505", "initialEnergy": 470}])
+                sim.units[0].huanyu = 3
+                sim.extra_depth = 1
+                sim.gain_energy(sim.units[1], 1000, fixed=True)
+                self.assertEqual(sim.units[1].energy, cap)
+
+    def test_overflow_restore_counts_for_fox_but_not_energy_to_haohuo(self) -> None:
+        sim = self._engine([{"id": "1511", "eidolon": 2}, {"id": "1505"}])
+        aha, fei = sim.units
+        aha.huanyu = 3
+        fei.energy = 600
+        fei.feiy_total = 120
+        fei.feiy_ult_bonus = 1
+        sim.cast_ult(fei)
+        self.assertEqual(fei.fua_count, 1)  # 120 累计 + 120 溢出恢复
+        self.assertEqual(fei.energy, 375)  # 保留 240 + 恢复 120 + 狐狸 10 + 返还 5
+        self.assertEqual(fei.feiy_total, 15)
+        self.assertEqual(sim.haohuo_sum(fei), 15)  # 恢复的 120 不转好活当赏
+        notes = [detail for ev in sim.timeline if ev["label"] == "欢愉万相★书中折花"
+                 for detail in ev["details"]]
+        self.assertTrue(any("150%" in detail for detail in notes))
+        self.assertTrue(any("24%" in detail for detail in notes))
+
+    def test_feiying_copies_expiring_ally_haohuo(self) -> None:
+        for eidolon, copied in ((0, 10), (2, 20)):
+            with self.subTest(eidolon=eidolon):
+                sim = self._engine([{"id": "1505", "eidolon": eidolon, "initialEnergy": 0},
+                                     {"id": "1503"}])
+                fei, pearl = sim.units
+                pearl.haohuo = [{"count": 20, "turns": 1, "label": "test"}]
+                sim.turn_end(pearl)
+                self.assertEqual(sim.haohuo_sum(fei), copied)
+                self.assertEqual(pearl.haohuo, [])
+
+    def test_feiying_technique_and_elation_grant_extra_haohuo(self) -> None:
+        sim = self._engine([{"id": "1505", "initialEnergy": 0}], useTech=True)
+        sim.battle_start()
+        unit = sim.units[0]
+        self.assertEqual(unit.energy, 20)
+        self.assertEqual(sim.haohuo_sum(unit), 20)
+        sim.cast_elation_skill(unit)
+        self.assertEqual(unit.energy, 30)  # 5 基础能量 + 5 好活当赏转能量
+        self.assertEqual(sim.haohuo_sum(unit), 30)
+
+    def test_feiying_e1_followup_casts_elation_once(self) -> None:
+        sim = self._engine([{"id": "1505", "eidolon": 1, "initialEnergy": 0}])
+        unit = sim.units[0]
+        sim.gain_energy(unit, 240, fixed=True)
+        self.assertEqual(unit.fua_count, 1)
+        self.assertEqual(sum(ev["type"] == "elation_skill" for ev in sim.timeline), 1)
+        self.assertEqual(unit.energy, 35)  # 240 + 10 + 5 + 15 - 240 + 5
+        self.assertEqual(unit.feiy_total, 35)
+
+    def test_feiying_ult_waits_for_fox_and_e1_elation_settlement(self) -> None:
+        sim = self._engine([{"id": "1505", "eidolon": 1, "initialEnergy": 230}])
+        sim.gain_energy(sim.units[0], 250, fixed=True)
+        events = sim.timeline
+        ult = next(i for i, ev in enumerate(events) if ev["type"] == "ultimate")
+        elation = next(i for i, ev in enumerate(events) if ev["type"] == "elation_skill")
+        settlement = next(i for i, ev in enumerate(events)
+                          if ev["label"] == "绯英回能·好活当赏·绯英欢愉技")
+        self.assertLess(elation, settlement)
+        self.assertLess(settlement, ult)
+        self.assertEqual(sim.units[0].energy, 10)
+
+    def test_damaging_ults_use_attack_hooks(self) -> None:
+        for uid in ("1511", "1505"):
+            with self.subTest(uid=uid):
+                sim = self._engine([{"id": uid}, {"id": "1309"}])
+                actor, robin = sim.units
+                sim.cast_ult(actor)
+                self.assertEqual(robin.energy, robin.max_sp * 0.5 + 2)
+
+    def test_extra_turn_defers_ult_until_settlement(self) -> None:
+        sim = self._engine([{"id": "1505", "maxSp": 30, "initialEnergy": 0}])
+        sim.do_extra_turn(sim.units[0], "test", grant_punchline=60)
+        labels = [ev["label"] for ev in sim.timeline]
+        self.assertLess(labels.index("额外回合笑点结算"), labels.index("绯英 的终结技"))
+
+    def test_custom_err_chain_is_bounded_and_reported(self) -> None:
+        sim = self._engine([{"id": "1505", "err": 2400, "initialEnergy": 0,
+                             "maxSp": 100000}])
+        sim.gain_energy(sim.units[0], 240, fixed=True)
+        self.assertTrue(sim.truncated)
+        self.assertTrue(any("狐狸老师" in warning for warning in sim.warnings))
+
+
 class TestAhaSpeedSimulation(unittest.TestCase):
     """【阿哈时刻】配速的模拟引擎：公式与机制全部钉在确定性排轴上。
 
@@ -4071,7 +4377,7 @@ class TestAhaSpeedSimulation(unittest.TestCase):
         self.assertEqual(0, tech["aha"]["triggerCount"])
         self.assertFalse(any("笑点首达 40" in n for n in tech["notes"]))
         names = [ev["name"] for ev in tech["timeline"] if ev["type"] == "elation_skill"]
-        self.assertEqual(["火花", "开拓者•欢愉", "真珠", "星神★阿哈"], names)
+        self.assertEqual(["真珠", "开拓者•欢愉", "火花", "星神★阿哈"], names)
         aha = next(u for u in tech["units"] if u["id"] == "1511")
         self.assertEqual(1.0, aha["mechanics"]["wishpower"])
         for unit in tech["units"]:
@@ -4097,7 +4403,7 @@ class TestAhaSpeedSimulation(unittest.TestCase):
         self.assertIn("全队暴伤 +40%", hits[0])
 
     def test_wolf_feiying_tech_extra_does_not_inflate_punchline(self) -> None:
-        """银狼/绯英没有欢愉技：秘技额外回合不再灌 80 笑点，也不连触发两次首达 40。"""
+        """欢愉技与绯英转移不凭空生成笑点，也不连触发两次首达 40。"""
         res = self._sim({
             "maxAV": 1, "useTech": True,
             "team": [{"id": "1511"}, {"id": "1506"}, {"id": "1505"}, {"id": "1501"}],
@@ -4110,7 +4416,9 @@ class TestAhaSpeedSimulation(unittest.TestCase):
         self.assertEqual(0, wolf["ultCount"])
         # 只有银狼自己的欢愉技 +15（队友欢愉技不给隐藏分）
         self.assertEqual(15.0, wolf["finalEnergy"])
-        self.assertEqual(265.0, fei["finalEnergy"])  # 额外回合好活当赏 20 转能量（+ 开局 50%）
+        # 240 开局 + 20 秘技 + 5 欢愉技回能 + 5 附加好活当赏
+        # + 20 阿哈额外回合好活当赏 + 阿哈/火花编号更小，各转移 10；银狼编号 999 不转移。
+        self.assertEqual(75.0, fei["finalEnergy"])  # 310 - 240 + 5
         self.assertEqual(1.0, next(u for u in res["units"] if u["id"] == "1511")["mechanics"]["wishpower"])
         self.assertTrue(any(item["label"] == "阿哈时刻额外回合" and item["count"] == 20.0
                             for item in fei["mechanics"]["haohuo"]))
@@ -4289,7 +4597,8 @@ class TestAhaSpeedSimulation(unittest.TestCase):
         pearl = next(u for u in res["units"] if u["id"] == "1503")
         spark = next(u for u in res["units"] if u["id"] == "1501")
         self.assertAlmostEqual(sum(item["count"] for item in pearl["mechanics"]["haohuo"]), 75.0)
-        self.assertAlmostEqual(sum(item["count"] for item in spark["mechanics"]["haohuo"]), 100.0)
+        # E6 首次拉条现保留：0 AV 消耗 100，后续自然阿哈再消耗返还的 10。
+        self.assertAlmostEqual(sum(item["count"] for item in spark["mechanics"]["haohuo"]), 110.0)
 
     def test_wolf_hidden_score_gains_twenty_percent_of_haohuo_while_ascended(self) -> None:
         """全息幻象：升格后好活当赏的 20% 进隐藏分。没升格时不加。"""
@@ -4337,7 +4646,7 @@ class TestAhaSpeedSimulation(unittest.TestCase):
         self.assertTrue(note)
         self.assertTrue(any("溢出能量 60.00" in d for ev in note for d in ev["details"]))
         self.assertTrue(any("不触发天赋好活当赏" in d for ev in note for d in ev["details"]))
-        self.assertAlmostEqual(fei["finalEnergy"], 65.0)
+        self.assertAlmostEqual(fei["finalEnergy"], 70.0)  # 540 - 2×240 + 2×5
         self.assertGreaterEqual(fei["ultCount"], 1)
 
     def test_aha_basic_gains_one_wishpower(self) -> None:
@@ -4389,7 +4698,7 @@ class TestAhaSpeedSimulation(unittest.TestCase):
             ],
         })
         names = [ev["name"] for ev in res["timeline"] if ev["type"] == "elation_skill"]
-        self.assertEqual(["火花", "真珠", "星神★阿哈"], names)
+        self.assertEqual(["真珠", "火花", "星神★阿哈"], names)
 
     def test_god_joy_does_not_advance_without_elation_degree(self) -> None:
         """神的瞬息欢愉只记 +6% 速度；没模拟欢愉度，不开局 40% 拉条。"""
@@ -4457,7 +4766,8 @@ class TestAhaSpeedSimulation(unittest.TestCase):
         by_id = {u["id"]: u for u in res["units"]}
         self.assertAlmostEqual(by_id["1503"]["finalEnergy"], 90.0)   # 180 的 50%
         self.assertAlmostEqual(by_id["1513"]["finalEnergy"], 65.0)   # 130 的 50%
-        self.assertAlmostEqual(by_id["1505"]["finalEnergy"], 240.0)  # 480 的 50%
+        self.assertAlmostEqual(by_id["1505"]["initialEnergy"], 240.0)  # 480 的 50%
+        self.assertAlmostEqual(by_id["1505"]["finalEnergy"], 5.0)  # 进战即可开大
         self.assertAlmostEqual(by_id["1511"]["finalEnergy"], 0.0)    # 愿力
         res = self._sim({"maxAV": 1, "useTech": False, "team": [{"id": "1506"}]})
         self.assertAlmostEqual(res["units"][0]["finalEnergy"], 0.0)  # 隐藏分
@@ -4507,7 +4817,7 @@ class TestAhaSpeedSimulation(unittest.TestCase):
         self.assertEqual(fei["energyType"], "standard")
         skill = [ev for ev in res["timeline"] if ev["type"] == "skill"][0]
         self.assertIn("基础回能 30 × (1+ERR)", skill["details"])
-        self.assertAlmostEqual(fei["finalEnergy"], 300.0)  # 240 + 30×2
+        self.assertAlmostEqual(fei["finalEnergy"], 70.0)  # 240 - 240 + 5×2 + 30×2
 
     def test_feiying_haohuo_energy_capped_at_hundred(self) -> None:
         """好活当赏转能量单次不超过 100。"""
@@ -4516,12 +4826,10 @@ class TestAhaSpeedSimulation(unittest.TestCase):
             "team": [{"id": "1503", "baseSpd": 1, "traceSpd": 0, "initAdv": 100},
                      {"id": "1505", "baseSpd": 1, "traceSpd": 0}],
         })
-        notes = self._labels(res, "绯英·好活当赏回能")
+        notes = [ev for ev in res["timeline"] if ev["label"].startswith("绯英回能·好活当赏")]
         self.assertTrue(notes)
         for ev in notes:
-            for d in ev["details"]:
-                value = float(d.split("+")[1].split(" ")[0])
-                self.assertLessEqual(value, 100.0)
+            self.assertLessEqual(ev["res"]["energyRequested"], 100.0)
 
     def test_wolf_only_gains_hidden_from_own_elation_skill(self) -> None:
         """银狼只吃自己的欢愉技 +15；队友欢愉技不给隐藏分。"""

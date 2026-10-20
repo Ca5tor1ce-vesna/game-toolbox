@@ -69,7 +69,9 @@
   const TALENT_ATTACK_KINDS = ["basic", "skill", "enhanced_basic", "ultimate", "fua"];
 
   // 档案里写了欢愉技的角色（官方 sp_base=5，阿哈只 +1 愿力）。
-  const ELATION_SKILL_UIDS = { "1511": true, "1501": true, "1502": true, "1503": true, "1505": true, "1506": true, "1513": true, "8009": true };
+  // nanoka 4.6.53: elation_priority_value; 1511 always acts last.
+  const ELATION_NUMBERS = { "1511": 0, "1501": 144, "1502": 116, "1503": 104, "1505": 146, "1506": 999, "1513": 156, "8009": 120 };
+  const ELATION_SKILL_UIDS = Object.fromEntries(Object.keys(ELATION_NUMBERS).map((id) => [id, true]));
 
   const PEARL_LC_ENERGY = 10.0;
   const YAO_LC_ERR = 12.0;
@@ -234,9 +236,11 @@
       rotation: "skill",
       mechanics: [
         "战技：+10 笑点、基础回能 30 × ERR",
-        "获得【好活当赏】时额外回能（默认 = 记账笑点数，单次最多 100）",
-        "累计每 240 能量触发【狐狸老师】追击（+10 能量，算队友攻击）",
-        "480 能量开大，终结技返还 5 × ERR；若她是【美学底本】会触发真珠【艺术壁垒】+90",
+        "能量与好活当赏双向同步（不循环互触发），单次同步好活当赏最多 100",
+        "累计每 240 能量触发【狐狸老师】追击（基础回能 10 × ERR，单次累计最多 240）；E1 追击后施放欢愉技",
+        "秘技自身好活当赏 +20；欢愉技额外 +5（E1 +15）；E6 好活当赏延长 1 回合",
+        "瞰众乐/开不败：参演编号更小队友获得/任意队友到期的好活当赏转移 50%；E2 分别为 75%/100%",
+        "能量上限 480，终结技每次消耗 240，能开即开且保留剩余能量；返还 5 × ERR",
         "E6：首次终结技固定 +120 能量，之后每 4 次终结技再触发",
         "固有行迹【欢愉万相★书中折花】：升格后溢出能量最多 60，开大后恢复且不触发天赋好活当赏",
       ],
@@ -307,7 +311,7 @@
     "1501": "火花固有行迹【欢愉万相★兔子戏法】生效：欢愉技倍率提高原倍率的 50%，我方伤害无视 15% 防御；每 10 点好活当赏使【红红火火】额外 +1 笑点，最多 +8。本工具不掷互动陷阱，因此不加这份笑点",
     "1502": "爻光固有行迹【欢愉万相★心灵感应】生效：【大吉大利】倍率提高原倍率的 20%（20%→24%），终结技固定能量 +12、笑点 +10",
     "1503": "真珠固有行迹【欢愉万相★跃然纸上】生效：好活当赏持有上限 75；终结技额外回合结束时保留该次好活当赏与笑点的 10%",
-    "1505": "绯英固有行迹【欢愉万相★书中折花】生效：溢出能量最多 60，开大后恢复且不触发天赋好活当赏；伤害无视 10% 防御；每累计 480 点好活当赏，下次终结技倍率提高原倍率的 75%",
+    "1505": "绯英固有行迹【欢愉万相★书中折花】生效：1/2级溢出能量最多 60/240，开大后恢复且不触发天赋好活当赏；伤害无视 10%/24% 防御；每累计 480 点好活当赏，下次终结技倍率提高原倍率的 75%/150%",
     "1506": "银狼固有行迹【欢愉万相★全息幻象】生效：隐藏分可溢出至 360，暴击伤害 +40%；获得好活当赏时隐藏分 +该次的 20%",
     "1513": "砂金•戏浪固有行迹【欢愉万相★三赌牌局】：仅当队伍里另一名欢愉只有星神★阿哈时，纵享惊涛加强为全队速度 +15%、队友攻击热意 +1、笑点 +1",
     "8009": "开拓者•欢愉固有行迹【欢愉万相★主角光环】生效：终结技暴伤额外 +20% 且全队；触发阿哈欢愉技前先放一次开拓者欢愉技（倍率提高原倍率的 200%）；阿哈真实伤害改为该次的 20%",
@@ -563,12 +567,16 @@
       this.remDist = DIST_BASE;
       this.pendingAa = 0.0;
       this.inTurn = false;
+      this.castingUlt = false;
       this.timed = []; // {"kind","value","turns"(null=常驻),"label"}
       this.haohuo = []; // {"turns","count","label"}
       this.notes = [];
 
       // 资源。标准能量角色进战 = 上限 50%；愿力/隐藏分等特殊资源仍从 0 开始。
       this.energy = this.energyType === "standard" ? this.maxSp * 0.5 : 0.0;
+      this.initialEnergy = num(raw, "initialEnergy", this.energy, 0.0,
+        this.energyType === "wishpower" ? 10.0 : this.maxSp);
+      this.energy = this.initialEnergy;
       this.energyTotal = 0.0;
       this.actionCount = 0;
       this.turnCount = 0;
@@ -628,6 +636,9 @@
       this.truncated = false;
       this.ahaNormalCount = 0;
       this.ahaExtraCount = 0;
+      this.extraDepth = 0;
+      this.opening = false;
+      this.resourceDepth = 0;
 
       // 指定目标
       const pearlChar = this.byUid("1503");
@@ -781,7 +792,8 @@
     /** 当前可施放欢愉技的角色。星神★阿哈无视参演编号，始终最后。 */
     elationCasters() {
       const casters = this.units.filter((u) => u.elation && ELATION_SKILL_UIDS[u.uid]);
-      const rest = casters.filter((u) => u.uid !== "1511");
+      const rest = casters.filter((u) => u.uid !== "1511")
+        .sort((a, b) => ELATION_NUMBERS[a.uid] - ELATION_NUMBERS[b.uid]);
       const last = casters.filter((u) => u.uid === "1511");
       return rest.concat(last);
     }
@@ -952,7 +964,7 @@
       this.checkFervor(unit);
     }
 
-    gainEnergy(unit, amount, fixed) {
+    gainEnergy(unit, amount, fixed, fromHaohuo = false, reason = "") {
       if (amount === 0) {
         return;
       }
@@ -974,14 +986,31 @@
       }
       let cap = Number(unit.maxSp);
       if (unit.uid === "1505" && this.huanyuActive()) {
-        cap += 60.0;
+        const aha = this.byUid("1511");
+        cap += aha !== null && aha.eidolon >= 2 ? 240.0 : 60.0;
       }
+      const before = unit.energy;
       unit.energy = Math.min(cap, unit.energy + gain);
-      unit.energyTotal += gain;
       if (unit.uid === "1505") {
-        unit.feiyTotal += gain;
+        const requested = gain;
+        gain = Math.max(0.0, unit.energy - before);
+        const details = [
+          "能量 " + fmt(before) + " → " + fmt(unit.energy) + " / " + fmt(cap, 0),
+          "实际 +" + fmt(gain),
+        ];
+        if (requested - gain > EPS) {
+          details.push("上限截掉 " + fmt(requested - gain) + "（不计入天赋累计）");
+        }
+        this.event("energy_gain", unit, "绯英回能·" + (reason || "回能"), details, {
+          resourceChange: { energyBefore: before, energyGain: gain, energyRequested: requested, energyCap: cap },
+        });
+        if (gain > 0 && !fromHaohuo) {
+          this.grantHaohuo([unit], Math.min(gain, 100.0), "绯英·能量转好活当赏", true);
+        }
+        unit.feiyTotal += Math.min(gain, 240.0);
         this.checkFeiyingMilestone(unit);
       }
+      unit.energyTotal += gain;
       this.maybeUlt(unit);
     }
 
@@ -1019,24 +1048,42 @@
       if (unit.uid !== "1505") {
         return;
       }
-      while (unit.feiyTotal >= 240.0 && this.depth <= MAX_NEST) {
-        unit.feiyTotal -= 240.0;
-        unit.fuaCount += 1;
-        this.event("fua", unit, "【狐狸老师】追加攻击", ["+10 特殊能量（固定）"]);
-        this.gainEnergy(unit, 10.0, true);
-        this.onAttack(unit, "fua");
+      if (this.depth > MAX_NEST) {
+        if (unit.feiyTotal >= 240.0) {
+          this.truncated = true;
+          this.warnings.push("狐狸老师回能连锁超过嵌套上限，结果已截断，请检查自定义充能效率");
+        }
+        return;
+      }
+      this.depth += 1;
+      this.resourceDepth += 1;
+      try {
+        while (unit.feiyTotal >= 240.0 && !this.truncated) {
+          unit.feiyTotal -= 240.0;
+          unit.fuaCount += 1;
+          this.event("fua", unit, "【狐狸老师】追加攻击", ["基础回能 10 × (1+ERR)"]);
+          this.gainEnergy(unit, 10.0, false, false, "狐狸老师");
+          this.onAttack(unit, "fua");
+          if (unit.eidolon >= 1) {
+            this.castElationSkill(unit);
+          }
+        }
+      } finally {
+        this.resourceDepth -= 1;
+        this.depth -= 1;
       }
     }
 
     maybeUlt(unit) {
-      if (this.depth > MAX_NEST) {
+      if (this.depth > MAX_NEST || this.extraDepth > 0 || this.resourceDepth > 0
+          || this.opening || unit.castingUlt) {
         return;
       }
       // 【无敌玩家】期间无法施放终结技。
       if (unit.uid === "1506" && unit.invincible > 0) {
         return;
       }
-      const threshold = unit.energyType === "wishpower" ? 8.0 : Number(unit.maxSp);
+      const threshold = this.ultCost(unit);
       let guard = 0;
       while (unit.energy >= threshold - EPS && guard < 4) {
         guard += 1;
@@ -1063,7 +1110,7 @@
       unit.timed.push({ kind: kind, value: Number(value), turns: turns, label: label });
     }
 
-    grantHaohuo(targets, count, label) {
+    grantHaohuo(targets, count, label, fromEnergy = false) {
       for (let i = 0; i < targets.length; i += 1) {
         const unit = targets[i];
         let applied = Number(count);
@@ -1075,7 +1122,16 @@
             continue;
           }
         }
-        unit.haohuo.push({ turns: 2, count: applied, label: label });
+        const turns = unit.uid === "1505" && unit.eidolon >= 6 ? 3 : 2;
+        unit.haohuo.push({ turns: turns, count: applied, label: label });
+        const fei = this.byUid("1505");
+        if (fei !== null && fei !== unit && Object.hasOwn(ELATION_NUMBERS, unit.uid)
+            && ELATION_NUMBERS[unit.uid] < ELATION_NUMBERS[fei.uid]) {
+          const copied = applied * (fei.eidolon >= 2 ? 0.75 : 0.5);
+          this.event("note", fei, "瞰众乐·好活当赏转移",
+            [unit.name + "（编号 " + ELATION_NUMBERS[unit.uid] + "）→ 好活当赏 +" + fmt(copied)]);
+          this.grantHaohuo([fei], copied, "瞰众乐");
+        }
         if (unit.uid === "1506" && this.huanyuActive() && applied > EPS) {
           const bonus = applied * 0.2;
           this.event("note", unit, "欢愉万相★全息幻象", [
@@ -1091,6 +1147,9 @@
               unit.feiyUltBonus += 1;
             }
           }
+          if (fromEnergy) {
+            continue;
+          }
           let gain =
             this.cfg.feiying_haohuo_mode === "flat" ? this.cfg.feiying_haohuo_energy : Number(count);
           if (this.cfg.feiying_haohuo_mode !== "flat") {
@@ -1098,8 +1157,7 @@
             gain = Math.min(gain, 100.0);
           }
           if (gain > 0) {
-            this.event("note", unit, "绯英·好活当赏回能", ["+" + fmt(gain) + " 能量"]);
-            this.gainEnergy(unit, gain, true);
+            this.gainEnergy(unit, gain, true, true, "好活当赏·" + label);
           }
         }
       }
@@ -1123,6 +1181,9 @@
         fervor: sp !== null ? sp.fervor : null,
         energy: unit !== null && unit !== undefined && unit.energyType !== "wishpower" ? unit.energy : null,
       };
+      if (opt && opt.resourceChange) {
+        Object.assign(res, opt.resourceChange);
+      }
       this.timeline.push({
         av: this.av,
         t: cycleOf(this.av),
@@ -1316,7 +1377,7 @@
           }
           this.event("elation_skill", unit, label, details);
           this.grantHaohuo(this.elationUnits(), 20.0, account);
-          this.gainEnergy(unit, 5.0, false);
+          this.gainEnergy(unit, 5.0, false, false, "欢愉技");
           this.elationSkillCommon(unit, label);
           if (unit.eidolon >= 2) {
             this.gainFervor(unit, 4.0);
@@ -1338,7 +1399,11 @@
           this.event("note", unit, "自身动作回能", ["愿力 +1"]);
           this.gainWishpower(unit, 1.0);
         } else if (unit.uid !== "1506") {
-          this.gainEnergy(unit, 5.0, false);
+          this.gainEnergy(unit, 5.0, false, false, "欢愉技");
+        }
+        if (unit.uid === "1505") {
+          const count = unit.eidolon >= 1 ? 15.0 : 5.0;
+          this.grantHaohuo([unit], count, "绯英欢愉技");
         }
         this.elationSkillCommon(unit, label);
         this.onAttack(unit, "elation_skill");
@@ -1401,7 +1466,7 @@
         details.push("结界内 +3 笑点");
       }
       this.event("basic", unit, unit.name + " 的普攻", details, { extra: extra });
-      this.gainEnergy(unit, energyBase, false);
+      this.gainEnergy(unit, energyBase, false, false, "普攻");
       this.onAttack(unit, "basic");
     }
 
@@ -1483,7 +1548,7 @@
       if (unit.uid === "1505") {
         this.event("skill", unit, label, ["笑点 +10", "基础回能 30 × (1+ERR)"], { extra: extra });
         this.gainPunchline(10.0);
-        this.gainEnergy(unit, 30.0, false);
+        this.gainEnergy(unit, 30.0, false, false, "战技");
         this.onAttack(unit, "skill");
         return;
       }
@@ -1517,7 +1582,7 @@
       }
       // 其他/自定义角色
       this.event("skill", unit, label, ["基础回能 30 × (1+ERR)"], { extra: extra });
-      this.gainEnergy(unit, 30.0, false);
+      this.gainEnergy(unit, 30.0, false, false, "战技");
       this.onAttack(unit, "skill");
     }
 
@@ -1552,16 +1617,23 @@
 
     // ----------------------------- 终结技 ----------------------------- //
 
+    ultCost(unit) {
+      if (unit.energyType === "wishpower") return 8.0;
+      return unit.uid === "1505" ? Math.min(240.0, Number(unit.maxSp)) : Number(unit.maxSp);
+    }
+
     castUlt(unit) {
       if (this.depth > MAX_NEST) {
         this.warnings.push("嵌套层数超过上限，跳过一次终结技结算");
         return;
       }
       this.depth += 1;
+      unit.castingUlt = true;
       try {
         // 先扣资源再结算效果：嵌套事件（艺术壁垒回能、额外回合出招）里如果
         // 资源还没扣，会被满能量再次触发一次终结技（踩过：同一次行动连开两个大）。
         const details = [];
+        const energyBefore = unit.energy;
         let feiyRestore = 0.0;
         let feiyStacks = 0;
         if (unit.uid === "1505" && this.huanyuActive()) {
@@ -1575,11 +1647,18 @@
         } else if (unit.uid === "1506") {
           // 官方：无敌玩家期间无法开大，隐藏分在退出【无敌玩家】时才清空。
           details.push("【无敌玩家】期间隐藏分不清空");
+        } else if (unit.uid === "1505") {
+          unit.energy = Math.max(0.0, unit.energy - feiyRestore - this.ultCost(unit));
         } else {
           unit.energy = 0.0;
         }
+        let resources = null;
+        if (unit.uid === "1505") {
+          details.push("释放前能量 " + fmt(energyBefore) + "，消耗 " + fmt(this.ultCost(unit), 0));
+          resources = { energyBefore, energyCost: this.ultCost(unit) };
+        }
         unit.ultCount += 1;
-        this.event("ultimate", unit, unit.name + " 的终结技", details);
+        this.event("ultimate", unit, unit.name + " 的终结技", details, { resourceChange: resources });
 
         if (unit.uid === "1511") {
           this.ult1511(unit);
@@ -1618,10 +1697,10 @@
         }
         // 标准能量开大返还 +5（吃 ERR）
         if (unit.energyType === "standard") {
-          this.gainEnergy(unit, 5.0, false);
+          this.gainEnergy(unit, 5.0, false, false, "终结技返还");
         }
-        this.maybeUlt(unit);
       } finally {
+        unit.castingUlt = false;
         this.depth -= 1;
       }
     }
@@ -1631,7 +1710,7 @@
       const details = [];
       // nanoka E6：首次终结技拉条 100% 并获得 100 笑点（进池）。
       if (u.eidolon >= 6 && u.ultCount === 1) {
-        this.aha.rem_dist = 0.0;
+        this.advanceAha(100.0);
         this.gainPunchline(100.0);
         details.push("E6 首次终结技：【阿哈时刻】拉条 100% + 笑点 +100");
       } else {
@@ -1647,6 +1726,7 @@
           "三赌牌局生效：全队速度 +" + fmt(this.cfg.sandu_team_spd_pct, 0) + "%（固有行迹【欢愉万相★三赌牌局】1级）"
         );
       }
+      this.onAttack(u, "ultimate");
     }
 
     /** 各欢愉角色的固有行迹在【欢愉万相】开始时记一笔。数值效果在对应结算里。 */
@@ -1667,29 +1747,31 @@
     }
 
     ult1505(u, restore, stacks) {
+      const aha = this.byUid("1511");
+      const level2 = aha !== null && aha.eidolon >= 2;
       if (this.huanyuActive() || restore > EPS || stacks > 0) {
         const details = [];
         if (restore > EPS) {
-          // 直接写回，不走 gainEnergy：不触发天赋好活当赏，也不再计入狐狸老师。
-          u.energy = restore;
+          this.gainEnergy(u, restore, true, true, "书中折花·溢出恢复");
           details.push("书中折花：溢出能量 " + fmt(restore) + " 在开大后恢复（不触发天赋好活当赏）");
         }
         if (stacks > 0) {
           details.push(
-            "书中折花：本次终结技倍率提高原倍率的 " + fmt(stacks * 75, 0) + "%（" + stacks + " 层，伤害不模拟）"
+            "书中折花：本次终结技倍率提高原倍率的 " + fmt(stacks * (level2 ? 150 : 75), 0) + "%（" + stacks + " 层，伤害不模拟）"
           );
         }
         if (restore <= EPS && stacks <= 0) {
           details.push("书中折花：本次没有可恢复的溢出能量");
         }
-        details.push("伤害无视 10% 防御（伤害不模拟）");
+        details.push("伤害无视 " + (level2 ? 24 : 10) + "% 防御（伤害不模拟）");
         this.event("note", u, "欢愉万相★书中折花", details);
       }
       // E6：首次终结技固定 +120，之后每再施放 4 次终结技触发 1 次。
       if (u.eidolon >= 6 && (u.ultCount - 1) % 4 === 0) {
         this.event("note", u, "E6 少女，见浮生入梦", ["固定能量 +120"]);
-        this.gainEnergy(u, 120.0, true);
+        this.gainEnergy(u, 120.0, true, false, "E6");
       }
+      this.onAttack(u, "ultimate");
     }
 
     ult1503(u) {
@@ -1847,7 +1929,7 @@
       }
       this.event("note", u, "星期日终结技", details);
       if (target !== null) {
-        this.gainEnergy(target, gain, true);
+        this.gainEnergy(target, gain, true, false, "星期日终结技");
         if (u.equip.hasSundayLc) {
           this.gainEnergy(u, SUNDAY_LC_ENERGY, false);
         }
@@ -1882,6 +1964,7 @@
         return;
       }
       this.depth += 1;
+      this.extraDepth += 1;
       try {
         unit.extraCount += 1;
         const details = ["不重置行动条距离、不递减常规 Buff 回合数"];
@@ -1926,7 +2009,11 @@
           ], { extra: true });
         }
       } finally {
+        this.extraDepth -= 1;
         this.depth -= 1;
+      }
+      for (const ally of this.units) {
+        this.maybeUlt(ally);
       }
     }
 
@@ -1939,6 +2026,9 @@
         return;
       }
       this.depth += 1;
+      if (extra) {
+        this.extraDepth += 1;
+      }
       try {
         const a = this.aha;
         a.in_turn = true;
@@ -1996,23 +2086,36 @@
         const hasE2 = spark !== null && spark.eidolon >= 2;
         if (!extra) {
           a.rem_dist = Math.max(0.0, DIST_BASE - (DIST_BASE * a.pending) / 100.0);
-          a.pending = 0.0;
+        } else {
+          a.rem_dist = Math.max(0.0, a.rem_dist - (DIST_BASE * a.pending) / 100.0);
         }
+        a.pending = 0.0;
         a.in_turn = false;
         if (hasE2) {
           this.doExtraTurn(spark, "火花 E2·【阿哈时刻】结束额外回合");
         }
       } finally {
+        if (extra) {
+          this.extraDepth -= 1;
+        }
         this.depth -= 1;
+      }
+      if (extra) {
+        for (const ally of this.units) {
+          this.maybeUlt(ally);
+        }
       }
     }
 
     // ----------------------------- 战斗开始 ----------------------------- //
 
     battleStart() {
+      this.opening = true;
       this.event("battle", null, "进入战斗",
         ["模拟窗口 [0, " + fmt(this.cfg.max_av, 0) + "] AV"],
         { kind: "system", name: "战斗" });
+      this.notes.push("不模拟敌方行动、受击/击杀回能；欢愉技按参演编号排序（阿哈最后），绯英按编号判断转移。");
+      this.aha.rem_dist = Math.max(0.0, DIST_BASE - (DIST_BASE * this.cfg.aha_advance_pct) / 100.0);
       let ahaExtraFromTech = false;
       if (this.cfg.use_tech) {
         for (let i = 0; i < this.units.length; i += 1) {
@@ -2034,6 +2137,9 @@
           } else if (unit.uid === "1502") {
             this.event("tech", unit, "爻光秘技：自动施放战技", ["结界 3 回合（不吃战技点）"]);
             this.doSkill(unit, false);
+          } else if (unit.uid === "1505") {
+            this.event("tech", unit, "绯英秘技", ["自身好活当赏 +20"]);
+            this.grantHaohuo([unit], 20.0, "绯英秘技");
           } else if (unit.uid === "1309") {
             this.event("tech", unit, "知更鸟秘技：酣醉序曲",
               ["每波次开始 +5 能量（本工具=战斗开始一次）"]);
@@ -2059,7 +2165,7 @@
         }
         if (unit.equip.hasYaoLc) {
           this.event("note", unit, "当她决定看见", ["每波次开始：固定能量 +15"]);
-          this.gainEnergy(unit, YAO_LC_WAVE_ENERGY, true);
+          this.gainEnergy(unit, YAO_LC_WAVE_ENERGY, true, false, "专武");
         }
       }
 
@@ -2109,7 +2215,10 @@
         }
       }
 
-      this.aha.rem_dist = Math.max(0.0, DIST_BASE - (DIST_BASE * this.cfg.aha_advance_pct) / 100.0);
+      this.opening = false;
+      for (const unit of this.units) {
+        this.maybeUlt(unit);
+      }
     }
 
     // ----------------------------- 主循环 ----------------------------- //
@@ -2251,14 +2360,26 @@
       }
       // 好活当赏递减
       kept = [];
+      const expired = [];
       for (let i = 0; i < unit.haohuo.length; i += 1) {
         const item = unit.haohuo[i];
         item.turns = item.turns - 1;
         if (item.turns > 0) {
           kept.push(item);
+        } else {
+          expired.push(item);
         }
       }
       unit.haohuo = kept;
+      const fei = this.byUid("1505");
+      if (fei !== null && fei !== unit) {
+        for (const item of expired) {
+            const copied = Number(item.count) * (fei.eidolon >= 2 ? 1.0 : 0.5);
+            this.event("note", fei, "开不败·好活当赏转移",
+              [unit.name + " 状态结束 → 好活当赏 +" + fmt(copied)]);
+            this.grantHaohuo([fei], copied, "开不败");
+        }
+      }
       // 1502 结界递减
       if (unit.uid === "1502" && unit.field > 0) {
         unit.field -= 1;
@@ -2373,6 +2494,7 @@
           eidolon: unit.eidolon,
           maxSp: unit.maxSp,
           initAdv: unit.initAdv,
+          initialEnergy: unit.initialEnergy,
           targetSlot: unit.targetSlot,
           rotation: unit.rotation,
           equipment: Object.assign({}, unit.equip),

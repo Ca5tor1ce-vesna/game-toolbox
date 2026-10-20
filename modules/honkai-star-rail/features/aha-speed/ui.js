@@ -116,7 +116,7 @@ const TEAM_PRESETS = {
   feiying_aha: {
     label: "绯英 / 阿哈 / 真珠 / 爻光",
     short: "绯英 / 阿哈 / 真珠 / 爻光",
-    desc: "真珠【美学底本】与星神★阿哈【欢愉令使】均锁定 1 号位绯英；真珠开大拉条绯英 30% 并赋予 1 个额外回合；绯英累计 240 能量触发【狐狸老师】追击，满 480 能量开大时触发真珠【艺术壁垒】固定回能 90 点。",
+    desc: "本预设将绯英开局能量设为 480（试算配置，并非角色固有满能机制），先结算秘技与阿哈额外回合，再在 0 AV 连开两次终结技；之后每次达到 240 即在合法时点开大，每次消耗 240 并保留余能。真珠【美学底本】与星神★阿哈【欢愉令使】均锁定绯英。转移按参演编号判断，与站位无关；只累计实际获得的能量，满能截掉的部分不触发狐狸老师。点击「绯英能量」可核对逐次回能，不模拟敌方行动与受击回能。",
     config: {
       maxAV: 300,
       useAeonAha: true,
@@ -133,7 +133,7 @@ const TEAM_PRESETS = {
     },
     team: [
       {
-        id: "1505", name: "绯英", elation: true, baseSpd: 104, lcBaseSpd: 0, traceSpd: 5,
+        id: "1505", name: "绯英", initialEnergy: 480, elation: true, baseSpd: 104, lcBaseSpd: 0, traceSpd: 5,
         permPct: 6, permFlat: 25, err: 0, eidolon: 0, initAdv: 0, targetSlot: 0, rotation: "skill",
         equipment: { vonwacq: false, godJoy: false, windSet4: false, danceS5: false, hasSigLc: false, hasSummerLc: false },
       },
@@ -237,7 +237,7 @@ const RELIC_OPTIONS = [
 ];
 
 function errApplies(uid) {
-  return uid !== "1511" && uid !== "1505" && uid !== "1506";
+  return uid !== "1511" && uid !== "1506";
 }
 
 function errText(unit) {
@@ -296,6 +296,7 @@ export default {
       simResult: null,
       thresholdResult: null,
     };
+    let simulationRequest = 0;
 
     function renderShell() {
       root.innerHTML = `
@@ -373,6 +374,7 @@ export default {
         ["core", "关键事件"],
         ["all", "显示全部行动"],
         ["ultimate", "终结技"],
+        ["feiying", "绯英能量"],
         ["aha", "阿哈时刻"],
         ["extra", "额外回合"],
         ["elation", "欢愉技"],
@@ -421,6 +423,7 @@ export default {
                   <input type="checkbox" id="cfg-trace3Advance" ${state.config.trace3Advance ? "checked" : ""}>
                 </label>
               </div>
+              <p class="aha-advanced-note" id="aha-model-scope">能开即开（开局秘技及额外回合先结算，期间不能插大）；标准能量默认半能开局。升格仅在星神★阿哈开大后的【欢愉万相】状态期间生效，阿哈时刻不触发升格。绯英能量上限 480，每次终结技消耗 240 并保留剩余能量，合法时点立即开大，不等待满能或蓄满溢出。按 nanoka 4.6.53 的参演编号处理欢愉技与绯英转移，不按站位。暂不模拟敌方行动、受击/击杀回能，真实战斗时序仍需实测校准。</p>
 
               <details class="aha-advanced">
                 <summary>高级参数</summary>
@@ -708,7 +711,7 @@ export default {
               </div>
 
               <details class="aha-advanced">
-                <summary>高级（星魂 / 出招 / 目标 / 速度明细）</summary>
+                <summary>高级（星魂 / 出招 / 开局能量 / 目标 / 速度明细）</summary>
                 <div class="aha-form-grid">
                   <div class="aha-field">
                     <label>基础白值</label>
@@ -733,6 +736,10 @@ export default {
                   <div class="aha-field">
                     <label>开局拉条(%)</label>
                     <input type="number" class="aha-input unit-num" data-slot="${idx}" data-key="initAdv" value="${unit.initAdv || 0}" step="5">
+                  </div>
+                  <div class="aha-field">
+                    <label>开局${unit.id === "1511" ? "愿力" : unit.id === "1506" ? "隐藏分" : "能量"}（留空用默认值）</label>
+                    <input type="number" class="aha-input unit-num" data-slot="${idx}" data-key="initialEnergy" value="${unit.initialEnergy ?? ""}" min="0" step="1">
                   </div>
                   ${
                     showErr
@@ -846,7 +853,7 @@ export default {
         inp.addEventListener("input", () => {
           const slot = Number(inp.dataset.slot);
           const key = inp.dataset.key;
-          const value = parseFloat(inp.value) || 0;
+          const value = key === "initialEnergy" ? inp.value : parseFloat(inp.value) || 0;
           state.team[slot][key] = value;
           if (state.team[slot].id === "1511") {
             if (key === "baseSpd") state.config.aeonAhaBaseSpd = value;
@@ -887,12 +894,14 @@ export default {
     }
 
     async function runSimulation() {
+      const request = ++simulationRequest;
       const payload = {
         ...state.config,
-        team: state.team,
+        team: structuredClone(state.team),
       };
       try {
         const res = await callAction("simulate", payload);
+        if (request !== simulationRequest) return;
         state.simResult = res;
         const container = root.querySelector("#aha-body-container");
         if (!container) return;
@@ -900,10 +909,17 @@ export default {
         renderUnitMetrics(container, res);
         renderTimeline(container, res);
       } catch (err) {
+        if (request !== simulationRequest) return;
+        state.simResult = null;
         const box = root.querySelector("#aha-summary-box");
         if (box) {
           box.innerHTML = `<div style="color:#f87171;font-size:12px;">模拟报错：${esc(err.message)}</div>`;
         }
+        const timeline = root.querySelector("#aha-timeline-list");
+        if (timeline) timeline.textContent = "模拟失败，请修正参数后重试；不显示上一次结果。";
+        const subtitle = root.querySelector("#aha-timeline-sub");
+        if (subtitle) subtitle.textContent = "";
+        root.querySelectorAll(".aha-unit-metrics").forEach((el) => { el.textContent = ""; });
       }
     }
 
@@ -953,6 +969,7 @@ export default {
       const extraTurns = units.reduce((sum, u) => sum + (Number(u.extraTurnCount) || 0), 0);
 
       box.innerHTML = `
+        ${(res.warnings || []).map((warning) => `<p class="aha-advanced-note" role="alert">${esc(warning)}</p>`).join("")}
         <div class="aha-result-main">
           <div class="aha-result-stat is-primary">
             <span class="k">阿哈有效速度（开局）</span>
@@ -1036,6 +1053,9 @@ export default {
           return ev.extra || ev.type === "extra_turn" || ev.type === "aha_extra";
         }
         if (state.filterType === "ultimate") return ev.type === "ultimate";
+        if (state.filterType === "feiying") {
+          return ev.slot != null && state.team[ev.slot]?.id === "1505";
+        }
         if (state.filterType === "elation") return ev.type === "elation_skill";
         if (state.filterType === "pearl") {
           return /真珠|美学底本|艺术壁垒|鉴映灵魂的底色/.test(textOf(ev));
@@ -1086,6 +1106,8 @@ export default {
             ? "阿哈额外回合"
             : ev.type === "ultimate"
             ? "终结技"
+            : ev.type === "energy_gain"
+            ? "回能"
             : ev.type === "extra_turn"
             ? "额外回合"
             : ev.type === "elation_skill"
