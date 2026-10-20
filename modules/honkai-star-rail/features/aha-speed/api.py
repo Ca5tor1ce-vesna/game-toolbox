@@ -1266,16 +1266,49 @@ class Sim:
         self.event("note", a, "戏中人的异想国", [f"{label} → 愿力 +1"])
         self.gain_wishpower(a, 1.0, "戏中人的异想国")
 
-    def check_barrier(self, unit: Unit) -> None:
-        """【艺术壁垒】：【美学底本】（欢愉）开大时真珠 +90 固定能量。"""
+    def arm_barrier(self, reason: str = "") -> None:
+        """武装【艺术壁垒】（行迹 1503103）。
+
+        原文：「**进入战斗和施放终结技后**，若【美学底本】为「欢愉」命途角色，
+        使其下一次施放终结技时，为真珠固定恢复 90 点能量。**该效果无法叠加**。」
+        所以是常驻被动，**不依赖秘技**；已武装时再武装没有任何效果。
+        """
         pearl = self.by_uid("1503")
-        if pearl is None or not pearl.barrier or pearl is unit:
+        if pearl is None or pearl.barrier:
+            return
+        target = self.unit_at(self.aeste_slot)
+        if target is None or target is pearl or not target.elation:
+            return
+        pearl.barrier = True
+        details = [f"【美学底本】{target.name} 下一次开大时为真珠 +90 固定能量"]
+        if reason:
+            details.append(reason)
+        self.event("note", pearl, "艺术壁垒武装", details)
+
+    def fire_barrier(self, pearl: Unit, reason: str = "") -> None:
+        """结算一层【艺术壁垒】：真珠**立刻** +90 固定能量（不吃 ERR），层数消耗掉。"""
+        if pearl is None or not pearl.barrier:
+            return
+        pearl.barrier = False
+        cap = float(pearl.max_sp)
+        room = max(0.0, cap - pearl.energy)
+        details = ["真珠 +90 固定能量（不吃 ERR）"]
+        if reason:
+            details.append(reason)
+        if room < 90.0 - EPS:
+            details.append(f"真珠当前 {fmt(pearl.energy, 0)}/{fmt(cap, 0)}，"
+                           f"溢出 {fmt(90.0 - room, 0)} 点未计入（上限封顶）")
+        self.event("note", pearl, "艺术壁垒触发", details)
+        self.gain_energy(pearl, 90.0, fixed=True, reason="艺术壁垒")
+
+    def check_barrier(self, unit: Unit) -> None:
+        """【艺术壁垒】：【美学底本】（欢愉）开大时，消耗一层给真珠 +90。"""
+        pearl = self.by_uid("1503")
+        if pearl is None or pearl is unit:
             return
         if unit.slot != self.aeste_slot or not unit.elation:
             return
-        pearl.barrier = False
-        self.event("note", pearl, "艺术壁垒触发", ["真珠 +90 固定能量（不吃 ERR）"])
-        self.gain_energy(pearl, 90.0, fixed=True, reason="艺术壁垒")
+        self.fire_barrier(pearl)
 
     # ----------------------------- 热意阈值 ----------------------------- #
 
@@ -1968,6 +2001,10 @@ class Sim:
         self.aha["rem_dist"] = max(
             0.0, DIST_BASE - DIST_BASE * self.cfg["aha_advance_pct"] / 100.0
         )
+        # 【艺术壁垒】进入战斗就武装（行迹 1503103）。放在秘技结算之前，
+        # 因为「绯英 + 真珠」的联动要在额外阿哈时刻把它消耗掉。
+        self.arm_barrier("进入战斗")
+
         aha_extra_from_tech = False
         if self.cfg["use_tech"]:
             for unit in self.units:
@@ -1977,9 +2014,10 @@ class Sim:
                     aha_extra_from_tech = True
                 elif unit.uid == "1503":
                     unit.depth = 2
-                    unit.barrier = True
+                    # 【艺术壁垒】不在这里武装：行迹写的是「进入战斗和施放终结技后」，
+                    # 秘技文案里没有它。进战那层见上面的 arm_barrier("进入战斗")。
                     self.event("tech", unit, "真珠秘技",
-                               ["【深度学习】2 层", "全队好活当赏 +20", "【艺术壁垒】武装"])
+                               ["【深度学习】2 层", "全队好活当赏 +20"])
                     self.grant_haohuo(list(self.units), 20.0, "真珠秘技")
                 elif unit.uid == "1513":
                     self.event("tech", unit, "砂金•戏浪秘技", ["热意 +2", "全队好活当赏 +20"])
@@ -1999,6 +2037,12 @@ class Sim:
             # 秘技给的额外回合等全部秘技结算完再走（口径更接近进战顺序）
             if aha_extra_from_tech:
                 self.do_aha(is_extra=True, fixed=20.0)
+                # 绯英 + 真珠同队：这次「额外回合的【阿哈时刻】」会把**进战那一层**
+                # 【艺术壁垒】消耗掉（真珠当场 +90），此后按「真珠开大挂层 / 美学底本开大消耗」循环。
+                if self.by_uid("1505") is not None and self.by_uid("1503") is not None:
+                    self.fire_barrier(
+                        self.by_uid("1503"),
+                        "绯英同队：阿哈秘技的【阿哈时刻】额外回合之后消耗掉进战那一层")
 
         # 战斗开始触发的行迹/专武回能（与秘技无关）
         for unit in self.units:

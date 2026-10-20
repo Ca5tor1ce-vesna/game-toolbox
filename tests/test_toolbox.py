@@ -4198,7 +4198,9 @@ class TestAhaSpeedSimulation(unittest.TestCase):
                             for ev in self._labels(res, "自身动作回能")))
         self.assertEqual(["星神★阿哈愿力 +1"],
                          self._labels(res, "【「欢愉」令使】回合开始")[0]["details"])
-        self.assertFalse(any("笑点首达 40" in n for n in res["notes"]))
+        # 【艺术壁垒】改成「进入战斗就武装」后，真珠会更早吃到 +90 并开大，
+        # 她的终结技带来的好活当赏/笑点让笑点池冲过 40，所以这里会真的触发。
+        self.assertTrue(any("笑点首达 40" in n for n in res["notes"]))
         self.assertEqual(["真珠战技群疗 → 愿力 +1"],
                          self._labels(res, "戏中人的异想国")[0]["details"])
         aha_unit = next(u for u in res["units"] if u["id"] == "1511")
@@ -4614,10 +4616,12 @@ class TestAhaSpeedSimulation(unittest.TestCase):
             "team": wolf_team,
         })
         wolf = next(u for u in res["units"] if u["id"] == "1506")
-        self.assertAlmostEqual(wolf["finalEnergy"], 3.0)
+        # 壁垒进战就武装 → 真珠在 AV 0 就开大，她的终结技给全队好活当赏 20（旧路径是 15），
+        # 银狼按升格规则拿 20% = 4。
+        self.assertAlmostEqual(wolf["finalEnergy"], 4.0)
         self.assertAlmostEqual(wolf["mechanics"]["hiddenOverflow"], 0.0)
         self.assertEqual(0, wolf["ultCount"])
-        self.assertTrue(any("好活当赏 15 的 20% → 隐藏分 +3.00" in d
+        self.assertTrue(any("好活当赏 20 的 20% → 隐藏分 +4.00" in d
                             for ev in res["timeline"] for d in ev["details"]))
         plain = self._sim({
             "maxAV": 5, "useTech": False, "useAeonAha": False,

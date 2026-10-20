@@ -284,7 +284,8 @@ export default {
 
     const state = {
       presetKey: "aha_quad",
-      filterType: "actions", // 默认行动序列；可切换关键事件或全部记账事件
+      filterType: "turn", // 默认「行动值」视图：只看跑条到位的角色行动与【阿哈时刻】
+      cycleMode: "150", // 轮次边界口径：150 = 150/250/350；300 = 300/400/500
       toolsTab: "threshold", // threshold | original
       threshold: {
         targetAV: 150,
@@ -308,12 +309,13 @@ export default {
     if (draft && Array.isArray(draft.team) && draft.team.length >= 1 && draft.team.length <= 4 && draft.team.every(u => u && rosterById[u.id])) {
       state.team = draft.team;
       for (const key of ["config", "threshold"]) if (draft[key] && typeof draft[key] === "object") Object.assign(state[key], draft[key]);
-      if (["actions", "core", "all", "ultimate", "feiying", "aha", "extra", "elation", "pearl", "aeon", "aventurine"].includes(draft.filterType)) state.filterType = draft.filterType;
+      if (["turn", "actions", "core", "all", "ultimate", "feiying", "aha", "extra", "elation", "pearl", "aeon", "aventurine"].includes(draft.filterType)) state.filterType = draft.filterType;
+      if (["150", "300"].includes(draft.cycleMode)) state.cycleMode = draft.cycleMode;
       if (["threshold", "original"].includes(draft.toolsTab)) state.toolsTab = draft.toolsTab;
       state.presetKey = draft.presetKey || "";
       selectedTeam = draft.selectedTeam || ""; teamName = draft.teamName || "";
     }
-    this.getState = () => ({ team: state.team, config: state.config, threshold: state.threshold, presetKey: state.presetKey, filterType: state.filterType, toolsTab: state.toolsTab, selectedTeam, teamName });
+    this.getState = () => ({ team: state.team, config: state.config, threshold: state.threshold, presetKey: state.presetKey, filterType: state.filterType, cycleMode: state.cycleMode, toolsTab: state.toolsTab, selectedTeam, teamName });
     try { library = await callAction("library"); }
     catch (err) { libraryError = `存档读取失败：${err.message}`; }
     const characters = () => new Map((library.characters || []).map(c => [String(c.id), c]));
@@ -511,6 +513,7 @@ export default {
       const presetDesc = TEAM_PRESETS[state.presetKey]?.desc || "";
       const hasAven = state.team.some((u) => u.id === "1513");
       const filters = [
+        ["turn", "行动值"],
         ["actions", "行动顺序"],
         ["core", "关键事件"],
         ["all", "显示全部行动"],
@@ -618,6 +621,11 @@ export default {
                   <small id="aha-timeline-sub" style="color:var(--muted,#94a3b8);font-size:11.5px;"></small>
                 </div>
                 <div class="aha-filter-bar">${filterButtons}</div>
+              </div>
+              <div class="aha-cycle-bar" id="aha-cycle-bar">
+                <span class="aha-cycle-label">轮次边界</span>
+                <button type="button" class="aha-cycle-btn ${state.cycleMode === "150" ? "is-active" : ""}" data-cycle="150" title="混沌回忆：首轮 150 AV，之后每轮 +100（150 / 250 / 350 …）">混沌回忆</button>
+                <button type="button" class="aha-cycle-btn ${state.cycleMode === "300" ? "is-active" : ""}" data-cycle="300" title="异相仲裁王棋：首轮 300 AV，之后每轮 +100（300 / 400 / 500 …）">异相仲裁王棋</button>
               </div>
               <div class="aha-timeline-list" id="aha-timeline-list"></div>
             </div>
@@ -747,6 +755,17 @@ export default {
           state.filterType = btn.dataset.filter;
           container.querySelectorAll(".aha-filter-btn").forEach((b) =>
             b.classList.toggle("is-active", b.dataset.filter === state.filterType)
+          );
+          if (state.simResult) renderTimeline(container, state.simResult);
+        });
+      });
+
+      // 绑定轮次边界切换
+      container.querySelectorAll(".aha-cycle-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          state.cycleMode = btn.dataset.cycle;
+          container.querySelectorAll(".aha-cycle-btn").forEach((b) =>
+            b.classList.toggle("is-active", b.dataset.cycle === state.cycleMode)
           );
           if (state.simResult) renderTimeline(container, state.simResult);
         });
@@ -1246,6 +1265,13 @@ export default {
 
       const filtered = allEvents.filter((ev) => {
         if (state.filterType === "all") return true;
+        // 行动值：只保留「跑条到位」的事件 ——
+        //   角色自己跑满行动条的那一次行动（普攻 / 战技 / 强化普攻）
+        //   + 阿哈跑满行动条触发的【阿哈时刻】
+        // 终结技不占行动条、额外回合不是跑条来的、秘技/欢愉技/追加攻击/回能也都不算。
+        if (state.filterType === "turn") {
+          return ["basic", "enhanced_basic", "skill", "aha"].includes(ev.type);
+        }
         if (state.filterType === "actions") return ["tech", "basic", "enhanced_basic", "skill", "ultimate", "aha", "aha_extra", "extra_turn", "elation_skill", "fua"].includes(ev.type);
         if (state.filterType === "core") {
           return ["ultimate", "aha", "aha_extra", "extra_turn"].includes(ev.type);
@@ -1279,18 +1305,40 @@ export default {
 
       let html = "";
       let lastCycle = -1;
-      const eventIndices = new Map(allEvents.map((ev, index) => [ev, index + 1]));
-      filtered.forEach((ev) => {
-        const cycle = ev.t ?? 0;
-        if (cycle !== lastCycle) {
-          lastCycle = cycle;
-          const limitAV = cycle === 0 ? 150 : 150 + cycle * 100;
-          html += `
+      // 一条轮次横幅；超出模拟窗口的轮次会额外标注
+      const cycleBanner = (cycle, note = "") => {
+        const limitAV = cycleLimit(cycle);
+        const tags = [];
+        if (cycle === lastCycleIndex) tags.push("（终轮）");
+        if (note) tags.push(note);
+        return `
             <div class="aha-cycle-banner">
               <span>── 第 ${cycle} 轮 (${cycle}T) ──</span>
-              <span>轮次边界：${limitAV} AV</span>
+              <span>轮次边界：${limitAV} AV${tags.length ? " " + tags.join(" ") : ""}</span>
             </div>
           `;
+      };
+      // 轮次边界口径（两种玩法各自封顶）：
+      //   异相仲裁王棋：首轮 300 AV，之后每轮 +100 —— 300(0T) / 400(1T) / 500(2T)，到 500 为止
+      //   混沌回忆    ：首轮 150 AV，之后每轮 +100 —— 150(0T) / 250(1T) / 350(2T) / 450(3T) / 550(4T)，到 550 为止
+      const isJuryMode = state.cycleMode === "300";
+      const firstCycleAV = isJuryMode ? 300 : 150;
+      const lastCycleIndex = isJuryMode ? 2 : 4;
+      const cycleOf = (av) => {
+        const a = Number(av) || 0;
+        const raw =
+          a <= firstCycleAV + 1e-9
+            ? 0
+            : Math.ceil((a - firstCycleAV) / 100 - 1e-9);
+        return Math.min(raw, lastCycleIndex);
+      };
+      const cycleLimit = (c) => (c === 0 ? firstCycleAV : firstCycleAV + c * 100);
+      const eventIndices = new Map(allEvents.map((ev, index) => [ev, index + 1]));
+      filtered.forEach((ev) => {
+        const cycle = cycleOf(ev.av);
+        if (cycle !== lastCycle) {
+          lastCycle = cycle;
+          html += cycleBanner(cycle);
         }
 
         const rowClass =
@@ -1355,6 +1403,21 @@ export default {
           </details>
         `;
       });
+
+      // 窗口内事件不够时，把该玩法剩下的轮次边界也画出来（不然会以为只有前几轮）
+      for (let c = lastCycle + 1; c <= lastCycleIndex; c += 1) {
+        const beyond = cycleLimit(c) > Number(res.maxAV) + 1e-9;
+        html += cycleBanner(c, beyond ? "（超出模拟上限）" : "（本轮无事件）");
+      }
+
+      // 末尾「到底」提示：说明这是模拟窗口的尽头，而不是列表被截断
+      const hiddenCount = allEvents.length - filtered.length;
+      html += `
+        <div class="aha-timeline-end">
+          <span>── 模拟上限 ${fmtNum(res.maxAV, 0)} AV ──</span>
+          <span>共 ${allEvents.length} 条事件，当前筛选显示 ${filtered.length} 条${hiddenCount > 0 ? `（另有 ${hiddenCount} 条属其他类型，可切换上面的筛选查看）` : ""}</span>
+        </div>
+      `;
 
       listEl.innerHTML = html || `<div style="color:#64748b;padding:12px;">当前筛选条件下无事件。</div>`;
     }

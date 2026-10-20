@@ -1274,18 +1274,43 @@
       this.gainWishpower(a, 1.0);
     }
 
-    /** 【艺术壁垒】：【美学底本】（欢愉）开大时真珠 +90 固定能量。 */
+    /**
+     * 武装【艺术壁垒】（行迹 1503103）：进入战斗和施放终结技后，若【美学底本】为
+     * 「欢愉」命途角色，其下次开大为真珠固定 +90 能量。**无法叠加** -> 不依赖秘技。
+     */
+    armBarrier(reason) {
+      const pearl = this.byUid("1503");
+      if (pearl === null || pearl.barrier) return;
+      const target = this.unitAt(this.aesteSlot);
+      if (target === null || target === pearl || !target.elation) return;
+      pearl.barrier = true;
+      const details = ["【美学底本】" + target.name + " 下一次开大时为真珠 +90 固定能量"];
+      if (reason) details.push(reason);
+      this.event("note", pearl, "艺术壁垒武装", details);
+    }
+
+    /** 结算一层【艺术壁垒】：真珠立刻 +90 固定能量（不吃 ERR），层数消耗掉。 */
+    fireBarrier(pearl, reason) {
+      if (pearl === null || !pearl.barrier) return;
+      pearl.barrier = false;
+      const cap = Number(pearl.maxSp);
+      const room = Math.max(0.0, cap - pearl.energy);
+      const details = ["真珠 +90 固定能量（不吃 ERR）"];
+      if (reason) details.push(reason);
+      if (room < 90.0 - EPS) {
+        details.push("真珠当前 " + fmt(pearl.energy, 0) + "/" + fmt(cap, 0)
+          + "，溢出 " + fmt(90.0 - room, 0) + " 点未计入（上限封顶）");
+      }
+      this.event("note", pearl, "艺术壁垒触发", details);
+      this.gainEnergy(pearl, 90.0, true);
+    }
+
+    /** 【艺术壁垒】：【美学底本】（欢愉）开大时，消耗一层给真珠 +90。 */
     checkBarrier(unit) {
       const pearl = this.byUid("1503");
-      if (pearl === null || !pearl.barrier || pearl === unit) {
-        return;
-      }
-      if (unit.slot !== this.aesteSlot || !unit.elation) {
-        return;
-      }
-      pearl.barrier = false;
-      this.event("note", pearl, "艺术壁垒触发", ["真珠 +90 固定能量（不吃 ERR）"]);
-      this.gainEnergy(pearl, 90.0, true);
+      if (pearl === null || pearl === unit) return;
+      if (unit.slot !== this.aesteSlot || !unit.elation) return;
+      this.fireBarrier(pearl, "");
     }
 
     // ----------------------------- 热意阈值 ----------------------------- //
@@ -2116,6 +2141,9 @@
         { kind: "system", name: "战斗" });
       this.notes.push("不模拟敌方行动、受击/击杀回能；欢愉技按参演编号排序（阿哈最后），绯英按编号判断转移。");
       this.aha.rem_dist = Math.max(0.0, DIST_BASE - (DIST_BASE * this.cfg.aha_advance_pct) / 100.0);
+      // 【艺术壁垒】进入战斗就武装（行迹 1503103），放在秘技之前以便被绯英联动消耗
+      this.armBarrier("进入战斗");
+
       let ahaExtraFromTech = false;
       if (this.cfg.use_tech) {
         for (let i = 0; i < this.units.length; i += 1) {
@@ -2126,9 +2154,9 @@
             ahaExtraFromTech = true;
           } else if (unit.uid === "1503") {
             unit.depth = 2;
-            unit.barrier = true;
+            // 【艺术壁垒】不在这里武装（行迹写的是「进入战斗和施放终结技后」），见 armBarrier
             this.event("tech", unit, "真珠秘技",
-              ["【深度学习】2 层", "全队好活当赏 +20", "【艺术壁垒】武装"]);
+              ["【深度学习】2 层", "全队好活当赏 +20"]);
             this.grantHaohuo(this.units.slice(), 20.0, "真珠秘技");
           } else if (unit.uid === "1513") {
             this.event("tech", unit, "砂金•戏浪秘技", ["热意 +2", "全队好活当赏 +20"]);
@@ -2149,6 +2177,11 @@
         // 秘技给的额外回合等全部秘技结算完再走（口径更接近进战顺序）
         if (ahaExtraFromTech) {
           this.doAha(true, 20.0);
+          // 绯英 + 真珠同队：消耗进战那一层（真珠当场 +90），不是再挂一层
+          if (this.byUid("1505") !== null && this.byUid("1503") !== null) {
+            this.fireBarrier(this.byUid("1503"),
+              "绯英同队：阿哈秘技的【阿哈时刻】额外回合之后消耗掉进战那一层");
+          }
         }
       }
 
