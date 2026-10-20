@@ -216,3 +216,7 @@ table.sp-req th, table.sp-req td { padding: 6px 8px; }
 /* 右栏四个页签等分一行，任何宽度都不换行 */
 .sp-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; }
 .sp-tabs .tab { padding: 8px 2px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.sp-sim-save { margin: 10px 0; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 12px; }
+.sp-sim-save summary { cursor: pointer; color: var(--muted); }
+.sp-sim-save .row { margin-top: 10px; }

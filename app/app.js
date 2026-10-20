@@ -12,6 +12,9 @@ const state = {
 };
 
 const $ = (sel, el = document) => el.querySelector(sel);
+let persistenceReady = false;
+const shellState = () => persistenceReady ? window.GT_LOCAL_STATE.scope("shell") : null;
+function saveShell() { shellState()?.save({ current: state.current, filter: state.filter, collapsed: [...navCollapsed] }); }
 
 /* ---------------- 基础请求 ---------------- */
 
@@ -284,6 +287,7 @@ function renderNav() {
       btn.setAttribute("aria-expanded", nowCollapsed ? "false" : "true");
       if (nowCollapsed) navCollapsed.add(id);
       else navCollapsed.delete(id);
+      saveShell();
       try {
         localStorage.setItem(NAV_COLLAPSE_KEY, JSON.stringify([...navCollapsed]));
       } catch {
@@ -331,6 +335,7 @@ function makeCtx(module, feature) {
     featureId: feature.id,
     module,
     feature,
+    persistence: persistenceReady ? window.GT_LOCAL_STATE.scope(`${module.id}/${feature.id}`) : null,
     call: (action, payload) => callApi(module.id, feature.id, action, payload),
     data: async (name) =>
       (await getJSON(`/api/data/${encodeURIComponent(module.id)}/${encodeURIComponent(name)}`)).data,
@@ -360,6 +365,7 @@ async function openFeature(moduleId, featureId) {
 
   clearCurrent();
   state.current = { moduleId, featureId };
+  saveShell();
   setHash(moduleId, featureId);
   renderNav();
 
@@ -396,8 +402,10 @@ async function openFeature(moduleId, featureId) {
     const component = mod.default || {};
     view.innerHTML = "";
     if (typeof component.mount === "function") {
-      await component.mount(view, makeCtx(module, feature));
-      state.cleanup = component.unmount || null;
+      const ctx = makeCtx(module, feature);
+      const mountCleanup = await component.mount(view, ctx);
+      const stopSaving = ctx.persistence?.bind(view, component.getState ? () => component.getState() : undefined);
+      state.cleanup = () => { stopSaving?.(); if (typeof mountCleanup === "function") mountCleanup(); component.unmount?.(); };
     } else {
       view.innerHTML = `<div class="card error">ui.js 里没有 <code>export default { mount }</code>。</div>`;
     }
@@ -641,8 +649,21 @@ function startHeartbeat() {
 }
 
 async function boot() {
+  const saveStatus = document.createElement("div");
+  saveStatus.id = "local-save-status"; saveStatus.setAttribute("role", "status");
+  document.body.append(saveStatus);
+  window.addEventListener("gt-save-status", event => {
+    saveStatus.textContent = event.detail.text; saveStatus.classList.toggle("is-error", event.detail.failed);
+  });
+  try { await window.GT_LOCAL_STATE.init(true); persistenceReady = true; }
+  catch { /* 状态读取错误已显示；不能用默认值覆盖原文件。 */ }
+  const savedShell = shellState()?.load() || {};
+  state.filter = typeof savedShell.filter === "string" ? savedShell.filter : "";
+  $("#search").value = state.filter;
+  if (Array.isArray(savedShell.collapsed)) { navCollapsed.clear(); savedShell.collapsed.forEach(id => navCollapsed.add(id)); }
   $("#search").addEventListener("input", (event) => {
     state.filter = event.target.value;
+    saveShell();
     renderNav();
   });
   $("#rescan").addEventListener("click", rescan);
@@ -670,7 +691,7 @@ async function boot() {
 
   try {
     await loadRegistry();
-    const deep = parseHash();
+    const deep = parseHash() || savedShell.current;
     if (deep) {
       const { module, feature } = findFeature(deep.moduleId, deep.featureId);
       if (module && feature) openFeature(deep.moduleId, deep.featureId);

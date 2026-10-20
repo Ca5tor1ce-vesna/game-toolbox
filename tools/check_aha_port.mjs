@@ -80,6 +80,44 @@ const CASES = [
   { action: "simulate", payload: E6_ADV100 },
   { action: "simulate", payload: SOLO },
   { action: "simulate", payload: CUSTOM },
+  { action: "simulate", payload: {
+    maxAV: 100, useTech: false, trace3Advance: false, e1Wishpower: 8,
+    aeonAhaBaseSpd: 100,
+    team: [{ id: "1511", eidolon: 1, baseSpd: 1, lcBaseSpd: 0, traceSpd: 0 }],
+  } },
+  { action: "simulate", payload: {
+    maxAV: 1, useTech: false, trace3Advance: false, e1Wishpower: 8,
+    team: [{ id: "1511", eidolon: 6 }],
+  } },
+  ...[0, 1, 2, 6].map((eidolon) => ({ action: "simulate", payload: {
+    maxAV: 300, useTech: true,
+    team: [
+      { id: "1503", targetSlot: 1 },
+      { id: "1505", eidolon, initialEnergy: 480 },
+      { id: "1511", targetSlot: 1 },
+      { id: "1502" },
+    ],
+  } })),
+  ...[0, 2].map((eidolon) => ({ action: "simulate", payload: {
+    maxAV: 300, useTech: true,
+    team: [
+      { id: "1505", initialEnergy: 480, eidolon: 2 },
+      { id: "1511", eidolon, initialEnergy: 8 },
+      { id: "1503", targetSlot: 0 },
+      { id: "1502" },
+    ],
+  } })),
+  ...[0, 240, 480].map((initialEnergy) => ({ action: "simulate", payload: {
+    maxAV: 1000, useTech: false, useAeonAha: false,
+    team: [{ id: "1505", initialEnergy, baseSpd: 100, traceSpd: 0 }],
+  } })),
+  { action: "simulate", expectError: true, payload: { team: [{ id: "1505", initialEnergy: -1 }] } },
+  { action: "simulate", expectError: true, payload: { team: [{ id: "1505", initialEnergy: 481 }] } },
+  { action: "simulate", expectError: true, payload: { team: [{ id: "1505", initialEnergy: "invalid" }] } },
+  { action: "simulate", payload: {
+    maxAV: 1, useTech: false,
+    team: [{ id: "1505", err: 2400, initialEnergy: 0, initAdv: 100 }],
+  } },
 ];
 
 /* ---------------- Python 侧 ---------------- */
@@ -217,8 +255,13 @@ CASES.forEach((entry, index) => {
     failures.push(`${label}: 成功状态不一致 Python=${py.ok} JS=${js.ok}`);
     return;
   }
+  if (entry.expectError && py.ok) {
+    failures.push(`${label}: 非法输入应报错，两端却都返回成功`);
+    return;
+  }
   if (!py.ok) {
-    if (py.error !== js.error) failures.push(`${label}: 报错文案不一致\n    Python: ${py.error}\n    JS:     ${js.error}`);
+    const message = (error) => error.replace(/^[A-Za-z]*Error: /, "");
+    if (message(py.error) !== message(js.error)) failures.push(`${label}: 报错文案不一致\n    Python: ${py.error}\n    JS:     ${js.error}`);
     return;
   }
   cmp(label, py.result, js.result);
@@ -229,4 +272,4 @@ if (failures.length) {
   for (const line of failures.slice(0, 30)) console.error("  " + line);
   process.exit(1);
 }
-console.log(`[OK] aha-speed 双内核一致：${checks} 项逐字段相同（${CASES.length} 条用例：catalog/3×threshold/5×simulate）`);
+console.log(`[OK] aha-speed 双内核一致：${checks} 项逐字段相同（${CASES.length} 条用例，含开局拉条、绯英星魂与非法输入）`);

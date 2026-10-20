@@ -51,6 +51,13 @@ export default {
       simulation: { firstUltAction: 1 },
       target: { t: 0, actions: 2, customAV: 0, mode: catalog.modes?.[0]?.id || "moc" },
     };
+    const draft = ctx.persistence?.load()?.data;
+    const restored = draft?.state;
+    if (restored && (restored.characterId === CUSTOM_ID || catalog.characters.some(c => String(c.id) === String(restored.characterId)))) {
+      for (const key of ["characterId", "lightconeId", "superimpose", "eidolon", "enabled"]) if (Object.hasOwn(restored, key)) state[key] = restored[key];
+      for (const key of ["custom", "relic", "advance", "simulation", "target"]) if (restored[key] && typeof restored[key] === "object") Object.assign(state[key], restored[key]);
+    }
+    this.getState = () => ({ state, aha: currentConfig().aha, tab: root.querySelector('.sp-tabs .tab.active')?.dataset.tab || "detail" });
 
     const charById = new Map(catalog.characters.map((item) => [String(item.id), item]));
     const isCustom = () => String(state.characterId) === CUSTOM_ID;
@@ -213,6 +220,16 @@ export default {
           <button type="button" id="delete-preset" class="ghost small" data-text="speed-plan.preset.delete">删除</button>
         </div>
         <p class="hint sp-preset-note" id="preset-note"></p>
+        <details class="sp-sim-save">
+          <summary>队伍模拟补充参数（随角色配装保存）</summary>
+          <div class="row">
+            <label class="field">额外充能效率 (%)<input id="preset-err" class="input narrow" type="number" min="0" step="0.1" value="0"></label>
+            <label class="field">开局资源（留空用默认）<input id="preset-energy" class="input narrow" type="number" min="0" step="any"></label>
+            <label class="field">出招<select id="preset-rotation" class="input"><option value="auto">智能出招</option><option value="skill">全程战技</option><option value="basic">全程普攻</option></select></label>
+          </div>
+          <p class="hint">充能填写遗器和光锥特效以外的加成；愿力、隐藏分角色不使用充能效率。开局资源单位为角色的能量、愿力或隐藏分。</p>
+        </details>
+        <a class="ghost small" id="open-team-simulator" href="#/honkai-star-rail/aha-speed">前往队伍与行动模拟 →</a>
 
         <div class="sp-hero" id="hero">
           <div class="sp-hero-nums">
@@ -284,6 +301,12 @@ export default {
     </div>`;
 
     const $ = (selector) => root.querySelector(selector);
+    if (window.GT_STANDALONE) {
+      $("#open-team-simulator").onclick = event => {
+        event.preventDefault();
+        document.querySelector('[data-view="view-aha"]')?.click();
+      };
+    }
 
     /* ---------------- 步骤卡片折叠 ---------------- */
 
@@ -414,6 +437,9 @@ export default {
 
     async function pickCharacter(id) {
       state.characterId = id;
+      $("#preset-err").value = 0;
+      $("#preset-energy").value = "";
+      $("#preset-rotation").value = "auto";
       state.enabled = null;
       renderCharGrid();
       await loadCones();
@@ -650,6 +676,8 @@ export default {
 
     let effectSignature = "";
     let runSeq = 0;
+    let disposed = false;
+    this.unmount = () => { disposed = true; runSeq++; if (timer) clearTimeout(timer); };
 
     function buildPlanPayload() {
       const payload = {
@@ -668,20 +696,22 @@ export default {
     }
 
     async function run() {
+      if (disposed) return;
       const seq = ++runSeq;
       let result;
       try {
         // 模式一定要带上，否则后端不知道用哪套行动值口径
         const modeSelect = $("#mode");
         if (modeSelect?.value) state.target.mode = modeSelect.value;
+        ctx.persistence?.capture();
         result = await ctx.call("plan", buildPlanPayload());
       } catch (err) {
-        if (seq !== runSeq) return;
+        if (disposed || seq !== runSeq) return;
         $("#hero-error").innerHTML = `<p class="error-text">${esc(err.message)}</p>`;
         $("#hero").classList.add("is-error");
         return;
       }
-      if (seq !== runSeq) return;
+      if (disposed || seq !== runSeq) return;
       $("#hero-error").innerHTML = "";
       $("#hero").classList.remove("is-error");
       lastResult = result;
@@ -701,6 +731,7 @@ export default {
       renderHero(result);
       renderTimeline(result);
       renderSummaries(result);
+      ctx.persistence?.restoreUI(root);
     }
 
     function renderDetail(result) {
@@ -1123,6 +1154,12 @@ export default {
 
     function currentConfig() {
       const config = {
+        simulation: state.simulation,
+        aha: {
+          err: Number($("#preset-err").value),
+          initialEnergy: $("#preset-energy").value,
+          rotation: $("#preset-rotation").value,
+        },
         lightconeId: state.lightconeId,
         superimpose: state.superimpose,
         eidolon: state.eidolon,
@@ -1162,6 +1199,9 @@ export default {
       const button = $("#save-preset");
       button.disabled = true;
       try {
+        if (!$("#preset-err").checkValidity() || !$("#preset-energy").checkValidity()) {
+          throw new Error("充能效率与开局资源需要填写非负数，开局资源也可以留空。");
+        }
         const result = await ctx.call("save_preset", { characterId: state.characterId, config: currentConfig() });
         await loadPresets();
         $("#preset-note").textContent = `已保存（共 ${result.count} 个角色的配装）。`;
@@ -1185,6 +1225,10 @@ export default {
       const saved = presets[String(state.characterId)];
       if (!saved?.config) return;
       const config = saved.config;
+      $("#preset-err").value = config.aha?.err ?? 0;
+      $("#preset-energy").value = config.aha?.initialEnergy ?? "";
+      $("#preset-rotation").value = config.aha?.rotation ?? "auto";
+      state.simulation = { ...state.simulation, ...(config.simulation || {}) };
       state.lightconeId = config.lightconeId || "";
       state.superimpose = config.superimpose ?? 1;
       state.eidolon = config.eidolon ?? 0;
@@ -1279,7 +1323,16 @@ export default {
 
     renderCharGrid();
     updateSplash();
+    const restoredCone = state.lightconeId;
     await loadCones();
+    if (restored && (restoredCone === "" || cones.some(c => String(c.id) === String(restoredCone)))) state.lightconeId = restoredCone;
+    syncControls();
+    if (draft?.aha) {
+      $("#preset-err").value = draft.aha.err ?? 0;
+      $("#preset-energy").value = draft.aha.initialEnergy ?? "";
+      $("#preset-rotation").value = draft.aha.rotation || "auto";
+    }
+    if (draft?.tab) root.querySelector(`.sp-tabs .tab[data-tab="${["detail", "timeline", "tables", "recommend"].includes(draft.tab) ? draft.tab : "detail"}"]`)?.click();
     await loadPresets();
     await run();
   },

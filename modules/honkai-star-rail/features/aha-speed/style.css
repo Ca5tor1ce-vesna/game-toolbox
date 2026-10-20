@@ -499,6 +499,50 @@
   background: rgba(56, 189, 248, 0.12);
 }
 
+/* 时间轴末尾「到底」提示 */
+.aha-timeline-end {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 7px 10px;
+  border-top: 1px dashed var(--border, #334155);
+  color: var(--muted, #94a3b8);
+  font-size: 11.5px;
+}
+
+/* 轮次边界切换（混沌回忆 ↔ 异相仲裁王棋） */
+.aha-cycle-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 10px;
+}
+
+.aha-cycle-label {
+  color: var(--muted, #94a3b8);
+  font-size: 11.5px;
+}
+
+.aha-cycle-btn {
+  border: 1px solid var(--border, #334155);
+  background: var(--panel-2, #0f172a);
+  color: var(--muted, #94a3b8);
+  padding: 3px 9px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+}
+
+.aha-cycle-btn.is-active {
+  border-color: #a78bfa;
+  color: #a78bfa;
+  background: rgba(167, 139, 250, 0.12);
+}
+
 .aha-count-strip {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
@@ -823,4 +867,101 @@
 .aha-tool-panel .aha-original-frame {
   height: calc(100vh - 260px);
   min-height: 480px;
+}
+
+/* 队伍工作台：左侧配置，右侧由引擎事件驱动的行动时间轴。 */
+.aha-main-grid { grid-template-columns: minmax(300px, 360px) minmax(0, 1fr); gap: 18px; }
+.aha-col-left { gap: 12px; }
+.aha-col-left .aha-card { padding: 14px; }
+.aha-col-left .aha-card-head { flex-wrap: wrap; }
+.aha-col-left .aha-preset-bar { padding: 12px; gap: 6px; }
+.aha-col-left .aha-preset-label { width: 100%; }
+.aha-col-left .aha-preset-btn { flex: 1 1 100%; text-align: left; font-weight: 500; }
+.aha-col-left .aha-preset-desc { width: auto; line-height: 1.7; }
+.aha-save-row, .aha-build-picker { display: flex; align-items: center; gap: 6px; margin: 8px 0; }
+.aha-save-row select, .aha-build-picker select { flex: 1; min-width: 0; }
+.aha-save-row button, .aha-build-picker button { flex-shrink: 0; }
+.aha-library-note, .aha-build-source { font-size: 11px; color: var(--muted, #94a3b8); line-height: 1.65; margin: 6px 0; overflow-wrap: anywhere; }
+.aha-library-note.is-error { color: #fb7185; }
+.aha-avatar { width: 38px; height: 38px; flex: 0 0 38px; position: relative; display: inline-grid; place-items: center; border-radius: 12px; background: #293246; border: 1px solid #53617b; overflow: hidden; color: #e2e8f0; font-weight: 700; }
+.aha-avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.aha-avatar.is-system { background: linear-gradient(145deg, #662b61, #35295e); border-color: #b45ea8; }
+.aha-unit-card { padding: 11px; gap: 6px; }
+.aha-unit-identity { gap: 6px; min-width: 0; }
+.aha-unit-identity .aha-select { width: 156px !important; max-width: 100%; }
+.aha-unit-identity .aha-equip-chk { width: 100%; padding-left: 44px; font-size: 11px; }
+.aha-unit-metrics { gap: 5px; }
+.aha-metric-tag { font-size: 11px; padding: 4px 7px; }
+.aha-loadout-details > summary, .aha-global-details > summary { cursor: pointer; color: var(--muted, #94a3b8); font-size: 12px; padding: 6px 0; }
+.aha-global-details { background: var(--panel, #1e293b); border: 1px solid var(--border, #334155); border-radius: 12px; padding: 8px 12px; }
+.aha-global-details > .aha-card { border: 0; padding: 8px 0; }
+.aha-unit-loadout { gap: 9px; line-height: 1.6; }
+.aha-unit-loadout .aha-loadout-title { width: 100%; }
+.aha-result-main { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.aha-result-main .aha-node-grid { grid-column: 1 / -1; }
+.aha-formula-details[open] .aha-rank-list { line-height: 1.8; }
+.aha-timeline-list { position: relative; max-height: 760px; /* 列表滚到底后要让滚轮继续滚页面，否则会觉得「滚不动了」 */ overscroll-behavior: auto; padding: 0 8px 8px 0; gap: 0; }
+.aha-timeline-list::before { content: ''; position: absolute; top: 0; bottom: 0; left: 69px; width: 2px; background: linear-gradient(#845abb, #37445d); pointer-events: none; }
+.aha-cycle-banner { position: sticky; top: 0; z-index: 2; margin: 0 0 10px; padding: 8px 10px; color: #d5baf5; background: #24273b; border-color: #a78bfa; font-size: 11px; }
+.aha-ev-row { display: block; position: relative; margin: 0 0 8px 95px; padding: 0; min-width: 0; }
+.aha-event-summary { display: flex; align-items: center; gap: 10px; min-height: 60px; padding: 9px 10px; cursor: pointer; list-style: none; }
+.aha-event-summary::-webkit-details-marker { display: none; }
+.aha-event-summary > .aha-avatar { position: absolute; left: -46px; top: 10px; z-index: 1; }
+.aha-event-order { position: absolute; left: -94px; width: 40px; text-align: right; font: 10px var(--mono, monospace); color: var(--muted, #94a3b8); }
+.aha-ev-left { gap: 6px; flex: 1; min-width: 0; }
+.aha-event-name { font-weight: 600; color: var(--text, #e2e8f0); }
+.aha-event-label { flex-basis: 100%; font-size: 12px; font-weight: 400; line-height: 1.6; overflow-wrap: anywhere; }
+.aha-event-expand { color: var(--muted, #94a3b8); }
+.aha-ev-row[open] .aha-event-expand { transform: rotate(180deg); }
+.aha-ev-row .aha-ev-details { display: flex; padding: 8px 10px 12px; border-top: 1px solid rgba(148,163,184,.15); line-height: 1.65; }
+.aha-ev-row.ev-ult .aha-avatar { border-color: #d9a440; }
+.aha-ev-row.ev-extra .aha-avatar { border-color: #38bdf8; }
+.aha-ev-row.ev-aha .aha-avatar { border-color: #ec4899; }
+.aha-sim-wrap button:focus-visible, .aha-sim-wrap summary:focus-visible, .aha-sim-wrap a:focus-visible { outline: 2px solid #a78bfa; outline-offset: 3px; }
+.aha-card-head:has(.aha-filter-bar) { align-items: flex-start; flex-direction: column; gap: 12px; }
+@media (max-width: 1050px) {
+  .aha-main-grid { grid-template-columns: minmax(280px, 320px) minmax(0, 1fr); gap: 12px; }
+  .aha-node-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .aha-main-grid { grid-template-columns: minmax(0, 1fr); }
+  .aha-team-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .aha-unit-identity .aha-select { width: 130px !important; }
+  .aha-topbar { padding: 12px; }
+  .aha-title-block h2 { font-size: 16px; }
+}
+@media (max-width: 480px) {
+  .aha-team-list { grid-template-columns: minmax(0, 1fr); }
+  .aha-result-stat .v { font-size: 21px; }
+  .aha-timeline-list { padding-right: 0; }
+  .aha-event-order { display: none; }
+  .aha-timeline-list::before { left: 21px; }
+  .aha-ev-row { margin-left: 47px; }
+  .aha-event-summary > .aha-avatar { left: -46px; }
+  .aha-cycle-banner { font-size: 10px; }
+}
+.aha-team-preview { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; margin-bottom: 12px; }
+.aha-team-preview button, .aha-team-preview a { border: 0; background: transparent; color: var(--muted); display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; min-width: 0; font: inherit; font-size: 10px; text-decoration: none; padding: 3px; }
+.aha-team-preview button > span:last-child, .aha-team-preview a > span:last-child { overflow: hidden; max-width: 100%; text-overflow: ellipsis; white-space: nowrap; }
+.aha-team-preview button:hover .aha-avatar { border-color: #ec4899; }
+.aha-example-teams > .aha-preset-bar { border: 0; padding: 10px 0; }
+.aha-example-teams > .aha-preset-details { padding: 7px 0; border: 0; }
+@media (min-width: 761px) {
+  .aha-col-left .aha-team-list { max-height: 700px; overflow-y: auto; overscroll-behavior: contain; padding-right: 4px; }
+}
+/* 外壳默认最小宽度为 1100px；仅在本功能挂载时适配窄窗口。 */
+@media (max-width: 1099px) {
+  #app:has(.aha-sim-wrap) { min-width: 0; }
+  #app:has(.aha-sim-wrap) #sidebar { width: 170px; flex-basis: 170px; }
+  #app:has(.aha-sim-wrap) .view { padding: 12px; min-width: 0; }
+}
+@media (max-width: 760px) {
+  #app:has(.aha-sim-wrap) #sidebar { width: 58px; flex-basis: 58px; }
+  #app:has(.aha-sim-wrap) .brand-text, #app:has(.aha-sim-wrap) .nav-module-title, #app:has(.aha-sim-wrap) .nav-feature .name, #app:has(.aha-sim-wrap) .sidebar-footer { display: none; }
+  #app:has(.aha-sim-wrap) .nav-feature { justify-content: center; padding: 10px 5px; }
+  .aha-title-block p { line-height: 1.7; }
+}
+@media (max-width: 760px) {
+  #app:has(.aha-sim-wrap) #topbar { flex-wrap: wrap; height: auto; gap: 4px; padding: 8px 12px; }
+  #app:has(.aha-sim-wrap) .search-wrap, #app:has(.aha-sim-wrap) .topbar-actions { display: none; }
 }

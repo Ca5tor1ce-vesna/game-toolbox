@@ -25,3 +25,5 @@ b站：@syllo椭圆 出品的《崩坏：星穹铁道》配速工具箱。
 - 作者 b站：@syllo椭圆、[我星第一神经](https://space.bilibili.com/395882974)
 - 代码贡献：DeepSeek · Grok Bot
 - 想改代码或加功能，请看 [开发说明](docs/开发说明.md)。
+- 使用 AI 辅助开发时，请先读 [项目开发约定](AGENTS.md)；按需使用 [战斗模拟回归](.github/skills/combat-simulation-regression/SKILL.md)、[功能开发](.github/skills/toolbox-feature-development/SKILL.md) 和 [发布检查](.github/skills/toolbox-release-check/SKILL.md)。
+- 在支持 Prompt 文件的 VS Code Copilot 聊天中，可输入 `/toolbox-workflow` 并描述任务；[工作流入口](.github/prompts/toolbox-workflow.prompt.md) 按项目路由选择 Skill。普通对话也遵循 [同一套路由](AGENTS.md#skill-路由与工作流)，无需每次手动指定。

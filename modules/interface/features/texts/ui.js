@@ -61,18 +61,23 @@ export default {
       const result = await ctx.call("save", { texts: collect() });
       note(`已保存 ${Object.keys(result.texts).length} 条文字替换到 ${result.path}；刷新页面生效。`);
     });
+    const autoSave = window.GT_LOCAL_STATE.autoCommit(root, () => ({ texts: collect() }), payload => ctx.call("save", payload));
+    this.unmount = () => autoSave.stop();
 
     root.querySelector("#tx-save-reload").addEventListener("click", async () => {
+      await autoSave.stop();
       await ctx.call("save", { texts: collect() });
       location.reload();
     });
 
     root.querySelector("#tx-reset").addEventListener("click", async () => {
+      await autoSave.stop(false);
       await ctx.call("reset", {});
+      ctx.persistence?.reset();
       location.reload();
     });
 
-    note("留空 = 用默认文案。改完刷新页面生效（外壳在启动时读取）。");
+    note("留空 = 用默认文案。编辑内容自动保存到本机，刷新页面生效。");
     return () => {};
   },
 

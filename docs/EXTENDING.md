@@ -102,6 +102,20 @@ export default {
 
 功能专属的样式写在自己的 `style.css` 里（和 `ui.js` 同目录），加载功能时自动插进页面、切走时自动移除。
 
+### 自动保存编辑状态
+
+外壳给功能提供 `ctx.persistence`，桌面/服务版写入 userdata，单文件版使用同一份 `app/local-state.js` 写入浏览器。不要为新页面另建全局 localStorage 键。
+
+- 复杂页面在 `mount` 中用 `ctx.persistence?.load()?.data` 恢复已知的输入字段，并设置 `this.getState = () => ({ ...需要记住的输入 })`。不要把目录、图片、API 输出或计算结果放进去。
+- 外壳在挂载后统一绑定自动保存；普通表单没有 `getState` 时按控件保存。需要初次计算就使用恢复值的简单页面，应在计算前调用 `ctx.persistence?.restoreForms(root)`。动态单位列表等必须显式保存数据模型。
+- 异步加载后主动改变输入时调用 `ctx.persistence?.capture()`；异步结果渲染后可调用 `ctx.persistence?.restoreUI(root)` 恢复内部滚动。`getState` 必须读到当前输入，不能依赖用户先失焦。
+- 功能卸载要取消自身定时器并使旧请求失效；外壳负责解除保存监听并保存最后状态。恢复默认后调用 `ctx.persistence?.reset()`，避免自动恢复旧草稿。
+- 单文件生成器也需给该功能提供同名 persistence scope，并在 mount 后绑定。桌面和单文件须分别验证切页、刷新、重开、保存失败和恢复默认；不要只验证界面看起来保留了数值。
+
+跨功能读取存档时，优先复用存档所属功能的 API，不维护另一份角色库。配装计算可参考 `aha-speed/resolve_build` 对 `speed-plan/plan` 的调用：角色 ID 是存档的键，需要补进计算请求；不同模型的字段和公式不能直接照搬，尤其要检查行迹乘区、自动装备加成、累计拉条与开局拉条的区别。队伍快照应与角色存档分开，明确是否跟随角色后续修改。
+
+验收响应式布局时，除检查 `scrollWidth` 外，还应核对实际内容的边界矩形：外壳的 `min-width` 配合 `overflow: hidden` 可能隐藏横向裁切。时间轴应逐条核对引擎返回的 AV、事件序号和说明，同 AV 事件保留引擎顺序。可参考 `tools/verify_team_ui.mjs`。
+
 ---
 
 ## 三、加一个新游戏

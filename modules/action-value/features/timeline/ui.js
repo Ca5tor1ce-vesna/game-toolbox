@@ -47,13 +47,26 @@ export default {
       presetId: "",
     };
     let last = null;
+    const draft = ctx.persistence?.load()?.data;
+    for (const key of Object.keys(state).filter(k => !["catalog", "excluded", "presets"].includes(k))) {
+      if (draft && typeof draft[key] === typeof state[key]) state[key] = draft[key];
+    }
+    this.getState = () => {
+      const data = Object.fromEntries(Object.entries(state).filter(([k]) => !["catalog", "excluded", "presets"].includes(k)));
+      const controls = { "av-char": "charId", "av-preset": "presetId", "av-lcbase": "lightconeBaseSpeed", "av-pct": "speedPct", "av-flat": "speedFlat", "av-adv": "advancePct", "av-delay": "delayPct", "av-rounds": "rounds", "av-rotation": "rotation", "av-err": "err", "av-hit": "hitEnergy", "av-actions": "actions", "av-apu": "actionsPerUlt", "av-eid": "eidolon" };
+      for (const [id, key] of Object.entries(controls)) {
+        const el = root.querySelector(`#${id}`);
+        if (el) data[key] = typeof state[key] === "number" ? Number(el.value) : el.value;
+      }
+      return data;
+    };
     let busy = false;
 
     try {
       const cat = await ctx.call("catalog");
       state.catalog = cat.characters || [];
       state.excluded = cat.excludedCharacters || [];
-      if (state.catalog.length && !state.catalog.some((c) => c.id === state.charId)) {
+      if (state.catalog.length && ![...state.catalog, ...state.excluded].some((c) => c.id === state.charId)) {
         state.charId = state.catalog[0].id;
       }
     } catch (err) {
@@ -63,6 +76,7 @@ export default {
     try {
       const lst = await ctx.call("preset");
       state.presets = lst.presets || [];
+      if (state.presetId && !state.presets.some(p => p.characterId === state.presetId)) state.presetId = "";
     } catch {
       state.presets = [];
     }

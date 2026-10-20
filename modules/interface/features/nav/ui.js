@@ -1,5 +1,5 @@
 /* 功能与文字：改名 / 图标 / 说明 / 隐藏 / 排序。
-   改动即时预览不了（导航是外壳渲染的），所以逻辑是「编辑 → 保存 → 刷新页面」。 */
+   编辑自动保存，外壳导航刷新页面后应用。 */
 
 export default {
   async mount(root, ctx) {
@@ -137,18 +137,23 @@ export default {
         Object.keys(result.overrides.order || {}).length;
       note(`已保存 ${count} 项改动到 ${result.path}；刷新页面生效。`);
     });
+    const autoSave = window.GT_LOCAL_STATE.autoCommit(root, () => ({ overrides: currentOverrides() }), payload => ctx.call("save", payload));
+    this.unmount = () => autoSave.stop();
 
     root.querySelector("#nav-save-reload").addEventListener("click", async () => {
+      await autoSave.stop();
       await ctx.call("save", { overrides: currentOverrides() });
       location.reload();
     });
 
     root.querySelector("#nav-reset").addEventListener("click", async () => {
+      await autoSave.stop(false);
       await ctx.call("reset", {});
+      ctx.persistence?.reset();
       location.reload();
     });
 
-    note("改动即时生效不了（导航由外壳渲染），保存后刷新页面即可。");
+    note("编辑内容会自动保存到本机；导航名称、可见性和排序刷新页面后生效。");
     return () => {};
   },
 

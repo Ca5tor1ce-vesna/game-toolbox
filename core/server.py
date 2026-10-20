@@ -24,7 +24,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import unquote, urlparse
 
-from . import __toolbox_name__, __version__, config, feature_api, registry
+from . import __toolbox_name__, __version__, config, feature_api, registry, ui_state
 
 # 只允许把这些类型的文件放到浏览器能拿到的位置，避免 api.py 之类的源码被直接下载。
 ALLOWED_SUFFIXES = {
@@ -61,7 +61,7 @@ _EXPLICIT_MIME = {
 for _suffix, _mime in _EXPLICIT_MIME.items():
     mimetypes.add_type(_mime, _suffix)
 
-LOCAL_ONLY_PATHS = ("/api/call", "/api/reload", "/api/shutdown")
+LOCAL_ONLY_PATHS = ("/api/call", "/api/reload", "/api/shutdown", "/api/ui-state")
 IMAGE_TYPES = {
     "image/png", "image/jpeg", "image/gif", "image/webp", "image/avif",
     "image/bmp", "image/x-icon", "image/vnd.microsoft.icon",
@@ -390,6 +390,13 @@ def make_handler(state: ToolboxState) -> type[BaseHTTPRequestHandler]:
                 self._json({"ok": True, "overrides": config.load_overrides()})
                 return
 
+            if path == "/api/ui-state":
+                if not self._is_local_client():
+                    self._json({"ok": False, "error": "仅允许本机调用"}, 403)
+                    return
+                self._json({"ok": True, **ui_state.read()})
+                return
+
             if path == "/api/heartbeat":
                 state.last_beat = time.time()
                 self._json({"ok": True, "at": state.last_beat})
@@ -475,6 +482,11 @@ def make_handler(state: ToolboxState) -> type[BaseHTTPRequestHandler]:
             try:
                 if path == "/api/call":
                     self._api_call(body)
+                elif path == "/api/ui-state":
+                    try:
+                        self._json({"ok": True, **ui_state.save(body)})
+                    except ValueError as exc:
+                        self._json({"ok": False, "error": str(exc)}, 400)
                 elif path == "/api/heartbeat":
                     state.last_beat = time.time()
                     self._json({"ok": True, "at": state.last_beat})

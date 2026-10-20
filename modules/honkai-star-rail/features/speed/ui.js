@@ -34,6 +34,9 @@ export default {
 
   async mount(root, ctx) {
     let units = DEFAULT_UNITS.map((u) => ({ ...u }));
+    const saved = ctx.persistence?.load()?.data;
+    if (Array.isArray(saved?.units) && saved.units.length) units = saved.units;
+    this.getState = () => ({ units });
 
     root.innerHTML = `
       <div class="card">
@@ -206,11 +209,13 @@ export default {
         .join("");
 
       body.querySelectorAll("[data-k]").forEach((el) => {
-        el.addEventListener("change", () => {
+        const update = () => {
           const index = Number(el.closest("tr").dataset.i);
           const key = el.dataset.k;
           units[index][key] = key === "name" || key === "advanceTarget" ? el.value : Number(el.value || 0);
-        });
+        };
+        el.addEventListener("input", update);
+        el.addEventListener("change", update);
       });
       body.querySelectorAll("[data-del]").forEach((el) => {
         el.addEventListener("click", () => {
@@ -278,6 +283,7 @@ export default {
     root.querySelector("#sim-btn").addEventListener("click", simulate);
 
     renderUnits();
+    ctx.persistence?.restoreForms(root);
     calc();
     buildTable();
   },
