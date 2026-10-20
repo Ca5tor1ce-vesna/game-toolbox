@@ -68,6 +68,9 @@ export default {
     let mode = null;
     let selIdx = 0;
     let query = "";
+    const saved = ctx.persistence?.load()?.data;
+    if (saved) { mode = saved.mode || null; selIdx = Number(saved.selIdx) || 0; query = String(saved.query || ""); }
+    this.getState = () => ({ mode, selIdx, query });
 
     const targetsOf = () => ((res && res.data) || {}).targets || [];
     const firstIdxOfMode = (m) => targetsOf().findIndex((t) => t.mode === m);
@@ -84,7 +87,6 @@ export default {
         renderError(err && err.message != null ? err.message : String(err));
         return;
       }
-      query = "";
       buildAll();
     }
 
@@ -95,8 +97,8 @@ export default {
 
     function buildAll() {
       const targets = targetsOf();
-      mode = MODES.find((m) => targets.some((t) => t.mode === m)) ?? null;
-      selIdx = mode == null ? 0 : firstIdxOfMode(mode);
+      if (!MODES.includes(mode) || !targets.some(t => t.mode === mode)) mode = MODES.find((m) => targets.some((t) => t.mode === m)) ?? null;
+      if (targets[selIdx]?.mode !== mode) selIdx = mode == null ? 0 : firstIdxOfMode(mode);
 
       const noteHTML = res.offline ? `<div class="hr-note">${esc(res.note)}</div>` : "";
       root.innerHTML = `<div class="hr-wrap">`
@@ -120,6 +122,7 @@ export default {
         + `</div>`;
 
       const status = root.querySelector(".hr-status");
+      root.querySelector(".hr-search").value = query;
       status.className = res.offline ? "hr-status is-offline" : "hr-status is-ok";
       status.textContent = res.offline
         ? `离线缓存 · ${res.fetched_at ?? ""}`

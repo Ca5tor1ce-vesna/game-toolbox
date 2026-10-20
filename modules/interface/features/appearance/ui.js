@@ -1,5 +1,5 @@
 /* 外观与排版：改的是工具箱自己的样子。
-   改动**即时预览**（直接改 CSS 变量），点「保存」才写进 userdata。 */
+   改动即时预览并自动写进 userdata，保存按钮保留。 */
 
 export default {
   async mount(root, ctx) {
@@ -35,7 +35,8 @@ export default {
       return out;
     }
 
-    let draft = merge(defaults, data.theme || {});
+    let draft = merge(defaults, ctx.persistence?.load()?.data?.theme || data.theme || {});
+    this.getState = () => ({ theme: diffFromDefaults(draft) });
     const hasTheme = () => !!(window.GTTheme && window.GTTheme.apply);
 
     function preview() {
@@ -259,13 +260,18 @@ export default {
     });
 
     /* ---------------- 预设 / 保存 / 重置 / 导入导出 ---------------- */
+    const autoSave = window.GT_LOCAL_STATE.autoCommit(root, () => ({ theme: diffFromDefaults(draft) }), payload => ctx.call("save", payload));
+    this.unmount = () => autoSave.stop();
 
     root.querySelectorAll("[data-preset]").forEach((button) => {
-      button.addEventListener("click", () => {
+      button.addEventListener("click", async () => {
         const preset = PRESETS[button.dataset.preset];
         draft = merge(defaults, preset);
         // 重新渲染控件（预设会一次改很多项）
-        mount(root, ctx);
+        await autoSave.stop(false);
+        await ctx.call("save", { theme: diffFromDefaults(draft) });
+        ctx.persistence?.reset();
+        await this.mount(root, ctx);
         if (hasTheme()) window.GTTheme.apply(draft);
       });
     });
@@ -277,10 +283,12 @@ export default {
     });
 
     root.querySelector("#ap-reset").addEventListener("click", async () => {
+      await autoSave.stop(false);
       await ctx.call("reset", {});
+      ctx.persistence?.reset();
       draft = merge(defaults, {});
       if (hasTheme()) window.GTTheme.apply({});
-      mount(root, ctx);
+      await this.mount(root, ctx);
     });
 
     root.querySelector("#ap-export").addEventListener("click", () => {
@@ -312,14 +320,16 @@ export default {
         note(`JSON 解析失败：${err.message}`, "bad");
         return;
       }
+      await autoSave.stop(false);
       const result = await ctx.call("save", { theme: parsed });
+      ctx.persistence?.reset();
       draft = merge(defaults, result.theme || {});
       if (hasTheme()) window.GTTheme.apply(draft);
       note("导入完成并已保存");
-      mount(root, ctx);
+      await this.mount(root, ctx);
     });
 
-    note("改动会立刻生效；点「保存」才会记住。");
+    note("改动即时预览并自动保存到本机；恢复默认会清除这些自定义设置。");
     return () => {};
   },
 

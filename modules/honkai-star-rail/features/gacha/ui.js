@@ -121,6 +121,7 @@ export default {
       .join("");
 
     const currency = dataset.currency || { name: "星琼", perPull: 160 };
+    ctx.persistence?.restoreForms(root);
     const currentPool = () => (dataset.pools || []).find((p) => p.id === poolSelect.value) || {};
 
     function updatePoolHint() {

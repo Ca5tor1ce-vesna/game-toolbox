@@ -51,6 +51,13 @@ export default {
       simulation: { firstUltAction: 1 },
       target: { t: 0, actions: 2, customAV: 0, mode: catalog.modes?.[0]?.id || "moc" },
     };
+    const draft = ctx.persistence?.load()?.data;
+    const restored = draft?.state;
+    if (restored && (restored.characterId === CUSTOM_ID || catalog.characters.some(c => String(c.id) === String(restored.characterId)))) {
+      for (const key of ["characterId", "lightconeId", "superimpose", "eidolon", "enabled"]) if (Object.hasOwn(restored, key)) state[key] = restored[key];
+      for (const key of ["custom", "relic", "advance", "simulation", "target"]) if (restored[key] && typeof restored[key] === "object") Object.assign(state[key], restored[key]);
+    }
+    this.getState = () => ({ state, aha: currentConfig().aha, tab: root.querySelector('.sp-tabs .tab.active')?.dataset.tab || "detail" });
 
     const charById = new Map(catalog.characters.map((item) => [String(item.id), item]));
     const isCustom = () => String(state.characterId) === CUSTOM_ID;
@@ -669,6 +676,8 @@ export default {
 
     let effectSignature = "";
     let runSeq = 0;
+    let disposed = false;
+    this.unmount = () => { disposed = true; runSeq++; if (timer) clearTimeout(timer); };
 
     function buildPlanPayload() {
       const payload = {
@@ -687,20 +696,22 @@ export default {
     }
 
     async function run() {
+      if (disposed) return;
       const seq = ++runSeq;
       let result;
       try {
         // 模式一定要带上，否则后端不知道用哪套行动值口径
         const modeSelect = $("#mode");
         if (modeSelect?.value) state.target.mode = modeSelect.value;
+        ctx.persistence?.capture();
         result = await ctx.call("plan", buildPlanPayload());
       } catch (err) {
-        if (seq !== runSeq) return;
+        if (disposed || seq !== runSeq) return;
         $("#hero-error").innerHTML = `<p class="error-text">${esc(err.message)}</p>`;
         $("#hero").classList.add("is-error");
         return;
       }
-      if (seq !== runSeq) return;
+      if (disposed || seq !== runSeq) return;
       $("#hero-error").innerHTML = "";
       $("#hero").classList.remove("is-error");
       lastResult = result;
@@ -720,6 +731,7 @@ export default {
       renderHero(result);
       renderTimeline(result);
       renderSummaries(result);
+      ctx.persistence?.restoreUI(root);
     }
 
     function renderDetail(result) {
@@ -1311,7 +1323,16 @@ export default {
 
     renderCharGrid();
     updateSplash();
+    const restoredCone = state.lightconeId;
     await loadCones();
+    if (restored && (restoredCone === "" || cones.some(c => String(c.id) === String(restoredCone)))) state.lightconeId = restoredCone;
+    syncControls();
+    if (draft?.aha) {
+      $("#preset-err").value = draft.aha.err ?? 0;
+      $("#preset-energy").value = draft.aha.initialEnergy ?? "";
+      $("#preset-rotation").value = draft.aha.rotation || "auto";
+    }
+    if (draft?.tab) root.querySelector(`.sp-tabs .tab[data-tab="${["detail", "timeline", "tables", "recommend"].includes(draft.tab) ? draft.tab : "detail"}"]`)?.click();
     await loadPresets();
     await run();
   },

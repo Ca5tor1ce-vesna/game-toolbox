@@ -108,6 +108,7 @@ function buildCtx(api) {
     featureId: "speed-plan",
     module: { id: "honkai-star-rail", name: "崩坏：星穹铁道" },
     feature: { id: "speed-plan", name: "配速查询" },
+    persistence: window.GT_LOCAL_STATE.scope("honkai-star-rail/speed-plan"),
     // 没有网络往返：直接同步算完，包成 Promise 保持和工具箱一样的调用方式
     call: (action, payload) => Promise.resolve(api.call(action, payload)),
     data: async (name) => window.GT_DATA[name],
@@ -278,6 +279,7 @@ def build(with_theme: bool = True, out_name: str | None = None) -> Path:
     oracle = read_json(ROOT / "tests" / "fixtures" / "web_oracle.json")
 
     shell_css = read(ROOT / "app" / "style.css")
+    local_state = read(ROOT / "app" / "local-state.js")
     feature_css = read(FEATURE / "style.css")
     web_api = read(FEATURE / "web_api.js")
     ui = strip_export(read(FEATURE / "ui.js"))
@@ -457,7 +459,13 @@ window.GT_AHA_VENDOR_JS = {aha_vendor_js};
 {aha_ui}
 </script>
 <script>
+{local_state}
+</script>
+<script>
 (async function () {{
+  const saveStatus = document.createElement("div"); saveStatus.id = "local-save-status"; saveStatus.setAttribute("role", "status"); document.body.append(saveStatus);
+  window.addEventListener("gt-save-status", e => {{ saveStatus.textContent = e.detail.text; saveStatus.classList.toggle("is-error", e.detail.failed); }});
+  try {{ await window.GT_LOCAL_STATE.init(false); }} catch (error) {{ /* 错误已显式显示，计算工具继续可用。 */ }}
   const storage = {{
     load: () => {{
       try {{ return JSON.parse(localStorage.getItem("gt-speed-plan") || "{{}}"); }} catch (e) {{ return {{}}; }}
@@ -494,6 +502,7 @@ window.GT_AHA_VENDOR_JS = {aha_vendor_js};
 
   try {{
     await GT_FEATURE.mount(document.getElementById("view"), ctx);
+    ctx.persistence.bind(document.getElementById("view"), GT_FEATURE.getState);
     window.GT_MOUNTED = true;
   }} catch (error) {{
     document.getElementById("view").innerHTML =
@@ -507,7 +516,7 @@ window.GT_AHA_VENDOR_JS = {aha_vendor_js};
     save: (value) => {{ try {{ localStorage.setItem("gt-herta", JSON.stringify(value)); }} catch (e) {{}} }},
   }};
   const hertaApi = window.GT_HERTA_API.createApi({{ storage: hertaStorage, characters: window.GT_DATA.characters, lightcones: window.GT_DATA.lightcones }});
-  const hertaCtx = {{ moduleId: "herta", featureId: "records", call: (action, payload) => hertaApi.call(action, payload) }};
+    const hertaCtx = {{ moduleId: "herta", featureId: "records", persistence: window.GT_LOCAL_STATE.scope("herta/records"), call: (action, payload) => hertaApi.call(action, payload) }};
   const ahaApi = window.GT_AHA_SPEED_API.createApi();
     const readTeams = () => JSON.parse(localStorage.getItem("gt-aha-teams") || "{{}}");
     async function ahaCall(action, payload = {{}}) {{
@@ -538,7 +547,7 @@ window.GT_AHA_VENDOR_JS = {aha_vendor_js};
       }}
       return ahaApi.call(action, payload);
     }}
-    const ahaCtx = {{ moduleId: "honkai-star-rail", featureId: "aha-speed", feature: {{ baseUrl: "/modules/honkai-star-rail/features/aha-speed" }}, call: ahaCall, fmt: gtFmt, ui: {{ escapeHtml: gtEscapeHtml, fmt: gtFmt }} }};
+    const ahaCtx = {{ moduleId: "honkai-star-rail", featureId: "aha-speed", persistence: window.GT_LOCAL_STATE.scope("honkai-star-rail/aha-speed"), feature: {{ baseUrl: "/modules/honkai-star-rail/features/aha-speed" }}, call: ahaCall, fmt: gtFmt, ui: {{ escapeHtml: gtEscapeHtml, fmt: gtFmt }} }};
   let hertaMounted = false;
   let ahaMounted = false;
   async function showView(id) {{
@@ -548,20 +557,23 @@ window.GT_AHA_VENDOR_JS = {aha_vendor_js};
     document.getElementById("view-herta").hidden = id !== "view-herta";
     if (id === "view-aha" && !ahaMounted) {{
       ahaMounted = true;
-      try {{ await GT_AHA_FEATURE.mount(document.getElementById("view-aha"), ahaCtx); window.GT_AHA_MOUNTED = true; }}
+      try {{ await GT_AHA_FEATURE.mount(document.getElementById("view-aha"), ahaCtx); ahaCtx.persistence.bind(document.getElementById("view-aha"), GT_AHA_FEATURE.getState); window.GT_AHA_MOUNTED = true; }}
       catch (error) {{ document.getElementById("view-aha").innerHTML = `<p class="error-text">界面挂载失败：${{error.message}}</p>`; window.GT_AHA_MOUNTED = false; }}
     }}
     if (id === "view-herta" && !hertaMounted) {{
       hertaMounted = true;
-      try {{ await GT_HERTA_FEATURE.mount(document.getElementById("view-herta"), hertaCtx); window.GT_HERTA_MOUNTED = true; }}
+      try {{ await GT_HERTA_FEATURE.mount(document.getElementById("view-herta"), hertaCtx); hertaCtx.persistence.bind(document.getElementById("view-herta"), GT_HERTA_FEATURE.getState); window.GT_HERTA_MOUNTED = true; }}
       catch (error) {{ document.getElementById("view-herta").innerHTML = `<p class="error-text">界面挂载失败：${{error.message}}</p>`; window.GT_HERTA_MOUNTED = false; }}
     }}
     const hash = id === "view-herta" ? "#herta" : (id === "view-aha" ? "#aha" : "");
     if (location.hash !== hash) history.replaceState(null, "", hash || (location.pathname + location.search));
+    window.GT_LOCAL_STATE.scope("shell").save({{ view: id }});
   }}
   document.querySelectorAll(".gt-tab").forEach((b) => b.addEventListener("click", () => showView(b.dataset.view)));
+  const savedView = window.GT_LOCAL_STATE.scope("shell").load().view;
   if (location.hash === "#herta") showView("view-herta");
-  if (location.hash === "#aha") showView("view-aha");
+  else if (location.hash === "#aha") showView("view-aha");
+  else if (["view-aha", "view-herta"].includes(savedView)) showView(savedView);
 }})();
 </script>
 </body>

@@ -2173,7 +2173,7 @@ class TestMergedV0166(unittest.TestCase):
     def test_local_only_paths(self) -> None:
         from core import server  # noqa: PLC0415
 
-        self.assertEqual(set(server.LOCAL_ONLY_PATHS), {"/api/call", "/api/reload", "/api/shutdown"})
+        self.assertEqual(set(server.LOCAL_ONLY_PATHS), {"/api/call", "/api/reload", "/api/shutdown", "/api/ui-state"})
         handler = server.make_handler(server.ToolboxState.__new__(server.ToolboxState))
         probe = handler.__new__(handler)
         for host, ok in (("127.0.0.1", True), ("::1", True), ("192.168.1.5", False)):
