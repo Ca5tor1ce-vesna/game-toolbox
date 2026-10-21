@@ -306,3 +306,8 @@
   border-radius: 4px;
   background: var(--bg);
 }
+
+.hr-loading { display:flex; align-items:center; gap:10px; padding:40px 0; justify-content:center; color:var(--muted); }
+.hr-spinner { display:inline-block; width:16px; height:16px; border:2px solid var(--border); border-top-color:var(--accent);
+  border-radius:50%; animation:hr-spin .8s linear infinite; vertical-align:-3px; margin-right:6px; }
+@keyframes hr-spin { to { transform: rotate(360deg); } }
