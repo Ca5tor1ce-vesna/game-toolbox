@@ -47,6 +47,7 @@ async function api(feature, action, payload = {}) {
 await send('Page.enable');
 await send('Runtime.enable');
 await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1080, deviceScaleFactor: 1, mobile: false });
+await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'no-preference' }] });
 await send('Page.addScriptToEvaluateOnNewDocument', { source: `window.__errors=[]; window.__simCalls=0; window.addEventListener('error', e=>window.__errors.push(e.message)); const oldFetch=window.fetch; window.fetch=async (...args)=>{let sim=false,slow=false;try { const p=JSON.parse(args[1]?.body||'{}'); sim=p.feature==='aha-speed'&&p.action==='simulate'; if(sim){window.__simCalls++;slow=!!window.__delayNextSim;window.__delayNextSim=false;} } catch {} const r=await oldFetch(...args); if(slow)await new Promise(resolve=>setTimeout(resolve,700)); try { const p=JSON.parse(args[1]?.body||'{}'); if(sim){const data=await r.clone().json(); if(data.ok){window.__sim=data.result;window.__payload=p.payload;if(slow)window.__slowSimDone=true;else window.__fastSim=data.result;}} }catch{} return r;};` });
 let savedTeam;
 const original = (await api('speed-plan', 'presets')).presets['1502'];
@@ -84,7 +85,11 @@ try {
   await evaluate(`(()=>{const i=document.querySelector('.aha-unit-card.is-open .unit-num');i.value=${JSON.stringify(originalInput)};i.dispatchEvent(new Event('input',{bubbles:true}));})()`);
   await sleep(500);
   check('左侧角色、右侧模拟分区', await evaluate("!!document.querySelector('.aha-col-left #aha-team-list') && !!document.querySelector('.aha-col:not(.aha-col-left) #aha-timeline-list')"));
-  check('角色卡展开使用动画，收起时内部不可操作', await evaluate("(()=>{const card=document.querySelectorAll('.aha-unit-card')[1], body=card.querySelector('.aha-unit-body');return body.inert && getComputedStyle(body).transitionProperty.includes('grid-template-rows');})()"));
+  const motionState = await evaluate("(()=>{const body=document.querySelectorAll('.aha-unit-card')[1].querySelector('.aha-unit-body');return {inert:body.inert,transition:getComputedStyle(body).transitionProperty,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches};})()");
+  check(`角色卡展开使用动画，收起时内部不可操作 ${JSON.stringify(motionState)}`, motionState.inert && motionState.transition.includes('grid-template-rows'));
+  await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
+  check('减少动态效果时角色卡关闭动画', await evaluate("getComputedStyle(document.querySelector('.aha-unit-card .aha-unit-body')).transitionProperty === 'none'"));
+  await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'no-preference' }] });
   await evaluate("document.querySelector('.unit-char-select').dispatchEvent(new MouseEvent('mousedown',{bubbles:true,cancelable:true}))");
   check('角色下拉显示统一菜单', await evaluate("!!document.querySelector('.gt-select-menu [role=option]')"));
   await evaluate("document.querySelector('.gt-select-menu [aria-selected=true]').click()");
