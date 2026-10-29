@@ -22,7 +22,7 @@ try {
   })();` });
   await send('Page.navigate', { url: `${base}/` });
   await wait("document.querySelectorAll('.nav-feature').length > 0");
-  check('欢迎页和侧栏显示 Yukiookami 贡献者链接', await evaluate("['.home-credits', '.sidebar-credits'].every(s => { const a = document.querySelector(s + ' a[href=\"https://github.com/Yukiookami\"]'); return a && a.textContent === 'Yukiookami' && a.getClientRects().length > 0; })"));
+  check('欢迎页和侧栏显示三位代码贡献者', await evaluate("['.home-credits', '.sidebar-credits'].every(s => { const e = document.querySelector(s); return e && e.querySelectorAll('a').length === 3 && !e.textContent.includes('Yukiookami'); })"));
   check('默认侧栏展开', await evaluate("!!document.querySelector('#sidebar-toggle') && document.querySelector('#sidebar-toggle').getAttribute('aria-expanded') === 'true'"));
   await evaluate("document.querySelector('#sidebar-toggle').click()");
   check('侧栏收起', await evaluate("document.querySelector('#app').classList.contains('sidebar-is-collapsed')"));

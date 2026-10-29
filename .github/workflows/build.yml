@@ -1,6 +1,6 @@
 # 在 Windows 上打绿色版（PyInstaller 不能在 Linux 上交叉编译 exe）。
 # 触发：推送 v* 标签、手动运行（Actions → build → Run workflow）。
-# 产物：推 tag 时自动建 Release 并附上「游戏工具箱-v<版本>-绿色版.zip」；
+# 产物：推 tag 时发布绿色版 ZIP 和单文件网页版；
 #       手动运行时只上传 Artifacts（在运行页面下载）。
 name: build
 
@@ -56,6 +56,15 @@ jobs:
       - name: 打绿色版
         run: python make_package.py --green
 
+      - name: 生成网页版与统一附件名称
+        shell: pwsh
+        run: |
+          $version = python -c "from core import __version__; print(__version__)"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Copy-Item -LiteralPath "dist/游戏工具箱-v$version-绿色版.zip" -Destination "dist/game-toolbox-v$version-green.zip"
+          python -c "from core import __version__; from tools.make_web_standalone import build; build(with_theme=False, out_name='game-toolbox-v' + __version__ + '-web.html')"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
       - name: 审计绿色版内容
         shell: pwsh
         run: |
@@ -78,7 +87,7 @@ jobs:
           foreach ($need in "游戏工具箱.exe","使用说明.html","userdata","_internal") {
             if (-not (Test-Path (Join-Path $dir $need))) { throw "缺少 $need" }
           }
-          $p = Start-Process -FilePath (Join-Path $dir "游戏工具箱.exe") -ArgumentList "--no-open","--port","9450" -PassThru
+          $p = Start-Process -FilePath (Join-Path $dir "游戏工具箱.exe") -ArgumentList "--no-open","--port","9450" -WindowStyle Hidden -PassThru
           $ok = $false
           for ($i = 0; $i -lt 30; $i++) {
             Start-Sleep -Seconds 1
@@ -94,13 +103,14 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: 游戏工具箱-绿色版
-          path: dist/*绿色版.zip
+          name: game-toolbox-release
+          path: |
+            dist/game-toolbox-v*-green.zip
+            dist/game-toolbox-v*-web.html
           if-no-files-found: error
 
-      # 推 v* tag 时顺手建 Release 并挂上绿色版 zip（README 让用户去 Releases 下的就是它）。
-      # 只挂绿色版；用户包/源码版按需另外发。手动触发（workflow_dispatch）没有 tag，跳过这步。
-      - name: 建 Release 并上传绿色版
+      # 手动运行只上传 Actions 产物；标签运行创建或更新对应的 Release。
+      - name: 发布绿色版和网页版
         if: startsWith(github.ref, 'refs/tags/v')
         shell: pwsh
         run: |
@@ -111,13 +121,21 @@ jobs:
           if ("v$codeVersion" -ne $tag) {
             throw "tag（$tag）和 core/__init__.py 的版本（v$codeVersion）不一致：先改版本号再打 tag"
           }
-          $zip = Get-ChildItem dist -Filter "*绿色版.zip" | Select-Object -First 1
-          if (-not $zip) { throw "没有找到绿色版 zip" }
+          $zip = "dist/game-toolbox-v$codeVersion-green.zip"
+          $web = "dist/game-toolbox-v$codeVersion-web.html"
+          if (-not (Test-Path -LiteralPath $zip) -or -not (Test-Path -LiteralPath $web)) { throw "缺少发布附件" }
+          gh release view $tag --json tagName 2>$null | Out-Null
+          if ($LASTEXITCODE -eq 0) {
+            gh release upload $tag $zip $web --clobber
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+            exit 0
+          }
           # 带后缀的版本（如 0.20.0beta）按预发布发，且不抢「Latest」。
           if ($codeVersion -match '[A-Za-z]') {
-            gh release create $tag $zip.FullName --title $tag --generate-notes --verify-tag --prerelease --latest=false
+            gh release create $tag $zip $web --title $tag --generate-notes --verify-tag --prerelease --latest=false
           } else {
-            gh release create $tag $zip.FullName --title $tag --generate-notes --verify-tag
+            gh release create $tag $zip $web --title $tag --generate-notes --verify-tag
           }
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

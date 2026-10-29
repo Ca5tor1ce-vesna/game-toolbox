@@ -37,6 +37,14 @@ async function wait(expression) {
   for (let i = 0; i < 80; i++) { if (await evaluate(expression)) return; await sleep(150); }
   throw Error(`等待失败: ${expression}`);
 }
+async function waitForTeamImages() {
+  await wait("document.querySelectorAll('.aha-unit-identity img').length >= 3");
+  const count = await evaluate("document.querySelectorAll('.aha-unit-identity img').length");
+  for (let i = 0; i < count; i++) {
+    await evaluate(`document.querySelectorAll('.aha-unit-identity img')[${i}].scrollIntoView({block:'center'})`);
+    await wait(`(()=>{const i=document.querySelectorAll('.aha-unit-identity img')[${i}];return i && i.complete && i.naturalWidth>0;})()`);
+  }
+}
 let checks = 0;
 function check(name, ok) { if (!ok) throw Error(`[X] ${name}`); checks++; console.log(`[OK] ${name}`); }
 async function shot(name) { await sleep(250); const r = await send('Page.captureScreenshot', { format: 'png' }); writeFileSync(join(out, `${name}.png`), Buffer.from(r.data, 'base64')); }
@@ -133,7 +141,7 @@ try {
   const integrity = await evaluate(`(()=>{const events=window.__sim.timeline;const rows=[...document.querySelectorAll('.aha-ev-row')];return rows.length===events.length && rows.every((r,i)=>Number(r.dataset.eventIndex)===i+1&&Math.abs(Number(r.dataset.av)-events[i].av)<1e-9&&r.textContent.includes(events[i].label));})()`);
   check('每条时间轴的序号、AV、说明与引擎事件逐条一致', integrity);
   await evaluate("document.querySelector('#aha-team-list').scrollIntoView()");
-  await wait("[...document.querySelectorAll('.aha-unit-identity img')].every(i=>i.complete&&i.naturalWidth>0)");
+  await waitForTeamImages();
   check('已有头像复用本地资源，缺图角色显示占位', await evaluate("document.querySelectorAll('.aha-unit-identity .aha-avatar').length===4 && document.querySelectorAll('.aha-unit-identity img').length>=3"));
   await evaluate("document.querySelector('.aha-ev-row summary').click()");
   check('事件可展开查看详细数据', await evaluate("document.querySelector('.aha-ev-row').open && !!document.querySelector('.aha-ev-details .aha-ev-chip')"));
@@ -169,7 +177,7 @@ try {
     await wait("document.querySelector('#aha-library-note').textContent==='队伍已保存。'");
     check('离线队伍写入 localStorage', await evaluate("Object.values(JSON.parse(localStorage.getItem('gt-aha-teams'))).some(t=>t.name==='离线验收')"));
     await evaluate("document.querySelector('#aha-team-list').scrollIntoView()");
-    await wait("document.querySelectorAll('.aha-unit-identity img').length>=3 && [...document.querySelectorAll('.aha-unit-identity img')].every(i=>i.complete&&i.naturalWidth>0)");
+    await waitForTeamImages();
     check('离线头像已内联且可显示', await evaluate("[...document.querySelectorAll('.aha-unit-identity img')].length>=3 && [...document.querySelectorAll('.aha-unit-identity img')].every(i=>i.src.startsWith('data:')&&i.naturalWidth>0)"));
     await evaluate("document.querySelector('#aha-team-name').value='';document.querySelector('#aha-save-team').click()");
     await wait("document.querySelector('#aha-library-note').classList.contains('is-error')");
