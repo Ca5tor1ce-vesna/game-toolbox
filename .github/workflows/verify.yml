@@ -39,6 +39,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           node tests/test_build_conversion.mjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node tests/test_herta_loading.mjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: 浏览器与离线页面检查
         shell: pwsh
         run: ./tools/verify_ci_ui.ps1

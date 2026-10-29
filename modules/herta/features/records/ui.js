@@ -69,6 +69,8 @@ export default {
   title: "角色顶分",
   async mount(root, ctx) {
     let res = null;
+    let alive = true;
+    let seq = 0;
     let mode = null;
     let selIdx = 0;
     let query = "";
@@ -80,17 +82,28 @@ export default {
     const firstIdxOfMode = (m) => targetsOf().findIndex((t) => t.mode === m);
 
     async function doLoad(refresh) {
-      const btn = root.querySelector(".hr-refresh");
-      if (btn) {
-        btn.disabled = true;
-        btn.textContent = "刷新中…";
+      const my = ++seq;
+      if (res) {
+        const btn = root.querySelector(".hr-refresh");
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = "刷新中…";
+        }
+        const status = root.querySelector(".hr-status");
+        if (status) status.innerHTML = '<span class="hr-spinner"></span>加载中…';
+      } else {
+        root.innerHTML = '<div class="hr-wrap"><div class="hr-loading" role="status"><span class="hr-spinner"></span>正在加载数据…</div></div>';
       }
+      let next;
       try {
-        res = await ctx.call("load", { refresh });
+        next = await ctx.call("load", { refresh });
       } catch (err) {
+        if (!alive || my !== seq) return;
         renderError(err && err.message != null ? err.message : String(err));
         return;
       }
+      if (!alive || my !== seq) return;
+      res = next;
       buildAll();
     }
 
@@ -207,7 +220,8 @@ export default {
         : "共 0 条记录 · 显示 0 组";
     }
 
-    await doLoad(false);
+    doLoad(false);
+    return () => { alive = false; };
   },
   unmount() {},
 };

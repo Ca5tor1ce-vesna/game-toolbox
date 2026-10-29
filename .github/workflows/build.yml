@@ -49,10 +49,22 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           node tests/test_build_conversion.mjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node tests/test_herta_loading.mjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           ./tools/verify_ci_ui.ps1
 
       - name: 打绿色版
         run: python make_package.py --green
+
+      - name: 审计绿色版内容
+        shell: pwsh
+        run: |
+          $version = python -c "from core import __version__; print(__version__)"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $zip = Join-Path 'dist' "游戏工具箱-v$version-绿色版.zip"
+          if (-not (Test-Path -LiteralPath $zip)) { throw "没有找到绿色版 zip：$zip" }
+          python tools/audit_package.py $zip
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: 冒烟：解压后启动 exe，确认服务能响应、userdata 写在 exe 旁边
         shell: pwsh
