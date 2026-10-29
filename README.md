@@ -23,7 +23,7 @@ b站：@syllo椭圆 出品的《崩坏：星穹铁道》配速工具箱。
 ## 链接与致谢
 
 - 作者 b站：@syllo椭圆、[我星第一神经](https://space.bilibili.com/395882974)
-- 代码贡献：[syllo椭圆](https://space.bilibili.com/5406068) · [我星第一神经](https://space.bilibili.com/395882974) · [素帕蜗牛](https://space.bilibili.com/14451336) · [Yukiookami](https://github.com/Yukiookami)
+- 代码贡献：[syllo椭圆](https://space.bilibili.com/5406068) · [我星第一神经](https://space.bilibili.com/395882974) · [素帕蜗牛](https://space.bilibili.com/14451336)
 - 想改代码或加功能，请看 [开发说明](docs/开发说明.md)。
 - 已识别的代码结构与性能优化方向见 [代码重构与优化](docs/代码重构与优化.md)。
 - 使用 AI 辅助开发时，请先读 [项目开发约定](AGENTS.md)，按任务选用仓库内的 Skill，包括战斗模拟、跨模块一致性、设计还原、功能开发与发布检查。

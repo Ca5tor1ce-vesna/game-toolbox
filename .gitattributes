@@ -1,0 +1,5 @@
+# 原版工具必须与仓库中的字节完全一致，禁止换行转换。
+modules/honkai-star-rail/features/aha-speed/original.html -text
+
+# 网页对拍基准明确要求 LF，以免 Windows 检出时改变测试文件。
+tests/fixtures/web_oracle.json text eol=lf
