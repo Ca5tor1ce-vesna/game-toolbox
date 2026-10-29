@@ -226,6 +226,8 @@
 }
 
 .hr-pill {
+  flex: 0 0 auto;
+  width: max-content;
   font-size: 12px;
   padding: 2px 8px;
   border-radius: 999px;
@@ -234,17 +236,27 @@
 }
 
 .hr-ltd {
-  color: #f0abfc;
+  color: #ad2859;
 }
 
 .hr-std {
-  color: #93c5fd;
+  color: #346a8b;
 }
 
 .hr-date {
   font-size: 11px;
   color: var(--muted);
   text-align: right;
+}
+
+/* 宽屏按队伍对齐，保留角色、光锥、限定数和记录时间；窄屏继续使用卡片。 */
+@media (min-width: 1300px) {
+  .hr-grid { grid-template-columns: minmax(0, 1fr); gap: 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .hr-card { display: grid; grid-template-columns: 120px minmax(440px, 1fr) minmax(150px, auto) 120px; align-items: center; gap: 12px; border: 0; border-radius: 0; border-bottom: 1px solid var(--border); padding: 12px 16px; }
+  .hr-card:last-child { border-bottom: 0; }
+  .hr-card-head { display: flex; flex-direction: column; align-items: flex-start; }
+  .hr-char { background: transparent; }
+  .hr-stats { align-items: center; }
 }
 
 .hr-empty {
@@ -306,3 +318,65 @@
   border-radius: 4px;
   background: var(--bg);
 }
+
+/* ===== 定稿设计还原：标题行 + 胶囊页签 + 表格式队伍列表 ===== */
+.hr-wrap .hr-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding-bottom: 18px; margin-bottom: 4px; border-bottom: 1px solid var(--border); }
+.hr-wrap .hr-title h1 { margin: 0 0 4px; font-size: 24px; font-weight: 800; }
+.hr-wrap .hr-title p { margin: 0; color: var(--muted); font-size: 13px; }
+.hr-wrap .hr-head .hr-search { width: 230px; height: 40px; padding: 0 13px; border: 1px solid var(--field-edge); border-radius: 9px; background: var(--field-bg); color: var(--text); font: inherit; font-size: 14px; outline: none; }
+
+.hr-wrap .hr-top { border-bottom: 0; padding: 0; margin: 8px 0 4px; align-items: center; }
+.hr-wrap .hr-tabs { gap: 8px; border: 0; }
+.hr-wrap .hr-tab { height: 40px; padding: 0 14px; margin: 0; border: 1px solid #eadce3; border-radius: 8px; background: #fffafc; color: #755468; font-size: 15px; font-weight: 400; }
+.hr-wrap .hr-tab::after { display: none; }
+.hr-wrap .hr-tab.is-active { border-color: #e3adc3; background: #f8e2eb; color: #b92f63; font-weight: 400; box-shadow: none; }
+.hr-wrap .hr-tab .hr-season { display: none; }
+.hr-wrap .hr-tools { gap: 10px; }
+.hr-wrap .hr-refresh { height: 34px; padding: 0 12px; border: 1px solid var(--border); border-radius: 8px; background: #fff9fb; color: #8b4766; font-size: 12px; font-weight: 400; }
+.hr-wrap .hr-status { font-size: 12px; }
+
+.hr-wrap .hr-stagebar { gap: 10px; margin: 8px 0 14px; font-size: 13px; }
+.hr-wrap .hr-label { color: var(--muted); }
+.hr-wrap .hr-stage { min-width: 0; padding: 0 2px; border: 0; background: transparent; color: var(--text); font-weight: 700; font-size: 13px; }
+.hr-wrap .hr-chip { padding: 0; border: 0; background: none; color: var(--muted); font-size: 13px; }
+
+.hr-wrap .hr-grid { display: block; border: 1px solid #f0e1e7; border-radius: 14px; background: #fffdfd; overflow: hidden; }
+.hr-wrap .hr-grid-head, .hr-wrap .hr-card { display: grid; grid-template-columns: 165px minmax(0, 1fr) 60px 60px 86px 150px; gap: 0 12px; align-items: center; padding: 0 20px; }
+.hr-wrap .hr-grid-head { height: 48px; border-bottom: 1px solid #f0e1e7; color: var(--muted); font-size: 12px; }
+.hr-wrap .hr-grid-head span:nth-child(3), .hr-wrap .hr-grid-head span:nth-child(4) { text-align: center; }
+.hr-wrap .hr-card { min-height: 80px; margin: 0; border: 0; border-bottom: 1px solid #f0e1e7; border-radius: 0; background: transparent; box-shadow: none; }
+.hr-wrap .hr-card:last-child { border-bottom: 0; }
+.hr-wrap .hr-card:hover { background: #fff8fb; }
+.hr-wrap .hr-card-head { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; }
+.hr-wrap .hr-group { font-size: 15px; font-weight: 700; }
+.hr-wrap .hr-runs { font-size: 12px; color: var(--muted); }
+.hr-wrap .hr-lineup { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.hr-wrap .hr-char { display: flex; flex-direction: row; align-items: center; gap: 8px; min-width: 0; padding: 0; border: 0; background: none; text-align: left; }
+.hr-wrap .hr-char.is-match .hr-name { color: var(--accent); }
+.hr-wrap .hr-avatar { width: 38px; height: 38px; flex: 0 0 38px; border-radius: 50%; }
+.hr-wrap .hr-char-text { min-width: 0; }
+.hr-wrap .hr-name { font-size: 12px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hr-wrap .hr-cons { font-size: 11px; color: #9a8592; font-family: inherit; }
+.hr-wrap .hr-cons.is-up { color: #9a8592; }
+.hr-wrap .hr-char .hr-lc { display: none; }
+.hr-wrap .hr-stats { display: contents; }
+.hr-wrap .hr-stats .hr-pill { padding: 0; border: 0; background: none; color: var(--text); font-size: 14px; text-align: center; }
+.hr-wrap .hr-stats .hr-pill.hr-result { justify-self: start; padding: 4px 8px; border-radius: 6px; background: #f9eef2; font-weight: 800; }
+.hr-wrap .hr-date { font-size: 12px; color: var(--muted); text-align: left; }
+
+@media (max-width: 1100px) {
+  .hr-wrap .hr-grid-head { display: none; }
+  .hr-wrap .hr-card { grid-template-columns: 1fr; gap: 10px; padding: 14px 16px; }
+  .hr-wrap .hr-stats { display: flex; gap: 10px; }
+  .hr-wrap .hr-stats .hr-pill.hr-ltd::before { content: "限定 "; color: var(--muted); }
+  .hr-wrap .hr-stats .hr-pill.hr-std::before { content: "常驻 "; color: var(--muted); }
+}
+@media (max-width: 640px) {
+  .hr-wrap .hr-head { flex-direction: column; align-items: stretch; }
+  .hr-wrap .hr-head .hr-search { width: 100%; }
+  .hr-wrap .hr-lineup { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.hr-wrap .hr-cons, .hr-wrap .hr-cons.is-up { padding: 0; border: 0; background: none; }
+/* 头像素材底部带稀有度星星：放大并上移裁掉，不需要另找无星素材 */
+.hr-wrap .hr-avatar { overflow: hidden; }
+.hr-wrap .hr-avatar-img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transform: scale(1.32); transform-origin: 50% 18%; }

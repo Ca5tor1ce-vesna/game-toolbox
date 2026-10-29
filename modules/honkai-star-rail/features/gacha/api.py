@@ -144,15 +144,25 @@ def _up_dist(
     """拿到 copies 个当期 UP 的抽数分布。"""
     dist: Distribution = {0: 1.0}
     pity = start_pity
+    single_cache: dict[int, Distribution] = {}
+    up_cache: dict[int, Distribution] = {}
+
+    def single(pity_value: int) -> Distribution:
+        if pity_value not in single_cache:
+            single_cache[pity_value] = five_star_pmf(pool, pity_value)
+        return single_cache[pity_value]
+
     for _ in range(copies):
-        first = five_star_pmf(pool, pity)
+        first = single(pity)
         if guaranteed:
             need = first
             guaranteed = False
         else:
             # up_chance 直接中；否则要两个五星（第二个必中）
-            second = five_star_pmf(pool, 0)
-            need = _add(_scale(first, up_chance), _scale(_convolve(first, second), 1 - up_chance))
+            if pity not in up_cache:
+                second = single(0)
+                up_cache[pity] = _add(_scale(first, up_chance), _scale(_convolve(first, second), 1 - up_chance))
+            need = up_cache[pity]
             guaranteed = False
         dist = _convolve(dist, need)
         pity = 0
@@ -162,8 +172,10 @@ def _up_dist(
 def _any_dist(pool: dict[str, Any], start_pity: int, copies: int) -> Distribution:
     """常驻池：拿到 copies 个五星（不分是不是 UP）。"""
     dist: Distribution = {0: 1.0}
+    first = five_star_pmf(pool, start_pity)
+    later = first if start_pity == 0 else (five_star_pmf(pool, 0) if copies > 1 else None)
     for index in range(copies):
-        piece = five_star_pmf(pool, start_pity if index == 0 else 0)
+        piece = first if index == 0 else later
         dist = _convolve(dist, piece)
     return dist
 

@@ -1485,7 +1485,7 @@
     "traceSpeedPct": 0.0,
     "pct": 30.0,
     "flat": 25.0,
-    "final": 165.4
+    "final": 162.7
    },
    "advance": {
     "total": 0.0,
@@ -1497,8 +1497,8 @@
     "actions": 2,
     "totalAV": 150.0,
     "requiredSpeed": 133.333333,
-    "currentSpeed": 165.4,
-    "gap": -32.066667,
+    "currentSpeed": 162.7,
+    "gap": -29.366667,
     "achievableActions": 2
    },
    "relicSetCount": 0,
@@ -1537,7 +1537,7 @@
     "traceSpeedPct": 0.0,
     "pct": 18.0,
     "flat": 25.0,
-    "final": 152.44
+    "final": 150.82
    },
    "advance": {
     "total": 0.0,
@@ -1549,8 +1549,8 @@
     "actions": 2,
     "totalAV": 150.0,
     "requiredSpeed": 133.333333,
-    "currentSpeed": 152.44,
-    "gap": -19.106667,
+    "currentSpeed": 150.82,
+    "gap": -17.486667,
     "achievableActions": 2
    },
    "relicSetCount": 0,
@@ -3691,7 +3691,7 @@
      "ornamentIds": [
       "308"
      ],
-     "speed": 121.6,
+     "speed": 122.32,
      "advance": 40.0,
      "required": 115.0,
      "neededSubstatSpeed": 0.0,
@@ -3705,7 +3705,7 @@
      "ornamentIds": [
       "308"
      ],
-     "speed": 136.3,
+     "speed": 135.76,
      "advance": 40.0,
      "required": 115.0,
      "neededSubstatSpeed": 0.0,
@@ -3719,7 +3719,7 @@
      "ornamentIds": [
       "308"
      ],
-     "speed": 142.6,
+     "speed": 141.52,
      "advance": 40.0,
      "required": 115.0,
      "neededSubstatSpeed": 0.0,

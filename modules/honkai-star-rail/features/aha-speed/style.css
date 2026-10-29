@@ -229,11 +229,6 @@
   box-sizing: border-box;
 }
 
-.aha-input:focus,
-.aha-select:focus {
-  outline: none;
-  border-color: #38bdf8;
-}
 
 .aha-result-box {
   margin-top: 12px;
@@ -911,13 +906,13 @@
 .aha-ev-left { gap: 6px; flex: 1; min-width: 0; }
 .aha-event-name { font-weight: 600; color: var(--text, #e2e8f0); }
 .aha-event-label { flex-basis: 100%; font-size: 12px; font-weight: 400; line-height: 1.6; overflow-wrap: anywhere; }
-.aha-event-expand { color: var(--muted, #94a3b8); }
+.aha-event-expand { display: inline-grid; place-items: center; width: 20px; height: 20px; flex: none; color: var(--muted, #94a3b8); }
+.aha-event-expand svg { display: block; width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .aha-ev-row[open] .aha-event-expand { transform: rotate(180deg); }
 .aha-ev-row .aha-ev-details { display: flex; padding: 8px 10px 12px; border-top: 1px solid rgba(148,163,184,.15); line-height: 1.65; }
 .aha-ev-row.ev-ult .aha-avatar { border-color: #d9a440; }
 .aha-ev-row.ev-extra .aha-avatar { border-color: #38bdf8; }
 .aha-ev-row.ev-aha .aha-avatar { border-color: #ec4899; }
-.aha-sim-wrap button:focus-visible, .aha-sim-wrap summary:focus-visible, .aha-sim-wrap a:focus-visible { outline: 2px solid #a78bfa; outline-offset: 3px; }
 .aha-card-head:has(.aha-filter-bar) { align-items: flex-start; flex-direction: column; gap: 12px; }
 @media (max-width: 1050px) {
   .aha-main-grid { grid-template-columns: minmax(280px, 320px) minmax(0, 1fr); gap: 12px; }
@@ -944,24 +939,140 @@
 .aha-team-preview button, .aha-team-preview a { border: 0; background: transparent; color: var(--muted); display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; min-width: 0; font: inherit; font-size: 10px; text-decoration: none; padding: 3px; }
 .aha-team-preview button > span:last-child, .aha-team-preview a > span:last-child { overflow: hidden; max-width: 100%; text-overflow: ellipsis; white-space: nowrap; }
 .aha-team-preview button:hover .aha-avatar { border-color: #ec4899; }
+
+/* 与外壳主题一致，保留行动时间轴的连线及所有事件内容。 */
+.aha-timeline-list::before { background: color-mix(in srgb, var(--accent) 45%, var(--border)); }
+.aha-cycle-banner { background: var(--panel-2); color: var(--accent); border-color: var(--border); }
+.aha-node-cell { background: var(--panel-2); }
+.aha-node-cell .v { color: var(--text); }
+.aha-formula-code, .aha-rank-list { background: var(--panel-2); color: var(--text); }
+.aha-avatar, .aha-avatar.is-system { background: var(--panel-2); border-color: var(--border); color: var(--text); }
 .aha-example-teams > .aha-preset-bar { border: 0; padding: 10px 0; }
 .aha-example-teams > .aha-preset-details { padding: 7px 0; border: 0; }
 @media (min-width: 761px) {
   .aha-col-left .aha-team-list { max-height: 700px; overflow-y: auto; overscroll-behavior: contain; padding-right: 4px; }
 }
-/* 外壳默认最小宽度为 1100px；仅在本功能挂载时适配窄窗口。 */
-@media (max-width: 1099px) {
-  #app:has(.aha-sim-wrap) { min-width: 0; }
-  #app:has(.aha-sim-wrap) #sidebar { width: 170px; flex-basis: 170px; }
-  #app:has(.aha-sim-wrap) .view { padding: 12px; min-width: 0; }
-}
 @media (max-width: 760px) {
-  #app:has(.aha-sim-wrap) #sidebar { width: 58px; flex-basis: 58px; }
-  #app:has(.aha-sim-wrap) .brand-text, #app:has(.aha-sim-wrap) .nav-module-title, #app:has(.aha-sim-wrap) .nav-feature .name, #app:has(.aha-sim-wrap) .sidebar-footer { display: none; }
-  #app:has(.aha-sim-wrap) .nav-feature { justify-content: center; padding: 10px 5px; }
   .aha-title-block p { line-height: 1.7; }
 }
-@media (max-width: 760px) {
-  #app:has(.aha-sim-wrap) #topbar { flex-wrap: wrap; height: auto; gap: 4px; padding: 8px 12px; }
-  #app:has(.aha-sim-wrap) .search-wrap, #app:has(.aha-sim-wrap) .topbar-actions { display: none; }
+
+/* ===== 定稿设计还原：浅粉卡片、浅色事件标签、成员卡可展开（只改外观与显示，不改数据） ===== */
+.aha-sim-wrap { --aha-rose: var(--accent); --aha-line: #f1e1e7; color: var(--text); }
+.aha-sim-wrap .aha-topbar { padding: 17px 20px; margin-bottom: 14px; background: #f8edf2; border: 1px solid #f2dde6; border-radius: 13px; box-shadow: none; }
+.aha-sim-wrap .aha-title-block h2 { margin: 0 0 5px; font-size: 20px; font-weight: 800; color: var(--text); background: none; -webkit-text-fill-color: currentColor; }
+.aha-sim-wrap .aha-title-block p { margin: 0; font-size: 12px; color: var(--muted); }
+
+.aha-sim-wrap .aha-preset-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.aha-sim-wrap .aha-preset-bar { display: contents; }
+.aha-sim-wrap .aha-preset-label { font-size: 12px; color: var(--muted); margin-right: 2px; }
+.aha-sim-wrap .aha-preset-btn { padding: 7px 10px; border: 1px solid var(--border); border-radius: 8px; background: #fff9fb; color: #755468; font-size: 12px; font-weight: 400; box-shadow: none; }
+.aha-sim-wrap .aha-preset-btn:hover { border-color: #e3adc3; color: var(--aha-rose); }
+.aha-sim-wrap .aha-preset-btn.is-active { border-color: var(--aha-rose); background: #fff0f5; color: var(--aha-rose); }
+.aha-sim-wrap .aha-preset-details { display: contents; }
+.aha-sim-wrap .aha-preset-details summary { display: inline-flex; align-items: center; gap: 8px; padding: 7px 10px; border: 1px solid var(--border); border-radius: 8px; background: #fff9fb; color: #755468; font-size: 12px; list-style: none; cursor: pointer; }
+.aha-sim-wrap .aha-preset-details summary::-webkit-details-marker { display: none; }
+.aha-sim-wrap .aha-preset-details summary::after { content: ""; width: 6px; height: 6px; flex: none; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .18s ease; }
+.aha-sim-wrap .aha-preset-details[open] summary { color: var(--aha-rose); border-color: #e8b7ca; background: #fff2f6; }
+.aha-sim-wrap .aha-preset-details[open] summary::after { transform: translateY(1px) rotate(225deg); }
+.aha-sim-wrap .aha-preset-details:not([open]) .aha-preset-desc { display: none; }
+.aha-sim-wrap .aha-preset-details[open] .aha-preset-desc { flex: 1 0 100%; width: 100%; margin: 4px 0 0; padding: 12px 16px; border: 1px solid var(--border); border-left: 3px solid var(--aha-rose); border-radius: 9px; background: #fff9fb; color: var(--text); font-size: 12px; line-height: 1.7; box-shadow: none; }
+.aha-sim-wrap .aha-preset-desc strong { display: block; margin-bottom: 3px; color: var(--aha-rose); font-size: 12px; }
+.aha-sim-wrap .aha-preset-desc span { display: block; max-width: 95ch; }
+@media (prefers-reduced-motion: reduce) { .aha-sim-wrap .aha-preset-details summary::after { transition: none; } }
+
+.aha-sim-wrap .aha-main-grid { grid-template-columns: minmax(300px, 420px) minmax(0, 1fr); gap: 18px; }
+.aha-sim-wrap .aha-col { gap: 14px; }
+.aha-sim-wrap .aha-card { padding: 19px 21px; border: 1px solid var(--aha-line); border-radius: 14px; background: #fffdfd; box-shadow: none; }
+.aha-sim-wrap .aha-col-left > .aha-card:first-child { background: #fffafd; }
+.aha-sim-wrap .aha-card-head h3 { margin: 0; font-size: 17px; font-weight: 800; color: var(--text); }
+.aha-sim-wrap .aha-card-head { margin-bottom: 12px; }
+.aha-sim-wrap .aha-input, .aha-sim-wrap .aha-select { border: 1px solid var(--field-edge); border-radius: 8px; background: var(--field-bg); color: var(--text); box-shadow: none; }
+
+/* 成员卡：标题行常显，其余内容展开后显示 */
+.aha-sim-wrap .aha-unit-card { display: block; margin: 6px 0; padding: 8px 10px; border: 1px solid var(--border); border-radius: 9px; background: #fffafc; box-shadow: none; }
+.aha-sim-wrap .aha-unit-card.is-open { border-left: 3px solid var(--aha-rose); }
+.aha-sim-wrap .aha-unit-top { display: block; margin: 0; }
+.aha-sim-wrap .aha-unit-identity { display: flex; align-items: center; gap: 10px; flex-wrap: nowrap; }
+.aha-sim-wrap .aha-slot-badge { width: 26px; height: 26px; flex: none; display: grid; place-items: center; padding: 0; border-radius: 50%; background: var(--aha-rose); color: #fff; font-size: 13px; font-weight: 700; }
+.aha-sim-wrap .aha-unit-identity .aha-avatar { width: 46px; height: 46px; flex: 0 0 46px; border: 0; border-radius: 50%; background: #fff1f5; color: var(--aha-rose); }
+.aha-sim-wrap .aha-unit-name { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.aha-sim-wrap .aha-unit-name strong { font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.aha-sim-wrap .aha-unit-identity .aha-select.unit-char-select { width: 100% !important; max-width: 220px; height: 22px; margin-top: 2px; padding: 0 4px 0 0; border: 0; background: transparent; color: var(--muted); font-size: 11px; font-weight: 400; cursor: pointer; }
+.aha-sim-wrap .aha-unit-toggle { width: 26px; height: 26px; flex: none; display: grid; place-items: center; padding: 0; border: 0; border-radius: 6px; background: none; color: #8f7484; cursor: pointer; }
+.aha-sim-wrap .aha-unit-toggle svg { display: block; width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform .15s; }
+.aha-sim-wrap .aha-unit-toggle:hover { background: #f9edf2; color: var(--aha-rose); }
+.aha-sim-wrap .aha-unit-card.is-open .aha-unit-toggle svg { transform: rotate(180deg); }
+.aha-sim-wrap .aha-unit-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .25s ease; }
+.aha-sim-wrap .aha-unit-card.is-open .aha-unit-body { grid-template-rows: 1fr; }
+.aha-sim-wrap .aha-unit-body-inner { min-height: 0; overflow: hidden; }
+.aha-sim-wrap .aha-unit-body-inner > :first-child { margin-top: 8px; }
+.aha-sim-wrap .aha-unit-body-inner { padding-left: 36px; }
+@media (prefers-reduced-motion: reduce) { .aha-sim-wrap .aha-unit-body { transition: none; } }
+.aha-sim-wrap .aha-unit-quick { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 11px; }
+.aha-sim-wrap .aha-unit-quick .aha-equip-chk { padding: 0; font-size: 12px; color: var(--text); }
+.aha-sim-wrap .aha-equip-chk input { accent-color: var(--aha-rose); }
+.aha-sim-wrap .aha-unit-metrics { display: flex; gap: 6px; }
+.aha-sim-wrap .aha-metric-tag { padding: 5px 7px; border: 0; border-radius: 6px; background: #fbe8ee; color: #6d4b5e; font-size: 11px; font-family: inherit; }
+.aha-sim-wrap .aha-metric-tag b { color: var(--text); font-family: inherit; }
+.aha-sim-wrap .aha-build-picker .aha-select { height: 32px; font-size: 12px; }
+.aha-sim-wrap .aha-build-picker .ghost, .aha-sim-wrap .aha-save-row .ghost { border-color: var(--border); background: #fff; color: var(--aha-rose); }
+.aha-sim-wrap .aha-unit-body details summary, .aha-sim-wrap .aha-col-left details > summary { color: #a76a85; font-size: 13px; }
+
+/* 结论：两项主数据并排，其余计数与次数保留在下方 */
+.aha-sim-wrap .aha-result-bar { padding: 19px 21px; border: 1px solid var(--aha-line); border-radius: 14px; background: #fffdfd; box-shadow: none; }
+.aha-sim-wrap .aha-result-main { display: grid; grid-template-columns: 1fr 1fr; gap: 0; overflow: hidden; border: 1px solid #f2dce5; border-radius: 12px; background: #faedf2; }
+.aha-sim-wrap .aha-result-stat { display: flex; flex-direction: column; gap: 4px; padding: 17px 20px; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.aha-sim-wrap .aha-result-stat + .aha-result-stat { border-left: 1px solid #efd8e2; }
+.aha-sim-wrap .aha-result-stat .k, .aha-sim-wrap .aha-result-stat .sub { color: var(--muted); font-size: 12px; }
+.aha-sim-wrap .aha-result-stat .v { color: var(--aha-rose); font-size: 27px; font-weight: 800; font-family: inherit; font-variant-numeric: tabular-nums; }
+.aha-sim-wrap .aha-node-grid { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin: 0; border-top: 1px solid #efd8e2; background: #fffafc; }
+.aha-sim-wrap .aha-node-cell { padding: 10px 14px; border: 0; border-radius: 0; background: transparent; box-shadow: none; text-align: left; }
+.aha-sim-wrap .aha-node-cell + .aha-node-cell { border-left: 1px solid #f0e6e9; }
+.aha-sim-wrap .aha-node-cell .k { color: var(--muted); font-size: 11px; }
+.aha-sim-wrap .aha-node-cell .v { color: var(--text) !important; font-size: 15px; font-weight: 700; font-family: inherit; }
+.aha-sim-wrap .aha-result-units { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.aha-sim-wrap .aha-result-chip { padding: 4px 9px; border: 1px solid var(--border); border-radius: 999px; background: #fff9fb; color: #755468; font-size: 12px; box-shadow: none; }
+.aha-sim-wrap .aha-result-chip b { color: var(--text); }
+.aha-sim-wrap .aha-result-chip.is-aha { background: #fff0f5; border-color: #e3adc3; color: #b92f63; }
+.aha-sim-wrap .aha-formula-details { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); }
+.aha-sim-wrap .aha-formula-details summary { color: #a76a85; font-size: 13px; }
+.aha-sim-wrap .aha-formula-code { background: #fff5f8; color: var(--text); border: 1px solid var(--border); }
+
+/* 时间轴：浅色筛选、粉色轮次条、浅色行动值标签 */
+.aha-sim-wrap .aha-filter-bar { gap: 7px; }
+.aha-sim-wrap .aha-filter-btn, .aha-sim-wrap .aha-cycle-btn { padding: 7px 10px; border: 1px solid #eadce3; border-radius: 8px; background: transparent; color: #755468; font-size: 12px; box-shadow: none; }
+.aha-sim-wrap .aha-filter-btn.is-active, .aha-sim-wrap .aha-cycle-btn.is-active { background: #f8e2eb; border-color: #e3adc3; color: #b92f63; }
+.aha-sim-wrap .aha-cycle-label { color: var(--muted); font-size: 13px; }
+.aha-sim-wrap .aha-cycle-banner { margin: 0 0 9px; padding: 9px 12px; border: 0; border-radius: 8px; background: #f8e8ef; color: #b72c60; font-size: 12px; font-weight: 700; }
+.aha-sim-wrap .aha-timeline-list::before { background: #e8b8cc; }
+.aha-sim-wrap .aha-ev-row { border: 1px solid #f0e1e7; border-radius: 9px; background: #fffdfd; box-shadow: none; }
+.aha-sim-wrap .aha-ev-row.ev-aha, .aha-sim-wrap .aha-ev-row.ev-ult, .aha-sim-wrap .aha-ev-row.ev-extra, .aha-sim-wrap .aha-ev-row.ev-elation { background: #fffdfd; }
+.aha-sim-wrap .aha-ev-row.ev-aha { border-color: #ecc3d4; }
+.aha-sim-wrap .aha-event-summary { color: var(--text); }
+.aha-sim-wrap .aha-event-order { color: #a4919c; }
+.aha-sim-wrap .aha-ev-row .aha-avatar { border: 2px solid #fffafd; background: #fff1f5; color: var(--aha-rose); }
+.aha-sim-wrap .aha-ev-av { min-width: 70px; padding: 5px; border: 0; border-radius: 5px; background: #f3e8ee; color: #9d3963; font-family: inherit; font-size: 11px; text-align: center; font-variant-numeric: tabular-nums; }
+.aha-sim-wrap .aha-ev-type { padding: 3px 7px; border: 0; border-radius: 5px; background: #fbe8ee; color: #8a4766; font-size: 11px; }
+.aha-sim-wrap .aha-event-name { color: var(--text); font-weight: 700; }
+.aha-sim-wrap .aha-event-label { color: #6d5867; font-weight: 400; }
+.aha-sim-wrap .aha-event-expand { color: #a4919c; }
+.aha-sim-wrap .aha-ev-row .aha-ev-details { border-top-color: #f3e5eb; color: var(--text); }
+.aha-sim-wrap .aha-ev-chip { border: 1px solid var(--border); background: #fff5f8; color: #6d4b5e; }
+.aha-sim-wrap .aha-tools > summary { color: #a76a85; }
+.aha-sim-wrap .aha-unit-identity .aha-select.unit-char-select { appearance: none; -webkit-appearance: none; background-image: none; }
+.aha-sim-wrap .aha-unit-identity .aha-avatar > span { font-size: 22px; line-height: 1; }
+.aha-sim-wrap .aha-result-main { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.aha-sim-wrap .aha-result-stat { min-width: 0; }
+@media (max-width: 640px) {
+  .aha-sim-wrap .aha-result-bar { padding: 12px; }
+  .aha-sim-wrap .aha-result-stat { padding: 12px; }
+  .aha-sim-wrap .aha-result-stat .v { font-size: 21px; }
+  .aha-sim-wrap .aha-node-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .aha-sim-wrap .aha-node-cell:nth-child(3) { border-left: 0; }
+  .aha-sim-wrap .aha-node-cell:nth-child(n+3) { border-top: 1px solid #f0e6e9; }
 }
+@media (max-width: 1050px) { .aha-sim-wrap .aha-main-grid { grid-template-columns: minmax(280px, 320px) minmax(0, 1fr); gap: 12px; } }
+@media (max-width: 760px) { .aha-sim-wrap .aha-main-grid { grid-template-columns: minmax(0, 1fr); } }
+/* 头像底部的稀有度星星：放大上移裁掉 */
+.aha-sim-wrap .aha-avatar { overflow: hidden; }
+.aha-sim-wrap .aha-avatar img { object-fit: cover; object-position: center top; transform: scale(1.32); transform-origin: 50% 18%; }

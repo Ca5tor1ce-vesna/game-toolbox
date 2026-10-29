@@ -721,12 +721,15 @@
         throw new Error("参数 team 最多 " + MAX_TEAM + " 人，收到 " + team.length);
       }
       const units = [];
+      const seen = new Set();
       for (let slot = 0; slot < team.length; slot += 1) {
         const raw = team[slot];
         if (!isDict(raw)) {
           throw new Error("参数 team[" + slot + "] 需要是对象");
         }
         const uid = resolveUid(raw.id);
+        if (ROSTER[uid] && seen.has(uid)) throw new Error(`队伍中不能重复选择角色：${ROSTER[uid].name}。`);
+        seen.add(uid);
         const spec = ROSTER[uid] || {};
         let name = raw.name;
         name =

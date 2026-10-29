@@ -1,10 +1,10 @@
 {
   "shell.brand": "b站：@syllo椭圆",
   "shell.search": "搜索功能…（配速 / 抽卡 / 伤害）",
-  "shell.rescan": "↻ 重新扫描",
-  "shell.guide": "📘 扩展指南",
-  "shell.status": "🩺 模块状态",
+  "shell.rescan": "⟳ 重新扫描",
+  "shell.guide": "扩展指南",
+  "shell.status": "模块状态",
   "shell.pick": "选择一个功能开始",
-  "shell.noMatch": "没有匹配的功能。<br/>换个词，或者点「↻ 重新扫描」。",
+  "shell.noMatch": "没有匹配的功能。<br/>换个词，或者点「⟳ 重新扫描」。",
   "shell.moduleEmpty": "这个模块还没有功能"
 }

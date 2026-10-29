@@ -42,6 +42,8 @@ class Feature:
     api_file: str = "api.py"
     dir: Path | None = None
     module_dir: Path | None = None
+    # false = 照常加载、可按地址或搜索打开，但不在侧栏菜单里列出
+    menu: bool = True
 
     @property
     def base_url(self) -> str:
@@ -59,6 +61,7 @@ class Feature:
             "description": self.description,
             "tags": list(self.tags),
             "order": self.order,
+            "menu": self.menu,
             "baseUrl": self.base_url,
             "uiUrl": f"{self.base_url}/{self.ui_file}" if has_ui else None,
             "styleUrl": f"{self.base_url}/style.css" if has_style else None,
@@ -165,6 +168,7 @@ def _scan_features(module: Module, errors: list[dict[str, Any]]) -> None:
             api_file=str(meta.get("api") or "api.py"),
             dir=fdir,
             module_dir=module.dir,
+            menu=meta.get("menu", True) is not False,
         )
         if not (fdir / feature.ui_file).is_file() and not (fdir / feature.api_file).is_file():
             errors.append(

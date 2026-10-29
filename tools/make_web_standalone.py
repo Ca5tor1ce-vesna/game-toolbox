@@ -33,9 +33,9 @@ DIST = ROOT / "dist"
 OUT_NAME = "配速查询-网页版.html"
 
 # 内联素材后整个 HTML 的上限。
-# 立绘本地化到 320px 后素材约 3.4 MB，base64 后约 4.6 MB → HTML 约 5.1 MB，
-# 离这条线还有余量；超过就退回远程 URL（数据里每条都有 `_remote` 兜底）。
-INLINE_LIMIT = 7 * 1024 * 1024
+# 含界面立绘和各功能素材的当前页面略超过 7 MiB；保留适当余量。
+# 超过上限仍退回远程 URL（数据里每条都有 `_remote` 兜底）。
+INLINE_LIMIT = 8 * 1024 * 1024
 ASSET_PREFIX = "/modules/honkai-star-rail/assets/"
 
 
@@ -67,13 +67,6 @@ def asset_data_uris() -> dict[str, str]:
 
 def read_json(path: Path) -> object:
     return json.loads(path.read_text(encoding="utf-8"))
-
-
-def strip_export(source: str) -> str:
-    """ui.js 是 ES module（export default {...}），单文件页面里要当普通脚本用。"""
-    if "export default" not in source:
-        raise SystemExit("ui.js 结构变了：找不到 export default")
-    return source.replace("export default {", "const GT_FEATURE = {", 1)
 
 
 SHIM_JS = r"""
@@ -279,34 +272,26 @@ def build(with_theme: bool = True, out_name: str | None = None) -> Path:
     oracle = read_json(ROOT / "tests" / "fixtures" / "web_oracle.json")
 
     shell_css = read(ROOT / "app" / "style.css")
+    # 单文件版直接内嵌侧栏立绘，不依赖本地服务或外部路径。
+    sidebar_art = ROOT / "app" / "assets" / "feiying.png"
+    if sidebar_art.is_file():
+        sidebar_data = base64.b64encode(sidebar_art.read_bytes()).decode("ascii")
+        shell_css = shell_css.replace("/app/assets/feiying.png", f"data:image/png;base64,{sidebar_data}")
     local_state = read(ROOT / "app" / "local-state.js")
+    select_menu = read(ROOT / "app" / "select-menu.js")
     feature_css = read(FEATURE / "style.css")
     web_api = read(FEATURE / "web_api.js")
-    ui = strip_export(read(FEATURE / "ui.js"))
+    ui = read(FEATURE / "ui.js")
 
     herta_api = read(HERTA / "web_api.js")
     herta_css = read(HERTA / "style.css")
     herta_ui = read(HERTA / "ui.js")
-    if "export default {" not in herta_ui:
-        raise SystemExit("herta ui.js 结构变了")
-    # 包一层函数作用域：两个 ui.js 都有 esc / MODES 之类的顶层名字，放在同一页的经典脚本里会撞名
-    herta_ui = (
-        "const GT_HERTA_FEATURE = (() => {\n"
-        + herta_ui.replace("export default {", "return {", 1)
-        + "\n})();"
-    )
-
     AHA = MODULE / "features" / "aha-speed"
     aha_api = read(AHA / "web_api.js")
     aha_css = read(AHA / "style.css")
-    aha_ui_raw = read(AHA / "ui.js")
-    if "export default {" not in aha_ui_raw:
-        raise SystemExit("aha-speed ui.js 结构变了")
-    aha_ui = (
-        "const GT_AHA_FEATURE = (() => {\n"
-        + aha_ui_raw.replace("export default {", "return {", 1)
-        + "\n})();"
-    )
+    aha_ui = read(AHA / "ui.js")
+    # 保留原始 ES 模块源码，单文件版通过本地 Blob URL 加载，避免改写 export 文本。
+    feature_sources_js = json.dumps({"speed": ui, "herta": herta_ui, "aha": aha_ui}, ensure_ascii=True).replace("</", "<\\/")
     # 单文件网页版不会再向服务器取 original.html / vendor，直接把源码内联成全局变量。
     aha_original_js = json.dumps(
         read(AHA / "original.html"), ensure_ascii=False
@@ -339,6 +324,7 @@ def build(with_theme: bool = True, out_name: str | None = None) -> Path:
     version = re.search(r'__version__\s*=\s*"([^"]+)"', read(ROOT / "core" / "__init__.py"))
     version_text = version.group(1) if version else "?"
 
+    skeleton_html = '<div class="gt-skeleton" role="status" aria-label="页面加载中"><div class="gt-skeleton-card"><i></i><i></i><i></i><i></i></div><div class="gt-skeleton-card"><i></i><i></i><i></i><i></i><i></i></div></div><div class="gt-feature-root is-loading" aria-busy="true"></div>'
     html = f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -366,6 +352,7 @@ html, body {{ height: auto; overflow: visible; }}
 .gt-selftest.ok {{ color: var(--good); border-color: color-mix(in srgb, var(--good) 45%, transparent); }}
 .gt-selftest.bad {{ color: var(--bad); border-color: color-mix(in srgb, var(--bad) 45%, transparent); }}
 .gt-standalone-body {{ max-width: 1180px; margin: 0 auto; padding: 16px 20px 60px; }}
+.gt-standalone-body .gt-skeleton {{ position: static; }}
 #gt-failures {{ margin-top: 10px; font-size: 12px; color: var(--bad); white-space: pre-wrap; }}
 .gt-tabs {{ display: flex; gap: 4px; }}
 .gt-tab {{ background: transparent; border: 1px solid var(--border); color: var(--muted); padding: 5px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; }}
@@ -416,9 +403,9 @@ html, body {{ height: auto; overflow: visible; }}
   <span class="gt-selftest" id="gt-selftest">自检中…</span>
 </header>
 <div class="gt-standalone-body">
-  <div id="view"></div>
-  <div id="view-aha" hidden></div>
-  <div id="view-herta" hidden></div>
+  <div id="view">{skeleton_html}</div>
+  <div id="view-aha" hidden>{skeleton_html}</div>
+  <div id="view-herta" hidden>{skeleton_html}</div>
   <div id="gt-failures"></div>
 </div>
 
@@ -440,13 +427,22 @@ html, body {{ height: auto; overflow: visible; }}
 {SHIM_JS}
 </script>
 <script>
-{ui}
+const GT_FEATURE_SOURCES = {feature_sources_js};
+const GT_FEATURE_PROMISES = new Map();
+function loadStandaloneFeature(name) {{
+  if (!GT_FEATURE_PROMISES.has(name)) {{
+    const url = URL.createObjectURL(new Blob([GT_FEATURE_SOURCES[name]], {{type: "text/javascript"}}));
+    const loading = import(url).then(module => {{
+      if (!module.default || typeof module.default.mount !== "function") throw new Error(`功能 ${{name}} 缺少默认界面入口`);
+      return module.default;
+    }}).finally(() => URL.revokeObjectURL(url));
+    GT_FEATURE_PROMISES.set(name, loading);
+  }}
+  return GT_FEATURE_PROMISES.get(name);
+}}
 </script>
 <script>
 {herta_api}
-</script>
-<script>
-{herta_ui}
 </script>
 <script>
 {aha_api}
@@ -456,11 +452,9 @@ window.GT_AHA_ORIGINAL_HTML = {aha_original_js};
 window.GT_AHA_VENDOR_JS = {aha_vendor_js};
 </script>
 <script>
-{aha_ui}
-</script>
-<script>
 {local_state}
 </script>
+<script>{select_menu}</script>
 <script>
 (async function () {{
   const saveStatus = document.createElement("div"); saveStatus.id = "local-save-status"; saveStatus.setAttribute("role", "status"); document.body.append(saveStatus);
@@ -478,6 +472,7 @@ window.GT_AHA_VENDOR_JS = {aha_vendor_js};
   const api = window.GT_WEB_API.createApi(window.GT_DATA, storage);
 
   // 自检先跑：算法对不对，页面自己先说清楚
+  await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
   const badge = document.getElementById("gt-selftest");
   try {{
     const result = runSelfTest(api, window.GT_ORACLE);
@@ -501,8 +496,11 @@ window.GT_AHA_VENDOR_JS = {aha_vendor_js};
   const ctx = buildCtx(api);
 
   try {{
-    await GT_FEATURE.mount(document.getElementById("view"), ctx);
-    ctx.persistence.bind(document.getElementById("view"), GT_FEATURE.getState);
+    const view = document.getElementById("view");
+    const feature = await loadStandaloneFeature("speed");
+    await feature.mount(view.querySelector('.gt-feature-root'), ctx);
+    view.querySelector('.gt-skeleton')?.remove(); view.querySelector('.gt-feature-root').classList.remove('is-loading'); view.querySelector('.gt-feature-root').removeAttribute('aria-busy');
+    ctx.persistence.bind(document.getElementById("view"), feature.getState);
     window.GT_MOUNTED = true;
   }} catch (error) {{
     document.getElementById("view").innerHTML =
@@ -557,12 +555,12 @@ window.GT_AHA_VENDOR_JS = {aha_vendor_js};
     document.getElementById("view-herta").hidden = id !== "view-herta";
     if (id === "view-aha" && !ahaMounted) {{
       ahaMounted = true;
-      try {{ await GT_AHA_FEATURE.mount(document.getElementById("view-aha"), ahaCtx); ahaCtx.persistence.bind(document.getElementById("view-aha"), GT_AHA_FEATURE.getState); window.GT_AHA_MOUNTED = true; }}
+      try {{ const view = document.getElementById("view-aha"); const feature = await loadStandaloneFeature("aha"); await feature.mount(view.querySelector('.gt-feature-root'), ahaCtx); view.querySelector('.gt-skeleton')?.remove(); view.querySelector('.gt-feature-root').classList.remove('is-loading'); view.querySelector('.gt-feature-root').removeAttribute('aria-busy'); ahaCtx.persistence.bind(view, feature.getState); window.GT_AHA_MOUNTED = true; }}
       catch (error) {{ document.getElementById("view-aha").innerHTML = `<p class="error-text">界面挂载失败：${{error.message}}</p>`; window.GT_AHA_MOUNTED = false; }}
     }}
     if (id === "view-herta" && !hertaMounted) {{
       hertaMounted = true;
-      try {{ await GT_HERTA_FEATURE.mount(document.getElementById("view-herta"), hertaCtx); hertaCtx.persistence.bind(document.getElementById("view-herta"), GT_HERTA_FEATURE.getState); window.GT_HERTA_MOUNTED = true; }}
+      try {{ const view = document.getElementById("view-herta"); const feature = await loadStandaloneFeature("herta"); await feature.mount(view.querySelector('.gt-feature-root'), hertaCtx); view.querySelector('.gt-skeleton')?.remove(); view.querySelector('.gt-feature-root').classList.remove('is-loading'); view.querySelector('.gt-feature-root').removeAttribute('aria-busy'); hertaCtx.persistence.bind(view, feature.getState); window.GT_HERTA_MOUNTED = true; }}
       catch (error) {{ document.getElementById("view-herta").innerHTML = `<p class="error-text">界面挂载失败：${{error.message}}</p>`; window.GT_HERTA_MOUNTED = false; }}
     }}
     const hash = id === "view-herta" ? "#herta" : (id === "view-aha" ? "#aha" : "");

@@ -18,6 +18,19 @@ export default {
     const CUSTOM_ID = "__custom__";
     // 一条速度副词条平均约 2.3 速（2.0 / 2.3 / 2.6 三档的中位），只用来估算「还要几条」
     const SUBSTAT_ROLL = 2.3;
+    // 每位已收录角色都指定色系，工作区切换而侧栏保持统一；新增及自定义角色回退粉色。
+    const CHARACTER_THEME_GROUPS = {
+      pearl: ["1503"], pink: ["1505", "1501", "1306", "1309", "1221", "1211", "1001", "1224", "1107", "1013", "1009"],
+      teal: ["1502", "1303", "1002", "1205", "1213", "1405", "1404", "1108", "1201"],
+      blue: ["1512", "1413", "1415", "1410", "1401", "1212", "1209", "1104", "1106", "1312", "1014"],
+      indigo: ["1504", "1506", "1006", "1308", "1215", "1223", "1204", "8009", "1008"],
+      violet: ["1407", "1005", "1102", "1208", "1314", "1307", "1406", "1015", "1214"],
+      gold: ["1513", "1304", "1509", "1313", "1402", "1315", "1305", "1203", "8005", "1207", "1103"],
+      red: ["1508", "1507", "1510", "1321", "1310", "1225", "1218", "1003", "1302", "1301", "1111", "1210", "8003"],
+      green: ["1409", "1412", "1220", "1217", "1222", "1202", "1110"],
+      slate: ["1414", "1408", "1403", "1004", "1101", "1105", "1206", "1112", "1109", "1317", "8007", "8001"],
+    };
+    const CHARACTER_THEMES = Object.fromEntries(Object.entries(CHARACTER_THEME_GROUPS).flatMap(([theme, ids]) => ids.map((id) => [id, theme])));
 
     let catalog;
     try {
@@ -73,165 +86,169 @@ export default {
       /* 读不到就全部展开 */
     }
 
-    const step = (id, no, textKey, title, body) => `
-      <section class="sp-step${collapsedSteps.has(id) ? " collapsed" : ""}" data-step="${id}">
-        <button type="button" class="sp-step-head" aria-expanded="${collapsedSteps.has(id) ? "false" : "true"}">
-          <span class="sp-step-no">${no}</span>
-          <span class="sp-step-title" data-text="${textKey}">${title}</span>
-          <span class="sp-step-sum" id="sum-${id}"></span>
-          <span class="sp-caret">▾</span>
-        </button>
-        <div class="sp-step-body">${body}</div>
-      </section>`;
+    const CHEVRON = `<svg class="sp-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 9 7 7 7-7"/></svg>`;
+    // 带「− / +」的数字框：只是包装原 input，事件仍由原 input 发出。
+    const numeric = (id, label, attrs) => `
+      <div class="field"><label for="${id}">${label}</label>
+        <div class="sp-control sp-numeric">
+          <button type="button" data-step-for="${id}" data-dir="-1" aria-label="减少${label}">−</button>
+          <input id="${id}" type="number" ${attrs} />
+          <button type="button" data-step-for="${id}" data-dir="1" aria-label="增加${label}">+</button>
+        </div>
+      </div>`;
+    const select = (id, label, options, extra = "") => `
+      <div class="field ${extra}"><label for="${id}">${label}</label>
+        <div class="sp-control sp-select"><select id="${id}">${options}</select>${CHEVRON}</div>
+      </div>`;
 
     root.innerHTML = `
     <div class="sp">
       <div class="sp-left">
-        <h2 class="sp-col-title" data-text="speed-plan.card.pick">🎯 选角色与配装</h2>
-        ${step(
-          "char",
-          "①",
-          "speed-plan.step.character",
-          "角色",
-          `
-          <div class="sp-char-top">
-            <img id="splash" class="sp-splash" alt="角色立绘" />
-            <div class="sp-char-meta">
+        <section class="sp-panel-card sp-step sp-char-panel${collapsedSteps.has("char") ? " collapsed" : ""}" data-step="char">
+          <button type="button" class="sp-step-head" aria-expanded="${collapsedSteps.has("char") ? "false" : "true"}">
+            <span class="sp-step-no">1</span>
+            <span class="sp-step-title" data-text="speed-plan.step.character">角色</span>
+            <span class="sp-step-sum" id="sum-char"></span>
+            <span class="sp-caret" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6 15 6-6 6 6"/></svg></span>
+          </button>
+          <div class="sp-step-body sp-char-body">
+            <div class="sp-portrait-column">
+              <div class="sp-portrait">
+                <img id="splash" class="sp-splash" alt="角色立绘" />
+                <div class="sp-art-wash" aria-hidden="true"></div>
+              </div>
+              <button type="button" id="select-character" class="sp-pick">选择角色　⌕</button>
+            </div>
+            <div class="sp-config">
+              ${select("eidolon", "星魂", [0, 1, 2, 3, 4, 5, 6].map((n) => `<option value="${n}"${n ? "" : " selected"}>${n} 魂</option>`).join(""), "sp-soul")}
               <div id="splash-meta" class="sp-splash-meta">选个角色</div>
-              <div class="row" style="margin-top:8px">
-                <div class="field"><label for="eidolon">星魂</label>
-                  <select id="eidolon" class="input narrow">
-                    <option value="0" selected>0 魂</option><option value="1">1 魂</option><option value="2">2 魂</option>
-                    <option value="3">3 魂</option><option value="4">4 魂</option><option value="5">5 魂</option><option value="6">6 魂</option>
-                  </select>
+              <div class="sp-split"></div>
+              <div class="sp-form-row">
+                <div class="field sp-grow"><label>光锥（只显示同命途）</label>
+                  <button id="lightcone-picker" type="button" class="picker-button sp-control"></button>
+                </div>
+                ${select("superimpose", "叠影", [1, 2, 3, 4, 5].map((n) => `<option${n === 1 ? " selected" : ""}>${n}</option>`).join(""), "sp-tiny")}
+              </div>
+              <div class="sp-split"></div>
+              <h3 class="sp-cfg-heading" data-text="speed-plan.step.relic">遗器</h3>
+              <div class="sp-form-row">
+                <div class="field sp-grow"><label>遗器 4 件套</label>
+                  <button id="fourPiece-picker" type="button" class="picker-button sp-control"></button>
+                </div>
+                <div class="field sp-grow"><label>位面饰品</label>
+                  <button id="ornamentA-picker" type="button" class="picker-button sp-control"></button>
                 </div>
               </div>
+              <label class="sp-check"><input id="speedBoots" type="checkbox" checked /> 速度鞋（主词条 +25）</label>
+              <div id="relic-warn"></div>
+              <details class="sp-more">
+                <summary>套装触发条件</summary>
+                <div class="sp-form-row">
+                  ${numeric("fourUlts", "遗器开大次数", 'value="0" min="0" step="1"')}
+                  ${numeric("coneUlts", "光锥开大次数", 'value="0" min="0" step="1"')}
+                </div>
+                <label class="sp-check"><input id="ultTargetsAlly" type="checkbox" /> 开大目标是队友（信使 4 件套）</label>
+                <p class="hint" id="relic-note"></p>
+                <p class="hint" id="char-info"></p>
+              </details>
             </div>
           </div>
-          <input id="char-search" class="input sp-search" type="search" placeholder="搜索角色 / 命途 / 属性…（越新推出的越靠前）" autocomplete="off" />
-          <div id="char-grid" class="sp-char-grid" role="listbox" aria-label="角色"></div>
+          <dialog id="character-dialog" class="sp-character-dialog" aria-labelledby="character-dialog-title">
+            <button type="button" id="close-character" class="sp-dialog-close" aria-label="关闭">×</button>
+            <h3 id="character-dialog-title">选择角色</h3>
+            <p class="sp-dialog-sub">搜索角色、命途或属性，选择后返回配装页面</p>
+            <label class="sp-dialog-search"><span aria-hidden="true">⌕</span><input id="char-search" type="search" placeholder="搜索角色 / 命途 / 属性…（越新推出的越靠前）" autocomplete="off" aria-label="搜索角色" /></label>
+            <div id="char-grid" class="sp-char-grid" role="listbox" aria-label="角色"></div>
+            <div class="sp-dialog-foot"><span>按角色、命途或属性筛选</span><button type="button" id="cancel-character">取消</button></div>
+          </dialog>
           <div id="custom-fields" class="sp-custom hidden">
-            <div class="row">
+            <div class="sp-form-row">
               <div class="field"><label for="customName">名字</label><input id="customName" class="input" maxlength="20" value="自定义角色" /></div>
               <div class="field"><label for="customBase">基础速度（1–1000）</label><input id="customBase" class="input narrow" type="number" min="1" max="1000" step="1" value="100" /></div>
               <div class="field"><label for="customTrace">行迹速度（0–200）</label><input id="customTrace" class="input narrow" type="number" min="0" max="200" step="1" value="0" /></div>
             </div>
             <p class="hint" data-text="speed-plan.custom.hint">自定义角色没有自带的速度效果；光锥不限命途。</p>
           </div>
-          <p class="hint" id="char-info"></p>`,
-        )}
-        ${step(
-          "cone",
-          "②",
-          "speed-plan.step.lightcone",
-          "光锥",
-          `
-          <div class="row">
-            <div class="field sp-grow"><label>光锥（只显示同命途）</label>
-              <button id="lightcone-picker" type="button" class="picker-button"></button>
-            </div>
-            <div class="field"><label for="superimpose">叠影</label>
-              <select id="superimpose" class="input narrow">
-                <option selected>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
-              </select>
-            </div>
+        </section>
+
+        <section class="sp-panel-card sp-bonus" data-step="bonus">
+          <div class="sp-compact-head">
+            <strong data-text="speed-plan.step.bonus">加成与拉条</strong>
+            <button type="button" class="sp-link" data-toggle="sp-advance-more" aria-expanded="false" hidden>查看拉条效果</button>
           </div>
-          <div id="r-cone-advance"></div>`,
-        )}
-        ${step(
-          "relic",
-          "③",
-          "speed-plan.step.relic",
-          "遗器",
-          `
-          <div class="row">
-            <div class="field sp-grow"><label>遗器 4 件套</label>
-              <button id="fourPiece-picker" type="button" class="picker-button"></button>
-            </div>
-            <div class="field sp-grow"><label>位面饰品</label>
-              <button id="ornamentA-picker" type="button" class="picker-button"></button>
-            </div>
+          <div class="sp-bonus-grid">
+            ${numeric("substat", "副词条速度合计", 'value="0" min="0" max="78" step="any"')}
+            ${numeric("customPct", "其它速度 %", 'value="0" step="1"')}
+            ${numeric("customFlat", "其它固定速度", 'value="0" step="1"')}
+            ${numeric("advCustom", "其它拉条 %", 'value="0" step="5"')}
           </div>
-          <div class="row" style="margin-top:8px">
-            <label class="field check"><input id="speedBoots" type="checkbox" checked /> 速度鞋（主词条 +25）</label>
-            <label class="field check"><input id="ultTargetsAlly" type="checkbox" /> 开大目标是队友（信使 4 件套才生效）</label>
+          <p id="substat-limit" class="hint" aria-live="polite"></p>
+          <div id="sp-advance-more" class="sp-more-box" hidden><div id="r-advance-effects"></div></div>
+        </section>
+
+        <section class="sp-panel-card sp-effects">
+          <div class="sp-compact-head">
+            <strong>角色与装备效果</strong>
+            <button type="button" class="sp-link" data-toggle="sp-effect-more" aria-expanded="false">展开详细设置</button>
           </div>
-          <div class="row" style="margin-top:8px">
-            <div class="field"><label for="fourUlts">开大次数（风套这类按次触发）</label><input id="fourUlts" class="input narrow" type="number" value="0" min="0" step="1" /></div>
-            <div class="field"><label for="coneUlts">光锥开大次数</label><input id="coneUlts" class="input narrow" type="number" value="0" min="0" step="1" /></div>
-          </div>
-          <div id="relic-warn"></div>
-          <div id="r-relics"></div>
-          <p class="hint" id="relic-note"></p>`,
-        )}
-        ${step(
-          "bonus",
-          "④",
-          "speed-plan.step.bonus",
-          "加成与拉条",
-          `
-          <div class="row">
-            <div class="field"><label for="substat">副词条速度合计</label><input id="substat" class="input narrow" type="number" value="0" step="1" /></div>
-            <div class="field"><label for="customPct">其它速度 %</label><input id="customPct" class="input narrow" type="number" value="0" step="1" /></div>
-            <div class="field"><label for="customFlat">其它固定速度</label><input id="customFlat" class="input narrow" type="number" value="0" step="1" /></div>
-            <div class="field"><label for="advCustom">其它拉条 %</label><input id="advCustom" class="input narrow" type="number" value="0" step="5" /></div>
-          </div>
-          <h3>检测到的速度效果（勾选后计入）</h3>
+          <p class="sp-effects-note">检测到的速度效果，勾选后计入。</p>
           <div id="r-effects"></div>
-          <div id="r-advance-effects"></div>`,
-        )}
-        ${step(
-          "target",
-          "⑤",
-          "speed-plan.step.target",
-          "目标",
-          `
-          <div class="row">
-            <div class="field"><label for="mode">目标模式</label><select id="mode" class="input wide"></select></div>
-            <div class="field"><label for="targetT">目标 T 数</label><select id="targetT" class="input"></select></div>
-            <div class="field"><label for="targetActions">目标动数</label><input id="targetActions" class="input narrow" type="number" value="2" min="1" max="8" step="1" /></div>
+          <div id="sp-effect-more" class="sp-more-box" hidden>
+            <div id="r-cone-advance"></div>
+            <div id="r-relics"></div>
           </div>
-          <div class="row" style="margin-top:8px">
-            <div class="field"><label for="customAV">或直接指定行动值（0 = 按 T 数）</label>
-              <div class="row tight">
-                <input id="customAV" class="input narrow" type="number" value="0" min="0" step="10" />
-                <button type="button" class="ghost small" data-av="150">150</button>
-                <button type="button" class="ghost small" data-av="250">250</button>
-                <button type="button" class="ghost small" data-av="300">300</button>
-              </div>
-            </div>
-            <div class="field"><label for="firstUltAction">首次开大在第几次行动后（0 = 进战即开大）</label>
-              <input id="firstUltAction" class="input narrow" type="number" value="1" min="0" step="1" />
-            </div>
-          </div>
-          <div class="row" style="margin-top:8px">
-            <label class="field check"><input id="excludeLastUlt" type="checkbox" /> 轴底开大（最后一次开大的拉条不计入）</label>
-          </div>
-          <p class="hint">首次开大只影响「开大才提速」的加速，不影响拉条。</p>`,
-        )}
+        </section>
       </div>
 
       <aside class="sp-right">
-        <div class="sp-presetbar">
-          <span class="sp-presetbar-label" data-text="speed-plan.preset.title">我的配装</span>
-          <select id="preset" class="input" aria-label="已存配装"></select>
-          <button type="button" id="apply-preset" class="ghost small" data-text="speed-plan.preset.apply">套用</button>
-          <button type="button" id="save-preset" class="btn secondary small-btn" data-text="speed-plan.preset.save">保存</button>
-          <button type="button" id="delete-preset" class="ghost small" data-text="speed-plan.preset.delete">删除</button>
-        </div>
-        <p class="hint sp-preset-note" id="preset-note"></p>
-        <details class="sp-sim-save">
-          <summary>队伍模拟补充参数（随角色配装保存）</summary>
-          <div class="row">
-            <label class="field">额外充能效率 (%)<input id="preset-err" class="input narrow" type="number" min="0" step="0.1" value="0"></label>
-            <label class="field">开局资源（留空用默认）<input id="preset-energy" class="input narrow" type="number" min="0" step="any"></label>
-            <label class="field">出招<select id="preset-rotation" class="input"><option value="auto">智能出招</option><option value="skill">全程战技</option><option value="basic">全程普攻</option></select></label>
+        <section class="sp-target" data-step="target">
+          <div class="sp-target-title">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="12" r="8"/><circle cx="11" cy="12" r="4"/><path d="m11 12 9-9m-4 0h4v4"/></svg>
+            <strong data-text="speed-plan.step.target">计算目标</strong>
           </div>
-          <p class="hint">充能填写遗器和光锥特效以外的加成；愿力、隐藏分角色不使用充能效率。开局资源单位为角色的能量、愿力或隐藏分。</p>
-        </details>
-        <a class="ghost small" id="open-team-simulator" href="#/honkai-star-rail/aha-speed">前往队伍与行动模拟 →</a>
+          <div class="sp-target-line">
+            ${select("mode", "目标模式", "")}
+            ${select("targetT", "T 数", "")}
+            ${numeric("targetActions", "动数", 'value="2" min="1" max="8" step="1"')}
+            ${numeric("customAV", "行动值", 'value="0" min="0" step="10" title="直接指定行动值；0 表示按 T 数"')}
+            ${numeric("firstUltAction", "首次开大", 'value="1" min="0" step="1" title="首次开大在第几次行动后；0 表示进战即开大"')}
+          </div>
+          <div class="sp-aux">
+            <span>行动值快捷选择</span>
+            <button type="button" class="sp-quick" data-av="150">150</button>
+            <button type="button" class="sp-quick" data-av="250">250</button>
+            <button type="button" class="sp-quick" data-av="300">300</button>
+          </div>
+          <details class="sp-more">
+            <summary>更多目标设置</summary>
+            <label class="sp-check"><input id="excludeLastUlt" type="checkbox" /> 轴底开大（最后一次开大的拉条不计入）</label>
+            <p class="hint">行动值填 0 时按 T 数；首次开大填 0 表示进战即开大。首次开大影响开大提速，不影响拉条。</p>
+          </details>
+        </section>
+
+        <section class="sp-saved">
+          <div class="sp-presetbar">
+            <strong class="sp-presetbar-label" data-text="speed-plan.preset.title">我的配速</strong>
+            <div class="sp-control sp-select sp-preset-select"><select id="preset" aria-label="已存配装"></select>${CHEVRON}</div>
+            <button type="button" id="apply-preset" class="sp-btn" data-text="speed-plan.preset.apply">套用</button>
+            <button type="button" id="save-preset" class="sp-btn primary" data-text="speed-plan.preset.save">保存</button>
+            <button type="button" id="delete-preset" class="sp-btn" data-text="speed-plan.preset.delete">删除</button>
+          </div>
+          <p class="hint sp-preset-note" id="preset-note"></p>
+          <details class="sp-more sp-sim-save">
+            <summary>队伍模拟补充参数</summary>
+            <div class="sp-form-row">
+              ${numeric("preset-err", "额外充能效率 %", 'min="0" step="0.1" value="0"')}
+              ${numeric("preset-energy", "开局资源", 'min="0" step="any" placeholder="默认"')}
+              ${select("preset-rotation", "出招", '<option value="auto">智能出招</option><option value="skill">全程战技</option><option value="basic">全程普攻</option>')}
+            </div>
+            <p class="hint">随角色配装保存。充能填写遗器和光锥特效以外的加成；愿力、隐藏分角色不使用充能效率。开局资源单位为角色的能量、愿力或隐藏分。</p>
+          </details>
+          <a class="sp-team-link" id="open-team-simulator" href="#/honkai-star-rail/aha-speed">前往队伍与行动模拟　→</a>
+        </section>
 
         <div class="sp-hero" id="hero">
+          <img id="hero-art" class="sp-hero-art" alt="" aria-hidden="true" />
           <div class="sp-hero-nums">
             <div class="sp-hero-num">
               <div class="k" data-text="speed-plan.hero.current">当前速度</div>
@@ -239,7 +256,7 @@ export default {
             </div>
             <div class="sp-hero-vs">→</div>
             <div class="sp-hero-num">
-              <div class="k"><span data-text="speed-plan.hero.required">需要速度</span> <span id="hero-target" class="muted"></span></div>
+              <div class="k"><span data-text="speed-plan.hero.required">需要速度</span><span id="hero-target"></span></div>
               <div class="v accent" id="hero-need">—</div>
             </div>
           </div>
@@ -256,16 +273,16 @@ export default {
         </div>
 
         <div class="sp-panel" data-panel="detail">
-          <h3 data-text="speed-plan.card.speed">⚡ 实际速度</h3>
-          <div class="stat-grid">
-            <div class="stat accent"><div class="k">实际速度</div><div class="v" id="r-speed">-</div></div>
-            <div class="stat"><div class="k">基础速度</div><div class="v" id="r-base">-</div></div>
-            <div class="stat"><div class="k">速度 % / 固定</div><div class="v small" id="r-split">-</div></div>
-            <div class="stat"><div class="k">单动行动值</div><div class="v small" id="r-av">-</div></div>
+          <h3 data-text="speed-plan.card.speed">实际速度</h3>
+          <div class="sp-metrics">
+            <div class="sp-metric em"><div class="k">实际速度</div><div class="v" id="r-speed">-</div></div>
+            <div class="sp-metric"><div class="k">初始速度（含行迹）</div><div class="v" id="r-base">-</div></div>
+            <div class="sp-metric"><div class="k">速度 % / 固定</div><div class="v small" id="r-split">-</div></div>
+            <div class="sp-metric"><div class="k">单动行动值</div><div class="v small" id="r-av">-</div></div>
           </div>
           <p class="formula" id="r-formula"></p>
           <div id="r-breakdown"></div>
-          <h3 data-text="speed-plan.card.advance">🌀 拉条来源</h3>
+          <h3 data-text="speed-plan.card.advance">拉条来源</h3>
           <p class="hint" id="r-advance"></p>
           <div id="r-verdict"></div>
           <div id="r-suggestions"></div>
@@ -276,24 +293,22 @@ export default {
         </div>
 
         <div class="sp-panel hidden" data-panel="tables">
-          <h3 data-text="speed-plan.card.targets">📋 需求速度：各模式 × T 数 × 动数</h3>
+          <h3 data-text="speed-plan.card.targets">需求速度：各模式 × T 数 × 动数</h3>
           <div class="sp-mode-switch" id="table-modes"></div>
           <div id="r-tables"></div>
         </div>
 
         <div class="sp-panel hidden" data-panel="recommend">
-          <h3 data-text="speed-plan.card.recommend">🧠 自动推荐配装</h3>
+          <h3 data-text="speed-plan.card.recommend">自动推荐配装</h3>
           <p class="hint">
             在这个角色能用的光锥与遗器里穷举一遍，找出「达成当前目标最省」的几套。
             这是自动算出来的最优解，<b>不是社区主流配装表</b>（那个数据源拿不到）。
           </p>
-          <div class="row">
-            <div class="field"><label for="recConeUlts">光锥开大次数</label><input id="recConeUlts" class="input tiny" type="number" value="1" min="0" step="1" /></div>
-            <div class="field"><label for="recFourUlts">风套开大次数</label><input id="recFourUlts" class="input tiny" type="number" value="1" min="0" step="1" /></div>
-            <div class="field"><label for="recS">光锥叠影</label>
-              <select id="recS" class="input tiny"><option selected>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
-            </div>
-            <button type="button" id="rec-btn" class="btn">算一下哪套最省</button>
+          <div class="sp-form-row sp-rec-row">
+            ${numeric("recConeUlts", "光锥开大次数", 'value="1" min="0" step="1"')}
+            ${numeric("recFourUlts", "风套开大次数", 'value="1" min="0" step="1"')}
+            ${select("recS", "光锥叠影", [1, 2, 3, 4, 5].map((n) => `<option${n === 1 ? " selected" : ""}>${n}</option>`).join(""))}
+            <button type="button" id="rec-btn" class="sp-btn primary">算一下哪套最省</button>
           </div>
           <div id="r-recommend"></div>
         </div>
@@ -301,6 +316,38 @@ export default {
     </div>`;
 
     const $ = (selector) => root.querySelector(selector);
+    const dialog = $("#character-dialog");
+    $("#select-character").addEventListener("click", () => { dialog.showModal(); $("#char-search").focus(); });
+    $("#close-character").addEventListener("click", () => dialog.close());
+    $("#cancel-character").addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", (event) => { if (event.target === dialog) dialog.close(); });
+    // 数字框的 − / +：按原 input 的 step/min/max 调整，再发 input 与 change，计算逻辑不感知包装。
+    // 绑在本页的 .sp 上：root 是外壳共用的 #view，重复挂载会叠加监听。
+    $(".sp").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-step-for]");
+      if (!button) return;
+      const input = root.querySelector(`#${button.dataset.stepFor}`);
+      if (!input || input.disabled) return;
+      const dir = Number(button.dataset.dir);
+      if (input.value === "") input.value = input.min || "0";
+      else if (input.step === "any") {
+        let next = Number(input.value) + dir;
+        if (input.min !== "") next = Math.max(Number(input.min), next);
+        if (dir > 0 && input.max !== "") next = Math.min(Number(input.max), next);
+        input.value = String(next);
+      }
+      else if (dir > 0) input.stepUp();
+      else input.stepDown();
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      input.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+    root.querySelectorAll("[data-toggle]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const box = root.querySelector(`#${button.dataset.toggle}`);
+        box.hidden = !box.hidden;
+        button.setAttribute("aria-expanded", String(!box.hidden));
+      });
+    });
     if (window.GT_STANDALONE) {
       $("#open-team-simulator").onclick = event => {
         event.preventDefault();
@@ -349,6 +396,39 @@ export default {
     const image = (remote) =>
       remote ? `<img src="${esc(assetUrl(remote))}" onerror="this.style.visibility='hidden'" alt="" loading="lazy" />` : `<span class="sp-noimg"></span>`;
 
+    // 先显示随项目携带的缩略图，只为可见头像加载同图的原始版本。
+    let imageUpgradeAlive = true;
+    let imageLoads = 0;
+    const imageQueue = [];
+    const upgradeObserver = typeof IntersectionObserver === "function" ? new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        upgradeObserver.unobserve(entry.target);
+        imageQueue.push(entry.target);
+      }
+      loadVisibleImages();
+    }, { root: $("#char-grid"), rootMargin: "80px" }) : null;
+    function loadVisibleImages() {
+      while (imageUpgradeAlive && imageLoads < 3 && imageQueue.length) {
+        const target = imageQueue.shift();
+        if (!target.isConnected || !target.dataset.hd) continue;
+        const highRes = assetUrl(target.dataset.hd);
+        const probe = new Image();
+        imageLoads++;
+        probe.onload = () => {
+          if (imageUpgradeAlive && target.isConnected && target.dataset.hd && probe.naturalWidth > target.naturalWidth) {
+            target.src = highRes;
+            target.style.visibility = "visible";
+          }
+        };
+        const finish = () => { imageLoads--; loadVisibleImages(); };
+        const success = probe.onload;
+        probe.onload = () => { success(); finish(); };
+        probe.onerror = finish;
+        probe.src = highRes;
+      }
+    }
+
     function currentCharacter() {
       if (isCustom()) {
         return {
@@ -363,31 +443,56 @@ export default {
       return charById.get(String(state.characterId)) || {};
     }
 
+    let splashGeneration = 0;
     function updateSplash() {
+      const generation = ++splashGeneration;
       const character = currentCharacter();
       const img = $("#splash");
       const source = character.splash || "";
       const fallback = character.splashFallback || "";
+      const heroArt = $("#hero-art");
+      $(".sp").dataset.theme = CHARACTER_THEMES[String(character.id)] || "pink";
       if (source || fallback) {
+        img.onload = () => {
+          if (!imageUpgradeAlive || generation !== splashGeneration) return;
+          const highSource = character.splashLarge;
+          if (!highSource || !source || !source.startsWith("/modules/") || img.dataset.upgraded === String(generation)) return;
+          const original = new Image();
+          original.onload = () => {
+            if (!imageUpgradeAlive || generation !== splashGeneration || !img.isConnected) return;
+            if (original.naturalWidth > img.naturalWidth || original.naturalHeight > img.naturalHeight) {
+              img.dataset.upgraded = String(generation);
+              img.src = assetUrl(highSource);
+              heroArt.src = img.src;
+            }
+          };
+          original.src = assetUrl(highSource);
+        };
         img.onerror = () => {
           if (fallback && img.src !== assetUrl(fallback)) img.src = assetUrl(fallback);
           else img.style.visibility = "hidden";
         };
         img.src = assetUrl(source || fallback);
         img.style.visibility = "visible";
+        heroArt.onerror = () => { heroArt.style.display = "none"; };
+        heroArt.src = img.src;
+        heroArt.style.display = "block";
       } else {
         img.onerror = null;
+        img.onload = null;
         img.removeAttribute("src");
         img.style.visibility = "hidden";
+        heroArt.removeAttribute("src");
+        heroArt.style.display = "none";
       }
       const trace = Number(character.traceSpeed || 0);
       const speed = character.effectiveBaseSpeed ?? character.baseSpeed;
       $("#splash-meta").innerHTML =
-        `<b>${esc(character.name || "选个角色")}</b>` +
-        `<div class="muted small">${esc(character.pathName || "")}${
+        `<h2 class="sp-char-name">${esc(character.name || "选个角色")}</h2>` +
+        `<div class="sp-char-path">${esc(character.pathName || "")}${
           character.elementName ? ` · ${esc(character.elementName)}` : ""
-        }${character.rarity ? ` · ${character.rarity}★` : ""}</div>` +
-        `<div class="muted small">初始速度 ${fix(speed, 0)}${
+        }</div>` +
+        `<div class="sp-char-speed">初始速度 ${fix(speed, 0)}${
           trace ? `（基础 ${fix(character.baseSpeed, 0)} + 行迹 ${fix(trace, 0)}）` : ""
         }</div>`;
       $("#custom-fields").classList.toggle("hidden", !isCustom());
@@ -419,19 +524,24 @@ export default {
             const speed = item.effectiveBaseSpeed ?? item.baseSpeed;
             return tile(
               item.id,
-              image(item.icon),
+              item.icon ? `<img src="${esc(assetUrl(item.icon))}" ${item.iconLarge && item.iconLarge !== item.icon ? `data-hd="${esc(item.iconLarge)}"` : ""} onerror="this.style.visibility='hidden'" alt="" loading="lazy" />` : `<span class="sp-noimg"></span>`,
               item.name,
               `${item.pathName} · ${item.rarity}★ · ${fix(speed, 0)} 速${trace ? `（含行迹 +${fix(trace, 0)}）` : ""}`,
             );
           })
           .join("") +
         (!list.length && !showCustom ? `<p class="hint">没有匹配的角色</p>` : "");
+      root.querySelectorAll("#char-grid img[data-hd]").forEach((img) => {
+        if (upgradeObserver) upgradeObserver.observe(img);
+        else { imageQueue.push(img); loadVisibleImages(); }
+      });
     }
 
     $("#char-search").addEventListener("input", renderCharGrid);
     $("#char-grid").addEventListener("click", async (event) => {
       const button = event.target.closest("[data-char]");
       if (!button) return;
+      $("#character-dialog").close();
       await pickCharacter(button.dataset.char);
     });
 
@@ -537,11 +647,16 @@ export default {
       search.addEventListener("input", renderList);
       popup.addEventListener("click", (event) => event.stopPropagation());
       document.addEventListener("click", close);
-      document.addEventListener("keydown", (event) => {
+      const onKeydown = (event) => {
         if (event.key === "Escape") close();
-      });
+      };
+      document.addEventListener("keydown", onKeydown);
 
       return {
+        dispose() {
+          document.removeEventListener("click", close);
+          document.removeEventListener("keydown", onKeydown);
+        },
         setItems(next, value) {
           items = next;
           if (value !== undefined) current = value;
@@ -652,6 +767,7 @@ export default {
       $("#excludeLastUlt").checked = !!state.advance.excludeLastUlt;
       $("#fourUlts").value = state.relic.fourPieceUlts ?? 0;
       $("#substat").value = state.relic.substatSpeed ?? 0;
+      updateSubstatLimit();
       $("#customPct").value = state.relic.customPct ?? 0;
       $("#customFlat").value = state.relic.customFlat ?? 0;
       $("#coneUlts").value = state.advance.coneUlts ?? 0;
@@ -677,7 +793,10 @@ export default {
     let effectSignature = "";
     let runSeq = 0;
     let disposed = false;
-    this.unmount = () => { disposed = true; runSeq++; if (timer) clearTimeout(timer); };
+    this.unmount = () => {
+      disposed = true; runSeq++; if (timer) clearTimeout(timer);
+      lightconePicker.dispose(); fourPiecePicker.dispose(); ornamentPicker.dispose();
+    };
 
     function buildPlanPayload() {
       const payload = {
@@ -709,11 +828,14 @@ export default {
         if (disposed || seq !== runSeq) return;
         $("#hero-error").innerHTML = `<p class="error-text">${esc(err.message)}</p>`;
         $("#hero").classList.add("is-error");
+        $(".sp-right").classList.add("has-plan-error");
+        lastResult = null;
         return;
       }
       if (disposed || seq !== runSeq) return;
       $("#hero-error").innerHTML = "";
       $("#hero").classList.remove("is-error");
+      $(".sp-right").classList.remove("has-plan-error");
       lastResult = result;
       state.enabled = result.effects.enabled;
 
@@ -810,6 +932,9 @@ export default {
             )
             .join("")
         : "";
+      const advanceToggle = root.querySelector('[data-toggle="sp-advance-more"]');
+      advanceToggle.hidden = result.effects.advance.length === 0;
+      if (advanceToggle.hidden) { $("#sp-advance-more").hidden = true; advanceToggle.setAttribute("aria-expanded", "false"); }
     }
 
     const TRIGGER_TEXT = {
@@ -831,14 +956,13 @@ export default {
         key,
         items: list.filter((item) => (TRIGGER_TEXT[item.trigger] ? item.trigger : "conditional") === key),
       }));
+      const needsNote = list.some((item) => item.apply !== "self" || !TRIGGER_TEXT[item.trigger] || item.trigger === "conditional");
       box.innerHTML =
         groups
           .filter((group) => group.items.length)
           .map((group) => {
             const trigger = TRIGGER_TEXT[group.key];
             return `<div class="sp-effect-group">
-              <div class="sp-effect-group-head"><span class="trigger-badge ${group.key}">${esc(trigger.label)}</span>
-                <span class="muted small">${esc(trigger.hint)}</span></div>
               <div class="effect-list">${group.items
                 .map((item) => {
                   const ally = item.apply === "ally";
@@ -849,13 +973,14 @@ export default {
                       ? `<span class="trigger-badge enemy" title="这是对敌方的效果，不计入本角色速度">作用于敌方</span>`
                       : "";
                   return `<label class="effect-row ${ally || enemy ? "ally-only" : ""}" title="${esc(
-                    ally ? "这条提速给的是队友（不算作自己的速度）" : enemy ? "作用于敌方，不计入本角色" : trigger.hint,
+                    `${item.text}\n${ally ? "这条提速给的是队友（不算作自己的速度）" : enemy ? "作用于敌方，不计入本角色" : trigger.hint}`,
                   )}">
                     <input type="checkbox" data-effect="${esc(item.id)}" ${enabled.has(item.id) ? "checked" : ""} />
-                    <span class="pill">${esc(item.origin)}</span>
+                    <span class="effect-origin">${esc(item.origin)}${item.name ? ` · ${esc(item.name)}` : ""}</span>
+                    <span class="trigger-badge ${group.key}">${esc(trigger.label)}</span>
                     ${badge}
                     <span class="grow">${esc(item.text)}</span>
-                    <span class="num">${item.value >= 0 ? "+" : ""}${fix(item.value, 1)}${item.kind === "pct" ? "%" : ""}${
+                    <span class="num">速度 ${item.value >= 0 ? "+" : ""}${fix(item.value, 1)}${item.kind === "pct" ? "%" : ""}${
                       item.apply === "team" ? "（全队）" : ""
                     }</span>
                   </label>`;
@@ -863,7 +988,7 @@ export default {
                 .join("")}</div></div>`;
           })
           .join("") +
-        `<p class="hint">「条件」类不会自动计入，勾上表示你自己确认它成立；「仅队友」「作用于敌方」的不算这个角色的速度。</p>`;
+        (needsNote ? `<p class="hint">「条件」类不会自动计入，勾上表示你自己确认它成立；「仅队友」「作用于敌方」的不算这个角色的速度。</p>` : "");
 
       box.querySelectorAll("[data-effect]").forEach((input) => {
         input.addEventListener("change", () => {
@@ -1045,7 +1170,7 @@ export default {
       const tSelect = $("#targetT");
       tSelect.innerHTML = (table?.tValues || [0])
         .map(
-          (t) => `<option value="${t}" ${String(t) === wanted ? "selected" : ""}>${t}T（${firstAV + t * stepAV} AV）</option>`,
+          (t) => `<option value="${t}" ${String(t) === wanted ? "selected" : ""} title="${firstAV + t * stepAV} AV">${t} T</option>`,
         )
         .join("");
       if (![...tSelect.options].some((option) => option.selected)) {
@@ -1102,6 +1227,16 @@ export default {
         schedule();
       });
 
+    function updateSubstatLimit() {
+      const limit = state.relic.speedBoots ? 78 : 93.6;
+      const input = $("#substat");
+      input.max = String(limit);
+      const invalid = input.value !== "" && (Number(input.value) < 0 || Number(input.value) > limit);
+      $("#substat-limit").textContent = `五星遗器理论上限 ${limit} 速（${state.relic.speedBoots ? "速度鞋不含速度副词条" : "不穿速度鞋，六件均可含速度副词条"}）。${invalid ? "当前数值超出上限，请调整。" : ""}`;
+      $("#substat-limit").classList.toggle("error-text", invalid);
+      root.querySelector('[data-step-for="substat"][data-dir="1"]').disabled = Number(input.value) >= limit;
+    }
+
     $("#superimpose").addEventListener("change", (event) => {
       state.superimpose = Number(event.target.value);
       state.enabled = null;
@@ -1112,11 +1247,11 @@ export default {
       state.enabled = null;
       schedule();
     });
-    bindCheck("#speedBoots", (v) => (state.relic.speedBoots = !!v));
+    bindCheck("#speedBoots", (v) => { state.relic.speedBoots = !!v; updateSubstatLimit(); });
     bindCheck("#ultTargetsAlly", (v) => (state.relic.ultTargetsAlly = !!v));
     bindCheck("#excludeLastUlt", (v) => (state.advance.excludeLastUlt = !!v));
     bindNumber("#fourUlts", (v) => (state.relic.fourPieceUlts = Number(v || 0)));
-    bindNumber("#substat", (v) => (state.relic.substatSpeed = Number(v || 0)));
+    bindNumber("#substat", (v) => { state.relic.substatSpeed = Number(v || 0); updateSubstatLimit(); });
     bindNumber("#customPct", (v) => (state.relic.customPct = Number(v || 0)));
     bindNumber("#customFlat", (v) => (state.relic.customFlat = Number(v || 0)));
     bindNumber("#coneUlts", (v) => (state.advance.coneUlts = Number(v || 0)));
@@ -1295,7 +1430,7 @@ export default {
             state.lightconeId = item.coneId || "";
             state.relic.fourPieceId = item.fourPieceId || "";
             state.relic.ornamentIds = [...item.ornamentIds];
-            state.relic.speedBoots = true;
+            state.relic.speedBoots = !!assumptions.speedBoots;
             // 推荐按它自己的假设算（叠影、风套/光锥开大次数），套用时一起同步
             state.superimpose = Number(assumptions.superimpose || state.superimpose);
             state.relic.fourPieceUlts = Number(assumptions.fourPieceUlts || 0);
@@ -1335,6 +1470,7 @@ export default {
     if (draft?.tab) root.querySelector(`.sp-tabs .tab[data-tab="${["detail", "timeline", "tables", "recommend"].includes(draft.tab) ? draft.tab : "detail"}"]`)?.click();
     await loadPresets();
     await run();
+    return () => { imageUpgradeAlive = false; upgradeObserver?.disconnect(); imageQueue.length = 0; };
   },
 
   unmount() {},

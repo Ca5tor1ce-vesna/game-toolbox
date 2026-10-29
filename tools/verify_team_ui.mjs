@@ -47,7 +47,7 @@ async function api(feature, action, payload = {}) {
 await send('Page.enable');
 await send('Runtime.enable');
 await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1080, deviceScaleFactor: 1, mobile: false });
-await send('Page.addScriptToEvaluateOnNewDocument', { source: `window.__errors=[]; window.addEventListener('error', e=>window.__errors.push(e.message)); const oldFetch=window.fetch; window.fetch=async (...args)=>{const r=await oldFetch(...args); try { const p=JSON.parse(args[1]?.body||'{}'); if(p.feature==='aha-speed'&&p.action==='simulate'){const data=await r.clone().json(); if(data.ok){window.__sim=data.result;window.__payload=p.payload;}} }catch{} return r;};` });
+await send('Page.addScriptToEvaluateOnNewDocument', { source: `window.__errors=[]; window.__simCalls=0; window.addEventListener('error', e=>window.__errors.push(e.message)); const oldFetch=window.fetch; window.fetch=async (...args)=>{let sim=false,slow=false;try { const p=JSON.parse(args[1]?.body||'{}'); sim=p.feature==='aha-speed'&&p.action==='simulate'; if(sim){window.__simCalls++;slow=!!window.__delayNextSim;window.__delayNextSim=false;} } catch {} const r=await oldFetch(...args); if(slow)await new Promise(resolve=>setTimeout(resolve,700)); try { const p=JSON.parse(args[1]?.body||'{}'); if(sim){const data=await r.clone().json(); if(data.ok){window.__sim=data.result;window.__payload=p.payload;if(slow)window.__slowSimDone=true;else window.__fastSim=data.result;}} }catch{} return r;};` });
 let savedTeam;
 const original = (await api('speed-plan', 'presets')).presets['1502'];
 const originalPearl = (await api('speed-plan', 'presets')).presets['1503'];
@@ -66,7 +66,30 @@ try {
   await api('speed-plan', 'save_preset', { characterId: '1503', config: { ...config, lightconeId: '' } });
   await send('Page.navigate', { url: `${base}/?teamtest=1#/honkai-star-rail/aha-speed` });
   await wait("document.querySelectorAll('.aha-unit-card').length===4 && window.__sim");
+  check('队伍页面显式声明侧栏布局', await evaluate("document.querySelector('#app').dataset.sidebarLayout === 'compact-tight'"));
+  await evaluate("document.querySelector('.aha-unit-card.is-open .aha-unit-toggle').click()");
+  await evaluate("document.querySelector('.aha-unit-card:not(.is-open) .aha-unit-toggle').click()");
+  await wait("!!document.querySelector('.aha-unit-card.is-open .unit-num')");
+  const countBeforeBurst = await evaluate("window.__simCalls");
+  const originalInput = await evaluate("document.querySelector('.aha-unit-card.is-open .unit-num').value");
+  await evaluate("(()=>{const i=document.querySelector('.aha-unit-card.is-open .unit-num');for(const v of ['101','102','103']){i.value=v;i.dispatchEvent(new Event('input',{bubbles:true}));}})()");
+  await sleep(500);
+  check('连续输入只触发一次模拟', await evaluate(`window.__simCalls === ${countBeforeBurst + 1}`));
+  await evaluate("window.__delayNextSim=true;window.__slowSimDone=false;window.__fastSim=null;(()=>{const i=document.querySelector('.aha-unit-card.is-open .unit-num');i.value='110';i.dispatchEvent(new Event('input',{bubbles:true}));})()");
+  await sleep(250);
+  await evaluate("(()=>{const i=document.querySelector('.aha-unit-card.is-open .unit-num');i.value='120';i.dispatchEvent(new Event('input',{bubbles:true}));})()");
+  check('等待新结果时不展示旧摘要', await evaluate("document.querySelector('#aha-summary-box').textContent === '计算中…'"));
+  await wait('window.__slowSimDone && window.__fastSim');
+  check('延迟旧请求不会覆盖新结果', await evaluate("document.querySelector('#unit-metrics-0').textContent.includes(Number(window.__fastSim.units[0].initialSpd).toFixed(1))"));
+  await evaluate(`(()=>{const i=document.querySelector('.aha-unit-card.is-open .unit-num');i.value=${JSON.stringify(originalInput)};i.dispatchEvent(new Event('input',{bubbles:true}));})()`);
+  await sleep(500);
   check('左侧角色、右侧模拟分区', await evaluate("!!document.querySelector('.aha-col-left #aha-team-list') && !!document.querySelector('.aha-col:not(.aha-col-left) #aha-timeline-list')"));
+  check('角色卡展开使用动画，收起时内部不可操作', await evaluate("(()=>{const card=document.querySelectorAll('.aha-unit-card')[1], body=card.querySelector('.aha-unit-body');return body.inert && getComputedStyle(body).transitionProperty.includes('grid-template-rows');})()"));
+  await evaluate("document.querySelector('.unit-char-select').dispatchEvent(new MouseEvent('mousedown',{bubbles:true,cancelable:true}))");
+  check('角色下拉显示统一菜单', await evaluate("!!document.querySelector('.gt-select-menu [role=option]')"));
+  await evaluate("document.querySelector('.gt-select-menu [aria-selected=true]').click()");
+  check('选择后菜单关闭', await evaluate("!document.querySelector('.gt-select-menu')"));
+  check('队伍与配装位于我的队伍之前', await evaluate("!!(document.querySelector('#aha-team-list').closest('.aha-card').compareDocumentPosition(document.querySelector('#aha-library')) & Node.DOCUMENT_POSITION_FOLLOWING)"));
   check('配装列表只显示当前角色，即使其他角色也有存档', await evaluate(`[...document.querySelectorAll('.unit-build')].every(select=>[...select.options].filter(o=>o.value).every(o=>o.value===document.querySelector('.unit-char-select[data-slot="'+select.dataset.slot+'"]').value))`));
   check('无配装角色的读取按钮禁用', await evaluate(`document.querySelector('.unit-apply-build[data-slot="0"]').disabled`));
   await evaluate(`const s=document.querySelector('.unit-build[data-slot="3"]');s.add(new Option('真珠','1503'));s.value='1503';document.querySelector('.unit-apply-build[data-slot="3"]').click()`);
@@ -104,6 +127,7 @@ try {
   await evaluate(`document.querySelector('[data-filter="all"]').click()`);
   const integrity = await evaluate(`(()=>{const events=window.__sim.timeline;const rows=[...document.querySelectorAll('.aha-ev-row')];return rows.length===events.length && rows.every((r,i)=>Number(r.dataset.eventIndex)===i+1&&Math.abs(Number(r.dataset.av)-events[i].av)<1e-9&&r.textContent.includes(events[i].label));})()`);
   check('每条时间轴的序号、AV、说明与引擎事件逐条一致', integrity);
+  await evaluate("document.querySelector('#aha-team-list').scrollIntoView()");
   await wait("[...document.querySelectorAll('.aha-unit-identity img')].every(i=>i.complete&&i.naturalWidth>0)");
   check('已有头像复用本地资源，缺图角色显示占位', await evaluate("document.querySelectorAll('.aha-unit-identity .aha-avatar').length===4 && document.querySelectorAll('.aha-unit-identity img').length>=3"));
   await evaluate("document.querySelector('.aha-ev-row summary').click()");
@@ -116,7 +140,7 @@ try {
     check(`${width}px 页面完整呈现且无横向裁切`, await evaluate(`(()=>{const r=document.querySelector('.aha-sim-wrap').getBoundingClientRect();const view=document.querySelector('.view');return r.left>=0&&r.right<=innerWidth+1&&(!view||view.scrollWidth<=view.clientWidth+1);})()`));
     await shot(`width-${width}`);
   }
-  await evaluate("window.confirm=()=>true;document.querySelector('#aha-delete-team').click()");
+  await evaluate("document.querySelector('#aha-delete-team').click();document.querySelector('.gt-dialog-primary').click()");
   await wait("document.querySelector('#aha-library-note').textContent.includes('已删除')");
   check('删除队伍不影响角色配装', !!(await api('speed-plan', 'presets')).presets['1502']);
   savedTeam = null;
@@ -139,6 +163,7 @@ try {
     await evaluate("document.querySelector('#aha-team-name').value='离线验收';document.querySelector('#aha-save-team').click()");
     await wait("document.querySelector('#aha-library-note').textContent==='队伍已保存。'");
     check('离线队伍写入 localStorage', await evaluate("Object.values(JSON.parse(localStorage.getItem('gt-aha-teams'))).some(t=>t.name==='离线验收')"));
+    await evaluate("document.querySelector('#aha-team-list').scrollIntoView()");
     await wait("document.querySelectorAll('.aha-unit-identity img').length>=3 && [...document.querySelectorAll('.aha-unit-identity img')].every(i=>i.complete&&i.naturalWidth>0)");
     check('离线头像已内联且可显示', await evaluate("[...document.querySelectorAll('.aha-unit-identity img')].length>=3 && [...document.querySelectorAll('.aha-unit-identity img')].every(i=>i.src.startsWith('data:')&&i.naturalWidth>0)"));
     await evaluate("document.querySelector('#aha-team-name').value='';document.querySelector('#aha-save-team').click()");
@@ -148,6 +173,9 @@ try {
     check('离线版可返回角色配装页', await evaluate("!document.querySelector('#view').hidden"));
     await evaluate("document.querySelector('#open-team-simulator').click()");
     await shot('offline');
+    await evaluate("document.querySelector('.gt-tab[data-view=\"view-herta\"]').click()");
+    await wait("window.GT_HERTA_MOUNTED === true");
+    check('离线版角色顶分模块成功挂载', await evaluate("!!document.querySelector('#view-herta .gt-feature-root') && !document.querySelector('#view-herta .gt-skeleton')"));
     await send('Network.emulateNetworkConditions', { offline: false, latency: 0, downloadThroughput: -1, uploadThroughput: -1 });
   }
   console.log(`[OK] ${checks} checks`);

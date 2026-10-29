@@ -660,6 +660,33 @@ class TestSpeedPlanTracesAndPools(unittest.TestCase):
         self.assertAlmostEqual(result["speed"]["final"], 105.0, places=6)
         self.assertIn("行迹", result["speed"]["formula"])
 
+    def test_trace_flat_is_not_multiplied_by_speed_percent(self) -> None:
+        # 爻光白值 101、行迹 +9、速度 +6%、无其他效果：101 * 1.06 + 9 = 116.06。
+        result = self.plan("1502", enabledEffects=[], relic={"speedBoots": False, "customPct": 6})
+        self.assertAlmostEqual(result["speed"]["final"], 116.06, places=6)
+        self.assertAlmostEqual(result["simulation"]["timeline"][0]["speed"], 116.06, places=6)
+
+        timeline = feature_api.call("action-value", "timeline", "plan", {
+            "characterId": "1502", "speedPct": 6, "rounds": 1, "maxActions": 1,
+        })
+        self.assertAlmostEqual(result["speed"]["final"], timeline["speed"]["final"], places=6)
+
+        # 自定义角色同样将行迹固定值放在百分比乘区外。
+        custom = call("speed-plan", "plan", {
+            "characterId": "__custom__", "customCharacter": {"baseSpeed": 101, "traceSpeed": 9},
+            "relic": {"speedBoots": True, "customPct": 6}, "enabledEffects": [],
+        })
+        self.assertAlmostEqual(custom["speed"]["final"], 141.06, places=6)
+
+        pearl = next(item for item in call("speed-plan", "lightcones")["lightcones"]
+                     if item["name"] == "当她决定看见")
+        for rank, pct in ((1, 18), (5, 30)):
+            with self.subTest(superimpose=rank):
+                pearl_id = next(item["id"] for item in self.catalog["characters"] if item["name"] == "真珠")
+                result = self.plan(pearl_id, lightconeId=pearl["id"], superimpose=rank,
+                                   relic={"speedBoots": True})
+                self.assertAlmostEqual(result["speed"]["final"], 99 * (1 + pct / 100) + 9 + 25, places=6)
+
     def test_trace_is_listed_in_breakdown(self) -> None:
         result = self.plan("1212")
         labels = " ".join(item["label"] for item in result["speed"]["breakdown"])
@@ -962,7 +989,7 @@ class TestSpeedPlanConeAndTarget(unittest.TestCase):
             self.assertAlmostEqual(item["gap"], item["required"] - item["speed"], places=6)
 
     def test_suggestions_empty_when_comfortable(self) -> None:
-        result = self.plan(relic={"speedBoots": True, "substatSpeed": 100})
+        result = self.plan(relic={"speedBoots": True, "substatSpeed": 78})
         self.assertEqual(result["suggestions"], [])
 
     def test_speed_boot_suggestion_gains_25(self) -> None:
@@ -2087,7 +2114,7 @@ class TestSpeedPlanApplyClassification(unittest.TestCase):
             # 持续 N 回合：不并进整场速度，只覆盖前 N 次自己的行动。
             self.assertAlmostEqual(enabled["speed"]["pct"], 0.0, places=6)
             timeline = enabled["simulation"]["timeline"]
-            boosted = enabled["speed"]["base"] * 1.30
+            boosted = enabled["speed"]["baseRaw"] * 1.30 + enabled["speed"]["traceSpeed"]
             self.assertGreaterEqual(len(timeline), duration + 1)
             for step in timeline[:duration]:
                 self.assertAlmostEqual(step["speed"], boosted, places=6)
@@ -2103,7 +2130,7 @@ class TestSpeedPlanApplyClassification(unittest.TestCase):
         defaulted = self.plan(char_id, eidolon=2, target={"mode": "moc", "t": 2, "actions": 4})
         if duration > 0:
             self.assertAlmostEqual(defaulted["speed"]["pct"], 0.0, places=6)
-            self.assertAlmostEqual(defaulted["simulation"]["timeline"][0]["speed"], enabled["speed"]["base"] * 1.30, places=6)
+            self.assertAlmostEqual(defaulted["simulation"]["timeline"][0]["speed"], boosted, places=6)
         else:
             self.assertAlmostEqual(defaulted["speed"]["pct"], 30.0, places=6)
 

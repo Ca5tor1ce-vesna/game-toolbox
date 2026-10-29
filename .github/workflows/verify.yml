@@ -1,0 +1,44 @@
+name: verify
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: windows-latest
+    env:
+      PYTHONUTF8: "1"
+      PYTHONIOENCODING: utf-8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: 安装开发检查工具
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: 类型检查
+        run: npm run typecheck
+      - name: 单元测试
+        run: python -m unittest discover -s tests
+      - name: 双端对拍和配装转换
+        shell: pwsh
+        run: |
+          node tools/check_web_port.mjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node tools/check_aha_port.mjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node tests/test_build_conversion.mjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: 浏览器与离线页面检查
+        shell: pwsh
+        run: ./tools/verify_ci_ui.ps1

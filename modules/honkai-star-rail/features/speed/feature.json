@@ -12,5 +12,6 @@
     "阈值",
     "循环"
   ],
-  "hidden": true
+  "hidden": true,
+  "menu": false
 }

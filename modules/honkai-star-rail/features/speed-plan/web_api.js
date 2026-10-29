@@ -374,6 +374,13 @@
     return x;
   }
 
+  function validateSubstatSpeed(relic) {
+    const value = num(relic, "substatSpeed", 0);
+    const limit = pyBool(relic.speedBoots) ? 78 : 93.6;
+    if (value < 0 || value > limit + 1e-9) throw new Error(`副词条速度合计须在 0 到 ${limit} 之间（按是否使用速度鞋计算理论上限）。`);
+    return value;
+  }
+
   function find(items, itemId) {
     const wanted = pyStrNum(itemId);
     for (let i = 0; i < items.length; i += 1) {
@@ -1045,9 +1052,10 @@
           // 官方图：小图给下拉列表用，立绘给左侧展示用；都是远程地址，
           // 由工具箱的 /api/asset 按需下载并缓存到本地
           icon: char.icon || char.iconSmall, // 本地 webp 优先
-          iconLarge: char.icon,
+          iconLarge: char._remote?.icon || char.icon,
           // 立绘优先用游戏内预览图（没有「首发/复刻」角标），失败时界面回退到米游社那张
           splash: char.splash || char.splashSmall || char.splashFallback,
+          splashLarge: char._remote?.splash || null,
           splashFallback: char.splashFallback,
           releaseOrder: char.releaseOrder,
         })),
@@ -1152,7 +1160,7 @@
         throw new Error(character.name + " 没有基础速度数据，请重新跑导入器");
       }
 
-      // 行迹（属性加成）里的速度是角色自带的常驻加成，直接并进基础速度
+      // 初始速度供展示；行迹固定速度不参与百分比乘区。
       const traceFlat = Number(character.traceSpeed || 0);
       const tracePct = Number(character.traceSpeedPct || 0);
       const baseSpeed = gameBase + traceFlat;
@@ -1165,8 +1173,8 @@
           .join("、");
         if (traceFlat) {
           breakdown.push({
-            label: "行迹速度加成（自带，已并入基础速度）",
-            kind: "base",
+            label: "行迹速度加成（自带，不参与百分比）",
+            kind: "flat",
             value: traceFlat,
             text: detail,
           });
@@ -1192,8 +1200,10 @@
       // 手填项的「修饰形态」，只给模拟时间线算每一步速度用，不重复累加
       const manualModifiers = [];
 
+      if (traceFlat) manualModifiers.push(modifierOf({ label: "行迹速度", kind: "flat", value: traceFlat, trigger: "passive" }));
+
       if (tracePct) {
-        // 行迹里的速度% 已经并进基础速度的口径里，这里补一条修饰给模拟时间线用
+        // 行迹里的百分比作为百分比修饰参与时间线计算。
         manualModifiers.push(modifierOf({ label: "行迹速度%", kind: "pct", value: tracePct, trigger: "passive" }));
       }
 
@@ -1223,7 +1233,7 @@
         );
       }
 
-      const substat = num(relicIn, "substatSpeed", 0);
+      const substat = validateSubstatSpeed(relicIn);
       if (substat) {
         flatTotal += substat;
         breakdown.push({ label: "遗器副词条速度", kind: "flat", value: substat });
@@ -1445,10 +1455,10 @@
       const timelineModifiers = speedModifiers.filter((item) => (item.semantics || "constant") !== "constant");
 
       // 未加速速度 S0：不含「随行动变化」的加速（开大触发 / 叠层），也不含仅队友的。
-      // 兼容性红线：没有任何随行动变化的加速时，finalSpeed 就是老算法的最终速度，逐位一致。
+      // 基础白值参与百分比，行迹固定值和其他固定值最后相加。
       const constPct = pctTotal;
       const constFlat = flatTotal;
-      const finalSpeed = baseSpeed * (1 + constPct / 100.0) + constFlat;
+      const finalSpeed = gameBase * (1 + constPct / 100.0) + traceFlat + constFlat;
       if (finalSpeed < 120) {
         for (let i = appliedSets.length - 1; i >= 0; i -= 1) {
           const entry = appliedSets[i];
@@ -1595,7 +1605,7 @@
       const animate = (speed0, windowAv, cap, extraFlat, extraModifiers) => {
         const flatAdd = extraFlat === undefined ? 0.0 : extraFlat;
         const extra = extraModifiers === undefined ? [] : extraModifiers;
-        return simulate(baseSpeed, timelineModifiers.concat(extra), {
+        return simulate(gameBase, timelineModifiers.concat(extra), {
           speed0: speed0 + flatAdd,
           windowAv: windowAv,
           firstUltAction: firstUltAction,
@@ -1607,7 +1617,7 @@
 
       /** 按**当前配置**把行动模拟出来（界面展示时间线用）。 */
       const simulateCurrent = (windowAv, cap) =>
-        simulate(baseSpeed, speedModifiers, {
+        simulate(gameBase, speedModifiers, {
           windowAv: windowAv,
           firstUltAction: firstUltAction,
           distance: distance,
@@ -1636,9 +1646,9 @@
         const mods = timelineModifiers.concat(extra);
         // 直道先估一个量级当上界：再差的配置也不会超过它 4 倍
         const estimate =
-          baseSpeed * (1 + (constPct + extraPct + 40) / 100.0) + constFlat + extraFlat + 60;
+          gameBase * (1 + (constPct + extraPct + 40) / 100.0) + traceFlat + constFlat + extraFlat + 60;
         const high = Math.max(1000.0, estimate * 4.0);
-        return requiredSpeed(baseSpeed, mods, {
+        return requiredSpeed(gameBase, mods, {
           actions: actions,
           avLimit: windowAv,
           advanceDistance: advanceDistanceNew,
@@ -1653,6 +1663,7 @@
       const reachable = (actions, windowAv) => achievedWith(finalSpeed, windowAv, actions) >= actions;
 
       const tables = [];
+      const tableCache = new Map();
       for (const mode of modes.modes) {
         const modeFirst = Number(mode.firstCycleAV || firstAv);
         const modeStep = Number(mode.cycleAV || stepAv);
@@ -1667,12 +1678,17 @@
             // 表格单元格和 verdict 同一口径：需求速度 = 需要多少「未加速速度」。
             // 有开大/叠层加速时这里是**真的模拟**出来的（逐格二分），
             // 没有时就是闭式公式，和旧算法逐位一致。
-            const needed = Math.max(0.0, speedNeeded(actions, totalAv));
+            const key = `${actions}:${totalAv}`;
+            if (!tableCache.has(key)) tableCache.set(key, {
+              speed: Math.max(0.0, speedNeeded(actions, totalAv)),
+              reachable: reachable(actions, totalAv),
+            });
+            const cached = tableCache.get(key);
             cells.push({
               t: t,
               totalAV: totalAv,
-              speed: needed,
-              reachable: reachable(actions, totalAv),
+              speed: cached.speed,
+              reachable: cached.reachable,
             });
           }
           rows.push({ actions: actions, cells: cells });
@@ -1729,7 +1745,7 @@
         const addFlat = opts && opts.addFlat ? opts.addFlat : 0;
         const addPct = opts && opts.addPct ? opts.addPct : 0;
         const addAdvanceValue = opts && opts.addAdvance ? opts.addAdvance : 0;
-        const speed = baseSpeed * (1 + (constPct + addPct) / 100.0) + constFlat + addFlat;
+        const speed = gameBase * (1 + (constPct + addPct) / 100.0) + traceFlat + constFlat + addFlat;
         const need = Math.max(
           0.0,
           speedNeeded(targetActions, targetAv, addFlat, addPct, addAdvanceValue),
@@ -1745,7 +1761,7 @@
       const suggestions = [];
       if (gap > 1e-9) {
         // 只堆副词条/固定速度需要多少
-        const neededFlat = required - baseSpeed * (1 + constPct / 100.0);
+        const neededFlat = required - gameBase * (1 + constPct / 100.0) - traceFlat;
         const extraFlat = neededFlat - constFlat;
         if (extraFlat > 0) {
           suggestions.push(
@@ -1823,8 +1839,8 @@
           flatAll: flatTotal,
           hasTimeline: anyTimeline(timelineModifiers),
           formula:
-            (traceFlat ? "(" + pyG(gameBase) + " + 行迹 " + pyG(traceFlat) + ")" : pyG(gameBase)) +
-            " × (1 + " + pyG(constPct) + "%) + " + pyG(constFlat) + " = " + pyFixed(finalSpeed, 2) +
+            pyG(gameBase) +
+            " × (1 + " + pyG(constPct) + "%)" + (traceFlat ? " + 行迹 " + pyG(traceFlat) : "") + " + " + pyG(constFlat) + " = " + pyFixed(finalSpeed, 2) +
             (anyTimeline(timelineModifiers) ? "（未加速速度；加速随行动生效，见 simulation）" : ""),
           breakdown: breakdown,
         },
@@ -1890,6 +1906,7 @@
       if (!isDict(config)) {
         throw new Error("缺少 config（要存的配置对象）");
       }
+      validateSubstatSpeed(config.relic || {});
 
       const character = find(characters(), characterId);
       const store = loadPresets();
@@ -1977,7 +1994,9 @@
     function recommend(payload) {
       const p = payload || {};
       const character = resolveCharacter(p);
-      const baseSpeed = Number(character.baseSpeed || 0) + Number(character.traceSpeed || 0);
+      const gameBase = Number(character.baseSpeed || 0);
+      const traceFlat = Number(character.traceSpeed || 0);
+      const baseSpeed = gameBase + traceFlat;
       if (baseSpeed <= 0) {
         throw new Error(character.name + " 没有基础速度数据");
       }
@@ -2033,13 +2052,15 @@
         .slice()
         .sort(cmpBy([(item) => !item.hasSpeedEffect, (item) => item.name || ""]));
 
+      const fourChoices = [null].concat(fourPiece).map(item => [item, setContribution(item, ["2件套", "4件套"], fourUlts)]);
+      const ornamentChoices = [null].concat(ornaments).map(item => [item, setContribution(item, ["2件套"], 0)]);
       const results = [];
       for (const cone of [null].concat(cones)) {
         const [conePct, coneFlat, coneAdvanceValue] = coneContribution(cone, superimpose, coneUlts);
-        for (const four of [null].concat(fourPiece)) {
-          const [fourPct, fourFlat, fourAdvance, fourNeeds120] = setContribution(four, ["2件套", "4件套"], fourUlts);
+        for (const [four, fourValues] of fourChoices) {
+          const [fourPct, fourFlat, fourAdvance, fourNeeds120] = fourValues;
           // 位面饰品只有一个栏位（和界面一致）
-          for (const ornament of [null].concat(ornaments)) {
+          for (const [ornament, ornamentValues] of ornamentChoices) {
             let pct = conePct + fourPct;
             let flat = coneFlat + fourFlat;
             let advance = coneAdvanceValue + fourAdvance;
@@ -2047,7 +2068,7 @@
             const pending120Labels = [];
 
             if (ornament !== null) {
-              const [oPct, oFlat, oAdvance, oNeeds120] = setContribution(ornament, ["2件套"], 0);
+              const [oPct, oFlat, oAdvance, oNeeds120] = ornamentValues;
               pct += oPct;
               flat += oFlat;
               if (oNeeds120) {
@@ -2062,7 +2083,7 @@
             }
 
             if (useBoots) flat += SPEED_BOOTS_FLAT;
-            const speedNoSubstat = baseSpeed * (1 + pct / 100.0) + flat;
+            const speedNoSubstat = gameBase * (1 + pct / 100.0) + traceFlat + flat;
 
             // 速度不到 120 时，翁瓦克这类进战拉条不生效
             let effectiveAdvance = advance;

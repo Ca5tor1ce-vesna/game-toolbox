@@ -4,5 +4,12 @@
   "icon": "✏️",
   "order": 3,
   "description": "把界面上的固定文案换成你喜欢的说法（卡片标题、按钮、提示）。只改你自己的这份，存在 userdata/shell-overrides.json 的 texts 段里。",
-  "tags": ["文字", "文案", "标题", "改名", "后门"]
+  "tags": [
+    "文字",
+    "文案",
+    "标题",
+    "改名",
+    "后门"
+  ],
+  "menu": false
 }

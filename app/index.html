@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>document.documentElement.classList.add('boot-pending');</script>
     <title>b站：@syllo椭圆</title>
     <link rel="stylesheet" href="/app/style.css" />
     <link rel="icon" type="image/x-icon" href="/app/favicon.ico" />
@@ -10,30 +11,32 @@
   <body>
     <div id="app">
       <aside id="sidebar">
-        <div class="brand">
-          <span class="brand-icon">🧰</span>
+        <button class="brand" id="home-button" type="button" aria-label="返回欢迎页">
+          <span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5c0-1 1-2 3-2s3 1 3 2v2M3 12h18M10 12v2h4v-2"/></svg></span>
           <div class="brand-text">
             <b>b站：@syllo椭圆</b>
             <small id="brand-version">加载中…</small>
           </div>
-        </div>
+        </button>
 
-        <nav id="nav" class="nav" aria-label="功能导航"></nav>
+        <nav id="nav" class="nav" aria-label="功能导航"><div class="gt-nav-loading" role="status" aria-label="导航加载中"><i></i><i></i><i></i><i></i></div></nav>
 
         <div class="sidebar-footer">
-          <button class="ghost" data-admin-only hidden data-page="guide" data-text="shell.guide">📘 扩展指南</button>
-          <button class="ghost" data-admin-only hidden data-page="status" data-text="shell.status">🩺 模块状态 <span id="err-badge" class="badge hidden">0</span></button>
+          <button class="ghost nav-page" data-admin-only hidden data-page="guide" aria-label="扩展指南"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4.5h9.5a3 3 0 0 1 3 3V20H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h9.5M9 8h5"/></svg></span><span class="name" data-text="shell.guide">扩展指南</span></button>
+          <button class="ghost nav-page" data-admin-only hidden data-page="status" aria-label="模块状态"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v6a4 4 0 0 0 8 0V3"/><path d="M10 13v3a4 4 0 0 0 8 0v-2"/><circle cx="18" cy="12" r="2"/></svg></span><span class="name" data-text="shell.status">模块状态</span> <span id="err-badge" class="badge hidden">0</span></button>
           <div class="sidebar-links">
             <a href="https://github.com/Ca5tor1ce-vesna/game-toolbox" target="_blank" rel="noopener" data-text="shell.link.repo">GitHub 仓库</a>
             <a href="https://space.bilibili.com/5406068" target="_blank" rel="noopener" data-text="shell.link.bili1">b站：syllo椭圆</a>
             <a href="https://space.bilibili.com/395882974" target="_blank" rel="noopener" data-text="shell.link.bili2">b站：我星第一神经</a>
-            <span class="sidebar-credits" data-text="shell.credits">代码贡献：DeepSeek · Grok Bot</span>
+            <span class="sidebar-credits">代码贡献：<a href="https://space.bilibili.com/5406068" target="_blank" rel="noopener">syllo椭圆</a> · <a href="https://space.bilibili.com/395882974" target="_blank" rel="noopener">我星第一神经</a> · <a href="https://space.bilibili.com/14451336" target="_blank" rel="noopener">素帕蜗牛</a> · <a href="https://github.com/Yukiookami" target="_blank" rel="noopener">Yukiookami</a></span>
           </div>
         </div>
       </aside>
 
       <main id="main">
+        <span class="leaf a" aria-hidden="true"></span><span class="leaf b" aria-hidden="true"></span><span class="leaf c" aria-hidden="true"></span>
         <header id="topbar">
+          <button id="sidebar-toggle" type="button" class="ghost small" aria-label="收起侧栏" aria-expanded="true" title="收起侧栏">‹</button>
           <div id="crumb" class="crumb" data-text="shell.pick">选择一个功能开始</div>
           <div class="search-wrap">
             <input id="search" type="search" placeholder="搜索功能…（配速 / 抽卡 / 伤害）" autocomplete="off" aria-label="搜索功能" />
@@ -41,18 +44,20 @@
           </div>
           <div class="topbar-actions">
             <span id="meta" class="meta"></span>
-            <button id="rescan" data-text="shell.rescan" class="ghost small" title="重新扫描 modules/ 目录，加载新加的功能">↻ 重新扫描</button>
+            <button id="rescan" data-text="shell.rescan" class="ghost small" title="重新扫描 modules/ 目录，加载新加的功能">⟳ 重新扫描</button>
           </div>
         </header>
         <div id="warnings"></div>
         <section id="view" class="view">
-          <div class="welcome card">
-            <h1>欢迎你使用，目前为测试版本，有任何建议或者反馈可以联系作者</h1>
+          <div id="boot-skeleton" class="gt-skeleton" role="status" aria-label="页面加载中"><div class="gt-skeleton-card"><i></i><i></i><i></i><i></i></div><div class="gt-skeleton-card"><i></i><i></i><i></i><i></i><i></i></div></div>
+          <div class="welcome">
+            <h1>欢迎你使用，当前为<em>测试版本，</em><span class="welcome-spark" aria-hidden="true">✦</span><br />有任何建议或者反馈<em class="fade">可以联系作者</em></h1>
+            <div class="welcome-rule" aria-hidden="true"></div>
             <div class="home-links">
-              <a href="https://github.com/Ca5tor1ce-vesna/game-toolbox" target="_blank" rel="noopener" data-text="shell.link.repo">GitHub 仓库</a>
-              <a href="https://space.bilibili.com/5406068" target="_blank" rel="noopener" data-text="shell.link.bili1">b站：syllo椭圆</a>
-              <a href="https://space.bilibili.com/395882974" target="_blank" rel="noopener" data-text="shell.link.bili2">b站：我星第一神经</a>
-              <span class="home-credits" data-text="shell.credits">代码贡献：DeepSeek · Grok Bot</span>
+              <span class="home-link"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2Z"/></svg><a href="https://github.com/Ca5tor1ce-vesna/game-toolbox" target="_blank" rel="noopener" data-text="shell.link.repo">GitHub 仓库</a></span>
+              <span class="home-link"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M7 3.5 9.5 6M17 3.5 14.5 6"/><rect x="3" y="6" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path fill="currentColor" d="M8 11.5h2v2H8zM14 11.5h2v2h-2z"/></svg><a href="https://space.bilibili.com/5406068" target="_blank" rel="noopener" data-text="shell.link.bili1">b站：syllo椭圆</a></span>
+              <span class="home-link"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M7 3.5 9.5 6M17 3.5 14.5 6"/><rect x="3" y="6" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path fill="currentColor" d="M8 11.5h2v2H8zM14 11.5h2v2h-2z"/></svg><a href="https://space.bilibili.com/395882974" target="_blank" rel="noopener" data-text="shell.link.bili2">b站：我星第一神经</a></span>
+              <span class="home-link"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14"/></svg><span class="home-credits">代码贡献：<a href="https://space.bilibili.com/5406068" target="_blank" rel="noopener">syllo椭圆</a> · <a href="https://space.bilibili.com/395882974" target="_blank" rel="noopener">我星第一神经</a> · <a href="https://space.bilibili.com/14451336" target="_blank" rel="noopener">素帕蜗牛</a> · <a href="https://github.com/Yukiookami" target="_blank" rel="noopener">Yukiookami</a></span></span>
             </div>
           </div>
         </section>
@@ -60,6 +65,7 @@
     </div>
 
     <script src="/app/local-state.js"></script>
+    <script src="/app/select-menu.js"></script>
     <script type="module" src="/app/app.js"></script>
   </body>
 </html>

@@ -245,7 +245,73 @@ function errText(unit) {
   return `${fmtNum(unit.err, 1)}%`;
 }
 
+/**
+ * @typedef {object} TeamUnit
+ * @property {string} id
+ * @property {string} name
+ * @property {boolean} elation
+ * @property {number} baseSpd
+ * @property {number} traceSpd
+ * @property {number} lcBaseSpd
+ * @property {number} permPct
+ * @property {number} permFlat
+ * @property {number} err
+ * @property {number} eidolon
+ * @property {number|string} [initialEnergy]
+ * @property {number} initAdv
+ * @property {number} targetSlot
+ * @property {string} rotation
+ * @property {Record<string, boolean>} equipment
+ * @property {{name: string, lightcone: string, sets: string[], speed: number, savedAt: string, note: string}} [sourceBuild]
+ */
+
+// 配速页与完整模拟器的速度公式不同；以原 plan 的 S0 校准固定值，
+// 装备仍由模拟器在真实事件时点触发，不把累计拉条当成开局拉条。
+function convertSavedBuild(cid, resolved, slot, spec, library) {
+  const { entry, result } = resolved;
+  const cfg = entry.config, spd = result.speed;
+  const lc = (library.lightcones || []).find(x => String(x.id) === String(cfg.lightconeId));
+  const coneName = lc?.name || "";
+  const sets = (library.relicSets || []).filter(x => [cfg.relic?.fourPieceId, ...(cfg.relic?.ornamentIds || [])].map(String).includes(String(x.id)));
+  const hasSet = name => sets.some(x => x.name === name);
+  const equipment = Object.fromEntries(RELIC_OPTIONS.map(x => [x.key, false]));
+  equipment.vonwacq = hasSet("生命的翁瓦克");
+  equipment.godJoy = hasSet("神的瞬息欢愉");
+  equipment.windSet4 = hasSet("晨昏交界的翔鹰");
+  equipment.danceS5 = coneName === "舞！舞！舞！" && Number(cfg.superimpose) === 5;
+  const known = LIGHT_CONE_OPTIONS[cid];
+  if (known) equipment[known.key] = Number(cfg.superimpose || 1) === 1 && coneName.includes(known.label.match(/《(.+)》/)?.[1] || known.label);
+  const baseSpd = Number(spec.baseSpd), traceSpd = Number(spec.traceSpd || 0);
+  const lcBaseSpd = cid === "1511" && equipment.hasSigLc ? Number(spec.lcBaseSpd || 0) : 0;
+  // 配速查询可把勾选的条件效果计入 S0；结界由完整引擎维护，不能再固化到裸配装。
+  const managedPct = cid === "1502" ? (result.effects?.speed || [])
+    .filter(e => e.origin === "角色·星魂" && e.rank === 2 && e.apply === "team" && e.kind === "pct" && (result.effects.enabled || []).includes(e.id))
+    .reduce((sum, e) => sum + Number(e.value || 0), 0) : 0;
+  const pct = Number(spd.pct || 0) - managedPct;
+  const baselineSpeed = Number(spd.final) - Number(spd.base) * managedPct / 100;
+  const unit = {
+    id: cid, name: spec.name, elation: spec.elation, baseSpd, traceSpd, lcBaseSpd,
+    permPct: pct - (equipment.godJoy ? 6 : 0),
+    permFlat: baselineSpeed - (baseSpd + lcBaseSpd) * (1 + pct / 100) - traceSpd,
+    err: Number(cfg.aha?.err || 0), eidolon: cfg.eidolon || 0,
+    initialEnergy: cfg.aha?.initialEnergy ?? "", rotation: cfg.aha?.rotation || spec.rotation || "auto",
+    initAdv: Number(cfg.advance?.custom || 0), targetSlot: slot === 0 ? 1 : 0, equipment,
+    sourceBuild: {
+      characterId: cid, config: structuredClone(cfg),
+      name: entry.name, savedAt: entry.savedAt, lightcone: coneName, sets: sets.map(x => x.name), speed: spd.final, baselineSpeed,
+      note: coneName && !equipment.danceS5 && !(known && equipment[known.key])
+        ? "此光锥的动态特效或叠影档位尚未支持；仅导入未加速速度，请核对充能与拉条。"
+        : "动态特效按本模拟器结算；专武仅支持叠1，舞舞舞仅支持叠5。",
+    },
+  };
+  if (managedPct) unit.sourceBuild.note += " 爻光二魂结界加速由模拟器控制，不重复作为常驻速度；与配速页的行迹乘区口径不同。";
+  return unit;
+}
+
+
 export default {
+  convertSavedBuild,
+  sidebarLayout: "compact-tight",
   title: "阿哈时刻配速",
 
   async mount(root, ctx) {
@@ -293,17 +359,20 @@ export default {
         advancePct: 0,
       },
       config: structuredClone(TEAM_PRESETS.aha_quad.config),
-      team: structuredClone(TEAM_PRESETS.aha_quad.team),
+      team: /** @type {TeamUnit[]} */ (structuredClone(TEAM_PRESETS.aha_quad.team)),
       simResult: null,
       thresholdResult: null,
     };
     let simulationRequest = 0;
+    let simulationTimer = null;
     let disposed = false;
     let iframeCleanup;
-    this.unmount = () => { disposed = true; simulationRequest += 1; iframeCleanup?.(); };
+    this.unmount = () => { disposed = true; simulationRequest += 1; clearTimeout(simulationTimer); iframeCleanup?.(); };
     let library = { presets: {}, teams: {}, characters: [], lightcones: [], relicSets: [] };
     let libraryError = "";
     let selectedTeam = "";
+    // 队伍卡里展开的号位；只影响显示，默认展开 1 号位。
+    const expandedSlots = new Set([0]);
     let teamName = "";
     const draft = ctx.persistence?.load()?.data;
     if (draft && Array.isArray(draft.team) && draft.team.length >= 1 && draft.team.length <= 4 && draft.team.every(u => u && rosterById[u.id])) {
@@ -323,50 +392,9 @@ export default {
       const icon = characters().get(String(id))?.icon;
       const source = (window.GT_ASSETS || {})[icon] || icon;
       const url = source && (/^(\/|data:)/.test(source) || window.GT_STANDALONE ? source : `/api/asset?url=${encodeURIComponent(source)}`);
-      return `<span class="aha-avatar ${extra}" aria-label="${esc(name)}"><span>${esc(Array.from(name || "🎭")[0])}</span>${url ? `<img src="${esc(url)}" alt="" loading="lazy" onerror="this.remove()">` : ""}</span>`;
-    }
-
-    // 配速页与完整模拟器的速度公式不同；以原 plan 的 S0 校准固定值，
-    // 装备仍由模拟器在真实事件时点触发，不把累计拉条当成开局拉条。
-    function unitFromBuild(cid, resolved, slot) {
-      const { entry, result } = resolved;
-      const cfg = entry.config, spd = result.speed, spec = rosterById[cid];
-      const lc = (library.lightcones || []).find(x => String(x.id) === String(cfg.lightconeId));
-      const coneName = lc?.name || "";
-      const sets = (library.relicSets || []).filter(x => [cfg.relic?.fourPieceId, ...(cfg.relic?.ornamentIds || [])].map(String).includes(String(x.id)));
-      const hasSet = name => sets.some(x => x.name === name);
-      const equipment = Object.fromEntries(RELIC_OPTIONS.map(x => [x.key, false]));
-      equipment.vonwacq = hasSet("生命的翁瓦克");
-      equipment.godJoy = hasSet("神的瞬息欢愉");
-      equipment.windSet4 = hasSet("晨昏交界的翔鹰");
-      equipment.danceS5 = coneName === "舞！舞！舞！" && Number(cfg.superimpose) === 5;
-      const known = LIGHT_CONE_OPTIONS[cid];
-      if (known) equipment[known.key] = Number(cfg.superimpose || 1) === 1 && coneName.includes(known.label.match(/《(.+)》/)?.[1] || known.label);
-      const baseSpd = Number(spec.baseSpd), traceSpd = Number(spec.traceSpd || 0);
-      const lcBaseSpd = cid === "1511" && equipment.hasSigLc ? Number(spec.lcBaseSpd || 0) : 0;
-      // 配速查询可把勾选的条件效果计入 S0；结界由完整引擎维护，不能再固化到裸配装。
-      const managedPct = cid === "1502" ? (result.effects?.speed || [])
-        .filter(e => e.origin === "角色·星魂" && e.rank === 2 && e.apply === "team" && e.kind === "pct" && (result.effects.enabled || []).includes(e.id))
-        .reduce((sum, e) => sum + Number(e.value || 0), 0) : 0;
-      const pct = Number(spd.pct || 0) - managedPct;
-      const baselineSpeed = Number(spd.final) - Number(spd.base) * managedPct / 100;
-      const unit = {
-        id: cid, name: spec.name, elation: spec.elation, baseSpd, traceSpd, lcBaseSpd,
-        permPct: pct - (equipment.godJoy ? 6 : 0),
-        permFlat: baselineSpeed - (baseSpd + lcBaseSpd) * (1 + pct / 100) - traceSpd,
-        err: Number(cfg.aha?.err || 0), eidolon: cfg.eidolon || 0,
-        initialEnergy: cfg.aha?.initialEnergy ?? "", rotation: cfg.aha?.rotation || spec.rotation || "auto",
-        initAdv: Number(cfg.advance?.custom || 0), targetSlot: slot === 0 ? 1 : 0, equipment,
-        sourceBuild: {
-          characterId: cid, config: structuredClone(cfg),
-          name: entry.name, savedAt: entry.savedAt, lightcone: coneName, sets: sets.map(x => x.name), speed: spd.final, baselineSpeed,
-          note: coneName && !equipment.danceS5 && !(known && equipment[known.key])
-            ? "此光锥的动态特效或叠影档位尚未支持；仅导入未加速速度，请核对充能与拉条。"
-            : "动态特效按本模拟器结算；专武仅支持叠1，舞舞舞仅支持叠5。",
-        },
-      };
-      if (managedPct) unit.sourceBuild.note += " 爻光二魂结界加速由模拟器控制，不重复作为常驻速度；与配速页的行迹乘区口径不同。";
-      return unit;
+      // 缺图角色用 ✦ 占位（设计稿统一样式）；系统事件保留原图标。
+      const placeholder = extra.includes("is-system") ? Array.from(name || "🎭")[0] : "✦";
+      return `<span class="aha-avatar ${extra}" aria-label="${esc(name)}"><span>${esc(placeholder)}</span>${url ? `<img src="${esc(url)}" alt="" loading="lazy" onerror="this.remove()">` : ""}</span>`;
     }
 
     function notice(message, error = false) {
@@ -397,7 +425,7 @@ export default {
       renderTeamPreview(container);
       box.querySelector("#aha-team-name").oninput = event => { teamName = event.target.value; };
       if (window.GT_STANDALONE) box.querySelector("#aha-manage-builds").onclick = event => {
-        event.preventDefault(); document.querySelector('[data-view="view"]')?.click();
+        event.preventDefault(); /** @type {HTMLElement | null} */ (document.querySelector('[data-view="view"]'))?.click();
       };
       box.querySelector("#aha-refresh-library").onclick = async () => {
         try { await refreshLibrary(container); notice("存档已刷新，当前队伍参数保持不变。"); }
@@ -420,7 +448,7 @@ export default {
       box.querySelector("#aha-save-team").onclick = () => save(false);
       box.querySelector("#aha-overwrite-team").onclick = () => save(true);
       box.querySelector("#aha-delete-team").onclick = async () => {
-        if (!confirm("删除所选队伍存档？当前队伍和角色配装会保留。")) return;
+        if (!await window.GT_DIALOG("删除所选队伍存档？当前队伍和角色配装会保留。", true)) return;
         try { const result = await callAction("delete_team", { id: selectedTeam }); library.teams = result.teams; selectedTeam = ""; renderLibrary(container); ctx.persistence?.capture(); notice("队伍存档已删除。"); }
         catch (err) { notice(err.message, true); }
       };
@@ -440,8 +468,8 @@ export default {
         <div class="aha-sim-wrap">
           <div class="aha-topbar">
             <div class="aha-title-block">
-              <h2>🎭 欢愉队配速与【阿哈时刻】排轴模拟器</h2>
-              <p>选取角色存档组成队伍，按真实模拟事件查看行动顺序与回能。</p>
+              <h2>欢愉队配速与【阿哈时刻】排轴模拟器</h2>
+              <p>选择角色配装，查看行动顺序与技能事件。</p>
             </div>
           </div>
           <div id="aha-body-container"></div>
@@ -492,6 +520,10 @@ export default {
         }
       }
 
+      // 不改动原版文件，仅在嵌入时统一去除聚焦描边。
+      const selectMenuInstaller = window.GT_INSTALL_SELECT_MENU?.toString();
+      const originalControls = `<style>:focus { outline: none; } .input-field:focus { border-color: #475569; box-shadow: none; } select { appearance:none; padding-right:28px !important; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m3 6 5 5 5-5' fill='none' stroke='%23d9a7ba' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 8px center; background-size:14px; } .gt-select-menu { position:fixed; z-index:10000; overflow-y:auto; padding:5px; border:1px solid #f2d9e2; border-radius:10px; background:#fffafd; color:#352237; box-shadow:0 12px 30px #70405c24; font:14px/1.4 sans-serif; } .gt-select-menu [role=option] { padding:8px 10px; border-radius:6px; cursor:pointer; } .gt-select-menu [role=option]:hover,.gt-select-menu [role=option].is-current { background:#f9dfe9; color:#b92d61; } .gt-select-menu [aria-disabled=true] { opacity:.45; } .gt-select-group { padding:8px 10px 3px; color:#806d7d; font-size:12px; }</style>${selectMenuInstaller ? `<script>(${selectMenuInstaller})();<\/script>` : ""}`;
+      html = html.replace("</head>", `${originalControls}</head>`);
       container.innerHTML = `<iframe class="aha-original-frame" title="【阿哈时刻】配速（原版工具）"></iframe>`;
       const frame = container.querySelector("iframe");
       frame.addEventListener("load", () => {
@@ -534,14 +566,16 @@ export default {
         .join("");
 
       container.innerHTML = `
-        <div class="aha-preset-bar">
-          <span class="aha-preset-label">阵容预设：</span>
-          ${presetButtons}
+        <div class="aha-preset-row">
+          <div class="aha-preset-bar">
+            <span class="aha-preset-label">阵容预设</span>
+            ${presetButtons}
+          </div>
+          <details class="aha-preset-details">
+            <summary>预设说明</summary>
+            <div class="aha-preset-desc" id="aha-preset-desc"><strong>当前阵容说明</strong><span>${esc(presetDesc)}</span></div>
+          </details>
         </div>
-        <details class="aha-preset-details">
-          <summary>预设说明（客观机制）</summary>
-          <div class="aha-preset-desc" id="aha-preset-desc">${esc(presetDesc)}</div>
-        </details>
 
         <div class="aha-result-bar" id="aha-summary-box"></div>
 
@@ -549,7 +583,7 @@ export default {
           <div class="aha-col aha-col-left">
             <div class="aha-card">
               <div class="aha-card-head">
-                <h3>🎭 全局机制</h3>
+                <h3>全局机制</h3>
                 <span class="aha-pill">开关</span>
               </div>
 
@@ -605,9 +639,9 @@ export default {
           <div class="aha-col">
             <div class="aha-card">
               <div class="aha-card-head">
-                <h3>👥 队伍与配装</h3>
+                <h3>队伍与配装</h3>
                 <div style="display:flex;align-items:center;gap:8px;font-size:12px;">
-                  <span>模拟上限 (AV)：</span>
+                  <span>模拟上限 (AV)</span>
                   <input type="number" class="aha-input" id="cfg-maxAV" value="${state.config.maxAV}" min="100" max="1000" step="50" style="width:82px;text-align:center;">
                 </div>
               </div>
@@ -617,7 +651,7 @@ export default {
             <div class="aha-card">
               <div class="aha-card-head">
                 <div>
-                  <h3>⏱️ 行动值与技能事件时间轴</h3>
+                  <h3>行动值与技能事件时间轴</h3>
                   <small id="aha-timeline-sub" style="color:var(--muted,#94a3b8);font-size:11.5px;"></small>
                 </div>
                 <div class="aha-filter-bar">${filterButtons}</div>
@@ -678,11 +712,7 @@ export default {
       globals.append(globalCard);
       const libraryCard = document.createElement("div");
       libraryCard.className = "aha-card"; libraryCard.id = "aha-library";
-      const presets = document.createElement("details");
-      presets.className = "aha-preset-details aha-example-teams";
-      presets.innerHTML = "<summary>示例阵容与机制说明</summary>";
-      presets.append(container.querySelector(".aha-preset-bar"), container.querySelector(".aha-preset-details"));
-      left.replaceChildren(libraryCard, presets, teamCard, globals);
+      left.replaceChildren(teamCard, libraryCard, globals);
       right.prepend(container.querySelector("#aha-summary-box"));
       renderLibrary(container);
 
@@ -826,7 +856,7 @@ export default {
           const charOptions = rosterOpts
             .map(
               (r) =>
-                `<option value="${esc(r.id)}" ${r.id === unit.id ? "selected" : ""}>${esc(r.name)} (${r.elation ? "欢愉" : r.path || "辅助"})</option>`
+                `<option value="${esc(r.id)}" ${r.id === unit.id ? "selected" : ""} ${r.id !== unit.id && state.team.some((member, slot) => slot !== idx && String(member.id) === String(r.id)) ? "disabled" : ""}>${esc(r.name)} (${r.elation ? "欢愉" : r.path || "辅助"})${r.id !== unit.id && state.team.some((member, slot) => slot !== idx && String(member.id) === String(r.id)) ? " · 已上阵" : ""}</option>`
             )
             .join("");
 
@@ -859,19 +889,26 @@ export default {
             : `<div class="aha-advanced-note">该角色没有会影响排轴的星魂档位。</div>`;
 
           return `
-            <div class="aha-unit-card ${unit.elation ? "is-elation" : ""}" data-slot="${idx}" id="aha-unit-${idx}">
+            <div class="aha-unit-card ${unit.elation ? "is-elation" : ""} ${expandedSlots.has(idx) ? "is-open" : ""}" data-slot="${idx}" id="aha-unit-${idx}">
               <div class="aha-unit-top">
                 <div class="aha-unit-identity">
+                  <span class="aha-slot-badge" title="${idx + 1}号位">${idx + 1}</span>
                   ${avatar(unit.id, unit.name)}
-                  <span class="aha-slot-badge">${idx + 1}号位</span>
-                  <select class="aha-select unit-char-select" data-slot="${idx}" style="width:155px;font-weight:600;">
-                    ${charOptions}
-                  </select>
-                  <label class="aha-equip-chk" title="勾选后计入【阿哈时刻】速度加权，并参与欢愉技结算">
-                    <input type="checkbox" class="unit-elation-chk" data-slot="${idx}" ${unit.elation ? "checked" : ""}>
-                    <span style="color:#f472b6;font-weight:600;">欢愉命途</span>
-                  </label>
+                  <div class="aha-unit-name">
+                    <strong>${esc(unit.name)}</strong>
+                    <select class="aha-select unit-char-select" data-slot="${idx}" aria-label="${idx + 1}号位角色">
+                      ${charOptions}
+                    </select>
+                  </div>
+                  <button type="button" class="aha-unit-toggle" data-slot="${idx}" aria-expanded="${expandedSlots.has(idx)}" aria-controls="aha-unit-body-${idx}" aria-label="展开或收起${idx + 1}号位配置"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
                 </div>
+              </div>
+              <div class="aha-unit-body" id="aha-unit-body-${idx}" ${expandedSlots.has(idx) ? "" : "inert"}><div class="aha-unit-body-inner">
+              <div class="aha-unit-quick">
+                <label class="aha-equip-chk" title="勾选后计入【阿哈时刻】速度加权，并参与欢愉技结算">
+                  <input type="checkbox" class="unit-elation-chk" data-slot="${idx}" ${unit.elation ? "checked" : ""}>
+                  <span>欢愉命途</span>
+                </label>
                 <div class="aha-unit-metrics" id="unit-metrics-${idx}"></div>
               </div>
 
@@ -968,12 +1005,26 @@ export default {
                   }
                 </div>
               </details>
+              </div>
+              </div>
             </div>
           `;
         })
         .join("");
 
       renderTeamPreview(container);
+
+      box.querySelectorAll(".aha-unit-toggle").forEach((button) => {
+        button.onclick = () => {
+          const slot = Number(button.dataset.slot);
+          const card = button.closest(".aha-unit-card");
+          const open = card.classList.toggle("is-open");
+          if (open) expandedSlots.add(slot);
+          else expandedSlots.delete(slot);
+          card.querySelector('.aha-unit-body').inert = !open;
+          button.setAttribute("aria-expanded", String(open));
+        };
+      });
 
       box.querySelectorAll(".unit-apply-build").forEach(button => {
         button.onclick = async () => {
@@ -987,7 +1038,7 @@ export default {
           try {
             const resolved = await callAction("resolve_build", { characterId: cid });
             if (disposed || originalTeam !== state.team || !button.isConnected || String(state.team[slot].id) !== String(cid)) return;
-            state.team[slot] = unitFromBuild(cid, resolved, slot);
+            state.team[slot] = convertSavedBuild(cid, resolved, slot, rosterById[cid], library);
             if (cid === "1511") {
               state.config.aeonAhaBaseSpd = state.team[slot].baseSpd;
               state.config.aeonAhaLcBaseSpd = state.team[slot].lcBaseSpd;
@@ -1004,6 +1055,11 @@ export default {
         sel.addEventListener("change", () => {
           const slot = Number(sel.dataset.slot);
           const cid = sel.value;
+          if (state.team.some((member, index) => index !== slot && String(member.id) === cid)) {
+            sel.value = state.team[slot].id;
+            notice("同一队伍不能重复选择同一角色。", true);
+            return;
+          }
           const spec = rosterById[cid] || {};
           state.team[slot] = {
             id: cid,
@@ -1079,7 +1135,7 @@ export default {
             if (key === "baseSpd") state.config.aeonAhaBaseSpd = value;
             if (key === "lcBaseSpd") state.config.aeonAhaLcBaseSpd = value;
           }
-          runSimulation();
+          scheduleSimulation();
         });
       });
 
@@ -1113,7 +1169,24 @@ export default {
       }
     }
 
+    function scheduleSimulation() {
+      clearTimeout(simulationTimer);
+      simulationRequest++;
+      state.simResult = null;
+      ctx.persistence?.capture();
+      const summary = root.querySelector("#aha-summary-box");
+      if (summary) summary.textContent = "计算中…";
+      const timeline = root.querySelector("#aha-timeline-list");
+      if (timeline) timeline.textContent = "计算中…";
+      const subtitle = root.querySelector("#aha-timeline-sub");
+      if (subtitle) subtitle.textContent = "";
+      root.querySelectorAll(".aha-unit-metrics").forEach((el) => { el.textContent = ""; });
+      simulationTimer = setTimeout(runSimulation, 150);
+    }
+
     async function runSimulation() {
+      clearTimeout(simulationTimer);
+      simulationTimer = null;
       ctx.persistence?.capture();
       const request = ++simulationRequest;
       const payload = {
@@ -1313,8 +1386,8 @@ export default {
         if (note) tags.push(note);
         return `
             <div class="aha-cycle-banner">
-              <span>── 第 ${cycle} 轮 (${cycle}T) ──</span>
-              <span>轮次边界：${limitAV} AV${tags.length ? " " + tags.join(" ") : ""}</span>
+              <span>第 ${cycle} 轮（${cycle}T）</span>
+              <span>轮次边界 ${limitAV} AV${tags.length ? " " + tags.join(" ") : ""}</span>
             </div>
           `;
       };
@@ -1394,7 +1467,7 @@ export default {
               <span class="aha-event-name">${esc(ev.name)}</span>
               <b class="aha-event-label">${esc(ev.label)}</b>
             </div>
-            <span class="aha-event-expand" aria-hidden="true">⌄</span>
+            <span class="aha-event-expand" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span>
             </summary>
             <div class="aha-ev-details">
               ${detailsHtml}

@@ -3,6 +3,8 @@
  * 这里只负责"装东西"，不含任何游戏逻辑——具体功能各自在自己的 ui.js 里。
  */
 
+import { CHEVRON, featureIcon, pageIcon, setupSidebar } from "./sidebar.js";
+
 const state = {
   registry: null,
   current: { moduleId: null, featureId: null },
@@ -12,6 +14,24 @@ const state = {
 };
 
 const $ = (sel, el = document) => el.querySelector(sel);
+const welcomeMarkup = $("#view .welcome").outerHTML;
+let welcomeHdPromise;
+function loadWelcomeHd() {
+  const welcome = $("#view .welcome");
+  if (!welcome) return;
+  if (!welcomeHdPromise) {
+    welcomeHdPromise = new Promise((resolve) => {
+      const image = new Image();
+      image.onload = () => resolve(true);
+      image.onerror = () => resolve(false);
+      image.src = "/app/assets/welcome-bg-hd.png";
+    });
+  }
+  welcomeHdPromise.then((loaded) => {
+    if (loaded && welcome.isConnected) welcome.classList.add("is-hd");
+    if (!loaded) welcomeHdPromise = null;
+  });
+}
 let persistenceReady = false;
 const shellState = () => persistenceReady ? window.GT_LOCAL_STATE.scope("shell") : null;
 function saveShell() { shellState()?.save({ current: state.current, filter: state.filter, collapsed: [...navCollapsed] }); }
@@ -119,9 +139,10 @@ function applyTextOverrides(scope) {
     if (value === undefined) return;
     // 只允许把换行写成 <br>。先转义，再把转义后的 br 换回去，别的标签不能执行。
     if (/<br\s*\/?>/i.test(value)) {
-      element.innerHTML = escapeHtml(value).replace(/&lt;br\s*\/?&gt;/gi, "<br>");
+      const html = escapeHtml(value).replace(/&lt;br\s*\/?&gt;/gi, "<br>");
+      if (element.innerHTML !== html) element.innerHTML = html;
     } else {
-      element.textContent = value;
+      if (element.textContent !== value || element.childElementCount) element.textContent = value;
     }
   });
 }
@@ -202,7 +223,8 @@ const fmt = {
 /* ---------------- 导航 ---------------- */
 
 function matches(module, feature, needle) {
-  if (!needle) return true;
+  // menu:false 的功能（配速排轴、作者页等）平时不在菜单里，只有搜索时才列出。
+  if (!needle) return feature.menu !== false;
   const haystack = [
     module.name,
     module.id,
@@ -231,13 +253,15 @@ const navCollapsed = new Set(
 
 function renderNav() {
   const nav = $("#nav");
+  const oldTip = $("#sidebar-tip");
+  if (oldTip) oldTip.hidden = true;
   const needle = state.filter.trim().toLowerCase();
   const modules = (state.registry?.modules || []).filter((m) =>
     (m.features || []).some((f) => matches(m, f, needle)),
   );
 
   if (!modules.length) {
-    nav.innerHTML = `<div class="nav-empty" data-text="shell.noMatch">没有匹配的功能。<br/>换个词，或者点「↻ 重新扫描」。</div>`;
+    nav.innerHTML = `<div class="nav-empty" data-text="shell.noMatch">没有匹配的功能。<br/>换个词，或者点「⟳ 重新扫描」。</div>`;
     return;
   }
 
@@ -250,8 +274,8 @@ function renderNav() {
         <button class="nav-feature ${
           state.current.moduleId === module.id && state.current.featureId === f.id ? "active" : ""
         }" data-module="${escapeHtml(module.id)}" data-feature="${escapeHtml(f.id)}"
-          title="${escapeHtml(f.description || f.name)}">
-          <span class="icon">${escapeHtml(f.icon || "•")}</span>
+          aria-label="${escapeHtml(f.name)}">
+          <span class="icon">${featureIcon(module.id, f.id) || escapeHtml(f.icon || "•")}</span>
           <span class="name">${escapeHtml(f.name)}</span>
         </button>`,
         )
@@ -262,9 +286,8 @@ function renderNav() {
         <div class="nav-module${collapsed ? " collapsed" : ""}" data-module-id="${escapeHtml(module.id)}">
           <button type="button" class="nav-module-title" aria-expanded="${collapsed ? "false" : "true"}"
             title="v${escapeHtml(module.version || "0.0.0")}">
-            <span>${escapeHtml(module.icon || "🎮")}</span>
-            <span>${escapeHtml(module.name)}</span>
-            <span class="caret">▾</span>
+            <span class="name">${escapeHtml(module.name)}</span>
+            <span class="caret">${CHEVRON}</span>
           </button>
           <div class="nav-items">
           ${items || '<div class="nav-empty" data-text="shell.moduleEmpty">这个模块还没有功能</div>'}
@@ -323,8 +346,10 @@ function clearHash() {
   if (location.hash) history.replaceState(null, "", location.pathname + location.search);
 }
 
-function setCrumb(text, sub) {
-  $("#crumb").innerHTML = `${escapeHtml(text)}${sub ? `<span class="sub">${escapeHtml(sub)}</span>` : ""}`;
+function setCrumb(text, sub, iconHtml = "") {
+  $("#crumb").innerHTML = `${iconHtml ? `<span class="crumb-icon">${iconHtml}</span>` : ""}<h1 class="crumb-title">${escapeHtml(text)}</h1>${
+    sub ? `<span class="sub">${escapeHtml(sub)}</span>` : ""
+  }`;
 }
 
 /* ---------------- 打开功能 ---------------- */
@@ -344,7 +369,10 @@ function makeCtx(module, feature) {
   };
 }
 
+let viewGeneration = 0;
 function clearCurrent() {
+  viewGeneration++;
+  delete $("#app").dataset.sidebarLayout;
   if (typeof state.cleanup === "function") {
     try {
       state.cleanup();
@@ -364,19 +392,23 @@ async function openFeature(moduleId, featureId) {
   if (!module || !feature) return;
 
   clearCurrent();
+  const generation = viewGeneration;
   state.current = { moduleId, featureId };
   saveShell();
   setHash(moduleId, featureId);
   renderNav();
 
+  const icon = featureIcon(module.id, feature.id);
   setCrumb(
-    `${feature.icon || ""} ${feature.name}`.trim(),
-    `${module.icon || ""} ${module.name}${module.gameVersion ? ` · 数据 ${module.gameVersion}` : ""}`,
+    icon ? feature.name : `${feature.icon || ""} ${feature.name}`.trim(),
+    `${module.name}${module.gameVersion ? ` · 数据 ${module.gameVersion}` : ""}`,
+    icon || "",
   );
   updateMeta();
 
   const view = $("#view");
-  view.innerHTML = `<div class="loading">加载中…</div>`;
+  view.innerHTML = `<div class="gt-skeleton" role="status" aria-label="页面加载中"><div class="gt-skeleton-card"><i></i><i></i><i></i><i></i></div><div class="gt-skeleton-card"><i></i><i></i><i></i><i></i><i></i></div></div><div class="gt-feature-root is-loading" aria-busy="true"></div>`;
+  const featureRoot = view.querySelector('.gt-feature-root');
 
   if (!feature.uiUrl) {
     view.innerHTML = `
@@ -388,9 +420,11 @@ async function openFeature(moduleId, featureId) {
     return;
   }
 
+  let styleReady = Promise.resolve();
   if (feature.styleUrl) {
     const link = document.createElement("link");
     link.rel = "stylesheet";
+    styleReady = new Promise(resolve => { link.onload = resolve; link.onerror = resolve; });
     link.href = feature.styleUrl;
     document.head.appendChild(link);
     state.styleEl = link;
@@ -399,17 +433,26 @@ async function openFeature(moduleId, featureId) {
   try {
     // 带时间戳，改完 ui.js 刷新页面就是新的，不用清缓存
     const mod = await import(`${feature.uiUrl}?t=${Date.now()}`);
+    await styleReady;
+    if (generation !== viewGeneration) return;
     const component = mod.default || {};
-    view.innerHTML = "";
+    if (["compact-tight", "compact"].includes(component.sidebarLayout)) {
+      $("#app").dataset.sidebarLayout = component.sidebarLayout;
+    }
     if (typeof component.mount === "function") {
       const ctx = makeCtx(module, feature);
-      const mountCleanup = await component.mount(view, ctx);
+      const mountCleanup = await component.mount(featureRoot, ctx);
+      if (generation !== viewGeneration) { if (typeof mountCleanup === 'function') mountCleanup(); component.unmount?.(); return; }
+      featureRoot.classList.remove('is-loading'); featureRoot.removeAttribute('aria-busy'); view.querySelector('.gt-skeleton')?.remove();
       const stopSaving = ctx.persistence?.bind(view, component.getState ? () => component.getState() : undefined);
       state.cleanup = () => { stopSaving?.(); if (typeof mountCleanup === "function") mountCleanup(); component.unmount?.(); };
     } else {
+      delete $("#app").dataset.sidebarLayout;
       view.innerHTML = `<div class="card error">ui.js 里没有 <code>export default { mount }</code>。</div>`;
     }
   } catch (err) {
+    if (generation !== viewGeneration) return;
+    delete $("#app").dataset.sidebarLayout;
     view.innerHTML = `<div class="card error">
       <h2>界面加载失败</h2>
       <p class="error-text">${escapeHtml(err.message)}</p>
@@ -426,26 +469,43 @@ function updateMeta() {
   }
   const bits = [`v${module.version || "0.0.0"}`];
   if (feature.actions?.length) bits.push(`${feature.actions.length} 个后端动作`);
-  if (module.dataFiles?.length) bits.push(`数据：${module.dataFiles.join(" / ")}`);
-  $("#meta").textContent = bits.join(" · ");
+  const data = module.dataFiles?.length ? `数据：${module.dataFiles.join(" / ")}` : "";
+  const meta = $("#meta");
+  meta.innerHTML = `<span>${escapeHtml(bits.join(" · "))}</span>${data ? `<span>${escapeHtml(data)}</span>` : ""}`;
+  meta.title = [bits.join(" · "), data].filter(Boolean).join("\n");
 }
 
 /* ---------------- 内置页面 ---------------- */
 
+function openHome() {
+  clearCurrent();
+  state.current = { moduleId: null, featureId: null };
+  saveShell();
+  clearHash();
+  renderNav();
+  setCrumb("选择一个功能开始");
+  $("#meta").textContent = "";
+  $("#view").innerHTML = welcomeMarkup;
+  loadWelcomeHd();
+  $("#view").scrollTop = 0;
+  applyTextOverrides($("#view"));
+}
+
 async function openGuide() {
   clearCurrent();
+  const generation = viewGeneration;
   state.current = { moduleId: null, featureId: null };
   clearHash();
   renderNav();
-  setCrumb("📘 扩展指南", "怎么加功能、加游戏、更新数据");
+  setCrumb("扩展指南", "", pageIcon("guide"));
   $("#meta").textContent = "";
   const view = $("#view");
   view.innerHTML = `<div class="loading">加载文档…</div>`;
   try {
     const data = await getJSON("/api/docs/EXTENDING.md");
-    view.innerHTML = `<div class="card md">${renderMarkdown(data.text)}</div>`;
+    if (generation === viewGeneration) view.innerHTML = `<div class="card md">${renderMarkdown(data.text)}</div>`;
   } catch (err) {
-    view.innerHTML = `<div class="card error">读不到 docs/EXTENDING.md：${escapeHtml(err.message)}</div>`;
+    if (generation === viewGeneration) view.innerHTML = `<div class="card error">读不到 docs/EXTENDING.md：${escapeHtml(err.message)}</div>`;
   }
 }
 
@@ -454,7 +514,7 @@ async function openStatus() {
   state.current = { moduleId: null, featureId: null };
   clearHash();
   renderNav();
-  setCrumb("🩺 模块状态", "加载结果与错误诊断");
+  setCrumb("模块状态", "", pageIcon("status"));
   $("#meta").textContent = "";
 
   const view = $("#view");
@@ -466,7 +526,7 @@ async function openStatus() {
     .map(
       (m) => `
       <div class="card">
-        <h2>${escapeHtml(m.icon || "🎮")} ${escapeHtml(m.name)} <span class="pill">${escapeHtml(m.id)}</span></h2>
+        <h2>${escapeHtml(m.name)} <span class="pill">${escapeHtml(m.id)}</span></h2>
         <p class="muted small">${escapeHtml(m.description || "（没有描述）")}</p>
         <p class="muted small">目录：<code>modules/${escapeHtml(m.folder)}</code> · 版本 ${escapeHtml(m.version)}
           ${m.gameVersion ? ` · 数据版本 ${escapeHtml(m.gameVersion)}` : ""}</p>
@@ -476,7 +536,7 @@ async function openStatus() {
             ${(m.features || [])
               .map(
                 (f) => `<tr>
-                  <td>${escapeHtml(f.icon || "")} ${escapeHtml(f.name)}</td>
+                  <td><strong>${escapeHtml(f.name)}</strong></td>
                   <td class="mono">${escapeHtml(f.id)}</td>
                   <td>${f.hasUi ? "✓" : "—"}</td>
                   <td class="mono">${(f.actions || []).join(", ") || "—"}</td>
@@ -498,7 +558,7 @@ async function openStatus() {
         <div class="stat"><div class="k">后端动作已加载</div><div class="v">${scan.apisLoaded ?? "-"}</div></div>
         <div class="stat ${scan.apisFailed ? "accent" : ""}"><div class="k">加载失败</div><div class="v">${scan.apisFailed ?? 0}</div></div>
       </div>
-      <div class="hint">加完新功能点「↻ 重新扫描」，不用重启程序。</div>
+      <div class="hint">加完新功能点「⟳ 重新扫描」，不用重启程序。</div>
     </div>
 
     <div class="card ${errors.length ? "error" : ""}">
@@ -566,6 +626,11 @@ function renderMarkdown(md) {
       out.push(`<h${level}>${inline(line.replace(/^#+\s*/, ""))}</h${level}>`);
       continue;
     }
+    // 分隔线（---）不单独渲染，章节之间靠标题间距区分，避免显示成文字。
+    if (/^\s*(-{3,}|\*{3,})\s*$/.test(line)) {
+      flushList();
+      continue;
+    }
     if (/^\s*[-*]\s+/.test(line)) {
       listBuf.push(line.replace(/^\s*[-*]\s+/, ""));
       continue;
@@ -619,10 +684,10 @@ async function rescan() {
       openFeature(state.current.moduleId, state.current.featureId);
     }
   } catch (err) {
-    alert(`重新扫描失败：${err.message}`);
+    await window.GT_DIALOG(`重新扫描失败：${err.message}`);
   } finally {
     btn.disabled = false;
-    btn.textContent = "↻ 重新扫描";
+    btn.textContent = "⟳ 重新扫描";
   }
 }
 
@@ -667,6 +732,8 @@ async function boot() {
     renderNav();
   });
   $("#rescan").addEventListener("click", rescan);
+  $("#home-button").addEventListener("click", openHome);
+  setupSidebar({ app: $("#app"), nav: $("#nav"), toggle: $("#sidebar-toggle"), document, window });
   document.querySelectorAll("[data-page]").forEach((btn) => {
     btn.addEventListener("click", () => {
       if (btn.dataset.page === "guide") openGuide();
@@ -702,7 +769,11 @@ async function boot() {
       <p class="error-text">${escapeHtml(err.message)}</p>
       <p class="muted">确认工具箱进程还在运行，然后刷新页面。</p>
     </div>`;
+  } finally {
+    loadWelcomeHd();
+    $("#boot-skeleton")?.remove();
+    document.documentElement.classList.remove("boot-pending");
   }
 }
 
-boot();
+boot().catch(err => { document.documentElement.classList.remove("boot-pending"); $("#boot-skeleton")?.remove(); console.error(err); });

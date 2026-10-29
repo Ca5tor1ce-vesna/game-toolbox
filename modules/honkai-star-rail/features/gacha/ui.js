@@ -10,8 +10,8 @@ function statCard(label, value, sub = "", accent = false) {
 
 function cdfChart(cdf, marks = []) {
   if (!cdf || !cdf.length) return "";
-  const W = 640;
-  const H = 200;
+  const W = 800;
+  const H = 240;
   const left = 46;
   const right = 14;
   const top = 14;
@@ -29,8 +29,8 @@ function cdfChart(cdf, marks = []) {
   const guides = [0.5, 0.8]
     .map((q) => {
       const y = py(q).toFixed(1);
-      return `<line x1="${left}" y1="${y}" x2="${W - right}" y2="${y}" stroke="#2c3240" stroke-dasharray="4 4" />
-        <text x="${left - 6}" y="${Number(y) + 4}" fill="#8f97a8" font-size="10" text-anchor="end">${q * 100}%</text>`;
+      return `<line x1="${left}" y1="${y}" x2="${W - right}" y2="${y}" stroke="#eadce3" stroke-dasharray="4 4" />
+        <text x="${left - 6}" y="${Number(y) + 4}" fill="#a4919c" font-size="10" text-anchor="end">${q * 100}%</text>`;
     })
     .join("");
 
@@ -41,9 +41,9 @@ function cdfChart(cdf, marks = []) {
       const x = px(m.pulls);
       const showLabel = x - lastLabelX >= 34;
       if (showLabel) lastLabelX = x;
-      const line = `<line x1="${x.toFixed(1)}" y1="${top}" x2="${x.toFixed(1)}" y2="${H - bottom}" stroke="#7c6cf0" stroke-width="1" stroke-dasharray="3 3" />`;
+      const line = `<line x1="${x.toFixed(1)}" y1="${top}" x2="${x.toFixed(1)}" y2="${H - bottom}" stroke="#ecc3d4" stroke-width="1" stroke-dasharray="3 3" />`;
       const label = showLabel
-        ? `<text x="${x.toFixed(1)}" y="${top - 2}" fill="#7c6cf0" font-size="10" text-anchor="middle">${m.label} ${m.pulls}</text>`
+        ? `<text x="${x.toFixed(1)}" y="${top - 2}" fill="#d93670" font-size="11" text-anchor="middle">${m.label} ${m.pulls}</text>`
         : "";
       return line + label;
     })
@@ -52,18 +52,18 @@ function cdfChart(cdf, marks = []) {
   const ticks = 5;
   const xTicks = Array.from({ length: ticks }, (_, i) => {
     const value = Math.round(minX + (spanX * i) / (ticks - 1));
-    return `<text x="${px(value).toFixed(1)}" y="${H - 8}" fill="#8f97a8" font-size="10" text-anchor="middle">${value}</text>`;
+    return `<text x="${px(value).toFixed(1)}" y="${H - 8}" fill="#a4919c" font-size="10" text-anchor="middle">${value}</text>`;
   }).join("");
 
-  return `<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="累计概率曲线">
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="height:auto;display:block" role="img" aria-label="累计概率曲线">
     <rect x="0" y="0" width="${W}" height="${H}" fill="transparent" />
     ${guides}
-    <polygon points="${area}" fill="rgba(232,184,75,0.14)" />
-    <polyline points="${points}" fill="none" stroke="#e8b84b" stroke-width="2" />
-    <line x1="${left}" y1="${py(0).toFixed(1)}" x2="${W - right}" y2="${py(0).toFixed(1)}" stroke="#2c3240" />
+    <polygon points="${area}" fill="rgba(217,54,112,0.05)" />
+    <polyline points="${points}" fill="none" stroke="#d93670" stroke-width="2.2" stroke-linejoin="round" />
+    <line x1="${left}" y1="${py(0).toFixed(1)}" x2="${W - right}" y2="${py(0).toFixed(1)}" stroke="#eadce3" />
     ${markLines}
     ${xTicks}
-    <text x="${left}" y="${H - 8}" fill="#8f97a8" font-size="10">抽数</text>
+    <text x="${left}" y="${H - 8}" fill="#806d7d" font-size="10">抽数</text>
   </svg>`;
 }
 
@@ -79,13 +79,15 @@ function esc(text) {
 }
 
 export default {
+  sidebarLayout: "compact",
   title: "抽卡规划",
 
   async mount(root, ctx) {
     root.innerHTML = `
-      <div class="card">
-        <h2>🎲 算算要准备多少抽</h2>
-        <div class="row">
+      <div class="gacha-layout">
+      <div class="card gacha-input">
+        <h2>算算要准备多少抽</h2>
+        <div class="gacha-fields">
           <div class="field"><label>卡池</label><select id="pool" class="input wide"></select></div>
           <div class="field"><label>当前垫抽（距上次五星）</label><input id="pity" class="input narrow" type="number" value="0" min="0" step="1" /></div>
           <div class="field"><label>目标个数</label><input id="copies" class="input narrow" type="number" value="1" min="1" max="20" step="1" /></div>
@@ -98,13 +100,16 @@ export default {
         <p class="hint" id="pool-hint"></p>
       </div>
 
+      <div class="gacha-output">
       <div id="result"></div>
 
       <div class="card">
-        <h2>🧪 参数自检</h2>
+        <h2>参数自检</h2>
         <p class="muted small">用模型算出的期望抽数取倒数，和官方公布的综合概率对比。对不上说明游戏改过概率。</p>
         <button id="check" class="btn secondary">跑一次自检</button>
         <div id="check-result"></div>
+      </div>
+      </div>
       </div>
     `;
 
@@ -171,12 +176,12 @@ export default {
         const table = `
           <div style="max-height:300px;overflow:auto;margin-top:12px">
             <table class="data">
-              <thead><tr><th class="num">抽数</th><th class="num">这一抽出货</th><th class="num">累计概率</th></tr></thead>
+              <thead><tr><th>抽数</th><th class="num">这一抽出货</th><th class="num">累计概率</th></tr></thead>
               <tbody>${rows
                 .map(
                   (d) =>
                     `<tr class="${d.pulls === res.medianPulls || d.pulls === q["80"] ? "highlight" : ""}">
-                      <td class="num">${d.pulls}</td><td class="num">${(d.prob * 100).toFixed(2)}%</td><td class="num">${(d.cdf * 100).toFixed(1)}%</td>
+                      <td>${d.pulls}</td><td class="num">${(d.prob * 100).toFixed(2)}%</td><td class="num">${(d.cdf * 100).toFixed(1)}%</td>
                     </tr>`,
                 )
                 .join("")}</tbody>
@@ -195,11 +200,12 @@ export default {
               ${statCard("最坏情况", res.maxPulls, `硬保底上限 · 90% 成本约 ${(q["90"] * currency.perPull).toLocaleString("zh-CN")} ${currency.name}`)}
               ${haveBlock}
             </div>
-            <h3>累计概率曲线</h3>
+            <div class="gacha-chart"><h3>累计概率曲线</h3>
             ${cdfChart(res.cdf, marks)}
-            <p class="hint">横轴是抽数，纵轴是“这么多抽内拿到的概率”。紫线是中位 / 80% / 90% 分位。</p>
-            <h3>概率明细</h3>
+            <p class="hint">横轴是抽数，纵轴是“这么多抽内拿到的概率”。虚线是中位 / 80% / 90% 分位。</p>
+            </div><div class="gacha-table"><h3>概率明细</h3>
             ${table}
+            </div>
           </div>
         `;
       } catch (err) {

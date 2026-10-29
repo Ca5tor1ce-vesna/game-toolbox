@@ -16,7 +16,7 @@
 所以本模块会**真的把角色一次一次行动走出来**（见 `_simulate`）：
 第 k 次行动用当时生效的增益算速度，AV += 距离 / 速度，直到超过窗口行动值。
 
-「未加速速度 S0」= 基础速度(含行迹) × (1 + 常驻pct/100) + 常驻flat，
+「未加速速度 S0」= 基础白值 × (1 + 常驻pct/100) + 行迹固定速度 + 常驻flat，
 不含上面那两类随行动变化的加速。`verdict.requiredSpeed` / 表格单元格 /
 `verdict.currentSpeed` 都是 S0 口径，这样界面上的「还差多少速」才有意义。
 没有任何随行动变化的加速时走闭式公式，结果与改动前的算法**逐位一致**。
@@ -120,6 +120,15 @@ def _num(payload: dict[str, Any], key: str, default: float = 0.0) -> float:
     return number
 
 
+def _validate_substat_speed(relic: dict[str, Any]) -> float:
+    """五星 +15 理论上限：速度鞋 5 件，否则 6 件；每件最多 6 次 × 2.6。"""
+    value = _num(relic, "substatSpeed", 0)
+    limit = 78.0 if relic.get("speedBoots") else 93.6
+    if value < 0 or value > limit + 1e-9:
+        raise ValueError(f"副词条速度合计须在 0 到 {limit:g} 之间（按是否使用速度鞋计算理论上限）。")
+    return value
+
+
 CUSTOM_ID = "__custom__"
 CUSTOM_NAME_MAX = 20
 
@@ -217,7 +226,7 @@ def trigger_of(text: str) -> str:
 #
 # 模拟口径（和用户确认过的语义）：
 #   * 从行动值 AV=0 起，第 k 次行动发生在累计 AV 处；
-#   * 第 k 次行动用**当时生效**的加速算速度 speed_k = (基础速度 + 行迹) × (1 + pct_k/100) + flat_k；
+#   * 第 k 次行动速度 = 基础白值 × (1 + pct_k/100) + 行迹固定速度 + flat_k；
 #   * 然后 AV += distance / speed_k（distance = 10000），直到超过窗口 AV；
 #   * 持续 N 回合 = 接下来自己的 N 次行动内有效；叠层 = 每行动一次 +1 层，上限 maxStacks。
 #
@@ -357,8 +366,7 @@ def _simulate(base_speed: float, modifiers: list[dict], *, speed0: float | None 
       * modifiers 里同时含常驻与随行动变化的效果（界面路径）：
         每一步速度 = 基础速度 × (1 + 当时生效的 pct 之和/100) + 当时生效的 flat 之和；
       * speed0 给了标量「未加速速度 S0」（推荐 / 建议里反推需求速度用）：
-        因为 S0 = 基础 × (1 + 常驻pct) + 常驻flat，把百分比作用在 S0 上
-        （S0 × (1+pct)）与作用在基础速度上等价。
+        因为 S0 已包含常驻加成，额外百分比仍只乘基础白值，不能乘 S0。
         这时 modifiers 只需要装随行动变化的那批。
 
     timeline 里的 av 是这次行动**开始**的累计行动值（第 1 次行动是 0）。
@@ -699,9 +707,10 @@ def catalog(payload: dict[str, Any], ctx) -> dict[str, Any]:
                 # 官方图：小图给下拉列表用，立绘给左侧展示用；都是远程地址，
                 # 由工具箱的 /api/asset 按需下载并缓存到本地
                 "icon": char.get("icon") or char.get("iconSmall"),  # 本地 webp 优先，远程兜底
-                "iconLarge": char.get("icon"),
+                "iconLarge": (char.get("_remote") or {}).get("icon") or char.get("icon"),
                 # 立绘优先用游戏内预览图（没有「首发/复刻」角标），失败时界面回退到米游社那张
                 "splash": char.get("splash") or char.get("splashSmall") or char.get("splashFallback"),
+                "splashLarge": (char.get("_remote") or {}).get("splash"),
                 "splashFallback": char.get("splashFallback"),
                 "releaseOrder": char.get("releaseOrder"),
             }
@@ -790,7 +799,7 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
     if game_base <= 0:
         raise ValueError(f"{character.get('name')} 没有基础速度数据，请重新跑导入器")
 
-    # 行迹（属性加成）里的速度是角色自带的常驻加成，直接并进基础速度
+    # 初始速度供展示；百分比仅作用于游戏基础白值，行迹固定速度在乘区外。
     trace_flat = float(character.get("traceSpeed") or 0)
     trace_pct = float(character.get("traceSpeedPct") or 0)
     base_speed = game_base + trace_flat
@@ -805,8 +814,8 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
         if trace_flat:
             breakdown.append(
                 {
-                    "label": "行迹速度加成（自带，已并入基础速度）",
-                    "kind": "base",
+                    "label": "行迹速度加成（自带，不参与百分比）",
+                    "kind": "flat",
                     "value": trace_flat,
                     "text": detail,
                 }
@@ -834,8 +843,11 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
     flat_total = 0.0
     manual_modifiers: list[dict[str, Any]] = []
 
+    if trace_flat:
+        manual_modifiers.append(modifier_of(label="行迹速度", kind="flat", value=trace_flat, trigger="passive"))
+
     if trace_pct:
-        # 行迹里的速度% 已经并进基础速度的口径里，这里补一条修饰给模拟时间线用
+        # 行迹里的百分比也作为百分比修饰参与时间线计算。
         manual_modifiers.append(
             modifier_of(label="行迹速度%", kind="pct", value=trace_pct, trigger="passive")
         )
@@ -862,7 +874,7 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
             )
         )
 
-    substat = _num(relic_in, "substatSpeed", 0)
+    substat = _validate_substat_speed(relic_in)
     if substat:
         flat_total += substat
         breakdown.append({"label": "遗器副词条速度", "kind": "flat", "value": substat})
@@ -1100,10 +1112,10 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
     timeline_modifiers = [m for m in speed_modifiers if (m.get("semantics") or "constant") != "constant"]
 
     # 未加速速度 S0：不含「随行动变化」的加速（开大触发 / 叠层），也不含仅队友的。
-    # 兼容性红线：没有任何随行动变化的加速时，final_speed 就是老算法的最终速度，逐位一致。
+    # 基础白值参与百分比，行迹固定值和其他固定值最后相加。
     const_pct = pct_total
     const_flat = flat_total
-    final_speed = base_speed * (1 + const_pct / 100.0) + const_flat
+    final_speed = game_base * (1 + const_pct / 100.0) + trace_flat + const_flat
     if final_speed < 120:
         # 翁瓦克这类进战拉条此时不生效，不要再标成「套装已生效」。
         kept_sets: list[dict[str, Any]] = []
@@ -1242,7 +1254,7 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
                 extra_modifiers: tuple = ()) -> dict[str, Any]:
         """按给定的「未加速速度 S0」把行动模拟出来（加速按各自时点叠加）。"""
         return _simulate(
-            base_speed,
+            game_base,
             [*timeline_modifiers, *extra_modifiers],
             speed0=speed0 + extra_flat,
             window_av=window_av,
@@ -1264,7 +1276,7 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
         把条数传进 cap 会让 completedActions 从 34 变成 12）。
         """
         return _simulate(
-            base_speed,
+            game_base,
             speed_modifiers,
             window_av=window_av,
             first_ult_action=first_ult_action,
@@ -1298,10 +1310,10 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
             return max(0.0, (actions * distance - advance_distance_new) / window_av)
         mods = [*timeline_modifiers, *extra_modifiers]
         # 直道先估一个量级当上界：再差的配置也不会超过它 4 倍
-        estimate = base_speed * (1 + (const_pct + add_pct + 40) / 100.0) + const_flat + add_flat + 60
+        estimate = game_base * (1 + (const_pct + add_pct + 40) / 100.0) + trace_flat + const_flat + add_flat + 60
         high = max(1000.0, estimate * 4.0)
         return _required_speed(
-            base_speed,
+            game_base,
             mods,
             actions=actions,
             av_limit=window_av,
@@ -1320,6 +1332,7 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
 
 
     tables: list[dict[str, Any]] = []
+    table_cache: dict[tuple[int, float], tuple[float, bool]] = {}
     for mode in modes["modes"]:
         mode_first = float(mode.get("firstCycleAV") or first_av)
         mode_step = float(mode.get("cycleAV") or step_av)
@@ -1333,13 +1346,16 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
                 # 表格单元格和 verdict 同一口径：需求速度 = 需要多少「未加速速度」。
                 # 有开大/叠层加速时这里是**真的模拟**出来的（逐格二分），
                 # 没有时就是闭式公式，和旧算法逐位一致。
-                needed = max(0.0, speed_needed(actions, total_av))
+                key = (actions, total_av)
+                if key not in table_cache:
+                    table_cache[key] = (max(0.0, speed_needed(actions, total_av)), reachable(actions, total_av))
+                needed, can_reach = table_cache[key]
                 speeds.append(
                     {
                         "t": t,
                         "totalAV": total_av,
                         "speed": needed,
-                        "reachable": reachable(actions, total_av),
+                        "reachable": can_reach,
                     }
                 )
             rows.append({"actions": actions, "cells": speeds})
@@ -1412,7 +1428,7 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
 
     # ---- 补足建议：差速度的时候，具体有哪些办法、各自能到多少 ----
     def evaluate(*, add_flat: float = 0.0, add_pct: float = 0.0, add_advance: float = 0.0) -> dict:
-        speed = base_speed * (1 + (const_pct + add_pct) / 100.0) + const_flat + add_flat
+        speed = game_base * (1 + (const_pct + add_pct) / 100.0) + trace_flat + const_flat + add_flat
         need = max(0.0, speed_needed(target_actions, target_av, add_flat=add_flat,
                                      add_pct=add_pct, add_advance=add_advance))
         return {
@@ -1425,7 +1441,7 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
     suggestions: list[dict[str, Any]] = []
     if gap > 1e-9:
         # 只堆副词条/固定速度需要多少
-        needed_flat = required - base_speed * (1 + const_pct / 100.0)
+        needed_flat = required - game_base * (1 + const_pct / 100.0) - trace_flat
         extra_flat = needed_flat - const_flat
         if extra_flat > 0:
             suggestions.append(
@@ -1484,8 +1500,9 @@ def plan(payload: dict[str, Any], ctx) -> dict[str, Any]:
             "flatAll": flat_total,
             "hasTimeline": _any_timeline(timeline_modifiers),
             "formula": (
-                (f"({game_base:g} + 行迹 {trace_flat:g})" if trace_flat else f"{game_base:g}")
-                + f" × (1 + {const_pct:g}%) + {const_flat:g} = {final_speed:.2f}"
+                f"{game_base:g} × (1 + {const_pct:g}%)"
+                + (f" + 行迹 {trace_flat:g}" if trace_flat else "")
+                + f" + {const_flat:g} = {final_speed:.2f}"
                 + ("（未加速速度；加速随行动生效，见 simulation）" if _any_timeline(timeline_modifiers) else "")
             ),
             "breakdown": breakdown,
@@ -1574,6 +1591,7 @@ def save_preset(payload: dict[str, Any], ctx) -> dict[str, Any]:
     config = payload.get("config")
     if not isinstance(config, dict):
         raise ValueError("缺少 config（要存的配置对象）")
+    _validate_substat_speed(config.get("relic") or {})
 
     characters = _characters(ctx)
     character = _find(characters, character_id)
@@ -1665,7 +1683,9 @@ def recommend(payload: dict[str, Any], ctx) -> dict[str, Any]:
     （那个数据源米游社详情接口拿不到，见 README）。
     """
     character = _resolve_character(payload, ctx)
-    base_speed = float(character.get("baseSpeed") or 0) + float(character.get("traceSpeed") or 0)
+    game_base = float(character.get("baseSpeed") or 0)
+    trace_flat = float(character.get("traceSpeed") or 0)
+    base_speed = game_base + trace_flat
     if base_speed <= 0:
         raise ValueError(f"{character.get('name')} 没有基础速度数据")
 
@@ -1720,15 +1740,15 @@ def recommend(payload: dict[str, Any], ctx) -> dict[str, Any]:
         ornaments, key=lambda item: (not item["hasSpeedEffect"], item.get("name") or "")
     )
 
+    four_choices = [(item, _set_contribution(item, ("2件套", "4件套"), four_ults)) for item in [None, *four_piece]]
+    ornament_choices = [(item, _set_contribution(item, ("2件套",), 0)) for item in [None, *ornaments]]
     results: list[dict[str, Any]] = []
     for cone in [None, *cones]:
         cone_pct, cone_flat, cone_advance = _cone_contribution(cone, superimpose, cone_ults)
-        for four in [None, *four_piece]:
-            four_pct, four_flat, four_advance, four_needs_120 = _set_contribution(
-                four, ("2件套", "4件套"), four_ults
-            )
+        for four, four_values in four_choices:
+            four_pct, four_flat, four_advance, four_needs_120 = four_values
             # 位面饰品只有一个栏位（和界面一致）
-            for ornament in [None, *ornaments]:
+            for ornament, ornament_values in ornament_choices:
                 pct = cone_pct + four_pct
                 flat = cone_flat + four_flat
                 advance = cone_advance + four_advance
@@ -1736,9 +1756,7 @@ def recommend(payload: dict[str, Any], ctx) -> dict[str, Any]:
                 pending_120_labels: list[str] = []
 
                 if ornament is not None:
-                    o_pct, o_flat, o_advance, o_needs_120 = _set_contribution(
-                        ornament, ("2件套",), 0
-                    )
+                    o_pct, o_flat, o_advance, o_needs_120 = ornament_values
                     pct += o_pct
                     flat += o_flat
                     if o_needs_120:
@@ -1751,7 +1769,7 @@ def recommend(payload: dict[str, Any], ctx) -> dict[str, Any]:
 
                 if use_boots:
                     flat += SPEED_BOOTS_FLAT
-                speed_no_substat = base_speed * (1 + pct / 100.0) + flat
+                speed_no_substat = game_base * (1 + pct / 100.0) + trace_flat + flat
 
                 # 速度不到 120 时，翁瓦克这类进战拉条不生效
                 effective_advance = advance

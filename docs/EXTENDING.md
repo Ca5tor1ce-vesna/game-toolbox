@@ -48,6 +48,7 @@ modules/honkai-star-rail/features/damage/
 * `order` 越小排越前，留空隙（10、20、30……）方便以后插队。
 * `tags` 会参与侧边栏搜索。
 * 可选字段：`ui`（默认 `ui.js`）、`api`（默认 `api.py`），改这两个名字才需要写。
+* 显隐：`"hidden": true` 表示用户包不加载（作者包仍加载）；`"menu": false` 表示照常加载、可按地址或侧栏搜索打开，但平时不在侧栏菜单里列出。配速排轴、行动值排轴和「界面」模块按定稿设计使用 `menu: false`。
 
 ### 2. api.py —— 后端，算数的地方
 
@@ -101,6 +102,10 @@ export default {
 * 其它：`muted`、`hint`、`pill`、`output`、`formula`、`tabs` / `tab`、`hidden`
 
 功能专属的样式写在自己的 `style.css` 里（和 `ui.js` 同目录），加载功能时自动插进页面、切走时自动移除。
+
+功能如需在窄窗口使用紧凑侧栏，可在默认导出对象声明 `sidebarLayout: "compact"` 或 `sidebarLayout: "compact-tight"`。外壳负责对应的响应式规则和切页时清理；功能样式不需要识别或修改外壳内部节点。没有声明时使用默认布局。
+
+独立网页目前内联配速、欢愉队与角色顶分的原始 `ui.js`，通过 Blob URL 作为 ES 模块加载，不改写 `export default`。这三个入口目前没有相对模块导入；若以后增加相对导入，需要同时扩展单文件打包并验证断网运行。
 
 ### 自动保存编辑状态
 

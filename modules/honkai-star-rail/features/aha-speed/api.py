@@ -833,10 +833,14 @@ class Sim:
         if len(team) > MAX_TEAM:
             raise ValueError(f"参数 team 最多 {MAX_TEAM} 人，收到 {len(team)}")
         units: list[Unit] = []
+        seen: set[str] = set()
         for slot, raw in enumerate(team):
             if not isinstance(raw, dict):
                 raise ValueError(f"参数 team[{slot}] 需要是对象")
             uid = resolve_uid(raw.get("id"))
+            if uid in ROSTER and uid in seen:
+                raise ValueError(f"队伍中不能重复选择角色：{ROSTER[uid]['name']}。")
+            seen.add(uid)
             spec = ROSTER.get(uid) or {}
             name = raw.get("name")
             name = str(name).strip() if isinstance(name, str) and name.strip() else str(spec.get("name") or uid)

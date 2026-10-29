@@ -1,0 +1,27 @@
+.gacha-layout { display: grid; grid-template-columns: minmax(280px, 330px) minmax(0, 1fr); gap: 16px; align-items: start; }
+.gacha-layout .gacha-input { min-height: 650px; }
+.gacha-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 12px; align-items: end; }
+.gacha-fields .field:first-child { grid-column: 1 / -1; }
+.gacha-fields .field { min-width: 0; }
+.gacha-fields .input { width: 100%; min-width: 0; }
+.gacha-fields .check { align-self: center; }
+.gacha-fields #go { justify-self: end; grid-column: 2; min-width: 110px; }
+.gacha-input .hint { margin-top: 28px; line-height: 1.7; }
+.gacha-output { min-width: 0; }
+.gacha-output #check-result { max-width: 100%; overflow-x: auto; }
+.gacha-output > .card { margin-top: 16px; }
+.gacha-output .stat-grid { gap: 8px; border: 0; overflow: visible; }
+.gacha-output .stat-grid .stat { border: 1px solid var(--border); border-radius: 10px; min-width: 0; }
+.gacha-output .stat-grid .stat.accent { border-color: var(--accent); }
+.gacha-output .stat-grid .v { font-size: clamp(17px, 1.7vw, 25px); white-space: nowrap; }
+.gacha-output .stat-grid .v.small { font-size: clamp(14px, 1.25vw, 18px); }
+.gacha-chart, .gacha-table { border: 1px solid var(--border); border-radius: 10px; margin-top: 12px; padding: 16px; }
+.gacha-chart h3, .gacha-table h3 { margin-top: 0; }
+.gacha-output .stat-grid:has(.stat:nth-child(6)) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 850px) {
+  .gacha-layout { grid-template-columns: minmax(0, 1fr); }
+  .gacha-layout .gacha-input { min-height: 0; }
+}
+@media (max-width: 600px) {
+  .gacha-output .stat-grid, .gacha-output .stat-grid:has(.stat:nth-child(6)) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

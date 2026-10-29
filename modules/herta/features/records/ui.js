@@ -40,22 +40,26 @@ function cardHTML(r, q, avatars, lcIcons) {
     const avatar = [...name][0] ?? "";
     const match = q && name.toLowerCase().includes(q) ? " is-match" : "";
     const up = c.eidolon > 0 ? " is-up" : "";
-    return `<div class="hr-char${match}">`
+    // 行内只保留「E· S」，光锥名称与图标放进悬停提示和展开层，按设计稿减少行内信息
+    const lc = c.lightcone ? String(c.lightcone) : "";
+    return `<div class="hr-char${match}" title="${esc(`${name} · E${c.eidolon}${lc ? ` · ${lc}` : ""} S${c.superimposition}`)}">`
       + `<div class="hr-avatar">${avatars[name]
         ? `<img class="hr-avatar-img" src="${esc(avatarSrc(avatars[name]))}" alt="" loading="lazy" onerror="this.parentNode.textContent=this.dataset.f" data-f="${esc(avatar)}">`
         : esc(avatar)}</div>`
-      + `<div class="hr-name" title="${esc(name)}">${esc(name)}</div>`
-      + `<div class="hr-cons${up}">E${esc(c.eidolon)}</div>`
+      + `<div class="hr-char-text">`
+      + `<div class="hr-name">${esc(name)}</div>`
+      + `<div class="hr-cons${up}">E${esc(c.eidolon)} · S${esc(c.superimposition)}</div>`
       + lcHTML(c, lcIcons)
+      + `</div>`
       + `</div>`;
   }).join("");
   return `<div class="hr-card">`
     + `<div class="hr-card-head"><span class="hr-group">${esc(r.group)}</span><span class="hr-runs">${esc(r.runs_in_group)} 条同组</span></div>`
     + `<div class="hr-lineup">${lineup}</div>`
     + `<div class="hr-stats">`
-    + `<span class="hr-pill hr-ltd">限定 ${esc(r.ltd)}</span>`
-    + `<span class="hr-pill hr-std">常驻 ${esc(r.std)}</span>`
-    + `<span class="hr-pill">${esc(resultText(r))}</span>`
+    + `<span class="hr-pill hr-ltd" title="限定">${esc(r.ltd)}</span>`
+    + `<span class="hr-pill hr-std" title="常驻">${esc(r.std)}</span>`
+    + `<span class="hr-pill hr-result">${esc(resultText(r))}</span>`
     + `</div>`
     + `<div class="hr-date">${esc(r.date)}</div>`
     + `</div>`;
@@ -102,12 +106,15 @@ export default {
 
       const noteHTML = res.offline ? `<div class="hr-note">${esc(res.note)}</div>` : "";
       root.innerHTML = `<div class="hr-wrap">`
+        + `<div class="hr-head">`
+        + `<div class="hr-title"><h1>角色顶分</h1><p>队伍记录与角色配置</p></div>`
+        + `<input class="hr-search" type="search" placeholder="按角色名筛选，如 爻光" aria-label="按角色名筛选">`
+        + `</div>`
         + `<div class="hr-top">`
         + `<div class="hr-tabs"></div>`
         + `<div class="hr-tools">`
-        + `<input class="hr-search" type="search" placeholder="按角色名筛选，如 爻光">`
-        + `<button class="hr-refresh">刷新</button>`
         + `<span class="hr-status"></span>`
+        + `<button class="hr-refresh">刷新</button>`
         + `</div>`
         + `</div>`
         + `<div class="hr-stagebar">`
@@ -188,7 +195,7 @@ export default {
         : records;
 
       const body = list.length
-        ? `<div class="hr-grid">${list.map((r) => cardHTML(r, q, res.avatars || {}, res.lightcone_icons || {})).join("")}</div>`
+        ? `<div class="hr-grid"><div class="hr-grid-head" aria-hidden="true"><span>队伍 / 同组</span><span>上阵角色</span><span>限定</span><span>常驻</span><span>轮次</span><span>记录时间</span></div>${list.map((r) => cardHTML(r, q, res.avatars || {}, res.lightcone_icons || {})).join("")}</div>`
         : `<div class="hr-empty">没有符合条件的记录</div>`;
       const old = root.querySelector(".hr-grid") || root.querySelector(".hr-empty");
       if (old) old.outerHTML = body;

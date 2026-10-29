@@ -27,15 +27,29 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
+          cache: npm
+
+      - name: 安装开发检查工具
+        run: npm ci --ignore-scripts --no-audit --no-fund
 
       - name: 安装打包工具
         run: python -m pip install --disable-pip-version-check "pyinstaller>=6.6,<7"
 
       - name: 测试
+        shell: pwsh
         run: |
+          npm run typecheck
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python -m unittest discover -s tests
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           node tools/check_web_port.mjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node tools/check_aha_port.mjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node tests/test_build_conversion.mjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          ./tools/verify_ci_ui.ps1
 
       - name: 打绿色版
         run: python make_package.py --green

@@ -56,17 +56,17 @@ FONT_PATTERN = re.compile(r"^[\w\s,\"'\-.\u4e00-\u9fff]{1,120}$")
 # 界面上的默认值（和 app/style.css 的 :root 保持一致；改这里要同步改 CSS）
 DEFAULTS: dict[str, Any] = {
     "colors": {
-        "bg": "#0e1015",
-        "panel": "#161922",
-        "panel2": "#1c2029",
-        "border": "#262b37",
-        "text": "#e6e8ee",
-        "muted": "#8f97a8",
-        "accent": "#e8b84b",
-        "accent2": "#7c6cf0",
-        "good": "#4ade80",
-        "warn": "#fbbf24",
-        "bad": "#f87171",
+        "bg": "#fff6f9",
+        "panel": "#fffdfd",
+        "panel2": "#fff1f5",
+        "border": "#f2d9e2",
+        "text": "#352237",
+        "muted": "#806d7d",
+        "accent": "#d93670",
+        "accent2": "#a95077",
+        "good": "#008866",
+        "warn": "#9a621d",
+        "bad": "#b52f4b",
     },
     "fonts": {
         "sans": '-apple-system, "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", "Segoe UI", system-ui, sans-serif',
@@ -76,7 +76,7 @@ DEFAULTS: dict[str, Any] = {
     },
     "layout": {
         "radius": 10,
-        "sidebarWidth": 220,
+        "sidebarWidth": 250,
         "viewPadding": 24,
         "cardPadding": 16,
     },

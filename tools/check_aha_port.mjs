@@ -75,6 +75,7 @@ const CASES = [
   { action: "threshold", payload: { targetAV: 150, actions: 2, advancePct: 0 } },
   { action: "threshold", payload: { targetAV: 150, actions: 2, advancePct: 40 } },
   { action: "threshold", payload: { t: 2, actions: 6, advancePct: 12 } },
+  ...[0, 50, 100].map((advancePct) => ({ action: "threshold", payload: { targetAV: 150, actions: 2, advancePct } })),
   { action: "simulate", payload: AHA_QUAD },
   { action: "simulate", payload: SANDU },
   { action: "simulate", payload: E6_ADV100 },
@@ -114,6 +115,7 @@ const CASES = [
   { action: "simulate", expectError: true, payload: { team: [{ id: "1505", initialEnergy: -1 }] } },
   { action: "simulate", expectError: true, payload: { team: [{ id: "1505", initialEnergy: 481 }] } },
   { action: "simulate", expectError: true, payload: { team: [{ id: "1505", initialEnergy: "invalid" }] } },
+  { action: "simulate", expectError: true, payload: { team: [{ id: "1511" }, { id: "1511" }] } },
   { action: "simulate", payload: {
     maxAV: 1, useTech: false,
     team: [{ id: "1505", err: 2400, initialEnergy: 0, initAdv: 100 }],
