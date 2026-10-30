@@ -373,6 +373,8 @@ export default {
     let selectedTeam = "";
     // 队伍卡里展开的号位；只影响显示，默认展开 1 号位。
     const expandedSlots = new Set([0]);
+    // 时间轴里收起的轮次（轮次序号）；只影响显示，换筛选或重新模拟后保持。
+    const collapsedCycles = new Set();
     let teamName = "";
     const draft = ctx.persistence?.load()?.data;
     if (draft && Array.isArray(draft.team) && draft.team.length >= 1 && draft.team.length <= 4 && draft.team.every(u => u && rosterById[u.id])) {
@@ -1384,11 +1386,13 @@ export default {
         const tags = [];
         if (cycle === lastCycleIndex) tags.push("（终轮）");
         if (note) tags.push(note);
+        const count = cycleCounts.get(cycle) || 0;
+        const collapsed = count > 0 && collapsedCycles.has(cycle);
         return `
-            <div class="aha-cycle-banner">
-              <span>第 ${cycle} 轮（${cycle}T）</span>
-              <span>轮次边界 ${limitAV} AV${tags.length ? " " + tags.join(" ") : ""}</span>
-            </div>
+            <button type="button" class="aha-cycle-banner${collapsed ? " is-collapsed" : ""}" data-cycle="${cycle}" aria-expanded="${!collapsed}" ${count ? `title="点击${collapsed ? "展开" : "收起"}本轮"` : "disabled"}>
+              <span>第 ${cycle} 轮（${cycle}T）${count ? `<small>${count} 条</small>` : ""}</span>
+              <span>轮次边界 ${limitAV} AV${tags.length ? " " + tags.join(" ") : ""}${count ? `<svg class="aha-cycle-caret" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>` : ""}</span>
+            </button>
           `;
       };
       // 轮次边界口径（两种玩法各自封顶）：
@@ -1407,6 +1411,8 @@ export default {
       };
       const cycleLimit = (c) => (c === 0 ? firstCycleAV : firstCycleAV + c * 100);
       const eventIndices = new Map(allEvents.map((ev, index) => [ev, index + 1]));
+      const cycleCounts = new Map();
+      filtered.forEach((ev) => cycleCounts.set(cycleOf(ev.av), (cycleCounts.get(cycleOf(ev.av)) || 0) + 1));
       filtered.forEach((ev) => {
         const cycle = cycleOf(ev.av);
         if (cycle !== lastCycle) {
@@ -1457,7 +1463,7 @@ export default {
           : "";
 
         html += `
-          <details class="aha-ev-row ${rowClass}" data-event-index="${eventIndices.get(ev)}" data-av="${esc(ev.av)}">
+          <details class="aha-ev-row ${rowClass}" data-event-index="${eventIndices.get(ev)}" data-av="${esc(ev.av)}" data-cycle="${cycle}" ${collapsedCycles.has(cycle) ? "hidden" : ""}>
             <summary class="aha-event-summary" title="点击展开或收起详细数据">
             <span class="aha-event-order" title="原始模拟事件序号">#${eventIndices.get(ev)}</span>
             ${ev.slot != null ? avatar(state.team[ev.slot]?.id, ev.name) : avatar(null, "🎭", "is-system")}
@@ -1493,6 +1499,19 @@ export default {
       `;
 
       listEl.innerHTML = html || `<div style="color:#64748b;padding:12px;">当前筛选条件下无事件。</div>`;
+      // 点轮次标题收起 / 展开本轮；用 onclick 赋值，重复渲染不会叠加监听。
+      listEl.onclick = (event) => {
+        const banner = event.target.closest(".aha-cycle-banner[data-cycle]");
+        if (!banner || banner.disabled) return;
+        const cycle = Number(banner.dataset.cycle);
+        const collapsed = !collapsedCycles.has(cycle);
+        if (collapsed) collapsedCycles.add(cycle);
+        else collapsedCycles.delete(cycle);
+        banner.classList.toggle("is-collapsed", collapsed);
+        banner.setAttribute("aria-expanded", String(!collapsed));
+        banner.title = `点击${collapsed ? "展开" : "收起"}本轮`;
+        listEl.querySelectorAll(`.aha-ev-row[data-cycle="${cycle}"]`).forEach((row) => { row.hidden = collapsed; });
+      };
     }
 
     renderShell();

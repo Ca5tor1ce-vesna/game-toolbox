@@ -1076,3 +1076,19 @@
 /* 头像底部的稀有度星星：放大上移裁掉 */
 .aha-sim-wrap .aha-avatar { overflow: hidden; }
 .aha-sim-wrap .aha-avatar img { object-fit: cover; object-position: center top; transform: scale(1.32); transform-origin: 50% 18%; }
+/* 换角色入口：做成带边框和下拉箭头的输入框，一眼能看出可以点 */
+.aha-sim-wrap .aha-unit-identity .aha-select.unit-char-select { width: auto !important; max-width: 100%; height: 26px; margin-top: 4px; padding: 0 26px 0 9px; border: 1px solid var(--field-edge); border-radius: 7px; background: var(--field-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m5 9 7 7 7-7' fill='none' stroke='%23a38b99' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 8px center / 12px; color: var(--text); font-size: 12px; cursor: pointer; }
+.aha-sim-wrap .aha-unit-identity .aha-select.unit-char-select:hover { border-color: var(--field-hover); color: var(--accent); }
+/* 时间轴不再单独滚动：随整个页面滚动，滚轮不会被时间轴截住；轮次标题吸在页面顶部 */
+.aha-sim-wrap .aha-timeline-list { max-height: none; overflow: visible; }
+.aha-sim-wrap .aha-cycle-banner { position: sticky; top: -18px; z-index: 3; }
+/* 每轮可收起：轮次标题是按钮，收起后隐藏本轮事件 */
+.aha-sim-wrap .aha-cycle-banner { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; font: inherit; font-size: 12px; font-weight: 700; text-align: left; cursor: pointer; }
+.aha-sim-wrap .aha-cycle-banner:disabled { cursor: default; opacity: .8; }
+.aha-sim-wrap .aha-cycle-banner:not(:disabled):hover { background: #f4dde7; }
+.aha-sim-wrap .aha-cycle-banner > span { display: inline-flex; align-items: center; gap: 8px; }
+.aha-sim-wrap .aha-cycle-banner small { font-size: 11px; font-weight: 400; color: #a4687f; }
+.aha-sim-wrap .aha-cycle-caret { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .15s; }
+.aha-sim-wrap .aha-cycle-banner.is-collapsed .aha-cycle-caret { transform: rotate(-90deg); }
+.aha-sim-wrap .aha-ev-row[hidden] { display: none !important; }
+@media (prefers-reduced-motion: reduce) { .aha-sim-wrap .aha-cycle-caret { transition: none; } }

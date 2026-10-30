@@ -488,7 +488,7 @@ export default {
       const trace = Number(character.traceSpeed || 0);
       const speed = character.effectiveBaseSpeed ?? character.baseSpeed;
       $("#splash-meta").innerHTML =
-        `<h2 class="sp-char-name">${esc(character.name || "选个角色")}</h2>` +
+        `<h2 class="sp-char-title">${esc(character.name || "选个角色")}</h2>` +
         `<div class="sp-char-path">${esc(character.pathName || "")}${
           character.elementName ? ` · ${esc(character.elementName)}` : ""
         }</div>` +
